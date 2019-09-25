@@ -1,4 +1,4 @@
-# Reflection by Please Enpu
+# Reflection by Enpu
 
 ## What are the rules to which a valid password must adhere?
 
