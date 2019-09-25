@@ -3,8 +3,6 @@ __pycache__
 *.pyc
 *.csv
 *.DS_Store
-gatorgrouper_django/gatorgrouper/migrations/
-secret_key.py
 
 # OS generated files #
 ######################
