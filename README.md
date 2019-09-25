@@ -9,3 +9,11 @@ Repository to host the work for the text mining and analysis of student reflecti
   - [ ] Produce a summary of these frequencies of these words across all reflection input files
   - [ ] Generate plots of results
 - [ ] Research Python3 nltk (Natural Language Toolkit) libraries
+
+
+## Five Questions
+- Who made the technology?
+- Who are the users?
+- Who is not supposed to use?
+- How can the software can cause harm?
+- What solutions to avoid the harm or to fix the harm?
