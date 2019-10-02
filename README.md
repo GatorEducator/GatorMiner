@@ -6,6 +6,7 @@ Repository to host the work for the text mining and analysis of student reflecti
 
 - If needed, install and upgrade the `pipenv` command: `pip install pipenv --user`
 - Install the development dependencies `pipenv` command: `pipenv install --dev`
+- Run command: `pipenv run python src/util/run.py samples/sample_reflection.txt`
 
 
 ### Planning steps
