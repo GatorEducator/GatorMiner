@@ -1,9 +1,7 @@
 """Where NLP modules should be in"""
-import sys
 import re
 import nltk
-import string
-import matplotlib
+# import matplotlib
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
