@@ -1,6 +1,13 @@
 # textMining
 Repository to host the work for the text mining and analysis of student reflection documents in the Dept of CS at Allegheny College.
 
+
+### Commands
+
+- If needed, install and upgrade the `pipenv` command: `pip install pipenv --user`
+- Install the development dependencies `pipenv` command: `pipenv install --dev`
+
+
 ### Planning steps
 
 - [ ] Make sample reflection input files for testing
