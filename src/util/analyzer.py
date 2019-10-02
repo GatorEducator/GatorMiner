@@ -1,5 +1,6 @@
 """Where NLP modules should be in"""
 import sys
+import re
 import nltk
 import string
 import matplotlib
@@ -8,27 +9,24 @@ from nltk.tokenize import word_tokenize
 
 
 def read_file(path):
+    """ read file from path """
     with open(path) as input_file:
         data = input_file.read()
         return data
 
 
-if __name__ == '__main__':
-    raw_data = read_file("samples/sample_reflection.txt")
-    raw_data = ''.join(c for c in raw_data if not c.isdigit())
+def word_freq(input_raw):
+    """Take raw input text and return top 50 most frequent in list of tuple"""
+    # regex remove numbers, single characters, and non-alphanumeric
+    input_raw = re.sub(r"\b[a-zA-Z]\b", " ", input_raw)
+    input_raw = re.sub(r"\b[0-9]+\b", " ", input_raw)
+    input_raw = re.sub(r"[\W_]", " ", input_raw)
     stop_words = set(stopwords.words('english'))  # set stop words
-    punc = set(string.punctuation)
-    stop_words.update(punc)
-    tokens = word_tokenize(raw_data)
-
+    tokens = word_tokenize(input_raw)  # breakdown text into a list of tokens
+    # remove stopwords
     filtered_sentence = [w for w in tokens if w not in stop_words]
-
-    # print(filtered_sentence)
-
-    text = nltk.Text(filtered_sentence)
-    words = [w.lower() for w in text]
+    words = [w.lower() for w in filtered_sentence]
     # vocab = sorted(set(words)) # all the vocabs used in the text
     freqdict = nltk.FreqDist(words)
     # freqdict.plot()  # plot frequency
-    print(freqdict.most_common(50))
-    # print(freqdict)
+    return freqdict.most_common(50)
