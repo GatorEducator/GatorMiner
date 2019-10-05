@@ -1,5 +1,7 @@
-# textMining
-Repository to host the work for the text mining and analysis of student reflection documents in the Dept of CS at Allegheny College.
+# Text Mining
+A text mining and analysis tool for student reflection documents and five questions
+survey based on Natural language processing in the Department of Computer Science
+at Allegheny College.
 
 ### Planning steps
 
