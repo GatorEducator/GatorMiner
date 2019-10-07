@@ -5,6 +5,8 @@ import nltk
 # import matplotlib
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from nltk.stem.porter import PorterStemmer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def read_file(path: str):
