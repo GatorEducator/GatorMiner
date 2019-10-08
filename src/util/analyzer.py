@@ -2,7 +2,6 @@
 import re
 from typing import List, Tuple
 import nltk
-# import matplotlib
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
@@ -18,8 +17,9 @@ def read_file(path: str):
         return data
 
 
-def tokenize(text):
-    # breakdown text into a list of tokens
+def tokenize(text: str) -> List[str]:
+    """break down text into a list of tokens and remove
+    the commoner morphological and inflexional endings"""
     tokens = word_tokenize(text)
     stems = []
     for item in tokens:
@@ -27,7 +27,8 @@ def tokenize(text):
     return stems
 
 
-def normalize(data):
+def normalize(data: str) -> List[str]:
+    """Remove single characters, numbers, and stop words"""
     # regex remove numbers, single characters, and non-alphanumeric
     data = re.sub(r"\b[a-zA-Z]\b", " ", data)
     data = re.sub(r"\b[0-9]+\b", " ", data)
@@ -39,7 +40,9 @@ def normalize(data):
     return filtered_str
 
 
-def computeTfIDF(data):
+def computeTfIDF(data: List[str]) -> None:
+    """Compute the TFIDF"""
+    # remove stopwords again from sklearn pacakge
     tfidf = TfidfVectorizer(stop_words='english')
     tfs = tfidf.fit_transform([' '.join(data)])  # make data iterable for TFIDF
     feature_names = tfidf.get_feature_names()
@@ -48,16 +51,7 @@ def computeTfIDF(data):
 
 
 def word_freq(input_raw: str) -> List[Tuple[str, int]]:
+    """Compute word frequency"""
     words = normalize(input_raw)
     freqdict = nltk.FreqDist(words)
     return freqdict.most_common(50)
-
-
-if __name__ == '__main__':
-    # text_stems = tokenize(read_file("samples/sample_reflection.txt"))
-    result = normalize(read_file("samples/sample_reflection.txt"))
-    computeTfIDF(result)
-    freq = word_freq(read_file("samples/sample_reflection.txt"))
-    # print(freq)
-    # tfidf = TfidfVectorizer(tokenizer=tokenize, stop_words='english')
-    # print(tfs)
