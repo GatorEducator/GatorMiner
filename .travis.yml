@@ -1,0 +1,12 @@
+language: python
+python:
+    - "3.6" 
+branches:
+  only:
+    - master
+before_install:
+  - pip install pipenv
+install:
+  - pipenv install --dev
+script:
+  - "XXXXXXXXXX" #REPLACE XXXXXXXXXX with commands you want to run i.e. 'python -m pytest' once you select a framework.
