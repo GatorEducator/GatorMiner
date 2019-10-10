@@ -8,7 +8,7 @@ at Allegheny College.
 
 - If needed, install and upgrade the `pipenv` command: `pip install pipenv --user`
 - Install the development dependencies `pipenv` command: `pipenv install --dev`
-- Run command from the root directory: `pipenv run python src/util/run.py samples/sample_reflection.txt`
+- Run command from the root directory: `pipenv run python src/util/run.py resources/sampleInput/sample_reflection.txt`
 
 
 ### Planning steps
