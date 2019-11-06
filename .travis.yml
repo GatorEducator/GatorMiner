@@ -1,12 +1,13 @@
 language: python
 python:
-    - "3.6" 
-branches:
-  only:
-    - master
+    - "3.6"
 before_install:
   - pip install pipenv
+notifications:
+  email: never
 install:
+  - pip install --upgrade pip
+  - pip install --upgrade pipenv
   - pipenv install --dev
 script:
-  - "XXXXXXXXXX" #REPLACE XXXXXXXXXX with commands you want to run i.e. 'python -m pytest' once you select a framework.
+  # REPLACE XXXXXXXXXX with commands you want to run i.e. 'python -m pytest' once you select a framework.
