@@ -7,6 +7,8 @@ from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+nltk.download('punkt')
+
 stemmer = PorterStemmer()
 
 
