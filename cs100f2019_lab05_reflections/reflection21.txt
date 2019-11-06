@@ -1,0 +1,70 @@
+# Reflection by 
+
+## Program Output
+
+```
+
+Thu Oct 10 20:28:23 EDT 2019
+
+I'm going to manipulate the DNA sequence: AAGTCTGGGCCTTAATCCAGATCAGGA
+
+
+Original: AAGTCTGGGCCTTAATCCAGATCAGGA
+
+Complement: TTCAGACCCGGAATTAGGTCTAGTCCT
+
+Insertion: AAGTCTGGGCCTTAATCCAGACTCAGGA
+        The Letter C was inserted after position 21
+
+Deletion: AAGTCTGGCCTTAATCCAGATCAGGA
+        The Letter G was removed from position 8
+
+Replacement: AAGTCTGGGCCTTAATCCATATCAGGA
+        The Letter G was replaced with T, at position 19
+
+
+Thank you for using the DNA Manipulation program, have a wonderful day!
+
+```
+
+## String and Random Methods
+
+- `dna`: The original DNA string
+- `dna1`: The complement DNA string
+- `dna2`: The insertion DNA string
+- `dna3`: The deletion DNA string
+- `dna4`: The replacement DNA string
+- `randLetters`: A string randomly selected from to get a letter for insertion or replacement
+- `rand`: A random method that is re-used throughout the program to generate random values
+- `removed`: A string that stored the letter that was removed from the dna3 string
+
+## What was the greatest technical challenge that your team faced and how did you overcome it?
+
+The greatest technical challenge I encountered was generating the DNA complement. I overcame this by
+converting the dna string into a char array, and nesting if statements within a while loop to evaluate and modify
+each character individually.
+
+## Based on your experiences with simple DNA manipulation in this lab and reflecting on the assigned article, answer the following questions:
+
+1. Who makes the genome editing technology?
+Computer scientist and biologists
+
+2. Who are the users of the genome editing technology?
+Scientists and researchers
+
+3. Who is not supposed to use the genome editing technology?
+The general populace
+
+4. How can the genome editing technology cause harm?
+Through off=target effects, and mosaicism
+
+5. What solutions can be developed to avoid the harm caused by the genome editing technology or to fix the harm?
+Regulation and further research
+
+## After completing this assignment, what is task that your team wants to practice more? Why?
+I would like to practice more with the scanner utility, because I find the commands to be un-intuitive and I am not confident
+in my ability to utilize more advanced scanner functions.
+
+## After completing this assignment, what is one learning experience you have valued the most?
+I valued my learning experience with arrays and conversion the most, because in java strings are immutable, and converting them into
+char arrays provides much more freedom when manipulating strings.

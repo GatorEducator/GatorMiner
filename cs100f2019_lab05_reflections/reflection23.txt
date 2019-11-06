@@ -1,0 +1,46 @@
+# Reflection by 
+
+## Using a fenced code block, please display the output from running your program
+
+```
+ Mon Oct 07 11:54:29 GMT 2019
+The DNA strand is ATGCTGAGTCAT
+The compliment to the original strand is ATGGTGAGTGAT
+The original strand will now have an 'T' added to it.
+Your new strand is ATGCTGAGTCATT
+With a random letter deleted the new strand is ATGCTGGTCAT
+If you replace a random character the new strand it ATGCTGAGTCCT
+Thank you for using the ManipulateDna program
+```
+
+
+## For each String and Random method used, add an explanation in the list format (as shown in an example below).
+
+- `nextInt`: generates a random integer, then moves output to the next line
+
+
+
+## What was the greatest technical challenge that your team faced and how did you overcome it?
+
+  The greatest challenge that I faced during this assignment was figuring out how to add a random letter to a random slot in the DNA strand.  At first I was able to get a random letter selected, but I did not know how to place it in the DNA strand at a random location.  I looked through old assignments in order to try and see how we did it in the past, but I couldn't really find exactly what I was looking for.  So instead I decided to think outside of the box and use conditional logic, which we have not technically learned in class yet but I knew how to do and it helped me a lot on this assignment.  Due to the conditional logic I was able to make the random letter be placed in a random location with far less complex syntax than I would have had to use otherwise.  It might have been slightly lengthier in terms of the amount of code I had to physically type out, but the code was much more simple and I had a far easier time thinking about what to type, so the time it took me to complete it this way was significantly less than the alternative.
+
+## Based on your experiences with simple DNA manipulation in this lab and reflecting on the assigned article, answer the following questions:
+
+1. Who makes the genome editing technology?
+
+2. Who are the users of the genome editing technology?
+
+3. Who is not supposed to use the genome editing technology?
+
+4. How can the genome editing technology cause harm?
+
+5. What solutions can be developed to avoid the harm caused by the genome editing technology or to fix the harm?
+
+
+## After completing this assignment, what is task that your team wants to practice more? Why?
+
+  This was an individual assignment, but a skill I would like to practice more would be conditional logic.  I know it wasn't really part of this assignment, but I used it and I know that it's one of the most fundamental concepts of programming and it is widely used to solve all sorts of programming problems.  I also really like using if and else if statement so I would like to do it more for enjoyment as well.  
+
+## After completing this assignment, what is one learning experience you have valued the most?
+
+  As in previous assignments, it was worthwhile to have to think about the logic behind the programming.  I always enjoy solving new problems with different types of solutions and using different programming concepts to get to those solutions.  If I just had to solve the same problem over and over and do it the same way I would get very bored very quickly.

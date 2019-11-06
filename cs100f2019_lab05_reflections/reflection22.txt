@@ -1,0 +1,55 @@
+# Reflection by 
+
+## Using a fenced code block, please display the output from running your program
+
+
+```
+Fri Oct 04 01:00:37 GMT 2019
+Okay I am going to manipulate DNA string AAGTCTGGGCCTTAATCCAGATCAGGA
+Display the compliment.
+Compliment: TTCAGACCCGGAATTAGGTCTAGTCCT
+Display the insertion:
+Insertion: TTCAAGACCCGGAATTAGGTCTAGTCCT
+Display the deletion:
+Deletion: TTCAGACCCGGAATTAGGTCTGTCCT
+Display the mutation:
+Mutation: TTCAGACCCGAAATTAGGTCTAGTCCT
+Thank you for using ManipulateDna program.
+```
+
+## For each String and Random method used, add an explanation in the list format (as shown in an example below).
+
+- `nextInt`: typically this is used for using the next integer provided by the person running the code but for my lab I used this to randomly chose a place in the line of DNA to change, by adding a random class to it.
+- `replace`: typically this is used to replace a certain character in the code with another that is provide, for my lab this was used to replace DNA letters, I used it initially to create the compliment of the code and then I used it to replace a random letter in the code with a different random letter
+- `toUpperCase`: this makes everything uppercase, I used it to change some of the letters in the DNA strand back to uppercase because I had previously turned a and g to lowercase in order to make the compliment
+
+## What was the greatest technical challenge that your team faced and how did you overcome it?
+
+The greatest challenge I had during this lab was the insertion of a DNA letter, just because I wasn't really sure or confident in the methods needed to chose a random letter and a random place to insert it and I was confused about how to add it without removing and of the other letters. So to do this I used my peers around me and also ended up asking for assistance from a technical assistant and by doing this they helped talk me through not just the organization of everything, but also what everything means and took the time to make sure I was learning as well as getting it done efficiently. That way I was able to complete the other two tasks with more confidence.
+
+## Based on your experiences with simple DNA manipulation in this lab and reflecting on the assigned article, answer the following questions:
+
+1. Who makes the genome editing technology?
+Biologists, mathematicians, and computer scientists.
+
+2. Who are the users of the genome editing technology?
+Scientists, specifically those who design the program and bioethicists.
+
+3. Who is not supposed to use the genome editing technology?
+Those who wish to use it for theraputic uses or selfish reasons.
+
+4. How can the genome editing technology cause harm?
+There are chances of edits happening on the wrong gene, only some cells carrying the edit, there's also not really a way to gain consent from the subject of the editing because it would most likely be happening to an embryo
+
+5. What solutions can be developed to avoid the harm caused by the genome editing technology or to fix the harm?
+They could develop fool proof methods of gene editing, and with a lot of practice and research they could figure out the safest way to participate in gene editing, which would take a lot of time , but could be worth it. With the ethical concerns, I don't know that there's a lot of solutions for it, they could definitely make this something accessable to poorer communities by making it less expensive or covered by insurance, but I'm not 100% sure how to attain consent from an embryo and don't know that it would be possible. It also makes me concerned to think that one of the dangers that comes with gene editing will be those who want to take advantage of it and change every little flaw that their child will have, this could become elitist and also it's not fair to the child that is being preferred over their natural bodies if that makes sense.
+
+
+## After completing this assignment, what is task that your team wants to practice more? Why?
+
+I'd like to practice the random class more just because it is very confusing to me and I would like to be able to understand it a lot better so that I am more confident when trying to complete my labs. I have a hard time visualizing how they need to change into what I need them to in order to make them do what I need them to so I think with practice I'll be able to understand it better and get things done more efficiently.
+
+## After completing this assignment, what is one learning experience you have valued the most?]=
+
+I appreciated the assistance that the TA's gave me, like I had mentioned before, their help allowed me not only to get my lab done but also to learn while I did so.
+Another part of the lab that I enjoyed was at the very beginning when we were making the compliment and we needed to replace two of the characters with lower case characters in order to change each one to its compliment without ending up with a string of just A's and T's. Then after I finished changing all of them, I changed it all to uppercase, and I appreciated this because this was something that I was able to figure out on my own and I was able to notice that there was a problem before it even happened. This made me feel a lot more confident in my abilities and pushed me through the rest of the lab with a confidence I didn't have before.
