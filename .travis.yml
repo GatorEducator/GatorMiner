@@ -1,6 +1,16 @@
 language: python
 python:
     - "3.6"
+
+cache:
+  directories:
+  - "$HOME/.pip-cache/"
+
+env:
+  global:
+  - PIPENV_VENV_IN_PROJECT=1
+  - PIPENV_IGNORE_VIRTUALENVS=1
+
 before_install:
   - pip install pipenv
 notifications:
@@ -10,4 +20,4 @@ install:
   - pip install --upgrade pipenv
   - pipenv install --dev
 script:
-  # REPLACE XXXXXXXXXX with commands you want to run i.e. 'python -m pytest' once you select a framework.
+  - pipenv run pytest
