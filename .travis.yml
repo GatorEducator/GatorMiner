@@ -16,8 +16,6 @@ before_install:
 notifications:
   email: never
 install:
-  - pip install --upgrade pip
-  - pip install --upgrade pipenv
   - pipenv install --dev
 script:
   - pipenv run pytest
