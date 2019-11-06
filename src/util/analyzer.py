@@ -40,7 +40,7 @@ def normalize(data: str) -> List[str]:
     return filtered_str
 
 
-def computeTfIDF(data: List[str]) -> None:
+def compute_TfIDF(data: List[str]) -> None:
     """Compute the TFIDF"""
     # remove stopwords again from sklearn pacakge
     tfidf = TfidfVectorizer(stop_words='english')
