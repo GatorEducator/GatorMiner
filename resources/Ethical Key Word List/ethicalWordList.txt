@@ -204,3 +204,8 @@ exposes
 defends
 shields
 prevents
+robs
+steals
+takes
+gives
+uncomfortable
