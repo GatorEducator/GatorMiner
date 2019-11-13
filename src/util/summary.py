@@ -22,4 +22,26 @@ text = ("The greatest technical challenge I faced on this assignment was "
 # Summarize the paragraph
 pprint(summarize(text, word_count=20))
 
-print(keywords(text))
+
+def summarizeText(text: str) -> str:
+    """ Uses genim's summarization to summarize the given text """
+    pass
+
+
+def getText(fileName: str) -> str:
+    """ Returns selected passages from the file after given a file name """
+    pass
+
+
+def getFileNames() -> [str]:
+    """ Uses os library to find all markdown files in given directory """
+
+    dirName = "../../cs100f2019_lab05_reflections/"
+
+
+if __name__ == '__main__':
+    fileNames = getFileNames()  # The directory is currently hardcoded
+    for file in fileNames:
+        text = getText(file)
+        text = summarizeText(text)
+        print(f"{file}:\t{text}", end="\n-----------------\n")
