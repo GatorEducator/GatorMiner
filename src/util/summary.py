@@ -34,18 +34,15 @@ def getFileNames() -> [str]:
     return fileList
 
 
-# if __name__ == '__main__':
-#     fileNames = getFileNames()  # The directory is currently hardcoded
-#     for file in fileNames:
-#         text = summarizeText(getText(file))
-#         print(f"{file}:\t{text}", end="\n-----------------\n")
-
-
 def summarizer():
     fileNames = getFileNames()  # The directory is currently hardcoded
     for file in fileNames:
         text = summarizeText(getText(file))
         print(f"{file}:\t{text}", end="\n-----------------\n")
+
+
+if __name__ == '__main__':
+    summarizer()
 
 # TODO find an easier way to automate collecting the actual text
 # this method relied on knowing the format of the file & cheating the text out
