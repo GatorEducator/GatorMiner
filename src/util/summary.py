@@ -34,7 +34,14 @@ def getFileNames() -> [str]:
     return fileList
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
+#     fileNames = getFileNames()  # The directory is currently hardcoded
+#     for file in fileNames:
+#         text = summarizeText(getText(file))
+#         print(f"{file}:\t{text}", end="\n-----------------\n")
+
+
+def summarizer():
     fileNames = getFileNames()  # The directory is currently hardcoded
     for file in fileNames:
         text = summarizeText(getText(file))
