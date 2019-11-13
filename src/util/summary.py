@@ -4,7 +4,7 @@ from pprint import pprint
 
 def summarizeText(text: str) -> str:
     """ Uses genim's summarization to summarize the given text """
-    pass
+    return summarize(text, keywords = 20)
 
 
 def getText(fileName: str) -> str:
