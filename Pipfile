@@ -10,6 +10,7 @@ nltk = "*"
 matplotlib = "*"
 scikit-learn = "*"
 pytest = "*"
+gensim = "*"
 
 [requires]
 python_version = "3.6"
