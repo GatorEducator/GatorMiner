@@ -7,12 +7,21 @@ api_key = "CTLJlMqQpt16yPsEEDzEM7dJPLSkilsl19pEB15f"
 
 
 def get(url):
+    header = {"x-api-key": "CTLJlMqQpt16yPsEEDzEM7dJPLSkilsl19pEB15f"}
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers=header)
         response.raise_for_status()
     except HTTPError as http_err:
-        print(f'HTTP error occurred: {http_err}')  # Python 3.6
+        print(f'HTTP error occurred: {http_err}')
     except Exception as err:
-        print(f'Other error occurred: {err}')  # Python 3.6
+        print(f'Other error occurred: {err}')
     else:
         print('Success!')
+
+    return response.text
+
+
+aws_response = get(endpoint)
+print(aws_response)
+
+# 'https://4tjfjgbpw5.execute-api.us-east-2.amazonaws.com/default/upload-DB-python'
