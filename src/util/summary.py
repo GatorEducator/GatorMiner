@@ -5,7 +5,7 @@ import os
 
 def summarizeText(text: str) -> str:
     """ Uses genim's summarization to summarize the given text """
-    return summarize(text, word_count=20)
+    return summarize(text, word_count=30)
 
 
 def getText(fileName: str) -> str:
@@ -39,3 +39,8 @@ if __name__ == '__main__':
     for file in fileNames:
         text = summarizeText(getText(file))
         print(f"{file}:\t{text}", end="\n-----------------\n")
+
+# TODO find an easier way to automate collecting the actual text
+# this method relied on knowing the format of the file & cheating the text out
+
+# TODO Look deeper into the summarize function and try using different argument
