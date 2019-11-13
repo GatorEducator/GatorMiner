@@ -10,6 +10,7 @@ nltk = "*"
 matplotlib = "*"
 scikit-learn = "*"
 pytest = "*"
+request = "*"
 
 [requires]
 python_version = "3.6"
