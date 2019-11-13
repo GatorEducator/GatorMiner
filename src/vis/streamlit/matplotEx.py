@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+st.title('Data Visualization Ethics Over Time')
+
+
 x = np.linspace(0, 2, 100)
 
 plt.plot(x, x, label='linear')
