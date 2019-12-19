@@ -1,5 +1,6 @@
 # Text Mining
 [![Build Status](https://travis-ci.com/Allegheny-Mozilla-Fellows/textMining.svg?branch=master)](https://travis-ci.com/Allegheny-Mozilla-Fellows/textMining)
+[![codecov](https://codecov.io/gh/Allegheny-Mozilla-Fellows/textMining/branch/master/graph/badge.svg)](https://codecov.io/gh/Allegheny-Mozilla-Fellows/textMining)
 
 A text mining and analysis tool for student reflection documents and five questions
 survey based on Natural language processing in the Department of Computer Science
