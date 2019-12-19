@@ -68,7 +68,8 @@ def test_tokenize():
         ),
     ],
 )
-def test_tokenize(input_text, answer):
+def test_tokenize_parametrize(input_text, answer):
+    """parametrize test tokenize"""
     # given
     text = input_text
 
@@ -88,8 +89,8 @@ def test_tokenize(input_text, answer):
             ["list", "word", "stopword", "should", "drop", "some"],
         ),
         (
-            "A second sentence was only more of a test because we need more tests",
-            ["second", "sentenc", "wa", "onli", "test", "need", "test"],
+            "A second sentence was more of a test because we need more tests",
+            ["second", "sentenc", "wa", "test", "need", "test"],
         ),
     ],
 )
@@ -111,7 +112,9 @@ def test_tokenize(input_text, answer):
         "of",
     ],
 )
+# pylint: disable=W0613
 def test_normalize(stopwords, text_input, answer):
+    """parametrize test normalize"""
     # given
     text_input = text_input
 
