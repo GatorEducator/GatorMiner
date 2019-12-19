@@ -4,6 +4,9 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+black = "*"
+codecov = "*"
+flake8 = "*"
 pytest = "*"
 pytest-cov = "*"
 
@@ -11,7 +14,9 @@ pytest-cov = "*"
 nltk = "*"
 matplotlib = "*"
 scikit-learn = "*"
-pytest = "*"
 
 [requires]
 python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true
