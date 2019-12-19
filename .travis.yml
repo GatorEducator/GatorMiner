@@ -13,6 +13,7 @@ env:
 
 before_install:
   - pip install pipenv
+  - nltk.download('stopwords')
 notifications:
   email: never
 install:
