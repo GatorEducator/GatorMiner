@@ -10,6 +10,7 @@ env:
   global:
   - PIPENV_VENV_IN_PROJECT=1
   - PIPENV_IGNORE_VIRTUALENVS=1
+  - CODECOV_TOKEN="59a0baf8-461c-4d50-b6d3-ad40bed4ae21"
 
 before_install:
   - pip install pipenv

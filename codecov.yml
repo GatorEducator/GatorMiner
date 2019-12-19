@@ -1,4 +1,5 @@
 codecov:
+  token: 59a0baf8-461c-4d50-b6d3-ad40bed4ae21
   max_report_age: off
 
 comment: false
