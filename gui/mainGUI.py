@@ -1,5 +1,26 @@
+#Notes
+#Make tabs it's own class to support matplotlib dynamic canvas.
+#
+#
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QDialog
+
+import sys
+import time
+
+#import matplotlib
+import numpy as np
+
+from matplotlib.backends.qt_compat import QtCore, QtWidgets, is_pyqt5
+if is_pyqt5():
+    from matplotlib.backends.backend_qt5agg import (
+        FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
+else:
+    from matplotlib.backends.backend_qt4agg import (
+        FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
+
+from matplotlib.figure import Figure
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -14,7 +35,7 @@ class Ui_MainWindow(object):
         #New horizontal layout
         self.hLayout1 = QtWidgets.QHBoxLayout(self.centralwidget)
 
-        #self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.tab_3)
+        #
         # self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         # # self.graph = QtWidgets.QWidget(self.tab_3)
         # sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -59,9 +80,14 @@ class Ui_MainWindow(object):
         self.hLayout1.addWidget(self.tabWidget)
         MainWindow.setCentralWidget(self.centralwidget)
 
-
         #self.retranslateUi(MainWindow)
-        # self.tabWidget.setCurrentIndex(0)
+        print(self.tabWidget.currentIndex())
+        if self.tabWidget.currentIndex() != -1:
+            print("Subplot stuff")
+            subplot = self.tabWidget.currentWidget.figure.subplots()
+            self._timer = subplot.new_timer(100, [(self._update_canvas(subplot), (), {})])
+            self._timer.start()
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def showNewTabDialog(self):
@@ -72,6 +98,7 @@ class Ui_MainWindow(object):
         title = self.ui.getInput(self.window)
         if title != None:
             self.addTabtoWidget(title)
+        print(self.tabWidget.currentIndex())
 
     def showAboutDialog(self):
         self.window = QtWidgets.QDialog() #Create the window
@@ -85,6 +112,12 @@ class Ui_MainWindow(object):
     def addTabtoWidget(self, title):
         tab = QtWidgets.QWidget()
         self.tabWidget.addTab(tab, title)
+        hlayout = QtWidgets.QHBoxLayout(tab)
+        tab.layout = hlayout
+        dynamic_canvas = FigureCanvas(Figure(figsize=(5, 3)))
+        tab.layout.addWidget(dynamic_canvas)
+
+
 
     def addMenuBar(self, MainWindow):
         #Create Menubar
@@ -119,6 +152,14 @@ class Ui_MainWindow(object):
 
         #Set the status bar to ours
         MainWindow.setStatusBar(self.statusbar)
+
+    def _update_canvas(self, subplot):
+        subplot.clear()
+        t = np.linspace(0, 10, 101)
+        # Shift the sinusoid as a function of time.
+        subplot.plot(t, np.sin(t + time.time()))
+        subplot.figure.canvas.draw()
+
 
 class Ui_NewTab(object):
     def getInput(self, window):
