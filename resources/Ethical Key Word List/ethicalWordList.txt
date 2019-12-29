@@ -204,3 +204,13 @@ exposes
 defends
 shields
 prevents
+robs
+steals
+takes
+gives
+uncomfortable
+difficult
+harsh
+troublesome
+distressing
+hard
