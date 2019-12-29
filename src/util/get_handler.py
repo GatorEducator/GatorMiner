@@ -34,14 +34,14 @@ def getSignatureKey(key, dateStamp, regionName, serviceName):
     return k_signing
 
 
-def create_request(assignment):
+def get_request(assignment):
     """Create and sign request"""
     # Create a date for headers and the credential string
     t = datetime.datetime.utcnow()
     amzdate = t.strftime("%Y%m%dT%H%M%SZ")
     datestamp = t.strftime("%Y%m%d")  # Date w/o time, used in credential scope
 
-    endpoint_list = endpoint.split('/')
+    endpoint_list = ENDPOINT.split('/')
     # first part of endpoint
     host = endpoint_list[2]
     # second part of endpoint
