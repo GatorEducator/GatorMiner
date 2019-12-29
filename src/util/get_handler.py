@@ -12,10 +12,6 @@ SERVICE = "execute-api"
 REGION = "us-east-2"
 API_KEY = os.environ.get("GATOR_API_KEY")
 ENDPOINT = os.environ.get("GATOR_ENDPOINT")
-# first part of ENDPOINT
-host = "0lc46btkaf.execute-api.us-east-2.amazonaws.com"
-# second part of ENDPOINT
-canonical_uri = "DEV/cli-test-sh"
 # Read AWS access key from env. variables or configuration file
 ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
 SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
@@ -44,6 +40,12 @@ def create_request(assignment):
     t = datetime.datetime.utcnow()
     amzdate = t.strftime("%Y%m%dT%H%M%SZ")
     datestamp = t.strftime("%Y%m%d")  # Date w/o time, used in credential scope
+
+    endpoint_list = endpoint.split('/')
+    # first part of endpoint
+    host = endpoint_list[2]
+    # second part of endpoint
+    canonical_uri = endpoint_list[3] + '/' + endpoint_list[4]
 
     # query
     request_parameters = f"assignment={assignment}"
