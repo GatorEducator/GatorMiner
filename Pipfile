@@ -14,9 +14,7 @@ pytest-cov = "*"
 nltk = "*"
 matplotlib = "*"
 scikit-learn = "*"
-
-[requires]
-python_version = "3.6"
+gensim = '*'
 
 [pipenv]
 allow_prereleases = true
