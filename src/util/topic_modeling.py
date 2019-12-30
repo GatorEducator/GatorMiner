@@ -15,12 +15,12 @@ dictionary = corpora.Dictionary(text_data)
 # print(dictionary)
 corpus = [dictionary.doc2bow(text) for text in text_data]
 
-pickle.dump(corpus, open('corpus.pkl', 'wb'))
-dictionary.save('dictionary.gensim')
+pickle.dump(corpus, open('src/util/models/corpus.pkl', 'wb'))
+dictionary.save('src/util/models/dictionary.gensim')
 
 NUM_TOPICS = 5
 ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=NUM_TOPICS, id2word=dictionary, passes=15)
-ldamodel.save('model5.gensim')
+ldamodel.save('src/util/models/model5.gensim')
 
 topics = ldamodel.print_topics(num_words=4)
 for topic in topics:
