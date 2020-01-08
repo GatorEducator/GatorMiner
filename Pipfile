@@ -13,6 +13,7 @@ pytest-cov = "*"
 matplotlib = "*"
 gensim = '*'
 spacy = '*'
+sklearn = "*"
 
 [pipenv]
 allow_prereleases = true
