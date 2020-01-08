@@ -14,8 +14,9 @@ def read_file(path: str):
 
 
 def normalize(data: str) -> List[str]:
-    """Remove numbers, single characters, and non-alphanumeric"""
-    normalized_data = re.sub(r"\b[a-zA-Z]\b|\b[0-9]+\b|[\W_]", " ", data)
+    """Remove numbers, single characters, to lowercase"""
+    data = data.lower()
+    normalized_data = re.sub(r"\b[a-zA-Z]\b|\b[0-9]+\b", "", data)
     return normalized_data
 
 
