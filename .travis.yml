@@ -14,6 +14,7 @@ env:
 
 before_install:
   - pip install pipenv
+  - pipenv run python -m spacy download en_core_web_sm
 notifications:
   email: never
 install:
