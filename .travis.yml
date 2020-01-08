@@ -14,11 +14,11 @@ env:
 
 before_install:
   - pip install pipenv
-  - pipenv run python -m spacy download en_core_web_sm
 notifications:
   email: never
 install:
   - pipenv install --dev
+  - pipenv run python -m spacy download en_core_web_sm
 script:
   - pipenv run pytest test --cov-config pytest.cov --cov
   - pipenv run flake8 src/util
