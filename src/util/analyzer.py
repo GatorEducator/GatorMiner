@@ -1,12 +1,10 @@
 """Where NLP modules should be in"""
-import re
-import spacy
-from spacy.tokenizer import Tokenizer
 from collections import Counter
-
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
-
+import re
 from typing import List, Tuple
+import spacy
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 parser = spacy.load("en_core_web_sm")
 
@@ -30,7 +28,8 @@ def tokenize(raw_text: str) -> List[str]:
     tokens = parser(text)
     # lemmatize tokens
     tokens = [
-        word.lemma_.strip() for word in tokens
+        word.lemma_.strip()
+        for word in tokens
         if word.lemma_ != "-PRON-" and word.is_stop is False
     ]
     tokens = [word for word in tokens if len(word) > 1]
