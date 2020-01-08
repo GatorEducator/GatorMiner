@@ -33,7 +33,6 @@ def tokenize(raw_text: str) -> List[str]:
         if word.lemma_ != "-PRON-" and word.is_stop is False
     ]
     tokens = [word for word in tokens if len(word) > 1]
-    print(len(tokens))
     return tokens
 
 
