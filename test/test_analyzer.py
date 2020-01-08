@@ -25,7 +25,7 @@ def test_tokenize():
         ),
         (
             "If you can't avoid it. We'll all use punctuation.",
-            ["avoid", "will", "use", "punctuation"],
+            ['avoid', 'use', 'punctuation'],
         ),
     ],
 )
@@ -40,11 +40,11 @@ def test_tokenize_parametrize(input_text, expected):
     [
         (
             "A list of words with stopwords should drop some",
-            "  list of words with stopwords should drop some",
+            " list of words with stopwords should drop some",
         ),
         (
             "A second sentence was more of a test because we need more tests",
-            "  second sentence was more of   test because we need more tests",
+            " second sentence was more of  test because we need more tests",
         ),
     ],
 )
