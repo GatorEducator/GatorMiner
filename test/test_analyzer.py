@@ -8,9 +8,7 @@ def test_tokenize():
     method from nltk package"""
     input_text = "Test tokenize break down str into list of str correctly"
     output = analyzer.tokenize(input_text)
-    expected = [
-        'test', 'tokenize', 'break', 'str', 'list', 'str', 'correctly'
-    ]
+    expected = ["test", "tokenize", "break", "str", "list", "str", "correctly"]
     assert output == expected
 
 
@@ -19,19 +17,15 @@ def test_tokenize():
     [
         (
             "The programer programs many functional programs.",
-            ['programer', 'program', 'functional', 'program'],
+            ["programer", "program", "functional", "program"],
         ),
         (
             "It is likely that many like words have liked liking other likes",
-            [
-                'likely', 'like', 'word', 'like', 'like', 'like'
-            ],
+            ["likely", "like", "word", "like", "like", "like"],
         ),
         (
             "If you can't avoid it. We'll all use punctuation.",
-            [
-                'avoid', 'will', 'use', 'punctuation'
-            ],
+            ["avoid", "will", "use", "punctuation"],
         ),
     ],
 )
@@ -46,7 +40,7 @@ def test_tokenize_parametrize(input_text, expected):
     [
         (
             "A list of words with stopwords should drop some",
-            '  list of words with stopwords should drop some',
+            "  list of words with stopwords should drop some",
         ),
         (
             "A second sentence was more of a test because we need more tests",
