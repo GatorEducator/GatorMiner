@@ -5,16 +5,14 @@ verify_ssl = true
 
 [dev-packages]
 black = "*"
-codecov = "*"
 flake8 = "*"
 pytest = "*"
 pytest-cov = "*"
 
 [packages]
-nltk = "*"
 matplotlib = "*"
-scikit-learn = "*"
 gensim = '*'
+spacy = '*'
 
 [pipenv]
 allow_prereleases = true
