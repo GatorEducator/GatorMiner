@@ -6,9 +6,6 @@ import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-parser = spacy.load("en_core_web_sm")
-
-
 def read_file(path: str):
     """ read file from path """
     with open(path) as input_file:
@@ -24,6 +21,7 @@ def normalize(data: str) -> List[str]:
 
 def tokenize(raw_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
+    parser = spacy.load("en_core_web_sm")
     text = normalize(raw_text)
     tokens = parser(text)
     # lemmatize tokens
