@@ -1,5 +1,4 @@
 """Test module for analyzer.py"""
-from unittest import mock
 import pytest
 import src.util.analyzer as analyzer
 
@@ -7,120 +6,56 @@ import src.util.analyzer as analyzer
 def test_tokenize():
     """Test tokenize break down str into list of str correctly with the porter
     method from nltk package"""
-    test_input = "Test tokenize break down str into list of str correctly"
-    output = analyzer.tokenize(test_input)
+    input_text = "Test tokenize break down str into list of str correctly"
+    output = analyzer.tokenize(input_text)
     expected = [
-        "test",
-        "token",
-        "break",
-        "down",
-        "str",
-        "into",
-        "list",
-        "of",
-        "str",
-        "correctli",
+        'test', 'tokenize', 'break', 'str', 'list', 'str', 'correctly'
     ]
     assert output == expected
 
 
 @pytest.mark.parametrize(
-    "input_text, answer",
+    "input_text, expected",
     [
         (
             "The programer programs many functional programs.",
-            ["the", "program", "program", "mani", "function", "program", "."],
+            ['programer', 'program', 'functional', 'program'],
         ),
         (
             "It is likely that many like words have liked liking other likes",
             [
-                "It",
-                "is",
-                "like",
-                "that",
-                "mani",
-                "like",
-                "word",
-                "have",
-                "like",
-                "like",
-                "other",
-                "like",
+                'likely', 'like', 'word', 'like', 'like', 'like'
             ],
         ),
         (
             "If you can't avoid it. We'll all use punctuation.",
             [
-                "If",
-                "you",
-                "ca",
-                "n't",
-                "avoid",
-                "it",
-                ".",
-                "We",
-                "'ll",
-                "all",
-                "use",
-                "punctuat",
-                ".",
+                'avoid', 'will', 'use', 'punctuation'
             ],
         ),
     ],
 )
-def test_tokenize_parametrize(input_text, answer):
+def test_tokenize_parametrize(input_text, expected):
     """parametrize test tokenize"""
-    # given
-    text = input_text
-
-    # when
-    result = analyzer.tokenize(text)
-
-    # then
-    expected_result = answer
-    assert result == expected_result
+    output = analyzer.tokenize(input_text)
+    assert output == expected
 
 
 @pytest.mark.parametrize(
-    "text_input, answer",
+    "input_text, expected",
     [
         (
             "A list of words with stopwords should drop some",
-            ["list", "word", "stopword", "should", "drop", "some"],
+            '  list of words with stopwords should drop some',
         ),
         (
             "A second sentence was more of a test because we need more tests",
-            ["second", "sentenc", "wa", "test", "need", "test"],
+            "  second sentence was more of   test because we need more tests",
         ),
     ],
 )
-@mock.patch(
-    "src.util.analyzer.stopwords.words",
-    return_value=[
-        "a",
-        "how",
-        "becaus",
-        "i",
-        "was",
-        "we",
-        "him",
-        "was",
-        "on",
-        "me",
-        "more",
-        "with",
-        "of",
-    ],
-)
 # pylint: disable=W0613
-def test_normalize(stopwords, text_input, answer):
+def test_normalize(input_text, expected):
     """parametrize test normalize"""
-    # given
-    text_input = text_input
-
-    # when
-    result = analyzer.normalize(text_input)
-
-    # then
-    expected_result = answer
-    assert result == expected_result
+    output = analyzer.normalize(input_text)
+    assert output == expected
