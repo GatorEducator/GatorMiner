@@ -9,7 +9,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 def read_file(path: str):
     """ read file from path """
     with open(path) as input_file:
-        data = input_file.read().lower()
+        data = input_file.read()
         return data
 
 
