@@ -33,6 +33,15 @@ def sentence_tokenize(input_text):
     return sent_lst
 
 
+def part_of_speech(input_text):
+    """part of speech tagging of sentence"""
+    doc = PARSER(input_text)
+    pos_lst = []
+    for word in doc:
+        pos_lst.append(word.text, word.pos_)
+    return pos_lst
+    
+
 def tokenize(raw_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
     text = normalize(raw_text)
