@@ -3,9 +3,10 @@ from collections import Counter
 import re
 from typing import List, Tuple
 import spacy
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
 PARSER = spacy.load("en_core_web_sm")
+
 
 def read_file(path: str):
     """ read file from path """
@@ -56,6 +57,12 @@ def compute_tfidf(data: List[str]) -> None:
     return tfs, tfidf
 
 
+def compute_count_vectorize(data):
+    count_vectorizer = CountVectorizer()
+    count = count_vectorizer.fit_transform(data)
+    return count, count_vectorizer
+
+
 def compute_frequency(input_raw: str) -> List[Tuple[str, int]]:
     """Compute word frequency"""
     words = tokenize(input_raw)
@@ -66,8 +73,7 @@ def compute_frequency(input_raw: str) -> List[Tuple[str, int]]:
 def named_entity_recognization(input_text):
     """identifies important elements like places, people, organizations, and
     languages within an input string of text"""
-    nlp = spacy.load("en_core_web_sm")
-    doc = nlp(input_text)
+    doc = PARSER(input_text)
     for entity in doc.ents:
         print(entity, entity.label_)
     spacy.displacy.serve(doc, style="ent")
