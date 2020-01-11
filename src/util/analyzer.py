@@ -88,3 +88,5 @@ def named_entity_recognization(input_text):
     for entity in doc.ents:
         print(entity, entity.label_)
     spacy.displacy.serve(doc, style="ent")
+    # display in jupyter notebook
+    # displacy.render(about_interest_doc, style='dep', jupyter=True)
