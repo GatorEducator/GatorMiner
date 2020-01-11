@@ -40,7 +40,7 @@ def part_of_speech(input_text):
     for word in doc:
         pos_lst.append(word.text, word.pos_)
     return pos_lst
-    
+
 
 def tokenize(raw_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
@@ -68,6 +68,7 @@ def compute_tfidf(data: List[str]) -> None:
 
 
 def compute_count_vectorize(data):
+    """Compute the count vectorize matrix"""
     count_vectorizer = CountVectorizer()
     count = count_vectorizer.fit_transform(data)
     return count, count_vectorizer
