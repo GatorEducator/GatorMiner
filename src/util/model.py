@@ -100,7 +100,7 @@ pipe.fit(X_train, y_train)
 # Recall:       the ratio of true positives to
 #               true positives plus false negatives in our predictions.
 
-predicted = pip.predict(X_test)
+predicted = pipe.predict(X_test)
 
 # Model Accuracy
 print("Logistic Regression Accuracy:", metrics.accuracy_score(y_test, predicted))
