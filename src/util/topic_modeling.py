@@ -4,8 +4,9 @@ import pickle
 import gensim
 
 # https://github.com/susanli2016/Machine-Learning-with-Python/blob/master/topic_modeling_Gensim.ipynb
+
 text_data = []
-with open('resources/sampleInput/sample_reflection.txt') as f:
+with open("resources/sampleInput/sample_reflection.txt") as f:
     for line in f:
         tokens = normalize(line)
         text_data.append(tokens)
@@ -15,12 +16,14 @@ dictionary = corpora.Dictionary(text_data)
 # print(dictionary)
 corpus = [dictionary.doc2bow(text) for text in text_data]
 
-pickle.dump(corpus, open('src/util/models/corpus.pkl', 'wb'))
-dictionary.save('src/util/models/dictionary.gensim')
+pickle.dump(corpus, open("src/util/models/corpus.pkl", "wb"))
+dictionary.save("src/util/models/dictionary.gensim")
 
 NUM_TOPICS = 5
-ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=NUM_TOPICS, id2word=dictionary, passes=15)
-ldamodel.save('src/util/models/model5.gensim')
+ldamodel = gensim.models.ldamodel.LdaModel(
+    corpus, num_topics=NUM_TOPICS, id2word=dictionary, passes=15
+)
+ldamodel.save("src/util/models/model5.gensim")
 
 topics = ldamodel.print_topics(num_words=4)
 for topic in topics:

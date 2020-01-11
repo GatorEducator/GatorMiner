@@ -25,7 +25,7 @@ def test_tokenize():
         ),
         (
             "If you can't avoid it. We'll all use punctuation.",
-            ['avoid', 'use', 'punctuation'],
+            ["avoid", "use", "punctuation"],
         ),
     ],
 )

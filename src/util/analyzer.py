@@ -27,7 +27,7 @@ def normalize(data: str) -> List[str]:
 def sentence_tokenize(input_text):
     """tokenize paragraph to a list of sentences"""
     sent_lst = []
-    sent_pipe = PARSER.create_pipe('sentencizer')
+    sent_pipe = PARSER.create_pipe("sentencizer")
     PARSER.add_pipe(sent_pipe)
     doc = PARSER(input_text)
     for sent in doc.sents:

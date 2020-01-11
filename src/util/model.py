@@ -42,6 +42,7 @@ def get_metrics(y_test, y_predicted):
 
 class predictors(TransformerMixin):
     """custom transformation with space"""
+
     def transform(self, X, **transform_params):
         # Cleaning Text
         return [clean_text(text) for text in X]
@@ -86,10 +87,7 @@ lst_labels = clean["label"].tolist()
 # the size to use for the test set (test_size)
 # bag of words model
 X_train, X_test, y_train, y_test = train_test_split(
-    lst_corpus,
-    lst_labels,
-    test_size=0.2,
-    random_state=40
+    lst_corpus, lst_labels, test_size=0.2, random_state=40
 )
 
 ###############################################################
@@ -165,9 +163,13 @@ bow_vector = CountVectorizer(tokenizer=az.tokenize, ngram_range=(1, 1))
 tfidf_vector = TfidfVectorizer(tokenizer=az.tokenize)
 
 # Create a Pipeline and Generate the Model
-pipe = Pipeline([("cleaner", predictors()),
-                 ('vectorizer', bow_vector),
-                 ('classifier', LogisticRegression())])
+pipe = Pipeline(
+    [
+        ("cleaner", predictors()),
+        ("vectorizer", bow_vector),
+        ("classifier", LogisticRegression()),
+    ]
+)
 
 # train and test sets splited above
 # fit the pipeline components
@@ -184,11 +186,15 @@ predicted_spacy = pipe.predict(X_test)
 
 # Model Accuracy
 print("Logistic Regression Accuracy:", metrics.accuracy_score(y_test, predicted_spacy))
-print("Logistic Regression Precision:", metrics.precision_score(y_test, predicted_spacy))
+print(
+    "Logistic Regression Precision:", metrics.precision_score(y_test, predicted_spacy)
+)
 print("Logistic Regression Recall:", metrics.recall_score(y_test, predicted_spacy))
 
 # Model accuracy with get_metric
-accuracy_spacy, precision_spacy, recall_spacy, f1_spacy = get_metrics(y_test, predicted_spacy)
+accuracy_spacy, precision_spacy, recall_spacy, f1_spacy = get_metrics(
+    y_test, predicted_spacy
+)
 print(
     "accuracy = %.3f, precision = %.3f, recall = %.3f, f1 = %.3f"
     % (accuracy_spacy, precision_spacy, recall_spacy, f1_spacy)
