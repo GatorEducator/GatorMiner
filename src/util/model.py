@@ -19,11 +19,49 @@ from . import analyzer as az
 # https://www.dataquest.io/blog/tutorial-text-classification-in-python-using-spacy/
 # https://github.com/hundredblocks/concrete_NLP_tutorial/blob/master/NLP_notebook.ipynb
 
-def cv(data):
-    count_vectorizer = CountVectorizer()
-    emb = count_vectorizer.fit_transform(data)
-    return emb, count_vectorizer
 
+def get_metrics(y_test, y_predicted):
+    """Get evaluation metrics of model
+    Accuracy:     the percentage of the total predictions
+                  the model makes that are completely correct.
+    Precision:    the ratio of true positives to
+                  true positives plus false positives in our predictions.
+    Recall:       the ratio of true positives to
+                  true positives plus false negatives in our predictions.
+                  true positives / (true positives+false positives)
+    """
+    precision = precision_score(y_test, y_predicted, pos_label=None, average="weighted")
+    # true positives / (true positives + false negatives)
+    recall = recall_score(y_test, y_predicted, pos_label=None, average="weighted")
+    # harmonic mean of precision and recall
+    f1 = f1_score(y_test, y_predicted, pos_label=None, average="weighted")
+    # true positives + true negatives/ total
+    accuracy = accuracy_score(y_test, y_predicted)
+    return accuracy, precision, recall, f1
+
+
+class predictors(TransformerMixin):
+    """custom transformation with space"""
+    def transform(self, X, **transform_params):
+        # Cleaning Text
+        return [clean_text(text) for text in X]
+
+    def fit(self, X, y=None, **fit_params):
+        return self
+
+    def get_params(self, deep=True):
+        return {}
+
+
+# Basic function to clean the text
+def clean_text(text):
+    # Removing spaces and converting text into lowercase
+    return text.strip().lower()
+
+
+###############################################################
+# Read & clean data
+###############################################################
 
 # csv path
 raw = pd.read_csv(sys.argv[1])
@@ -58,25 +96,68 @@ X_train, X_test, y_train, y_test = train_test_split(
 ###############################################################
 
 
-# define a custom transformer
+###############################################################
+# Create pipe and model
+###############################################################
+
+# default transform
+# X_train_counts, count_vectorizer = az.compute_count_vectorize(X_train)
+# X_test_counts = count_vectorizer.transform(X_test)
+#
+# # tfidf bag of words
+# X_train_tfidf, tfidf_vectorizer = az.compute_tfidf(list(X_train))
+# X_test_tfidf = tfidf_vectorizer.transform(list(X_test))
+#
+# # logistic regression with cv model
+# clf = LogisticRegression(
+#     C=30.0,
+#     class_weight="balanced",
+#     solver="newton-cg",
+#     multi_class="multinomial",
+#     n_jobs=-1,
+#     random_state=40,
+# )
+#
+# # logistic regression for tfidf model
+# clf_tfidf = LogisticRegression(
+#     C=30.0,
+#     class_weight="balanced",
+#     solver="newton-cg",
+#     multi_class="multinomial",
+#     n_jobs=-1,
+#     random_state=40,
+# )
+#
+# clf.fit(X_train_counts, y_train)
+# clf_tfidf.fit(X_train_tfidf, y_train)
+#
+#
+# evaluate with default:
+#
+# y_predicted_counts = clf.predict(X_test_counts)
+# y_predicted_tfidf = clf_tfidf.predict(X_test_tfidf)
+#
+#
+# inspect accuracy
+#
+# accuracy, precision, recall, f1 = get_metrics(y_test, y_predicted_counts)
+# accuracy_tfidf, precision_tfidf, recall_tfidf, f1_tfidf = get_metrics(
+#     y_test, y_predicted_tfidf
+# )
+#
+# print(
+#     "accuracy = %.3f, precision = %.3f, recall = %.3f, f1 = %.3f"
+#     % (accuracy, precision, recall, f1)
+# )
+#
+# print(
+#     "accuracy = %.3f, precision = %.3f, recall = %.3f, f1 = %.3f"
+#     % (accuracy_tfidf, precision_tfidf, recall_tfidf, f1_tfidf)
+# )
+
+
+###############################################################
 # Custom transformer using spaCy
-class predictors(TransformerMixin):
-    def transform(self, X, **transform_params):
-        # Cleaning Text
-        return [clean_text(text) for text in X]
-
-    def fit(self, X, y=None, **fit_params):
-        return self
-
-    def get_params(self, deep=True):
-        return {}
-
-
-# Basic function to clean the text
-def clean_text(text):
-    # Removing spaces and converting text into lowercase
-    return text.strip().lower()
-
 
 # generate a bag of words matrix
 bow_vector = CountVectorizer(tokenizer=az.tokenize, ngram_range=(1, 1))
@@ -92,88 +173,27 @@ pipe = Pipeline([("cleaner", predictors()),
 # fit the pipeline components
 pipe.fit(X_train, y_train)
 
-# evaluate
-# Accuracy:     the percentage of the total predictions
-#               the model makes that are completely correct.
-# Precision:    the ratio of true positives to
-#               true positives plus false positives in our predictions.
-# Recall:       the ratio of true positives to
-#               true positives plus false negatives in our predictions.
+###############################################################
+###############################################################
 
-predicted = pipe.predict(X_test)
+
+###############################################################
+# Evaluate
+###############################################################
+predicted_spacy = pipe.predict(X_test)
 
 # Model Accuracy
-print("Logistic Regression Accuracy:", metrics.accuracy_score(y_test, predicted))
-print("Logistic Regression Precision:", metrics.precision_score(y_test, predicted))
-print("Logistic Regression Recall:", metrics.recall_score(y_test, predicted))
+print("Logistic Regression Accuracy:", metrics.accuracy_score(y_test, predicted_spacy))
+print("Logistic Regression Precision:", metrics.precision_score(y_test, predicted_spacy))
+print("Logistic Regression Recall:", metrics.recall_score(y_test, predicted_spacy))
+
+# Model accuracy with get_metric
+accuracy_spacy, precision_spacy, recall_spacy, f1_spacy = get_metrics(y_test, predicted_spacy)
+print(
+    "accuracy = %.3f, precision = %.3f, recall = %.3f, f1 = %.3f"
+    % (accuracy_spacy, precision_spacy, recall_spacy, f1_spacy)
+)
+
 
 ###############################################################
 ###############################################################
-
-X_train_counts, count_vectorizer = cv(X_train)
-X_test_counts = count_vectorizer.transform(X_test)
-
-
-# a logistic regression classifier object
-clf = LogisticRegression(
-    C=30.0,
-    class_weight="balanced",
-    solver="newton-cg",
-    multi_class="multinomial",
-    n_jobs=-1,
-    random_state=40,
-)
-
-clf.fit(X_train_counts, y_train)
-
-y_predicted_counts = clf.predict(X_test_counts)
-
-
-# evaluation
-def get_metrics(y_test, y_predicted):
-    # true positives / (true positives+false positives)
-    precision = precision_score(y_test, y_predicted, pos_label=None, average="weighted")
-    # true positives / (true positives + false negatives)
-    recall = recall_score(y_test, y_predicted, pos_label=None, average="weighted")
-
-    # harmonic mean of precision and recall
-    f1 = f1_score(y_test, y_predicted, pos_label=None, average="weighted")
-
-    # true positives + true negatives/ total
-    accuracy = accuracy_score(y_test, y_predicted)
-    return accuracy, precision, recall, f1
-
-
-accuracy, precision, recall, f1 = get_metrics(y_test, y_predicted_counts)
-print(
-    "accuracy = %.3f, precision = %.3f, recall = %.3f, f1 = %.3f"
-    % (accuracy, precision, recall, f1)
-)
-
-
-# tfidf bag of words
-X_train_tfidf, tfidf_vectorizer = az.compute_tfidf(list(X_train))
-X_test_tfidf = tfidf_vectorizer.transform(list(X_test))
-
-# logistic regression for tfidf model
-clf_tfidf = LogisticRegression(
-    C=30.0,
-    class_weight="balanced",
-    solver="newton-cg",
-    multi_class="multinomial",
-    n_jobs=-1,
-    random_state=40,
-)
-
-clf_tfidf.fit(X_train_tfidf, y_train)
-
-y_predicted_tfidf = clf_tfidf.predict(X_test_tfidf)
-
-# inspect accuracy
-accuracy_tfidf, precision_tfidf, recall_tfidf, f1_tfidf = get_metrics(
-    y_test, y_predicted_tfidf
-)
-print(
-    "accuracy = %.3f, precision = %.3f, recall = %.3f, f1 = %.3f"
-    % (accuracy_tfidf, precision_tfidf, recall_tfidf, f1_tfidf)
-)
