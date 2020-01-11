@@ -49,12 +49,13 @@ def tokenize(raw_text: str) -> List[str]:
 
 def compute_tfidf(data: List[str]) -> None:
     """Compute the TFIDF"""
-    tfidf = TfidfVectorizer()
-    tfs = tfidf.fit_transform([" ".join(data)])  # make data iterable for TFIDF
-    feature_names = tfidf.get_feature_names()
+    tfidf_vectorizer = TfidfVectorizer()
+    # make data iterable for TFIDF
+    tfs = tfidf_vectorizer.fit_transform([" ".join(data)])
+    feature_names = tfidf_vectorizer.get_feature_names()
     for col in tfs.nonzero()[1]:
         print(feature_names[col], " - ", tfs[0, col])
-    return tfs, tfidf
+    return tfs, tfidf_vectorizer
 
 
 def compute_count_vectorize(data):
