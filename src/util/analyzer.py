@@ -39,10 +39,10 @@ def compute_tfidf(data: List[str]) -> None:
     """Compute the TFIDF"""
     tfidf = TfidfVectorizer()
     tfs = tfidf.fit_transform([" ".join(data)])  # make data iterable for TFIDF
-    print(tfs)
     feature_names = tfidf.get_feature_names()
     for col in tfs.nonzero()[1]:
         print(feature_names[col], " - ", tfs[0, col])
+    return tfs, tfidf
 
 
 def compute_frequency(input_raw: str) -> List[Tuple[str, int]]:
@@ -50,3 +50,13 @@ def compute_frequency(input_raw: str) -> List[Tuple[str, int]]:
     words = tokenize(input_raw)
     word_freq = Counter(words)
     return word_freq.most_common(50)
+
+
+def named_entity_recognization(input_text):
+    """identifies important elements like places, people, organizations, and
+    languages within an input string of text"""
+    nlp = spacy.load("en_core_web_sm")
+    doc = nlp(input_text)
+    for entity in doc.ents:
+        print(entity, entity.label_)
+    spacy.displacy.serve(doc, style="ent")
