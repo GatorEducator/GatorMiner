@@ -90,3 +90,12 @@ def named_entity_recognization(input_text):
     spacy.displacy.serve(doc, style="ent")
     # display in jupyter notebook
     # displacy.render(about_interest_doc, style='dep', jupyter=True)
+
+
+def noun_phrase(input_text):
+    """Extract noun phrases of the document in a list"""
+    doc = PARSER(input_text)
+    n_phrase_lst = []
+    for chunk in doc.noun_chunks:
+        n_phrase_lst.append(chunk)
+    return n_phrase_lst
