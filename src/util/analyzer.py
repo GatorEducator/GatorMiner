@@ -7,6 +7,8 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
 PARSER = spacy.load("en_core_web_sm")
 
+# TODO: implement a pipeline to clean text
+
 
 def read_file(path: str):
     """ read file from path """
