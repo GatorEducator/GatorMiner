@@ -5,6 +5,7 @@ from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+PARSER = spacy.load("en_core_web_sm")
 
 def read_file(path: str):
     """ read file from path """
@@ -20,11 +21,21 @@ def normalize(data: str) -> List[str]:
     return normalized_data
 
 
+def sentence_tokenize(input_text):
+    """tokenize paragraph to a list of sentences"""
+    sent_lst = []
+    sent_pipe = PARSER.create_pipe('sentencizer')
+    PARSER.add_pipe(sent_pipe)
+    doc = PARSER(input_text)
+    for sent in doc.sents:
+        sent_lst.append(sent.text)
+    return sent_lst
+
+
 def tokenize(raw_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
-    parser = spacy.load("en_core_web_sm")
     text = normalize(raw_text)
-    tokens = parser(text)
+    tokens = PARSER(text)
     # lemmatize tokens
     tokens = [
         word.lemma_.strip()
