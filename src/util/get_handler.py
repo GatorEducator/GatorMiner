@@ -41,11 +41,8 @@ def get_request(assignment):
     amzdate = t.strftime("%Y%m%dT%H%M%SZ")
     datestamp = t.strftime("%Y%m%d")  # Date w/o time, used in credential scope
 
-    endpoint_list = ENDPOINT.split('/')
-    # first part of endpoint
-    host = endpoint_list[2]
-    # second part of endpoint
-    canonical_uri = endpoint_list[3] + '/' + endpoint_list[4]
+    host, stage, method = ENDPOINT.replace('https://', '').split('/')
+    canonical_uri = stage + '/' + method
 
     # query
     request_parameters = f"assignment={assignment}"
