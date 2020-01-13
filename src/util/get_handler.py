@@ -148,3 +148,8 @@ def get_request(assignment):
     print("Response code: %d\n" % r.status_code)
 
     return r.text
+
+
+if __name__ == '__main__':
+    response = get_request(input("Assignment name: \n"))
+    print(response)
