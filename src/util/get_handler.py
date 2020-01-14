@@ -42,7 +42,7 @@ def get_request(assignment):
     datestamp = t.strftime("%Y%m%d")  # Date w/o time, used in credential scope
 
     host, stage, method = ENDPOINT.replace('https://', '').split('/')
-    canonical_uri = stage + '/' + method
+    canonical_uri = "/" + stage + '/' + method
 
     # query
     request_parameters = f"assignment={assignment}"
