@@ -81,12 +81,6 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         #self.retranslateUi(MainWindow)
-        print(self.tabWidget.currentIndex())
-        if self.tabWidget.currentIndex() != -1:
-            print("Subplot stuff")
-            subplot = self.tabWidget.currentWidget.figure.subplots()
-            self._timer = subplot.new_timer(100, [(self._update_canvas(subplot), (), {})])
-            self._timer.start()
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -110,7 +104,7 @@ class Ui_MainWindow(object):
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
 
     def addTabtoWidget(self, title):
-        tab = QtWidgets.QWidget()
+        tab = Graph_Tab(self.tabWidget)
         self.tabWidget.addTab(tab, title)
         hlayout = QtWidgets.QHBoxLayout(tab)
         tab.layout = hlayout
@@ -234,6 +228,24 @@ class Ui_About(object):
 "Created by:\n"
 "Allegheny Mozilla Fellows\n"
 "NamesListHere"))
+
+class Graph_Tab(QtWidgets.QWidget):
+    def __init__(self, tabs, parent=None):
+        QtWidgets.QWidget.__init__(self, parent)
+        # self.canvases = canvases
+        self.tabs = tabs
+        # self.toolbars = [NavigationToolbar(canvas, parent) for canvas in self.canvases]
+        # vbox = QtWidgets.QVBoxLayout()
+        # for toolbar in self.toolbars:
+        #     vbox.addWidget(toolbar)
+        # self.setLayout(vbox)
+        # self.switch_toolbar()
+        # self.tabs.currentChanged.connect(self.switch_toolbar)
+
+    # def switch_toolbar(self):
+    #     for toolbar in self.toolbars:
+    #         toolbar.setVisible(False)
+    #     self.toolbars[self.tabs.currentIndex()].setVisible(True)
 
 if __name__ == "__main__":
     import sys
