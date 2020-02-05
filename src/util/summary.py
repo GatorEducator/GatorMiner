@@ -14,35 +14,42 @@ def get_text(fileName: str) -> str:
         text = file.read()
 
     text = text.replace(
-        "## What was the greatest technical challenge that your team faced and how did you overcome it?",
-        "## Based on your experiences with simple DNA manipulation in this lab and reflecting on the assigned article, answer the following questions:",
+        "## What was the greatest technical challenge that your team faced \
+and how did you overcome it?",
+        "## Based on your experiences with simple DNA manipulation in this \
+lab and reflecting on the assigned article, answer the following questions:",
     )
 
     a = text.split(
-        "## Based on your experiences with simple DNA manipulation in this lab and reflecting on the assigned article, answer the following questions:"
+        "## Based on your experiences with simple DNA manipulation in this \
+lab and reflecting on the assigned article, answer the following questions:"
     )
     return a[1]
 
 
-def get_file_names() -> [str]:
+def get_file_names(directory_name) -> [str]:
     """ Uses os library to find all markdown files in given directory """
-    fileList = []
-    directory = "cs100f2019_lab05_reflections"
-    for file in os.listdir(directory):
+    file_list = []
+    # "cs100f2019_lab05_reflections"
+    for file in os.listdir(directory_name):
         filename = os.fsdecode(file)
         if filename.endswith(".md") or filename.endswith("txt"):
-            fileList.append(os.path.join(directory, filename))
+            file_list.append(os.path.join(directory_name, filename))
         else:
             continue
 
-    return fileList
+    return file_list
 
 
 def summarizer():
-    fileNames = get_file_names()  # The directory is currently hardcoded
-    for file in fileNames:
+    file_names = get_file_names(
+        "cs100f2019_lab05_reflections"
+    )  # The directory is currently hardcoded
+    for file in file_names:
         text = summarize_text(get_text(file))
         print(f"{file}:\t{text}", end="\n-----------------\n")
+
+    return text
 
 
 if __name__ == "__main__":
