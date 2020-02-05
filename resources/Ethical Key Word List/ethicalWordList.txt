@@ -209,3 +209,8 @@ steals
 takes
 gives
 uncomfortable
+difficult
+harsh
+troublesome
+distressing
+hard
