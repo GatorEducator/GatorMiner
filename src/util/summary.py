@@ -1,6 +1,6 @@
-from gensim.summarization import summarize, keywords
-from pprint import pprint
+"""Text summary"""
 import os
+from gensim.summarization import summarize
 import commonmark
 
 
