@@ -60,8 +60,7 @@ def summarizer():
     return text
 
 
-def md_parser():
-    file = read_file("cs100f2019_lab05_reflections/reflection1.md")
+def md_parser(file):
     ast = commonmark.Parser().parse(file)
     md_dict = {}
     cur_heading = ""
@@ -70,10 +69,11 @@ def md_parser():
             md_dict[subnode.first_child.literal] = ""
             cur_heading = subnode.first_child.literal
         elif subnode.literal is not None and subnode.literal != cur_heading:
-            # continue
             md_dict[cur_heading] += subnode.literal
         else:
             continue
+
+    return md_dict
 
 
 if __name__ == "__main__":
