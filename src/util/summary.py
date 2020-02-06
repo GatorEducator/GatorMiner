@@ -65,63 +65,17 @@ def md_parser():
     # print(file)
     ast = commonmark.Parser().parse(file)
     rst = commonmark.ReStructuredTextRenderer().render(ast)
-    i = 0
     md_dict = {}
     cur_heading = ""
     for subnode, enter in ast.walker():
-        # print(subnode.__dict__)
         if subnode.t == "heading" and enter:
-            print("------------")
-            # print("heading")
-            print(subnode.first_child.literal)
-            # print(subnode.nxt.first_child.literal)
             md_dict[subnode.first_child.literal] = ""
             cur_heading = subnode.first_child.literal
-        elif enter and subnode.literal is not None and subnode.literal != cur_heading:
+        elif subnode.literal is not None and subnode.literal != cur_heading:
             # continue
-            print("!!!!!!!!!!!")
-            # print(subnode.__dict__)
-            # print(subnode.literal)
             md_dict[cur_heading] += subnode.literal
         else:
             continue
-
-    print(i)
-    print(md_dict)
-    # commonmark.dumpAST(ast)
-
-    json = commonmark.dumpJSON(ast)
-    # print(json)
-    # commonmark.dumpAST(ast)
-    # print(json)
-    """
-    document
-    heading
-    text
-    heading
-    paragraph
-    text
-    paragraph
-    heading
-    text
-    heading
-    paragraph
-    text
-    paragraph
-    heading
-    text
-    heading
-    paragraph
-    text
-    paragraph
-    heading
-    text
-    heading
-    paragraph
-    text
-    paragraph
-    document
-    """
 
 
 if __name__ == "__main__":
