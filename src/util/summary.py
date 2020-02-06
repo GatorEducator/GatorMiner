@@ -62,9 +62,7 @@ def summarizer():
 
 def md_parser():
     file = read_file("cs100f2019_lab05_reflections/reflection1.md")
-    # print(file)
     ast = commonmark.Parser().parse(file)
-    rst = commonmark.ReStructuredTextRenderer().render(ast)
     md_dict = {}
     cur_heading = ""
     for subnode, enter in ast.walker():
