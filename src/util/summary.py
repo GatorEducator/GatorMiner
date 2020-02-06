@@ -72,7 +72,7 @@ def md_parser(path_to_file):
             cur_heading = subnode.first_child.literal
         elif subnode.literal is not None and subnode.literal != cur_heading:
             # add related text to the header
-            md_dict[cur_heading] += subnode.literal
+            md_dict[cur_heading] += subnode.literal + " "
         else:
             continue
 
@@ -80,8 +80,8 @@ def md_parser(path_to_file):
 
 
 if __name__ == "__main__":
-    summarizer("test_resource")
-    # md_parser()
+    # summarizer("test_resource")
+    md_parser(read_file("test_resource/reflection1.md"))
 
 
 # TODO Look deeper into the summarize function and try using different argument
