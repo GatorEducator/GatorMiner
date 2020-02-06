@@ -36,7 +36,6 @@ def merge_dict(dict_1, dict_2):
     for key, value in new_dict.items():
         if key in dict_1 and key in dict_2:
             new_dict[key] = [value, dict_1[key]]
-
     return new_dict
 
 
@@ -53,10 +52,8 @@ def summarizer(directory):
 
     for key, values in main_md_dict.items():
         for item in values:
-            print(item)
             summarized[key].append(summarize_text(item))
 
-    # print(summarized)
     return summarized
 
 
@@ -80,8 +77,7 @@ def md_parser(path_to_file):
 
 
 if __name__ == "__main__":
-    # summarizer("test_resource")
-    md_parser(read_file("test_resource/reflection1.md"))
-
+    summarizer("test_resource")
+    # md_parser(read_file("test_resource/reflection1.md"))
 
 # TODO Look deeper into the summarize function and try using different argument
