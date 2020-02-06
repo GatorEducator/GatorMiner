@@ -16,13 +16,6 @@ def read_file(path: str):
         return data
 
 
-def get_text(fileName: str) -> str:
-    """ Returns selected passages from the file after given a file name """
-    with open(fileName, "r") as file:
-        text = file.read()
-    return a[1]
-
-
 def get_file_names(directory_name) -> [str]:
     """ Uses os library to find all markdown files in given directory """
     file_list = []
@@ -37,18 +30,54 @@ def get_file_names(directory_name) -> [str]:
     return file_list
 
 
+def merge_dict(dict_1, dict_2):
+    """Merge dictionaries and keep values of common keys in list"""
+    new_dict = {**dict_1, **dict_2}
+    for key, value in new_dict.items():
+        if key in dict_1 and key in dict_2:
+            new_dict[key] = [value, dict_1[key]]
+
+    return new_dict
+
+
 def summarizer(directory):
     file_names = get_file_names(directory)
+    main_md_dict = {}
     for file in file_names:
-        text = summarize_text(get_text(file))
-        print(f"{file}:\t{text}", end="\n-----------------\n")
+        individual_dict = md_parser(read_file(file))
+        main_md_dict = merge_dict(main_md_dict, individual_dict)
+    del main_md_dict["Reflection by"]
+    # print(
+    #     main_md_dict[
+    #         "What was the greatest technical challenge that your team faced and how did you overcome it?"
+    #     ]
+    # )
 
-    return text
+    summarized = {k: [] for k in main_md_dict.keys()}
+
+    # # for key, values in main_md_dict.items():
+    # for values in main_md_dict[
+    #     "What was the greatest technical challenge that your team faced and how did you overcome it?"
+    # ]:
+    #     # for item in values:
+    #     # print(summarized)
+    #     # print(values)
+    #     summarized[
+    #         "What was the greatest technical challenge that your team faced and how did you overcome it?"
+    #     ].append(summarize_text(values))
+
+    for key, values in main_md_dict.items():
+        for item in values:
+            print(item)
+            summarized[key].append(summarize_text(item))
+
+    print(summarized)
+    # return text
 
 
-def md_parser(file):
+def md_parser(path_to_file):
     """Parse a markdown file and return as dict of headers and paragraphs"""
-    ast = commonmark.Parser().parse(file)
+    ast = commonmark.Parser().parse(path_to_file)
     md_dict = {}
     cur_heading = ""
     for subnode, enter in ast.walker():
@@ -66,8 +95,8 @@ def md_parser(file):
 
 
 if __name__ == "__main__":
-    # summarizer()
-    md_parser()
+    # summarizer("test_resource")
+    # md_parser()
 
 
 # TODO Look deeper into the summarize function and try using different argument
