@@ -16,6 +16,7 @@ matplotlib = "*"
 scikit-learn = "*"
 pytest = "*"
 gensim = "*"
+commonmark = "*"
 
 [requires]
 python_version = "3.6"
