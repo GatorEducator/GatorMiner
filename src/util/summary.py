@@ -48,17 +48,15 @@ def summarizer(directory):
     del main_md_dict["Reflection by"]
     # initialize summarized dict with keys in sources
     summarized = {k: [] for k in main_md_dict.keys()}
-
     for key, values in main_md_dict.items():
         for item in values:
             summarized[key].append(summarize_text(item))
-
     return summarized
 
 
-def md_parser(path_to_file):
+def md_parser(input_md):
     """Parse a markdown file and return as dict of headers and paragraphs"""
-    ast = commonmark.Parser().parse(path_to_file)
+    ast = commonmark.Parser().parse(input_md)
     md_dict = {}
     cur_heading = ""
     for subnode, enter in ast.walker():
