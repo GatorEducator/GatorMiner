@@ -41,38 +41,23 @@ def merge_dict(dict_1, dict_2):
 
 
 def summarizer(directory):
+    """A summarizing pipeline"""
     file_names = get_file_names(directory)
     main_md_dict = {}
     for file in file_names:
         individual_dict = md_parser(read_file(file))
         main_md_dict = merge_dict(main_md_dict, individual_dict)
     del main_md_dict["Reflection by"]
-    # print(
-    #     main_md_dict[
-    #         "What was the greatest technical challenge that your team faced and how did you overcome it?"
-    #     ]
-    # )
 
     summarized = {k: [] for k in main_md_dict.keys()}
-
-    # # for key, values in main_md_dict.items():
-    # for values in main_md_dict[
-    #     "What was the greatest technical challenge that your team faced and how did you overcome it?"
-    # ]:
-    #     # for item in values:
-    #     # print(summarized)
-    #     # print(values)
-    #     summarized[
-    #         "What was the greatest technical challenge that your team faced and how did you overcome it?"
-    #     ].append(summarize_text(values))
 
     for key, values in main_md_dict.items():
         for item in values:
             print(item)
             summarized[key].append(summarize_text(item))
 
-    print(summarized)
-    # return text
+    # print(summarized)
+    return summarized
 
 
 def md_parser(path_to_file):
@@ -95,7 +80,7 @@ def md_parser(path_to_file):
 
 
 if __name__ == "__main__":
-    # summarizer("test_resource")
+    summarizer("test_resource")
     # md_parser()
 
 
