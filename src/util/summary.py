@@ -19,7 +19,6 @@ def read_file(path: str):
 def get_file_names(directory_name) -> [str]:
     """ Uses os library to find all markdown files in given directory """
     file_list = []
-    # "cs100f2019_lab05_reflections"
     for file in os.listdir(directory_name):
         filename = os.fsdecode(file)
         if filename.endswith(".md") or filename.endswith("txt"):
@@ -47,7 +46,7 @@ def summarizer(directory):
         individual_dict = md_parser(read_file(file))
         main_md_dict = merge_dict(main_md_dict, individual_dict)
     del main_md_dict["Reflection by"]
-
+    # initialize summarized dict with keys in sources
     summarized = {k: [] for k in main_md_dict.keys()}
 
     for key, values in main_md_dict.items():
