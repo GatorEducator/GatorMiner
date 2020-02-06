@@ -61,14 +61,17 @@ def summarizer():
 
 
 def md_parser(file):
+    """Parse a markdown file and return as dict of headers and paragraphs"""
     ast = commonmark.Parser().parse(file)
     md_dict = {}
     cur_heading = ""
     for subnode, enter in ast.walker():
         if subnode.t == "heading" and enter:
+            # set header as key name
             md_dict[subnode.first_child.literal] = ""
             cur_heading = subnode.first_child.literal
         elif subnode.literal is not None and subnode.literal != cur_heading:
+            # add related text to the header
             md_dict[cur_heading] += subnode.literal
         else:
             continue
