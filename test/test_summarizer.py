@@ -1,9 +1,9 @@
 """Test module for analyzer.py"""
-import pytest
 import src.util.summarizer as summarizer
 
 
 def test_summarize_text():
+    """Test that summarize text works"""
     input_text = "Some solutions that can be developed to avoid harm or fix \
 the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be \
@@ -18,6 +18,7 @@ it to a selective group of people."
 
 
 def test_merge_dict():
+    """Test that merge_dict returns a dict of key and value lists"""
     test_dict_1 = {"key1": "value1"}
     test_dict_2 = {"key1": "value2"}
     output = summarizer.merge_dict(test_dict_1, test_dict_2)
@@ -26,6 +27,7 @@ def test_merge_dict():
 
 
 def test_get_file_names(tmp_path):
+    """Test that get file names return a list of paths"""
     d = tmp_path / "sub"
     d.mkdir()
     p1 = d / "hello.md"
@@ -38,6 +40,8 @@ def test_get_file_names(tmp_path):
 
 
 def test_md_parser():
+    """Test that md parser produce the key value pair of heading and paragraphs
+    """
     text = "Some solutions that can be developed to \
 avoid harm or fix the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be done especially in \
@@ -52,6 +56,7 @@ system."
 
 
 def test_summarizer(tmp_path):
+    """Test that summarizer pipeline works"""
     d = tmp_path / "sub"
     d.mkdir()
     p1 = d / "hello.md"
