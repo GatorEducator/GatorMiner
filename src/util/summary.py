@@ -1,8 +1,10 @@
 """Text summary"""
 import os
 import logging
+from typing import Dict, List
 from gensim.summarization import summarize
 import commonmark
+
 
 logging.basicConfig(
     format="[%(asctime)s]{%(pathname)s:%(lineno)d}\n\
@@ -17,14 +19,14 @@ def summarize_text(text: str) -> str:
     return summarize(text, word_count=30)
 
 
-def read_file(path: str):
+def read_file(path: str) -> str:
     """ read file from path """
     with open(path) as input_file:
         data = input_file.read()
         return data
 
 
-def get_file_names(directory_name) -> [str]:
+def get_file_names(directory_name: str) -> List[str]:
     """ Uses os library to find all markdown files in given directory """
     file_list = []
     for file in os.listdir(directory_name):
@@ -37,7 +39,7 @@ def get_file_names(directory_name) -> [str]:
     return file_list
 
 
-def merge_dict(dict_1, dict_2):
+def merge_dict(dict_1: Dict[str, str], dict_2) -> Dict[str, List[str]]:
     """Merge dictionaries and keep values of common keys in list"""
     new_dict = {**dict_1, **dict_2}
     for key, value in new_dict.items():
@@ -46,7 +48,7 @@ def merge_dict(dict_1, dict_2):
     return new_dict
 
 
-def summarizer(directory):
+def summarizer(directory: str) -> Dict[str, List[str]]:
     """A summarizing pipeline"""
     file_names = get_file_names(directory)
     main_md_dict = {}
@@ -62,11 +64,10 @@ def summarizer(directory):
                 summarized[key].append(summarize_text(item))
             except ValueError as err:
                 logging.error(f"Cannot summarize text: {err}")
-                # , exc_info=True
     return summarized
 
 
-def md_parser(input_md):
+def md_parser(input_md: str) -> Dict[str, List[str]]:
     """Parse a markdown file and return as dict of headers and paragraphs"""
     ast = commonmark.Parser().parse(input_md)
     md_dict = {}
