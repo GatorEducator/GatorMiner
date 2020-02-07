@@ -16,6 +16,8 @@ matplotlib = "*"
 scikit-learn = "*"
 pytest = "*"
 requests = "*"
+gensim = "*"
+commonmark = "*"
 
 [pipenv]
 allow_prereleases = true
