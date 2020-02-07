@@ -4,7 +4,12 @@ import logging
 from gensim.summarization import summarize
 import commonmark
 
-logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(
+    format="[%(asctime)s]{%(pathname)s:%(lineno)d}\n\
+%(levelname)s: %(message)s",
+    datefmt="%Y-%m-%d:%H:%M:%S",
+    level=logging.ERROR,
+)
 
 
 def summarize_text(text: str) -> str:
@@ -55,8 +60,9 @@ def summarizer(directory):
         for item in values:
             try:
                 summarized[key].append(summarize_text(item))
-            except Exception as e:
-                logging.error("Exception occurred", exc_info=True)
+            except ValueError as err:
+                logging.error(f"Cannot summarize text: {err}")
+                # , exc_info=True
     return summarized
 
 
