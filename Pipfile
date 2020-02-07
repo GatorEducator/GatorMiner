@@ -17,6 +17,10 @@ sklearn = "*"
 pytest = "*"
 requests = "*"
 commonmark = "*"
+codecov = "*"
+
+[requires]
+python_version = ">=python 3.6"
 
 [pipenv]
 allow_prereleases = true
