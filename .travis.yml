@@ -12,7 +12,7 @@ notifications:
   email: never
 install:
   - pip install --upgrade pip
-  - pip install pipenv
+  - pip install pipenv --upgrade
   - pipenv install --dev --three
   - pipenv run python -m spacy download en_core_web_sm
 
