@@ -14,6 +14,9 @@ matplotlib = "*"
 gensim = '*'
 spacy = '*'
 sklearn = "*"
+pytest = "*"
+requests = "*"
+commonmark = "*"
 
 [pipenv]
 allow_prereleases = true
