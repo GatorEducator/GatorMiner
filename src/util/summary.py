@@ -1,7 +1,10 @@
 """Text summary"""
 import os
+import logging
 from gensim.summarization import summarize
 import commonmark
+
+logging.basicConfig(level=logging.ERROR)
 
 
 def summarize_text(text: str) -> str:
@@ -50,7 +53,10 @@ def summarizer(directory):
     summarized = {k: [] for k in main_md_dict.keys()}
     for key, values in main_md_dict.items():
         for item in values:
-            summarized[key].append(summarize_text(item))
+            try:
+                summarized[key].append(summarize_text(item))
+            except Exception as e:
+                logging.error("Exception occurred", exc_info=True)
     return summarized
 
 
