@@ -5,19 +5,22 @@ verify_ssl = true
 
 [dev-packages]
 black = "*"
-codecov = "*"
 flake8 = "*"
 pytest = "*"
 pytest-cov = "*"
 
 [packages]
-nltk = "*"
 matplotlib = "*"
-scikit-learn = "*"
+gensim = '*'
+spacy = '*'
+sklearn = "*"
 pytest = "*"
 requests = "*"
-gensim = "*"
 commonmark = "*"
+codecov = "*"
+
+[requires]
+python_version = ">=python 3.6"
 
 [pipenv]
 allow_prereleases = true
