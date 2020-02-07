@@ -2,25 +2,26 @@ language: python
 python:
     - "3.8"
 
-cache:
-  directories:
-  - "$HOME/.pip-cache/"
-
 env:
   global:
   - PIPENV_VENV_IN_PROJECT=1
   - PIPENV_IGNORE_VIRTUALENVS=1
   - CODECOV_TOKEN="59a0baf8-461c-4d50-b6d3-ad40bed4ae21"
 
-before_install:
-  - pip install pipenv
 notifications:
   email: never
 install:
-  - pipenv install --dev
+  - pip install --upgrade pip
+  - pip install pipenv
+  - pipenv install --dev --three
   - pipenv run python -m spacy download en_core_web_sm
+
+# use a cache to improve performance
+cache: pip
+
 script:
   - pipenv run pytest test --cov-config pytest.cov --cov
   - pipenv run flake8 src/util
+  - pipenv run flake8 test
 after_success:
   - pipenv run codecov
