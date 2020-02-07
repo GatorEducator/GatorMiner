@@ -15,6 +15,7 @@ nltk = "*"
 matplotlib = "*"
 scikit-learn = "*"
 pytest = "*"
+requests = "*"
 gensim = "*"
 commonmark = "*"
 
