@@ -84,10 +84,3 @@ def md_parser(input_md: str) -> Dict[str, List[str]]:
             continue
 
     return md_dict
-
-
-if __name__ == "__main__":
-    summarizer("test_resource")
-    # md_parser(read_file("test_resource/reflection1.md"))
-
-# TODO Look deeper into the summarize function and try using different argument
