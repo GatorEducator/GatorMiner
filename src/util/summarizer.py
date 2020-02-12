@@ -56,6 +56,7 @@ def merge_data(directory: str) -> Dict[str, List[str]]:
     main_md_dict = None
     for file in file_names:
         individual_dict = md_parser(read_file(file))
+        main_md_dict = merge_dict(main_md_dict, individual_dict)
     return main_md_dict
 
 
