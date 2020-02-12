@@ -1,6 +1,7 @@
 """Text summary"""
 import os
 import logging
+import pprint
 from typing import Dict, List
 from gensim.summarization import summarize
 import commonmark
@@ -39,23 +40,28 @@ def get_file_names(directory_name: str) -> List[str]:
     return file_list
 
 
-def merge_dict(dict_1: Dict[str, str], dict_2) -> Dict[str, List[str]]:
+def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
     """Merge dictionaries and keep values of common keys in list"""
-    new_dict = {**dict_1, **dict_2}
-    for key, value in new_dict.items():
-        if key in dict_1 and key in dict_2:
-            new_dict[key] = [value, dict_1[key]]
-    return new_dict
+    if dict_1 is None:
+        dict_1 = {k: [] for k in dict_2.keys()}
+    for key, value in dict_2.items():
+        dict_1[key].append(value)
+
+    return dict_1
+
+
+def merge_data(directory: str) -> Dict[str, List[str]]:
+    """A pipeline to collect all the md files in a directory"""
+    file_names = get_file_names(directory)
+    main_md_dict = None
+    for file in file_names:
+        individual_dict = md_parser(read_file(file))
+    return main_md_dict
 
 
 def summarizer(directory: str) -> Dict[str, List[str]]:
     """A summarizing pipeline"""
-    file_names = get_file_names(directory)
-    main_md_dict = {}
-    for file in file_names:
-        individual_dict = md_parser(read_file(file))
-        main_md_dict = merge_dict(main_md_dict, individual_dict)
-    del main_md_dict["Reflection by"]
+    main_md_dict = merge_data(directory)
     # initialize summarized dict with keys in sources
     summarized = {k: [] for k in main_md_dict.keys()}
     for key, values in main_md_dict.items():
