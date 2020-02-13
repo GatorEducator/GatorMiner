@@ -15,7 +15,7 @@ logging.basicConfig(
 
 
 def summarize_text(text: str) -> str:
-    """ Uses genim's summarization to summarize the given text """
+    """Uses gensim's summarization to summarize the given text """
     return summarize(text, word_count=30)
 
 
