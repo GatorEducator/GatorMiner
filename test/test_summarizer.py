@@ -55,7 +55,7 @@ system."
     assert expected == output
 
 
-def test_summarizer(tmp_path):
+def test_summarizer_with_two_inputs(tmp_path):
     """Test that summarizer pipeline works"""
     d = tmp_path / "sub"
     d.mkdir()
