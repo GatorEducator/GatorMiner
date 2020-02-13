@@ -1,5 +1,4 @@
 """Text summary"""
-import os
 import logging
 from typing import Dict, List
 from gensim.summarization import summarize
