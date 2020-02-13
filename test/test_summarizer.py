@@ -22,7 +22,7 @@ def test_merge_dict():
     test_dict_1 = {"key1": "value1"}
     test_dict_2 = {"key1": "value2"}
     output = summarizer.merge_dict(test_dict_1, test_dict_2)
-    expected = {"key1": ["value2", "value1"]}
+    expected = {"key1": ["value1", "value2"]}
     assert expected == output
 
 
