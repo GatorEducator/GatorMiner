@@ -3,7 +3,7 @@ import os
 import logging
 from typing import Dict, List
 from gensim.summarization import summarize
-from src.util.markdown import merge_data
+from markdown import merge_data
 
 
 logging.basicConfig(
