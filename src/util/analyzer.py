@@ -4,7 +4,7 @@ import re
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from markdown import read_file
+from markdown import read_file, get_file_names
 
 PARSER = spacy.load("en_core_web_sm")
 
@@ -41,6 +41,16 @@ def word_frequency(filename: str) -> List[str]:
     """A pipeline to normalize, tokenize, and
     find word frequency of raw input file"""
     return compute_frequency(tokenize(normalize(read_file(filename))))
+
+
+def dir_frequency(dirname: str) -> List[str]:
+    """A pipeline to normalize, tokenize, and
+    find word frequency of a directory of raw input file"""
+    file_list = get_file_names(dirname)
+    doc_list = []
+    for file in file_list:
+        doc_list.append(read_file(file))
+    return compute_frequency(tokenize(normalize("".join(doc_list))))
 
 
 def sentence_tokenize(input_text):
@@ -99,11 +109,3 @@ def noun_phrase(input_text):
     for chunk in doc.noun_chunks:
         n_phrase_lst.append(chunk)
     return n_phrase_lst
-
-
-if __name__ == "__main__":
-    print(
-        compute_frequency(
-            tokenize(normalize(read_file("test_resource/reflection1.md")))
-        )
-    )
