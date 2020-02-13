@@ -69,7 +69,7 @@ def part_of_speech(input_text):
     doc = PARSER(input_text)
     pos_lst = []
     for word in doc:
-        pos_lst.append(word.text, word.pos_)
+        pos_lst.append((word.text, word.pos_))
     return pos_lst
 
 
@@ -95,11 +95,14 @@ def named_entity_recognization(input_text):
     """identifies important elements like places, people, organizations, and
     languages within an input string of text"""
     doc = PARSER(input_text)
+    ent_lst = []
     for entity in doc.ents:
         print(entity, entity.label_)
-    spacy.displacy.serve(doc, style="ent")
+        ent_lst.append((str(entity), entity.label_))
+    # spacy.displacy.serve(doc, style="ent")
     # display in jupyter notebook
     # displacy.render(about_interest_doc, style='dep', jupyter=True)
+    return ent_lst
 
 
 def noun_phrase(input_text):
@@ -107,5 +110,5 @@ def noun_phrase(input_text):
     doc = PARSER(input_text)
     n_phrase_lst = []
     for chunk in doc.noun_chunks:
-        n_phrase_lst.append(chunk)
+        n_phrase_lst.append(str(chunk))
     return n_phrase_lst
