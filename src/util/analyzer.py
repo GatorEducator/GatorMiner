@@ -50,7 +50,7 @@ def dir_frequency(dirname: str) -> List[Tuple[str, int]]:
     doc_list = []
     for file in file_list:
         doc_list.append(read_file(file))
-    return compute_frequency(tokenize(normalize("".join(doc_list))))
+    return compute_frequency(tokenize(normalize(" ".join(doc_list))))
 
 
 def sentence_tokenize(input_text):
