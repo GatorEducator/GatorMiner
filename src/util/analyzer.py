@@ -4,13 +4,14 @@ import re
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from markdown import read_file
 
 PARSER = spacy.load("en_core_web_sm")
 
 # TODO: implement a pipeline to clean text
 
 
-def normalize(data: str) -> List[str]:
+def normalize(data: str) -> str:
     """Remove numbers, single characters, to lowercase"""
     data = data.lower()
     normalized_data = re.sub(r"\b[a-zA-Z]\b|\b[0-9]+\b", "", data)
@@ -94,3 +95,7 @@ def noun_phrase(input_text):
     for chunk in doc.noun_chunks:
         n_phrase_lst.append(chunk)
     return n_phrase_lst
+
+
+if __name__ == "__main__":
+    print(type(normalize(read_file("test_resource/reflection1.md"))))
