@@ -44,6 +44,8 @@ def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
     """Merge dictionaries and keep values of common keys in list"""
     if dict_1 is None:
         dict_1 = {k: [] for k in dict_2.keys()}
+    elif isinstance(list(dict_1.values())[0], list) is False:
+        dict_1 = {k: [v] for k, v in dict_1.items()}
     for key, value in dict_2.items():
         dict_1[key].append(value)
 
@@ -63,6 +65,7 @@ def merge_data(directory: str) -> Dict[str, List[str]]:
 def summarizer(directory: str) -> Dict[str, List[str]]:
     """A summarizing pipeline"""
     main_md_dict = merge_data(directory)
+    del main_md_dict["Reflection by"]
     # initialize summarized dict with keys in sources
     summarized = {k: [] for k in main_md_dict.keys()}
     for key, values in main_md_dict.items():
