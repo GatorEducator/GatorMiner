@@ -10,13 +10,6 @@ PARSER = spacy.load("en_core_web_sm")
 # TODO: implement a pipeline to clean text
 
 
-def read_file(path: str):
-    """ read file from path """
-    with open(path) as input_file:
-        data = input_file.read()
-        return data
-
-
 def normalize(data: str) -> List[str]:
     """Remove numbers, single characters, to lowercase"""
     data = data.lower()
