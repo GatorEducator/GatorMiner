@@ -39,7 +39,7 @@ system."
     assert expected == output
 
 
-def test_merge_data_with_two_inputs(tmp_path):
+def test_collect_md_with_two_inputs(tmp_path):
     """Test that md pipeline works"""
     d = tmp_path / "sub"
     d.mkdir()
@@ -58,11 +58,11 @@ system."
         "header1": [text + " ", text + " "],
         "header2": [text + " ", text + " "],
     }
-    output = md.merge_data(d)
+    output = md.collect_md(d)
     assert expected == output
 
 
-def test_merge_data_with_three_inputs(tmp_path):
+def test_collect_md_with_three_inputs(tmp_path):
     """Test that md pipeline works"""
     d = tmp_path / "sub"
     d.mkdir()
@@ -83,5 +83,5 @@ system."
         "header1": [text + " ", text + " ", text + " "],
         "header2": [text + " ", text + " ", text + " "],
     }
-    output = md.merge_data(d)
+    output = md.collect_md(d)
     assert expected == output

@@ -48,7 +48,7 @@ def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
     return dict_1
 
 
-def merge_data(directory: str) -> Dict[str, List[str]]:
+def collect_md(directory: str) -> Dict[str, List[str]]:
     """A pipeline to collect all the md files in a directory to a dict"""
     file_names = get_file_names(directory)
     main_md_dict = None
