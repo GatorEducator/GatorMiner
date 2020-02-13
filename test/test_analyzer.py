@@ -53,3 +53,66 @@ def test_normalize(input_text, expected):
     """parametrize test normalize"""
     output = analyzer.normalize(input_text)
     assert output == expected
+
+
+def test_compute_frequency():
+    token_lst = ["hello", "hello", "hello"]
+    output = analyzer.compute_frequency(token_lst)
+    assert output == [("hello", 3)]
+
+
+def test_word_frequency(tmp_path):
+    d = tmp_path / "sub"
+    d.mkdir()
+    p1 = d / "hello_world.md"
+    text = "hello world hello world hello world"
+    p1.write_text(text)
+    output = analyzer.word_frequency(p1)
+    expected = [("hello", 3), ("world", 3)]
+    assert expected == output
+
+
+def test_dir_frequency(tmp_path):
+    d = tmp_path / "sub"
+    d.mkdir()
+    p1 = d / "hello.md"
+    p2 = d / "world.md"
+    text = "hello world hello world hello world"
+    p1.write_text(text)
+    p2.write_text(text)
+    output = analyzer.dir_frequency(d)
+    expected = [("hello", 6), ("world", 6)]
+    assert expected == output
+
+
+def test_part_of_speech():
+    text = "The greatest technical challenge that I faced \
+was getting the program to run"
+    output = analyzer.part_of_speech(text)
+    assert output == [
+        ("The", "DET"),
+        ("greatest", "ADJ"),
+        ("technical", "ADJ"),
+        ("challenge", "NOUN"),
+        ("that", "DET"),
+        ("I", "PRON"),
+        ("faced", "VERB"),
+        ("was", "AUX"),
+        ("getting", "VERB"),
+        ("the", "DET"),
+        ("program", "NOUN"),
+        ("to", "PART"),
+        ("run", "VERB"),
+    ]
+
+
+def test_named_entity_recognization():
+    text = "Apple is looking at buying U.K. startup for $1 billion"
+    output = analyzer.named_entity_recognization(text)
+    assert output == [("Apple", "ORG"), ("U.K.", "GPE"), ("$1 billion", "MONEY")]
+
+
+def test_noun_phrase():
+    text = "Apple is looking at buying U.K. startup for $1 billion"
+    output = analyzer.noun_phrase(text)
+    assert output == ["Apple", "U.K. startup"]
