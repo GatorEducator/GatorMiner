@@ -40,7 +40,7 @@ def get_file_names(directory_name: str) -> List[str]:
 
 
 def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
-    """Merge dictionaries and keep values of common keys in list"""
+    """Merge two dictionaries and store values of common keys in list"""
     if dict_1 is None:
         dict_1 = {k: [] for k in dict_2.keys()}
     elif isinstance(list(dict_1.values())[0], list) is False:
@@ -55,7 +55,7 @@ def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
 
 
 def merge_data(directory: str) -> Dict[str, List[str]]:
-    """A pipeline to collect all the md files in a directory"""
+    """A pipeline to collect all the md files in a directory to a dict"""
     file_names = get_file_names(directory)
     main_md_dict = None
     for file in file_names:
