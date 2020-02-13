@@ -1,7 +1,6 @@
 """Text summary"""
 import os
 import logging
-import pprint
 from typing import Dict, List
 from gensim.summarization import summarize
 import commonmark
