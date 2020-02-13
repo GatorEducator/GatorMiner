@@ -11,7 +11,7 @@ logging.basicConfig(
     format="[%(asctime)s]{%(pathname)s:%(lineno)d}\n\
 %(levelname)s: %(message)s",
     datefmt="%Y-%m-%d:%H:%M:%S",
-    level=logging.ERROR,
+    level=logging.WARNING,
 )
 
 
@@ -47,7 +47,10 @@ def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
     elif isinstance(list(dict_1.values())[0], list) is False:
         dict_1 = {k: [v] for k, v in dict_1.items()}
     for key, value in dict_2.items():
-        dict_1[key].append(value)
+        try:
+            dict_1[key].append(value)
+        except KeyError as err:
+            logging.warning(f"Key does not exist: {err}")
 
     return dict_1
 
@@ -73,7 +76,7 @@ def summarizer(directory: str) -> Dict[str, List[str]]:
             try:
                 summarized[key].append(summarize_text(item))
             except ValueError as err:
-                logging.error(f"Cannot summarize text: {err}")
+                logging.warning(f"Cannot summarize text: {err}")
     return summarized
 
 
