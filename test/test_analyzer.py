@@ -56,12 +56,14 @@ def test_normalize(input_text, expected):
 
 
 def test_compute_frequency():
+    """Test if it return correct frequency result"""
     token_lst = ["hello", "hello", "hello"]
     output = analyzer.compute_frequency(token_lst)
     assert output == [("hello", 3)]
 
 
 def test_word_frequency(tmp_path):
+    """Test if it return correct frequency result from a file"""
     d = tmp_path / "sub"
     d.mkdir()
     p1 = d / "hello_world.md"
@@ -73,6 +75,7 @@ def test_word_frequency(tmp_path):
 
 
 def test_dir_frequency(tmp_path):
+    """Test if it return correct frequency result from a directory"""
     d = tmp_path / "sub"
     d.mkdir()
     p1 = d / "hello.md"
@@ -86,6 +89,7 @@ def test_dir_frequency(tmp_path):
 
 
 def test_part_of_speech():
+    """Test if it return correct part of speech information"""
     text = "The greatest technical challenge that I faced \
 was getting the program to run"
     output = analyzer.part_of_speech(text)
@@ -107,6 +111,7 @@ was getting the program to run"
 
 
 def test_named_entity_recognization():
+    """Test if it return correct noun phrases"""
     text = "Apple is looking at buying U.K. startup for $1 billion"
     output = analyzer.named_entity_recognization(text)
     assert output == [
