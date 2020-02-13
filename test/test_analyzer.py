@@ -109,7 +109,11 @@ was getting the program to run"
 def test_named_entity_recognization():
     text = "Apple is looking at buying U.K. startup for $1 billion"
     output = analyzer.named_entity_recognization(text)
-    assert output == [("Apple", "ORG"), ("U.K.", "GPE"), ("$1 billion", "MONEY")]
+    assert output == [
+        ("Apple", "ORG"),
+        ("U.K.", "GPE"),
+        ("$1 billion", "MONEY"),
+    ]
 
 
 def test_noun_phrase():
