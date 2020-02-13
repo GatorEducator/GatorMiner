@@ -77,7 +77,7 @@ def summarizer(directory: str) -> Dict[str, List[str]]:
     return summarized
 
 
-def md_parser(input_md: str) -> Dict[str, List[str]]:
+def md_parser(input_md: str) -> Dict[str, str]:
     """Parse a markdown file and return as dict of headers and paragraphs"""
     ast = commonmark.Parser().parse(input_md)
     md_dict = {}
