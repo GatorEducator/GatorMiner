@@ -18,6 +18,31 @@ def normalize(data: str) -> str:
     return normalized_data
 
 
+def tokenize(normalized_text: str) -> List[str]:
+    """break down text into a list of lemmatized tokens"""
+    tokens = PARSER(normalized_text)
+    # lemmatize tokens
+    tokens = [
+        word.lemma_.strip()
+        for word in tokens
+        if word.lemma_ != "-PRON-" and word.is_stop is False
+    ]
+    tokens = [word for word in tokens if len(word) > 1]
+    return tokens
+
+
+def compute_frequency(token_lst: List[str]) -> List[Tuple[str, int]]:
+    """Compute word frequency from a list of tokens"""
+    word_freq = Counter(token_lst)
+    return word_freq.most_common(50)
+
+
+def word_frequency(filename: str) -> List[str]:
+    """A pipeline to normalize, tokenize, and
+    find word frequency of raw input file"""
+    return compute_frequency(tokenize(normalize(read_file(filename))))
+
+
 def sentence_tokenize(input_text):
     """tokenize paragraph to a list of sentences"""
     sent_lst = []
@@ -38,20 +63,6 @@ def part_of_speech(input_text):
     return pos_lst
 
 
-def tokenize(raw_text: str) -> List[str]:
-    """break down text into a list of lemmatized tokens"""
-    text = normalize(raw_text)
-    tokens = PARSER(text)
-    # lemmatize tokens
-    tokens = [
-        word.lemma_.strip()
-        for word in tokens
-        if word.lemma_ != "-PRON-" and word.is_stop is False
-    ]
-    tokens = [word for word in tokens if len(word) > 1]
-    return tokens
-
-
 def compute_tfidf(data: List[str]) -> None:
     """Compute the TFIDF"""
     tfidf_vectorizer = TfidfVectorizer()
@@ -68,13 +79,6 @@ def compute_count_vectorize(data):
     count_vectorizer = CountVectorizer()
     count = count_vectorizer.fit_transform(data)
     return count, count_vectorizer
-
-
-def compute_frequency(input_raw: str) -> List[Tuple[str, int]]:
-    """Compute word frequency"""
-    words = tokenize(input_raw)
-    word_freq = Counter(words)
-    return word_freq.most_common(50)
 
 
 def named_entity_recognization(input_text):
@@ -98,4 +102,8 @@ def noun_phrase(input_text):
 
 
 if __name__ == "__main__":
-    print(type(normalize(read_file("test_resource/reflection1.md"))))
+    print(
+        compute_frequency(
+            tokenize(normalize(read_file("test_resource/reflection1.md")))
+        )
+    )
