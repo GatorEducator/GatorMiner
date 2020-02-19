@@ -18,6 +18,12 @@ def parse(args):
         type=str,
         help="Directory with mardown documents to analyze",
     )
+    parser.add_argument(
+        "--function",
+        required=False,
+        type=str,
+        help="Function to analyze (frequency/summary)",
+    )
 
     # parse the arguments and return the finished result
     arguments_finished = parser.parse_args(args)
