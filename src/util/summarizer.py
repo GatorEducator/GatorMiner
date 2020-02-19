@@ -2,7 +2,7 @@
 import logging
 from typing import Dict, List
 from gensim.summarization import summarize
-from markdown import collect_md
+from . import markdown as md
 
 
 logging.basicConfig(
@@ -20,7 +20,7 @@ def summarize_text(text: str) -> str:
 
 def summarizer(directory: str) -> Dict[str, List[str]]:
     """A summarizing pipeline"""
-    main_md_dict = collect_md(directory)
+    main_md_dict = md.collect_md(directory)
     del main_md_dict["Reflection by"]
     # initialize summarized dict with keys in sources
     summarized = {k: [] for k in main_md_dict.keys()}
