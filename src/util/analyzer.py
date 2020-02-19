@@ -8,8 +8,6 @@ from . import markdown as md
 
 PARSER = spacy.load("en_core_web_sm")
 
-# TODO: implement a pipeline to clean text
-
 
 def normalize(data: str) -> str:
     """Remove numbers, single characters, to lowercase"""
