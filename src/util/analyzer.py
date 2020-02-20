@@ -4,11 +4,9 @@ import re
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from markdown import read_file, get_file_names
+from . import markdown as md
 
 PARSER = spacy.load("en_core_web_sm")
-
-# TODO: implement a pipeline to clean text
 
 
 def normalize(data: str) -> str:
@@ -40,16 +38,16 @@ def compute_frequency(token_lst: List[str]) -> List[Tuple[str, int]]:
 def word_frequency(filename: str) -> List[Tuple[str, int]]:
     """A pipeline to normalize, tokenize, and
     find word frequency of raw input file"""
-    return compute_frequency(tokenize(normalize(read_file(filename))))
+    return compute_frequency(tokenize(normalize(md.read_file(filename))))
 
 
 def dir_frequency(dirname: str) -> List[Tuple[str, int]]:
     """A pipeline to normalize, tokenize, and
     find word frequency of a directory of raw input file"""
-    file_list = get_file_names(dirname)
+    file_list = md.get_file_names(dirname)
     doc_list = []
     for file in file_list:
-        doc_list.append(read_file(file))
+        doc_list.append(md.read_file(file))
     return compute_frequency(tokenize(normalize(" ".join(doc_list))))
 
 
