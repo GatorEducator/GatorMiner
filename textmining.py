@@ -1,8 +1,6 @@
 """Entry point"""
 import sys
 
-# from analyzer import normalize, read_file, word_freq, compute_TfIDF
-# import summarizer as summarize
 from src.util import analyzer as az
 from src.util import summarizer as sz
 from src.util import arguments
