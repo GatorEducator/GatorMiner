@@ -7,7 +7,7 @@ survey based on Natural language processing in the Department of Computer Scienc
 at Allegheny College.
 
 
-### Commands
+## Commands
 
 This program uses [Pipenv](https://github.com/pypa/pipenv) for installation.
 
@@ -38,17 +38,6 @@ This program uses [Pipenv](https://github.com/pypa/pipenv) for installation.
   [('editing', 213), ('genome', 202), ('technology', 181), ('dna', 135), ('string', 107), ('random', 96), ('harm', 93), ('use', 89), ('code', 86), ('program', 81), ('lab', 76), ('assignment', 74), ('complete', 66), ('cause', 64), ('practice', 63), ('experience', 62), ('learn', 59), ('task', 59), ('letter', 58), ('challenge', 52), ('method', 51), ('make', 51), ('want', 50), ('value', 49), ('like', 48), ('run', 47), ('team', 47), ('character', 46), ('technical', 44), ('people', 44), ('position', 44), ('great', 43), ('change', 42), ('user', 40), ('face', 39), ('add', 38), ('replace', 38), ('think', 37), ('way', 37), ('java', 37), ('new', 37), ('class', 36), ('gene', 35), ('command', 35), ('display', 34), ('solution', 34), ('avoid', 33), ('overcome', 32), ('output', 31), ('work', 31)]
 
   ```
-
-
-### Planning steps
-
-- [ ] Make sample reflection input files for testing
-- [ ] Implement frequency analysis program in Python3
-  - [ ] For each reflection document, calculate the number of occurrences of specific keywords
-  - [ ] Produce a summary of these frequencies of these words across all reflection input files
-  - [ ] Generate plots of results
-- [ ] Research Python3 nltk (Natural Language Toolkit) libraries
-
 
 ## Five Questions
 - Who made the technology?
