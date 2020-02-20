@@ -1,5 +1,0 @@
-Text Mining Website Summary
-The focus of the textmining group is create a program suitable for reading, tracking,
-and organizing the reflection responses from the students in order to demonstrate that the concept
-of ethics in computer science is being comprehended and taught effectively. In order to achieve this, the
-students used python to 
