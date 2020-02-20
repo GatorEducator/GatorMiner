@@ -20,8 +20,8 @@ install:
 cache: pip
 
 script:
-  - pipenv run pytest test --cov-config pytest.cov --cov
+  - pipenv run pytest tests --cov-config pytest.cov --cov
   - pipenv run flake8 src/util
-  - pipenv run flake8 test
+  - pipenv run flake8 tests
 after_success:
   - pipenv run codecov
