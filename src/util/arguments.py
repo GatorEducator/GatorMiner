@@ -8,7 +8,7 @@ def parse(args):
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         epilog="""Sample usage: python3 textmining.py --directory
-            /Users/myname/projectdirectory""",
+            /path/to/markdown_directory --function frequency""",
     )
 
     # add all of the arguments to the command-line interface
