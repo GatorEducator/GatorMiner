@@ -11,5 +11,5 @@ if __name__ == "__main__":
     function = tm_arguments.function
     if function == "frequency":
         print(az.dir_frequency(directory))
-    elif function == "summarize":
+    elif function == "summary":
         print(sz.summarizer(directory))
