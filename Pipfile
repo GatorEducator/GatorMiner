@@ -18,6 +18,7 @@ pytest = "*"
 requests = "*"
 commonmark = "*"
 codecov = "*"
+pandas = "*"
 
 [requires]
 python_version = ">=python 3.6"
