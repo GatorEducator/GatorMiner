@@ -1,6 +1,6 @@
 """Test module for analyzer.py"""
 import pytest
-import src.util.analyzer as analyzer
+import src.analyzer as analyzer
 
 
 def test_tokenize():
@@ -46,6 +46,7 @@ def test_tokenize_parametrize(input_text, expected):
             "A second sentence was more of a test because we need more tests",
             " second sentence was more of  test because we need more tests",
         ),
+        ("... ! @ # $ *** ##", "      ",),
     ],
 )
 # pylint: disable=W0613
