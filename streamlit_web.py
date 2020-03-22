@@ -39,9 +39,12 @@ def frequency():
         st.sidebar.success(
             'To continue see individual frequency analysis select "Individual"'
         )
+        st.header("Overall most frequent words in the directory")
         overall_freq(freq_range)
     elif freq_type == "Student":
+        st.header("Most frequent words by individual students")
         individual_student_freq(freq_range)
+        st.header("Most frequent words in individual questions")
     elif freq_type == "Question":
         individual_question_freq(freq_range)
 
