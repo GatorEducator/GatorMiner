@@ -8,7 +8,7 @@ import markdown as md
 
 from typing import List, Tuple
 
-directory = "resources/test"
+directory = "resources/cs100f2019_lab05_reflections"
 
 
 def main():
@@ -53,11 +53,12 @@ def overall_freq(freq_range):
 
 
 def individual_student_freq(freq_range):
-    df = pd.DataFrame(md.collect_md(directory))
-    st.write(df)
-    students = st.multiselect(
-        label="Select specific students below:", options=df["Reflection by"]
-    )
+    st.write(md.collect_md(directory))
+    # df = pd.DataFrame(md.collect_md(directory))
+    # st.write(df)
+    # students = st.multiselect(
+    #     label="Select specific students below:", options=df["Reflection by"]
+    # )
 
 
 def individual_question_freq(freq_range):

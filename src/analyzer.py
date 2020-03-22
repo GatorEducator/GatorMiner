@@ -1,6 +1,7 @@
 """Where NLP modules should be in"""
 from collections import Counter
 import re
+import string
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
@@ -13,6 +14,7 @@ def normalize(data: str) -> str:
     """Remove numbers, single characters, to lowercase"""
     data = data.lower()
     normalized_data = re.sub(r"\b[a-zA-Z]\b|\b[0-9]+\b", "", data)
+    normalized_data = "".join(c for c in normalized_data if c not in string.punctuation)
     return normalized_data
 
 
