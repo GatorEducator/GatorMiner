@@ -6,6 +6,8 @@ import altair as alt
 import analyzer as az
 import markdown as md
 
+from typing import List, Tuple
+
 directory = "resources/test"
 
 
@@ -29,15 +31,17 @@ def main():
 
 def frequency():
     freq_type = st.sidebar.selectbox(
-        "Type of frequency analysis", ["Overall", "Individual"]
+        "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
     if freq_type == "Overall":
         st.sidebar.success(
             'To continue see individual frequency analysis select "Individual"'
         )
         overall_freq()
-    elif freq_type == "Individual":
-        individual_freq()
+    elif freq_type == "Student":
+        individual_student_freq()
+    elif freq_type == "Question":
+        individual_question_freq()
 
 
 def overall_freq():
@@ -65,12 +69,44 @@ def overall_freq():
     st.altair_chart(freq_plot)
 
 
-def individual_freq():
+def individual_student_freq():
     df = pd.DataFrame(md.collect_md(directory))
     st.write(df)
     students = st.multiselect(
-        label="Enter the names of specific students below:", options=df["Reflection by"]
+        label="Select specific students below:", options=df["Reflection by"]
     )
+
+
+def individual_question_freq():
+    df = pd.DataFrame(md.collect_md(directory))
+    st.write(df)
+    questions = st.multiselect(
+        label="Select specific questions below:", options=df.columns[1:]
+    )
+    select_text = ""
+    for column in questions:
+        select_text += df[column].to_string(index=False)
+    st.write(plot_frequency(az.word_frequency(select_text)))
+
+
+def plot_frequency(data: List[Tuple[str, int]]):
+    freq_df = pd.DataFrame(data, columns=["word", "freq"])
+    st.write(freq_df)
+
+    freq_plot = (
+        alt.Chart(freq_df)
+        .mark_bar()
+        .encode(
+            alt.Y("word", title="words", sort="-x"),
+            alt.X("freq", title="frequencies"),
+            tooltip=[alt.Tooltip("freq", title="frequency")],
+            opacity=alt.value(0.7),
+            color=alt.value("blue"),
+        )
+    )
+
+    # st.bar_chart(freq_df)
+    st.altair_chart(freq_plot)
 
 
 if __name__ == "__main__":
