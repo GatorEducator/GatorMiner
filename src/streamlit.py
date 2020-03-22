@@ -21,17 +21,26 @@ def main():
         with open("README.md") as readme_file:
             st.markdown(readme_file.read())
     if analysis_mode == "Frequency Analysis":
-        st.sidebar.success("To continue")
         st.title("Frequency Analysis")
         frequency()
     elif analysis_mode == "Sentiment Analysis":
-        st.sidebar.success("To continue")
         st.title("Sentiment Analysis")
 
 
 def frequency():
-    df = pd.DataFrame(md.collect_md(directory))
-    # st.write(az.dir_frequency(directory))
+    freq_type = st.sidebar.selectbox(
+        "Type of frequency analysis", ["Overall", "Individual"]
+    )
+    if freq_type == "Overall":
+        st.sidebar.success(
+            'To continue see individual frequency analysis select "Individual"'
+        )
+        overall_freq()
+    elif freq_type == "Individual":
+        individual_freq()
+
+
+def overall_freq():
     freq_amount = st.sidebar.slider(
         "Select a range of Most frequent words?", 0, 50, value=25
     )
@@ -54,6 +63,14 @@ def frequency():
 
     # st.bar_chart(freq_df)
     st.altair_chart(freq_plot)
+
+
+def individual_freq():
+    df = pd.DataFrame(md.collect_md(directory))
+    st.write(df)
+    students = st.multiselect(
+        label="Enter the names of specific students below:", options=df["Reflection by"]
+    )
 
 
 if __name__ == "__main__":
