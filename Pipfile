@@ -19,6 +19,7 @@ requests = "*"
 commonmark = "*"
 codecov = "*"
 streamlit = "*"
+altair = "*"
 
 [requires]
 python_version = ">=python 3.6"
