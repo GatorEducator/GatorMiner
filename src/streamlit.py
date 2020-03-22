@@ -12,7 +12,6 @@ directory = "resources/test"
 def main():
 
     # Title
-
     st.sidebar.title("What to do")
 
     analysis_mode = st.sidebar.selectbox(
@@ -45,7 +44,7 @@ def frequency():
         alt.Chart(freq_df)
         .mark_bar()
         .encode(
-            alt.Y("word", title="words"),
+            alt.Y("word", title="words", sort="-x"),
             alt.X("freq", title="frequencies"),
             tooltip=[alt.Tooltip("freq", title="frequency")],
             opacity=alt.value(0.7),
