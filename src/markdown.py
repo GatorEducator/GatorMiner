@@ -39,10 +39,11 @@ def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
         dict_1 = {k: [] for k in dict_2.keys()}
     elif isinstance(list(dict_1.values())[0], list) is False:
         dict_1 = {k: [v] for k, v in dict_1.items()}
-    for key, value in dict_2.items():
+    for key in dict_1.keys():
         try:
-            dict_1[key].append(value)
+            dict_1[key].append(dict_2[key])
         except KeyError as err:
+            dict_1[key].append("")
             logging.warning(f"Key does not exist: {err}")
 
     return dict_1
