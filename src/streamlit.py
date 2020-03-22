@@ -33,25 +33,26 @@ def frequency():
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
+    freq_range = st.sidebar.slider(
+        "Select a range of Most frequent words?", 1, 50, value=25
+    )
     if freq_type == "Overall":
         st.sidebar.success(
             'To continue see individual frequency analysis select "Individual"'
         )
-        overall_freq()
+        overall_freq(freq_range)
     elif freq_type == "Student":
-        individual_student_freq()
+        individual_student_freq(freq_range)
     elif freq_type == "Question":
-        individual_question_freq()
+        individual_question_freq(freq_range)
 
 
-def overall_freq():
-    freq_amount = st.sidebar.slider(
-        "Select a range of Most frequent words?", 0, 50, value=25
-    )
-    plot_frequency(az.dir_frequency(directory, freq_amount))
+def overall_freq(freq_range):
+
+    plot_frequency(az.dir_frequency(directory, freq_range))
 
 
-def individual_student_freq():
+def individual_student_freq(freq_range):
     df = pd.DataFrame(md.collect_md(directory))
     st.write(df)
     students = st.multiselect(
@@ -59,7 +60,7 @@ def individual_student_freq():
     )
 
 
-def individual_question_freq():
+def individual_question_freq(freq_range):
     df = pd.DataFrame(md.collect_md(directory))
     st.write(df)
     questions = st.multiselect(
@@ -69,7 +70,7 @@ def individual_question_freq():
     for column in questions:
         select_text += df[column].to_string(index=False)
     if select_text != "":
-        plot_frequency(az.word_frequency(select_text))
+        plot_frequency(az.word_frequency(select_text, freq_range))
 
 
 def plot_frequency(data: List[Tuple[str, int]]):
