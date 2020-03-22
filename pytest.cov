@@ -1,2 +1,2 @@
 [run]
-include=src/util/*.py
+include=src/*.py
