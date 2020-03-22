@@ -48,25 +48,7 @@ def overall_freq():
     freq_amount = st.sidebar.slider(
         "Select a range of Most frequent words?", 0, 50, value=25
     )
-    freq_df = pd.DataFrame(
-        az.dir_frequency(directory, freq_amount), columns=["word", "freq"]
-    )
-    st.write(freq_df)
-
-    freq_plot = (
-        alt.Chart(freq_df)
-        .mark_bar()
-        .encode(
-            alt.Y("word", title="words", sort="-x"),
-            alt.X("freq", title="frequencies"),
-            tooltip=[alt.Tooltip("freq", title="frequency")],
-            opacity=alt.value(0.7),
-            color=alt.value("blue"),
-        )
-    )
-
-    # st.bar_chart(freq_df)
-    st.altair_chart(freq_plot)
+    plot_frequency(az.dir_frequency(directory, freq_amount))
 
 
 def individual_student_freq():
@@ -86,7 +68,8 @@ def individual_question_freq():
     select_text = ""
     for column in questions:
         select_text += df[column].to_string(index=False)
-    st.write(plot_frequency(az.word_frequency(select_text)))
+    if select_text != "":
+        plot_frequency(az.word_frequency(select_text))
 
 
 def plot_frequency(data: List[Tuple[str, int]]):
