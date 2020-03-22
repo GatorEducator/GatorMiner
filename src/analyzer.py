@@ -35,10 +35,10 @@ def compute_frequency(token_lst: List[str], amount=50) -> List[Tuple[str, int]]:
     return word_freq.most_common(amount)
 
 
-def word_frequency(filename: str) -> List[Tuple[str, int]]:
+def word_frequency(text: str) -> List[Tuple[str, int]]:
     """A pipeline to normalize, tokenize, and
-    find word frequency of raw input file"""
-    return compute_frequency(tokenize(normalize(md.read_file(filename))))
+    find word frequency of raw text"""
+    return compute_frequency(tokenize(normalize(text)))
 
 
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:
