@@ -13,7 +13,7 @@ notifications:
 install:
   - pip install --upgrade pip
   - pip install pipenv --upgrade
-  - pipenv install --dev --three
+  - pipenv install --dev --skip-lock
   - pipenv run python -m spacy download en_core_web_sm
 
 # use a cache to improve performance
