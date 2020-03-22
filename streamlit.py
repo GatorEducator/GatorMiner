@@ -3,8 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import altair as alt
 
-import analyzer as az
-import markdown as md
+import src.analyzer as az
+import src.markdown as md
 
 from typing import List, Tuple
 
@@ -54,11 +54,11 @@ def overall_freq(freq_range):
 
 def individual_student_freq(freq_range):
     st.write(md.collect_md(directory))
-    # df = pd.DataFrame(md.collect_md(directory))
-    # st.write(df)
-    # students = st.multiselect(
-    #     label="Select specific students below:", options=df["Reflection by"]
-    # )
+    df = pd.DataFrame(md.collect_md(directory))
+    st.write(df)
+    students = st.multiselect(
+        label="Select specific students below:", options=df["Reflection by"]
+    )
 
 
 def individual_question_freq(freq_range):

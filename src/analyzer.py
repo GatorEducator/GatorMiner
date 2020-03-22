@@ -5,7 +5,7 @@ import string
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-import markdown as md
+from . import markdown as md
 
 PARSER = spacy.load("en_core_web_sm")
 
