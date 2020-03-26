@@ -56,11 +56,24 @@ def overall_freq(freq_range):
 
 def individual_student_freq(freq_range):
     st.write(md.collect_md(directory))
-    df = pd.DataFrame(md.collect_md(directory))
-    st.write(df)
-    students = st.multiselect(
-        label="Select specific students below:", options=df["Reflection by"]
+    df_combined = pd.DataFrame(md.collect_md(directory))
+    cols = df_combined.columns.values.tolist()[1:]
+    df_combined["combined"] = df_combined[cols].apply(
+        lambda row: " ".join(row.values.astype(str)), axis=1
     )
+    # st.write(df_combined)
+    students = st.multiselect(
+        label="Select specific students below:", options=df_combined["Reflection by"]
+    )
+    if students != "":
+        for student in students:
+            plot_frequency(
+                az.word_frequency(
+                    df_combined[df_combined["Reflection by"] == student][
+                        "combined"
+                    ].to_string(index=False)
+                )
+            )
 
 
 def individual_question_freq(freq_range):
