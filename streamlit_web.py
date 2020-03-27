@@ -55,9 +55,11 @@ def overall_freq(freq_range):
 
 
 def individual_student_freq(freq_range):
-    st.write(md.collect_md(directory))
+    # st.write(md.collect_md(directory))
     df_combined = pd.DataFrame(md.collect_md(directory))
+    # filter out first column -- user info
     cols = df_combined.columns[1:]
+    # combining text into combined column
     df_combined["combined"] = df_combined[cols].apply(
         lambda row: " ".join(row.values.astype(str)), axis=1
     )
@@ -65,6 +67,7 @@ def individual_student_freq(freq_range):
     students = st.multiselect(
         label="Select specific students below:", options=df_combined["Reflection by"]
     )
+    # plot based on student selected
     if students != "":
         for student in students:
             plot_frequency(
