@@ -20,6 +20,7 @@ commonmark = "*"
 codecov = "*"
 streamlit = "*"
 altair = "*"
+textblob = "*"
 
 [pipenv]
 allow_prereleases = true
