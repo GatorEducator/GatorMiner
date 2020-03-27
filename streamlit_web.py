@@ -46,8 +46,8 @@ def frequency():
     elif freq_type == "Student":
         st.header("Most frequent words by individual students")
         individual_student_freq(freq_range)
-        st.header("Most frequent words in individual questions")
     elif freq_type == "Question":
+        st.header("Most frequent words in individual questions")
         individual_question_freq(freq_range)
 
 
