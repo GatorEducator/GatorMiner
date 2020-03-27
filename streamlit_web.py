@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+from textblob import TextBlob
 
 import src.analyzer as az
 import src.markdown as md
@@ -26,6 +27,7 @@ def main():
         frequency()
     elif analysis_mode == "Sentiment Analysis":
         st.title("Sentiment Analysis")
+        overall_senti()
 
 
 def frequency():
@@ -52,6 +54,22 @@ def frequency():
 def overall_freq(freq_range):
 
     plot_frequency(az.dir_frequency(directory, freq_range))
+
+
+def overall_senti():
+
+    df_combined = pd.DataFrame(md.collect_md(directory))
+    # filter out first column -- user info
+    cols = df_combined.columns[1:]
+    # combining text into combined column
+    df_combined["combined"] = df_combined[cols].apply(
+        lambda row: " ".join(row.values.astype(str)), axis=1
+    )
+
+    df_combined["sentiment"] = df_combined["combined"].apply(
+        lambda x: TextBlob(x).sentiment.polarity
+    )
+    st.write(df_combined["sentiment"])
 
 
 def individual_student_freq(freq_range):
