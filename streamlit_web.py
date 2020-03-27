@@ -71,7 +71,9 @@ def individual_student_freq(freq_range):
             st.write(df_student.loc[:, ["combined"]].to_string())
 
             plot_frequency(
-                az.word_frequency(df_student.loc[:, ["combined"]].to_string())
+                az.word_frequency(
+                    df_student.loc[:, ["combined"]].to_string(), freq_range
+                )
             )
 
 
