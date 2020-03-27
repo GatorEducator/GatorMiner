@@ -67,15 +67,12 @@ def individual_student_freq(freq_range):
     )
     if students != "":
         for student in students:
-            st.write(df_combined.iloc[0:1, :])
-            st.write(df_combined.loc[0:1, ["combined"]].to_string())
-            # plot_frequency(
-            #     az.word_frequency(
-            #         df_combined[df_combined["Reflection by"] == student][
-            #             "combined"
-            #         ].to_string(index=False)
-            #     )
-            # )
+            df_student = df_combined[df_combined["Reflection by"] == student]
+            st.write(df_student.loc[:, ["combined"]].to_string())
+
+            plot_frequency(
+                az.word_frequency(df_student.loc[:, ["combined"]].to_string())
+            )
 
 
 def individual_question_freq(freq_range):
