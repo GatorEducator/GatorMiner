@@ -70,12 +70,32 @@ def overall_senti():
         lambda x: TextBlob(x).sentiment.polarity
     )
     st.write(df_combined["sentiment"])
-    senti_plot = (
+    senti_hist = (
         alt.Chart(df_combined)
         .mark_bar()
-        .encode(alt.X("sentiment", bin=True), y="count()",)
+        .encode(
+            alt.X("sentiment", bin=True),
+            y="count()",
+            opacity=alt.value(0.7),
+            color=alt.value("blue"),
+        )
     )
-    st.altair_chart(senti_plot)
+    senti_point = (
+        alt.Chart(df_combined)
+        .mark_point()
+        .encode(
+            x="Reflection by",
+            y="sentiment",
+            color="Reflection by",
+            tooltip=[
+                alt.Tooltip("sentiment", title="polarity"),
+                alt.Tooltip("Reflection by", title="author"),
+            ],
+        )
+    )
+
+    st.altair_chart(senti_hist)
+    st.altair_chart(senti_point)
 
 
 def individual_student_freq(freq_range):
