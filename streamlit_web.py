@@ -69,7 +69,7 @@ def overall_senti():
     df_combined["sentiment"] = df_combined["combined"].apply(
         lambda x: TextBlob(x).sentiment.polarity
     )
-    st.write(df_combined["sentiment"])
+    # st.write(df_combined["sentiment"])
     senti_hist = (
         alt.Chart(df_combined)
         .mark_bar()
