@@ -90,7 +90,7 @@ def individual_question_freq(freq_range):
 
 def plot_frequency(data: List[Tuple[str, int]]):
     freq_df = pd.DataFrame(data, columns=["word", "freq"])
-    st.write(freq_df)
+    # st.write(freq_df)
 
     freq_plot = (
         alt.Chart(freq_df)
