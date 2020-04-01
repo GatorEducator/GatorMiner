@@ -5,8 +5,8 @@
 
 DATE = "20 March 2020"
 VERSION = "ii"
-AUTHOR = " myName"
-AUTHORMAIL = "@allegheny.edu"
+AUTHOR = " Oliver Bonham-Carter"
+AUTHORMAIL = "obonhamcarter@allegheny.edu"
 
 # directories: if necessary
 #OUTPUT_DIR = "/tmp/0out/" # all results are saved in this local directory
