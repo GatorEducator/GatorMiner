@@ -4,7 +4,7 @@
 
 
 DATE = "20 March 2020"
-VERSION = "i"
+VERSION = "ii"
 AUTHOR = " myName"
 AUTHORMAIL = "@allegheny.edu"
 
