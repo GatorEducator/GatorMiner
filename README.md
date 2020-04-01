@@ -15,6 +15,8 @@ This program uses [Pipenv](https://github.com/pypa/pipenv) for installation.
 - Install the development dependencies `pipenv` command: `pipenv install --dev --skip-lock`
 - To learn about features and usage in textMining, type in
   `pipenv run python textmining.py -h`
+- To run streamlit, typ in
+  `pipenv run streamlit run streamlit_web.py`
 
   ```bash
   $ pipenv run python textmining.py -h
