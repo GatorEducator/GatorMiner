@@ -13,7 +13,7 @@ df = pd.DataFrame(md.collect_md(directory))
 
 
 def main():
-
+    """main streamlit function"""
     # Title
     st.sidebar.title("What to do")
 
@@ -32,6 +32,7 @@ def main():
 
 
 def frequency():
+    """main function for frequency analysis"""
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
@@ -53,6 +54,7 @@ def frequency():
 
 
 def sentiment():
+    """main function for sentiment analysis"""
     df_combined = combine_column_text(df)
     # calculate overall sentiment from the combined text
     df_combined["sentiment"] = df_combined["combined"].apply(
@@ -75,11 +77,12 @@ def sentiment():
 
 
 def overall_freq(freq_range):
-
+    """page fore overall word frequency"""
     plot_frequency(az.dir_frequency(directory, freq_range))
 
 
 def combine_column_text(raw_df):
+    """Combined the questions and store into a new column"""
     df_combined = raw_df
     # filter out first column -- user info
     cols = df_combined.columns[1:]
@@ -92,7 +95,7 @@ def combine_column_text(raw_df):
 
 
 def overall_senti(senti_df):
-
+    """Visulize overall sentiment with histogram and scatter plots"""
     senti_hist = (
         alt.Chart(senti_df)
         .mark_bar()
@@ -122,6 +125,7 @@ def overall_senti(senti_df):
 
 
 def individual_student_senti(df):
+    """page for display individual student's sentiment"""
     students = st.multiselect(
         label="Select specific students below:", options=df["Reflection by"]
     )
@@ -145,6 +149,7 @@ def individual_student_senti(df):
 
 
 def individual_student_freq(df_combined, freq_range):
+    """page for individual student's word frequency"""
     # filter out first column -- user info
     cols = df_combined.columns[1:]
     # combining text into combined column
@@ -169,6 +174,7 @@ def individual_student_freq(df_combined, freq_range):
 
 
 def individual_question_freq(df, freq_range):
+    """page for individual question's word frequency"""
     st.write(df)
     questions = st.multiselect(
         label="Select specific questions below:", options=df.columns[1:]
@@ -181,6 +187,7 @@ def individual_question_freq(df, freq_range):
 
 
 def plot_frequency(data: List[Tuple[str, int]]):
+    """function to plot word frequency"""
     freq_df = pd.DataFrame(data, columns=["word", "freq"])
     # st.write(freq_df)
 
