@@ -9,6 +9,7 @@ import src.markdown as md
 from typing import List, Tuple
 
 directory = "resources/cs100f2019_lab05_reflections"
+df = pd.DataFrame(md.collect_md(directory))
 
 
 def main():
@@ -45,14 +46,14 @@ def frequency():
         overall_freq(freq_range)
     elif freq_type == "Student":
         st.header("Most frequent words by individual students")
-        individual_student_freq(freq_range)
+        individual_student_freq(df, freq_range)
     elif freq_type == "Question":
         st.header("Most frequent words in individual questions")
-        individual_question_freq(freq_range)
+        individual_question_freq(df, freq_range)
 
 
 def sentiment():
-    df_combined = combine_column_text()
+    df_combined = combine_column_text(df)
     # calculate overall sentiment from the combined text
     df_combined["sentiment"] = df_combined["combined"].apply(
         lambda x: TextBlob(x).sentiment.polarity
@@ -68,13 +69,13 @@ def sentiment():
             'To continue see individual frequency analysis select "Individual"'
         )
         st.header("Overall most frequent words in the directory")
-        overall_senti()
+        overall_senti(df_combined)
     elif senti_type == "Student":
         st.header("View sentiments by individual students")
         individual_student_senti(df_combined)
     elif senti_type == "Question":
         st.header("View sentiments by individual questions")
-        individual_question_freq(senti_range)
+        individual_question_freq(df, senti_range)
 
 
 def overall_freq(freq_range):
@@ -82,8 +83,8 @@ def overall_freq(freq_range):
     plot_frequency(az.dir_frequency(directory, freq_range))
 
 
-def combine_column_text():
-    df_combined = pd.DataFrame(md.collect_md(directory))
+def combine_column_text(raw_df):
+    df_combined = raw_df
     # filter out first column -- user info
     cols = df_combined.columns[1:]
     # combining text into combined column
@@ -94,22 +95,10 @@ def combine_column_text():
     return df_combined
 
 
-def overall_senti():
+def overall_senti(senti_df):
 
-    df_combined = pd.DataFrame(md.collect_md(directory))
-    # filter out first column -- user info
-    cols = df_combined.columns[1:]
-    # combining text into combined column
-    df_combined["combined"] = df_combined[cols].apply(
-        lambda row: " ".join(row.values.astype(str)), axis=1
-    )
-
-    df_combined["sentiment"] = df_combined["combined"].apply(
-        lambda x: TextBlob(x).sentiment.polarity
-    )
-    # st.write(df_combined["sentiment"])
     senti_hist = (
-        alt.Chart(df_combined)
+        alt.Chart(senti_df)
         .mark_bar()
         .encode(
             alt.X("sentiment", bin=True),
@@ -119,7 +108,7 @@ def overall_senti():
         )
     )
     senti_point = (
-        alt.Chart(df_combined)
+        alt.Chart(senti_df)
         .mark_point()
         .encode(
             x="Reflection by",
@@ -156,13 +145,10 @@ def individual_student_senti(df):
         )
     )
 
-    # st.bar_chart(freq_df)
     st.altair_chart(senti_plot)
 
 
-def individual_student_freq(freq_range):
-    # st.write(md.collect_md(directory))
-    df_combined = pd.DataFrame(md.collect_md(directory))
+def individual_student_freq(df_combined, freq_range):
     # filter out first column -- user info
     cols = df_combined.columns[1:]
     # combining text into combined column
@@ -186,8 +172,7 @@ def individual_student_freq(freq_range):
             )
 
 
-def individual_question_freq(freq_range):
-    df = pd.DataFrame(md.collect_md(directory))
+def individual_question_freq(df, freq_range):
     st.write(df)
     questions = st.multiselect(
         label="Select specific questions below:", options=df.columns[1:]
