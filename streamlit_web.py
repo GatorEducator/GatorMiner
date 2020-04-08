@@ -63,7 +63,7 @@ def sentiment():
     )
     if senti_type == "Overall":
         st.sidebar.success(
-            'To continue see individual frequency analysis select "Individual"'
+            'To continue see individual sentiment analysis select "Individual"'
         )
         st.header("Overall sentiment polarity in the directory")
         overall_senti(df_combined)
