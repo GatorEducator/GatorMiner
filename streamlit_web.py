@@ -131,8 +131,11 @@ def individual_student_senti(df):
     )
     df_selected_stu = df.loc[df["Reflection by"].isin(students)]
     senti_df = pd.DataFrame(df_selected_stu, columns=["Reflection by", "sentiment"])
-    st.write(senti_df)
+    plot_student_sentiment(senti_df)
 
+
+def plot_student_sentiment(senti_df):
+    """plot sentiment by student from a df containing name and senti"""
     senti_plot = (
         alt.Chart(senti_df)
         .mark_bar()
