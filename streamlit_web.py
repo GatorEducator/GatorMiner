@@ -52,6 +52,11 @@ def frequency():
 
 
 def sentiment():
+    df_combined = combine_column_text()
+    # calculate overall sentiment from the combined text
+    df_combined["sentiment"] = df_combined["combined"].apply(
+        lambda x: TextBlob(x).sentiment.polarity
+    )
     senti_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
@@ -66,7 +71,7 @@ def sentiment():
         overall_senti()
     elif senti_type == "Student":
         st.header("View sentiments by individual students")
-        individual_student_freq(senti_range)
+        individual_student_senti(df_combined)
     elif senti_type == "Question":
         st.header("View sentiments by individual questions")
         individual_question_freq(senti_range)
@@ -75,6 +80,18 @@ def sentiment():
 def overall_freq(freq_range):
 
     plot_frequency(az.dir_frequency(directory, freq_range))
+
+
+def combine_column_text():
+    df_combined = pd.DataFrame(md.collect_md(directory))
+    # filter out first column -- user info
+    cols = df_combined.columns[1:]
+    # combining text into combined column
+    df_combined["combined"] = df_combined[cols].apply(
+        lambda row: " ".join(row.values.astype(str)), axis=1
+    )
+
+    return df_combined
 
 
 def overall_senti():
@@ -117,6 +134,30 @@ def overall_senti():
 
     st.altair_chart(senti_hist)
     st.altair_chart(senti_point)
+
+
+def individual_student_senti(df):
+    students = st.multiselect(
+        label="Select specific students below:", options=df["Reflection by"]
+    )
+    df_selected_stu = df.loc[df["Reflection by"].isin(students)]
+    senti_df = pd.DataFrame(df_selected_stu, columns=["Reflection by", "sentiment"])
+    st.write(senti_df)
+
+    senti_plot = (
+        alt.Chart(senti_df)
+        .mark_bar()
+        .encode(
+            alt.Y("Reflection by", title="Student", sort="-x"),
+            alt.X("sentiment", title="Sentiment"),
+            tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
+            opacity=alt.value(0.7),
+            color=alt.value("red"),
+        )
+    )
+
+    # st.bar_chart(freq_df)
+    st.altair_chart(senti_plot)
 
 
 def individual_student_freq(freq_range):
