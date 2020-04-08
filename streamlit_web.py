@@ -59,23 +59,19 @@ def sentiment():
         lambda x: TextBlob(x).sentiment.polarity
     )
     senti_type = st.sidebar.selectbox(
-        "Type of frequency analysis", ["Overall", "Student", "Question"]
-    )
-    senti_range = st.sidebar.slider(
-        "Select a range of Most frequent words?", 1, 50, value=25
+        "Type of sentiment analysis", ["Overall", "Student", "Question"]
     )
     if senti_type == "Overall":
         st.sidebar.success(
             'To continue see individual frequency analysis select "Individual"'
         )
-        st.header("Overall most frequent words in the directory")
+        st.header("Overall sentiment polarity in the directory")
         overall_senti(df_combined)
     elif senti_type == "Student":
-        st.header("View sentiments by individual students")
+        st.header("View sentiment by individual students")
         individual_student_senti(df_combined)
     elif senti_type == "Question":
-        st.header("View sentiments by individual questions")
-        individual_question_freq(df, senti_range)
+        st.header("View sentiment by individual questions")
 
 
 def overall_freq(freq_range):
