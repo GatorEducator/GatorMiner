@@ -27,7 +27,7 @@ def main():
         frequency()
     elif analysis_mode == "Sentiment Analysis":
         st.title("Sentiment Analysis")
-        overall_senti()
+        sentiment()
 
 
 def frequency():
@@ -49,6 +49,27 @@ def frequency():
     elif freq_type == "Question":
         st.header("Most frequent words in individual questions")
         individual_question_freq(freq_range)
+
+
+def sentiment():
+    senti_type = st.sidebar.selectbox(
+        "Type of frequency analysis", ["Overall", "Student", "Question"]
+    )
+    senti_range = st.sidebar.slider(
+        "Select a range of Most frequent words?", 1, 50, value=25
+    )
+    if senti_type == "Overall":
+        st.sidebar.success(
+            'To continue see individual frequency analysis select "Individual"'
+        )
+        st.header("Overall most frequent words in the directory")
+        overall_senti()
+    elif senti_type == "Student":
+        st.header("View sentiments by individual students")
+        individual_student_freq(senti_range)
+    elif senti_type == "Question":
+        st.header("View sentiments by individual questions")
+        individual_question_freq(senti_range)
 
 
 def overall_freq(freq_range):
