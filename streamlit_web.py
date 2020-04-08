@@ -33,6 +33,7 @@ def main():
 
 def frequency():
     """main function for frequency analysis"""
+    df_combined = combine_column_text(df)
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
@@ -47,7 +48,7 @@ def frequency():
         overall_freq(freq_range)
     elif freq_type == "Student":
         st.header("Most frequent words by individual students")
-        individual_student_freq(df, freq_range)
+        individual_student_freq(df_combined, freq_range)
     elif freq_type == "Question":
         st.header("Most frequent words in individual questions")
         individual_question_freq(df, freq_range)
@@ -95,6 +96,11 @@ def combine_column_text(raw_df):
 
 
 def overall_senti(senti_df):
+    """page for overall senti"""
+    plot_overall_senti(senti_df)
+
+
+def plot_overall_senti(senti_df):
     """Visulize overall sentiment with histogram and scatter plots"""
     senti_hist = (
         alt.Chart(senti_df)
@@ -153,13 +159,6 @@ def plot_student_sentiment(senti_df):
 
 def individual_student_freq(df_combined, freq_range):
     """page for individual student's word frequency"""
-    # filter out first column -- user info
-    cols = df_combined.columns[1:]
-    # combining text into combined column
-    df_combined["combined"] = df_combined[cols].apply(
-        lambda row: " ".join(row.values.astype(str)), axis=1
-    )
-    # st.write(df_combined)
     students = st.multiselect(
         label="Select specific students below:", options=df_combined["Reflection by"]
     )
