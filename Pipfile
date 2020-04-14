@@ -18,9 +18,9 @@ pytest = "*"
 requests = "*"
 commonmark = "*"
 codecov = "*"
-
-[requires]
-python_version = ">=python 3.6"
+streamlit = "*"
+altair = "*"
+textblob = "*"
 
 [pipenv]
 allow_prereleases = true

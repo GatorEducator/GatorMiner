@@ -1,6 +1,7 @@
 """Where NLP modules should be in"""
 from collections import Counter
 import re
+import string
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
@@ -13,6 +14,7 @@ def normalize(data: str) -> str:
     """Remove numbers, single characters, to lowercase"""
     data = data.lower()
     normalized_data = re.sub(r"\b[a-zA-Z]\b|\b[0-9]+\b", "", data)
+    normalized_data = "".join(c for c in normalized_data if c not in string.punctuation)
     return normalized_data
 
 
@@ -29,26 +31,26 @@ def tokenize(normalized_text: str) -> List[str]:
     return tokens
 
 
-def compute_frequency(token_lst: List[str]) -> List[Tuple[str, int]]:
+def compute_frequency(token_lst: List[str], amount=50) -> List[Tuple[str, int]]:
     """Compute word frequency from a list of tokens"""
     word_freq = Counter(token_lst)
-    return word_freq.most_common(50)
+    return word_freq.most_common(amount)
 
 
-def word_frequency(filename: str) -> List[Tuple[str, int]]:
+def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
     """A pipeline to normalize, tokenize, and
-    find word frequency of raw input file"""
-    return compute_frequency(tokenize(normalize(md.read_file(filename))))
+    find word frequency of raw text"""
+    return compute_frequency(tokenize(normalize(text)), amount)
 
 
-def dir_frequency(dirname: str) -> List[Tuple[str, int]]:
+def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:
     """A pipeline to normalize, tokenize, and
     find word frequency of a directory of raw input file"""
     file_list = md.get_file_names(dirname)
     doc_list = []
     for file in file_list:
         doc_list.append(md.read_file(file))
-    return compute_frequency(tokenize(normalize(" ".join(doc_list))))
+    return compute_frequency(tokenize(normalize(" ".join(doc_list))), amount)
 
 
 def sentence_tokenize(input_text):

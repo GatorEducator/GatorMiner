@@ -9,7 +9,7 @@ logging.basicConfig(
     format="[%(asctime)s]{%(pathname)s:%(lineno)d}\n\
 %(levelname)s: %(message)s",
     datefmt="%Y-%m-%d:%H:%M:%S",
-    level=logging.WARNING,
+    level=logging.ERROR,
 )
 
 

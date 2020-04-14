@@ -1,4 +1,4 @@
-import src.util.markdown as md
+import src.markdown as md
 
 
 def test_merge_dict():

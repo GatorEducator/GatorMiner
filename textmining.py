@@ -1,9 +1,9 @@
 """Entry point"""
 import sys
 
-from src.util import analyzer as az
-from src.util import summarizer as sz
-from src.util import arguments
+from src import analyzer as az
+from src import summarizer as sz
+from src import arguments
 
 if __name__ == "__main__":
     tm_arguments = arguments.parse(sys.argv[1:])

@@ -1,5 +1,5 @@
 """Test module for analyzer.py"""
-import src.util.summarizer as summarizer
+import src.summarizer as summarizer
 
 
 def test_summarize_text():
