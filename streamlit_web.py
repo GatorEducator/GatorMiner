@@ -20,8 +20,11 @@ def main():
     global df
     directory = st.sidebar.text_input("Path to directory")
     if directory != "":
-        st.sidebar.success(f"Analyzing {directory} ....")
-        df = pd.DataFrame(md.collect_md(directory))
+        try:
+            df = pd.DataFrame(md.collect_md(directory))
+            st.sidebar.success(f"Analyzing {directory} ....")
+        except FileNotFoundError as err:
+            st.sidebar.text(err)
     analysis_mode = st.sidebar.selectbox(
         "Choose the analysis mode",
         ["Home", "Frequency Analysis", "Sentiment Analysis", "Summary"],
