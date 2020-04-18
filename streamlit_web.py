@@ -3,6 +3,7 @@ import pandas as pd
 import altair as alt
 from textblob import TextBlob
 
+import src.summarizer as sz
 import src.analyzer as az
 import src.markdown as md
 
@@ -18,7 +19,8 @@ def main():
     st.sidebar.title("What to do")
 
     analysis_mode = st.sidebar.selectbox(
-        "Choose the analysis mode", ["Home", "Frequency Analysis", "Sentiment Analysis"]
+        "Choose the analysis mode",
+        ["Home", "Frequency Analysis", "Sentiment Analysis", "Summary"],
     )
     if analysis_mode == "Home":
         with open("README.md") as readme_file:
@@ -29,6 +31,9 @@ def main():
     elif analysis_mode == "Sentiment Analysis":
         st.title("Sentiment Analysis")
         sentiment()
+    elif analysis_mode == "Summary":
+        st.title("Summary")
+        summary()
 
 
 def frequency():
@@ -75,6 +80,11 @@ def sentiment():
         individual_student_senti(df_combined)
     elif senti_type == "Question":
         st.header("View sentiment by individual questions")
+
+
+def summary():
+    summary_df = pd.DataFrame(sz.summarizer(directory))
+    st.write(summary_df)
 
 
 def overall_freq(freq_range):
