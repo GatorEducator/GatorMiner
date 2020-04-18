@@ -9,15 +9,19 @@ import src.markdown as md
 
 from typing import List, Tuple
 
-directory = "resources/cs100f2019_lab05_reflections"
-df = pd.DataFrame(md.collect_md(directory))
+# resources/cs100f2019_lab05_reflections
 
 
 def main():
     """main streamlit function"""
     # Title
     st.sidebar.title("What to do")
-
+    global directory
+    global df
+    directory = st.sidebar.text_input("Path to directory")
+    if directory != "":
+        st.sidebar.success(f"Analyzing {directory} ....")
+        df = pd.DataFrame(md.collect_md(directory))
     analysis_mode = st.sidebar.selectbox(
         "Choose the analysis mode",
         ["Home", "Frequency Analysis", "Sentiment Analysis", "Summary"],
