@@ -83,6 +83,7 @@ def sentiment():
 
 
 def summary():
+    """Display summarization"""
     summary_df = pd.DataFrame(sz.summarizer(directory))
     st.write(summary_df)
 
