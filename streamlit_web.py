@@ -106,8 +106,13 @@ def summary():
 
 
 def tpmodel():
+    """Display topic modeling"""
+    topic_range = st.sidebar.slider("Select amount of topics?", 1, 10, value=5)
+    word_range = st.sidebar.slider("Select amount of words per topic?", 1, 10, value=5)
     df_combined = combine_column_text(df)
-    df_combined["topics"] = df_combined["combined"].apply(lambda x: tm.topic_model(x))
+    df_combined["topics"] = df_combined["combined"].apply(
+        lambda x: tm.topic_model(x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
+    )
     st.write(df_combined)
 
 
