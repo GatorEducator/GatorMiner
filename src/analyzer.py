@@ -15,7 +15,9 @@ def normalize(data: str) -> str:
     """Remove numbers, single characters, to lowercase"""
     data = data.lower()
     normalized_data = re.sub(r"\b[a-zA-Z]\b|\b[0-9]+\b", "", data)
-    normalized_data = "".join(c for c in normalized_data if c not in string.punctuation)
+    normalized_data = "".join(
+        c for c in normalized_data if c not in string.punctuation
+    )
     return normalized_data
 
 
@@ -32,7 +34,7 @@ def tokenize(normalized_text: str) -> List[str]:
     return tokens
 
 
-def compute_frequency(token_lst: List[str], amount=50) -> List[Tuple[str, int]]:
+def compute_frequency(token_lst: List[str], amount=50) -> List[Tuple[str, int]]:  # noqa: E501
     """Compute word frequency from a list of tokens"""
     word_freq = Counter(token_lst)
     return word_freq.most_common(amount)

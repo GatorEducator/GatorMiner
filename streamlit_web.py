@@ -109,11 +109,17 @@ def summary():
 
 def tpmodel():
     """Display topic modeling"""
-    topic_range = st.sidebar.slider("Select amount of topics", 1, 10, value=5)
-    word_range = st.sidebar.slider("Select amount of words per topic", 1, 10, value=5)
+    topic_range = st.sidebar.slider(
+        "Select the amount of topics", 1, 10, value=5
+    )
+    word_range = st.sidebar.slider(
+        "Select the amount of words per topic", 1, 10, value=5
+    )
     df_combined = combine_column_text(df)
     df_combined["topics"] = df_combined["combined"].apply(
-        lambda x: tm.topic_model(x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
+        lambda x: tm.topic_model(
+            x, NUM_TOPICS=topic_range, NUM_WORDS=word_range
+        )
     )
     st.write(df_combined)
 
@@ -177,7 +183,8 @@ def individual_student_senti(df):
         label="Select specific students below:", options=df["Reflection by"]
     )
     df_selected_stu = df.loc[df["Reflection by"].isin(students)]
-    senti_df = pd.DataFrame(df_selected_stu, columns=["Reflection by", "sentiment"])
+    senti_df = pd.DataFrame(df_selected_stu,
+                            columns=["Reflection by", "sentiment"])
     plot_student_sentiment(senti_df)
 
 
@@ -201,7 +208,8 @@ def plot_student_sentiment(senti_df):
 def individual_student_freq(df_combined, freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
-        label="Select specific students below:", options=df_combined["Reflection by"]
+        label="Select specific students below:",
+        options=df_combined["Reflection by"]
     )
     # plot based on student selected
     if students != "":
