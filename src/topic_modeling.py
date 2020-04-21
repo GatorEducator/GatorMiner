@@ -1,6 +1,5 @@
-from gensim import corpora
-import analyzer as az
-import markdown as md
+import src.analyzer as az
+import src.markdown as md
 import pickle
 import gensim
 
@@ -13,7 +12,7 @@ text_data = [
 ]
 print(text_data)
 
-dictionary = corpora.Dictionary(text_data)
+dictionary = gensim.corpora.Dictionary(text_data)
 # print(dictionary)
 corpus = [dictionary.doc2bow(text) for text in text_data]
 
