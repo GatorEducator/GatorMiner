@@ -33,7 +33,8 @@ install:
 
 script:
   - pipenv run pytest tests --cov-config pytest.cov --cov
-  - pipenv run flake8 src/util
+  - pipenv run flake8 src
+  - pipenv run flake8 *.py
   - pipenv run flake8 tests
 after_success:
   - pipenv run codecov
