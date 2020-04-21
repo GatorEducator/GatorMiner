@@ -1,10 +1,11 @@
-"""Where NLP modules should be in"""
+"""Text Proprocessing"""
 from collections import Counter
 import re
 import string
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+
 from . import markdown as md
 
 PARSER = spacy.load("en_core_web_sm")

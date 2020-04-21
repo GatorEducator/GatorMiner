@@ -1,13 +1,16 @@
-import streamlit as st
-import pandas as pd
+"""Web interface"""
+from typing import List, Tuple
+
 import altair as alt
+import pandas as pd
+import streamlit as st
 from textblob import TextBlob
 
-import src.summarizer as sz
 import src.analyzer as az
 import src.markdown as md
+import src.summarizer as sz
+import src.topic_modeling as tm
 
-from typing import List, Tuple
 
 # resources/cs100f2019_lab05_reflections
 
@@ -27,7 +30,13 @@ def main():
             st.sidebar.text(err)
     analysis_mode = st.sidebar.selectbox(
         "Choose the analysis mode",
-        ["Home", "Frequency Analysis", "Sentiment Analysis", "Summary"],
+        [
+            "Home",
+            "Frequency Analysis",
+            "Sentiment Analysis",
+            "Summary",
+            "Topic Modeling",
+        ],
     )
     if analysis_mode == "Home":
         with open("README.md") as readme_file:
@@ -41,6 +50,9 @@ def main():
     elif analysis_mode == "Summary":
         st.title("Summary")
         summary()
+    elif analysis_mode == "Topic Modeling":
+        st.header("Topic Modeling")
+        tpmodel()
 
 
 def frequency():
@@ -50,7 +62,7 @@ def frequency():
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
     freq_range = st.sidebar.slider(
-        "Select a range of Most frequent words?", 1, 50, value=25
+        "Select a range of Most frequent words", 1, 50, value=25
     )
     if freq_type == "Overall":
         st.sidebar.success(
@@ -93,6 +105,17 @@ def summary():
     """Display summarization"""
     summary_df = pd.DataFrame(sz.summarizer(directory))
     st.write(summary_df)
+
+
+def tpmodel():
+    """Display topic modeling"""
+    topic_range = st.sidebar.slider("Select amount of topics", 1, 10, value=5)
+    word_range = st.sidebar.slider("Select amount of words per topic", 1, 10, value=5)
+    df_combined = combine_column_text(df)
+    df_combined["topics"] = df_combined["combined"].apply(
+        lambda x: tm.topic_model(x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
+    )
+    st.write(df_combined)
 
 
 def overall_freq(freq_range):
