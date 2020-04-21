@@ -1,4 +1,4 @@
-"""Test module for analyzer.py"""
+"""Test module for summarizer.py"""
 import src.summarizer as summarizer
 
 
