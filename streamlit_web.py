@@ -1,3 +1,4 @@
+"""Web interface"""
 from typing import List, Tuple
 
 import altair as alt

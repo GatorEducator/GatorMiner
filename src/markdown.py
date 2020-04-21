@@ -1,4 +1,4 @@
-"""Text summary"""
+"""Markdown parser"""
 import os
 import logging
 from typing import Dict, List
