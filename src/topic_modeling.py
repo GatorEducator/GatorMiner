@@ -1,5 +1,4 @@
 from . import analyzer as az
-from . import markdown as md
 import pickle
 import gensim
 from typing import List, Tuple
