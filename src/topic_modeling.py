@@ -1,5 +1,5 @@
-import analyzer as az
-import markdown as md
+from . import analyzer as az
+from . import markdown as md
 import pickle
 import gensim
 from typing import List, Tuple
@@ -8,7 +8,7 @@ input = "../resources/cs100f2019_lab05_reflections/reflection1.md"
 
 
 def topic_model(input, NUM_TOPICS=5, NUM_WORDS=4) -> List[Tuple[int, str]]:
-    text_data = [az.tokenize(az.normalize(md.read_file(input)))]
+    text_data = [az.tokenize(az.normalize(input))]
     # Create Dictionary by giving id to each word
     id2word = gensim.corpora.Dictionary(text_data)
 

@@ -6,6 +6,7 @@ from textblob import TextBlob
 import src.summarizer as sz
 import src.analyzer as az
 import src.markdown as md
+import src.topic_modeling as tm
 
 from typing import List, Tuple
 
@@ -27,7 +28,13 @@ def main():
             st.sidebar.text(err)
     analysis_mode = st.sidebar.selectbox(
         "Choose the analysis mode",
-        ["Home", "Frequency Analysis", "Sentiment Analysis", "Summary"],
+        [
+            "Home",
+            "Frequency Analysis",
+            "Sentiment Analysis",
+            "Summary",
+            "Topic Modeling",
+        ],
     )
     if analysis_mode == "Home":
         with open("README.md") as readme_file:
@@ -41,6 +48,9 @@ def main():
     elif analysis_mode == "Summary":
         st.title("Summary")
         summary()
+    elif analysis_mode == "Topic Modeling":
+        st.header("Topic Modeling")
+        tpmodel()
 
 
 def frequency():
@@ -93,6 +103,12 @@ def summary():
     """Display summarization"""
     summary_df = pd.DataFrame(sz.summarizer(directory))
     st.write(summary_df)
+
+
+def tpmodel():
+    df_combined = combine_column_text(df)
+    df_combined["topics"] = df_combined["combined"].apply(lambda x: tm.topic_model(x))
+    st.write(df_combined)
 
 
 def overall_freq(freq_range):
