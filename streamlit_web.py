@@ -1,14 +1,15 @@
-import streamlit as st
-import pandas as pd
+from typing import List, Tuple
+
 import altair as alt
+import pandas as pd
+import streamlit as st
 from textblob import TextBlob
 
-import src.summarizer as sz
 import src.analyzer as az
 import src.markdown as md
+import src.summarizer as sz
 import src.topic_modeling as tm
 
-from typing import List, Tuple
 
 # resources/cs100f2019_lab05_reflections
 

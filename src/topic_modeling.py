@@ -1,7 +1,9 @@
-from . import analyzer as az
-import pickle
-import gensim
 from typing import List, Tuple
+
+import gensim
+from . import analyzer as az
+
+# import pickle
 
 
 def topic_model(input, NUM_TOPICS=5, NUM_WORDS=4) -> List[Tuple[int, str]]:
