@@ -1,15 +1,16 @@
-"""Text summary"""
+"""Markdown parser"""
 import os
 import logging
 from typing import Dict, List
 import commonmark
+import pandas as pd
 
 
 logging.basicConfig(
     format="[%(asctime)s]{%(pathname)s:%(lineno)d}\n\
 %(levelname)s: %(message)s",
     datefmt="%Y-%m-%d:%H:%M:%S",
-    level=logging.WARNING,
+    level=logging.ERROR,
 )
 
 
@@ -76,3 +77,12 @@ def md_parser(input_md: str) -> Dict[str, str]:
             continue
 
     return md_dict
+
+
+def build_pd(md_dict):
+    df = pd.DataFrame(md_dict)
+    return df
+
+
+if __name__ == "__main__":
+    build_pd(collect_md("resources/test"))

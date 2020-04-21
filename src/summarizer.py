@@ -29,5 +29,6 @@ def summarizer(directory: str) -> Dict[str, List[str]]:
             try:
                 summarized[key].append(summarize_text(item))
             except ValueError as err:
+                summarized[key].append("")
                 logging.warning(f"Cannot summarize text: {err}")
     return summarized
