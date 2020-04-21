@@ -1,4 +1,6 @@
-# Reflection by 
+# Reflection by
+
+user 14
 
 ## Using a fenced code block, please display the output from running your program
 
@@ -41,7 +43,7 @@ The idea of genome editing is so that people who have or are developing genetic 
 There is definitely some concern when it comes to safety and the damage that might come from gene testing. There is the risk of disease and disorders which can be affected by one or both genes being tested. There is also a worry that there is a slippery slope that could lead to its use not being for therapeutic and enhancement purposes.
 
 5. What solutions can be developed to avoid the harm caused by the genome editing technology or to fix the harm?
-More testing and research is something that can always be done to avoid harm. They have been testing mainly on animals until enough research as been done to use human testing subjects or embryos. 
+More testing and research is something that can always be done to avoid harm. They have been testing mainly on animals until enough research as been done to use human testing subjects or embryos.
 
 ## After completing this assignment, what is task that your team wants to practice more? Why?
 One thing that I would like to practice more is how to use the codes in the correct way. I can usually get them started and understand what I'm doing, but when I have to put them together is when I get confused the most. I would like to practice this more because it'd be beneficial when I was doing a lab so that I wouldn't get as confused and rely on the TA's help as much as I feel like I have been.

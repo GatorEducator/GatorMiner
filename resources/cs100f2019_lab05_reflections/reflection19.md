@@ -1,4 +1,6 @@
-# Reflection by 
+# Reflection by
+
+user 19
 
 ## Using a fenced code block, please display the output from running your program
 
@@ -70,4 +72,4 @@ I enjoyed how this can apply to other fields of science like biology. I am a bio
 major, so I liked seeing how a program can simulate changes to DNA sequences and
 tell you what the mutation was and where the mutation was. I think programs like
 this could/are useful for other fields of science. Also, I enjoyed the article.
-It is on the subject I am doing my senior research on. 
+It is on the subject I am doing my senior research on.

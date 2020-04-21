@@ -9,7 +9,7 @@ logging.basicConfig(
     format="[%(asctime)s]{%(pathname)s:%(lineno)d}\n\
 %(levelname)s: %(message)s",
     datefmt="%Y-%m-%d:%H:%M:%S",
-    level=logging.WARNING,
+    level=logging.ERROR,
 )
 
 
@@ -29,5 +29,6 @@ def summarizer(directory: str) -> Dict[str, List[str]]:
             try:
                 summarized[key].append(summarize_text(item))
             except ValueError as err:
+                summarized[key].append("")
                 logging.warning(f"Cannot summarize text: {err}")
     return summarized

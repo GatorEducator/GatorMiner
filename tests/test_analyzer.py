@@ -1,6 +1,6 @@
 """Test module for analyzer.py"""
 import pytest
-import src.util.analyzer as analyzer
+import src.analyzer as analyzer
 
 
 def test_tokenize():
@@ -46,6 +46,7 @@ def test_tokenize_parametrize(input_text, expected):
             "A second sentence was more of a test because we need more tests",
             " second sentence was more of  test because we need more tests",
         ),
+        ("... ! @ # $ *** ##", "      ",),
     ],
 )
 # pylint: disable=W0613
@@ -62,14 +63,10 @@ def test_compute_frequency():
     assert output == [("hello", 3)]
 
 
-def test_word_frequency(tmp_path):
+def test_word_frequency():
     """Test if it return correct frequency result from a file"""
-    d = tmp_path / "sub"
-    d.mkdir()
-    p1 = d / "hello_world.md"
     text = "hello world hello world hello world"
-    p1.write_text(text)
-    output = analyzer.word_frequency(p1)
+    output = analyzer.word_frequency(text)
     expected = [("hello", 3), ("world", 3)]
     assert expected == output
 
