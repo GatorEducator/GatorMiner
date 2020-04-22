@@ -15,14 +15,6 @@ This program uses [Pipenv](https://github.com/pypa/pipenv) for installation.
 - Install the development dependencies `pipenv` command: `pipenv install --dev --skip-lock`
 - To learn about features and usage in textMining, type in
   `pipenv run python textmining.py -h`
-- To run streamlit, type in
-  `pipenv run streamlit run streamlit_web.py`
-- Install SpaCy model `en_core_web_sm`, a small English model trained on written
-  web text (blogs, news, comments), that includes vocabulary, vectors, syntax and entities.
-
-  ```bash
-  pipenv run python -m spacy download en_core_web_sm
-  ```
 
   ```bash
   $ pipenv run python textmining.py -h
@@ -36,6 +28,15 @@ This program uses [Pipenv](https://github.com/pypa/pipenv) for installation.
     --function FUNCTION   Function to analyze (frequency/summary) (default: None)
 
   Sample usage: python3 textmining.py --directory /path/to/markdown_directory --function frequency
+  ```
+  
+- To run streamlit, type in
+  `pipenv run streamlit run streamlit_web.py`
+- Install SpaCy model `en_core_web_sm`, a small English model trained on written
+  web text (blogs, news, comments), that includes vocabulary, vectors, syntax and entities.
+
+  ```bash
+  pipenv run python -m spacy download en_core_web_sm
   ```
 
 - Sample usage -> run frequency analysis:
