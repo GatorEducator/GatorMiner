@@ -7,6 +7,7 @@ import streamlit as st
 from textblob import TextBlob
 
 import src.analyzer as az
+import src.doc_similarity as ds
 import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
@@ -36,6 +37,7 @@ def main():
             "Sentiment Analysis",
             "Summary",
             "Topic Modeling",
+            "Document Similarity",
         ],
     )
     if analysis_mode == "Home":
@@ -53,6 +55,9 @@ def main():
     elif analysis_mode == "Topic Modeling":
         st.header("Topic Modeling")
         tpmodel()
+    elif analysis_mode == "Document Similarity":
+        st.header("Document Similarity")
+        doc_sim()
 
 
 def frequency():
@@ -124,6 +129,42 @@ def tpmodel():
     st.write(df_combined)
 
 
+def doc_sim():
+    """Display document similarity"""
+    df_combined = combine_column_text(df)
+    df_combined["normal_text"] = df_combined["combined"].apply(
+        lambda x: az.normalize(x)
+    )
+    pairs = ds.create_pair(df_combined["Reflection by"])
+    # calculate similarity of the docs of the selected author pairs
+    similarity = [
+        ds.tfidf_cosine_similarity(
+            (
+                df_combined[df_combined["Reflection by"] == pair[0]][
+                    "normal_text"].values[0],
+                df_combined[df_combined["Reflection by"] == pair[1]][
+                    "normal_text"].values[0],
+            )
+        )
+        for pair in pairs
+    ]
+    df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
+    # Split the pair tuple into two columns for plotting
+    df_sim[['doc_1', 'doc_2']] = pd.DataFrame(
+        df_sim['pair'].tolist(), index=df_sim.index
+    )
+    st.write(df_sim)
+    heatmap = alt.Chart(df_sim).mark_rect().encode(
+        x=alt.X('doc_1', sort=None, title="student"),
+        y=alt.Y('doc_2', sort="-x", title="student"),
+        color='similarity',
+        tooltip=[
+            alt.Tooltip("similarity", title="similarity"),
+        ]
+    )
+    st.altair_chart(heatmap)
+
+
 def overall_freq(freq_range):
     """page fore overall word frequency"""
     plot_frequency(az.dir_frequency(directory, freq_range))
@@ -183,8 +224,9 @@ def individual_student_senti(df):
         label="Select specific students below:", options=df["Reflection by"]
     )
     df_selected_stu = df.loc[df["Reflection by"].isin(students)]
-    senti_df = pd.DataFrame(df_selected_stu,
-                            columns=["Reflection by", "sentiment"])
+    senti_df = pd.DataFrame(
+        df_selected_stu, columns=["Reflection by", "sentiment"]
+    )
     plot_student_sentiment(senti_df)
 
 
