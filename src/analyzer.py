@@ -3,7 +3,6 @@ from collections import Counter
 import re
 import string
 from typing import List, Tuple
-from scipy.spatial import distance
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
@@ -116,21 +115,3 @@ def noun_phrase(input_text):
     for chunk in doc.noun_chunks:
         n_phrase_lst.append(str(chunk))
     return n_phrase_lst
-
-
-def cosine_similarity(pair):
-
-    doc_1, doc_2 = pair
-
-    # text to vector
-    vectorizer = CountVectorizer()
-    all_sentences_to_vector = vectorizer.fit_transform([doc_1, doc_2])
-    text_to_vector_v1 = all_sentences_to_vector.toarray()[0].tolist()
-    text_to_vector_v2 = all_sentences_to_vector.toarray()[1].tolist()
-
-    # distance of similarity
-    cosine = distance.cosine(text_to_vector_v1, text_to_vector_v2)
-    print(
-        "Similarity of two sentences are equal to ", round((1 - cosine) * 100, 2), "%"
-    )
-    return cosine
