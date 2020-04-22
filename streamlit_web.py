@@ -126,11 +126,13 @@ def tpmodel():
 
 
 def doc_sim():
+    """Display document similarity"""
     df_combined = combine_column_text(df)
     df_combined["normal_text"] = df_combined["combined"].apply(
         lambda x: az.normalize(x)
     )
     pairs = ds.create_pair(df_combined["Reflection by"])
+    # calculate similarity of the docs of the selected author pairs
     similarity = [
         ds.tfidf_cosine_similarity(
             (
@@ -141,6 +143,7 @@ def doc_sim():
         for pair in pairs
     ]
     df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
+    # Split the pair tuple into two columns for plotting
     df_sim[['doc_1', 'doc_2']] = pd.DataFrame(df_sim['pair'].tolist(), index=df_sim.index)
     st.write(df_sim)
     heatmap = alt.Chart(df_sim).mark_rect().encode(
