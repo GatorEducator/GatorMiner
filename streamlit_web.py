@@ -226,7 +226,8 @@ def plot_overall_senti(senti_df):
 def individual_student_senti(input_df):
     """page for display individual student's sentiment"""
     students = st.multiselect(
-        label="Select specific students below:", options=input_df["Reflection by"]
+        label="Select specific students below:",
+        options=input_df["Reflection by"]
     )
     df_selected_stu = input_df.loc[input_df["Reflection by"].isin(students)]
     senti_df = pd.DataFrame(
@@ -245,7 +246,9 @@ def individual_question_senti(input_df):
     select_text = []
     for column in questions:
         select_text.append(input_df[column].to_string(index=False))
-    questions_senti_df = pd.DataFrame({"questions": questions, "text": select_text})
+    questions_senti_df = pd.DataFrame(
+        {"questions": questions, "text": select_text}
+    )
     # calculate overall sentiment from the combined text
     questions_senti_df["sentiment"] = questions_senti_df["text"].apply(
         lambda x: TextBlob(x).sentiment.polarity
