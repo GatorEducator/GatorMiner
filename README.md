@@ -17,6 +17,12 @@ This program uses [Pipenv](https://github.com/pypa/pipenv) for installation.
   `pipenv run python textmining.py -h`
 - To run streamlit, type in
   `pipenv run streamlit run streamlit_web.py`
+- Install SpaCy model `en_core_web_sm`, a small English model trained on written
+  web text (blogs, news, comments), that includes vocabulary, vectors, syntax and entities.
+
+  ```bash
+  pipenv run python -m spacy download en_core_web_sm
+  ```
 
   ```bash
   $ pipenv run python textmining.py -h
