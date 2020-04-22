@@ -21,11 +21,11 @@ def main():
     # Title
     st.sidebar.title("What to do")
     global directory
-    global df
+    global main_df
     directory = st.sidebar.text_input("Path to directory")
     if directory != "":
         try:
-            df = pd.DataFrame(md.collect_md(directory))
+            main_df = df_preprocess(directory)
             st.sidebar.success(f"Analyzing {directory} ....")
         except FileNotFoundError as err:
             st.sidebar.text(err)
@@ -53,16 +53,36 @@ def main():
         st.title("Summary")
         summary()
     elif analysis_mode == "Topic Modeling":
-        st.header("Topic Modeling")
+        st.title("Topic Modeling")
         tpmodel()
     elif analysis_mode == "Document Similarity":
-        st.header("Document Similarity")
+        st.title("Document Similarity")
         doc_sim()
+
+
+@st.cache
+def df_preprocess(directory_path):
+    "build and preprocess pandas dataframe"
+    raw_df = pd.DataFrame(md.collect_md(directory_path))
+    df_combined = combine_column_text(raw_df)
+    return df_combined
+
+
+def combine_column_text(raw_df):
+    """Combined the questions and store into a new column"""
+    df_combined = raw_df
+    # filter out first column -- user info
+    cols = df_combined.columns[1:]
+    # combining text into combined column
+    df_combined["combined"] = df_combined[cols].apply(
+        lambda row: " ".join(row.values.astype(str)), axis=1
+    )
+
+    return df_combined
 
 
 def frequency():
     """main function for frequency analysis"""
-    df_combined = combine_column_text(df)
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
@@ -77,17 +97,16 @@ def frequency():
         overall_freq(freq_range)
     elif freq_type == "Student":
         st.header("Most frequent words by individual students")
-        individual_student_freq(df_combined, freq_range)
+        individual_student_freq(main_df, freq_range)
     elif freq_type == "Question":
         st.header("Most frequent words in individual questions")
-        individual_question_freq(df, freq_range)
+        individual_question_freq(main_df, freq_range)
 
 
 def sentiment():
     """main function for sentiment analysis"""
-    df_combined = combine_column_text(df)
     # calculate overall sentiment from the combined text
-    df_combined["sentiment"] = df_combined["combined"].apply(
+    main_df["sentiment"] = main_df["combined"].apply(
         lambda x: TextBlob(x).sentiment.polarity
     )
     senti_type = st.sidebar.selectbox(
@@ -98,10 +117,10 @@ def sentiment():
             'To continue see individual sentiment analysis select "Individual"'
         )
         st.header("Overall sentiment polarity in the directory")
-        overall_senti(df_combined)
+        overall_senti(main_df)
     elif senti_type == "Student":
         st.header("View sentiment by individual students")
-        individual_student_senti(df_combined)
+        individual_student_senti(main_df)
     elif senti_type == "Question":
         st.header("View sentiment by individual questions")
 
@@ -120,29 +139,27 @@ def tpmodel():
     word_range = st.sidebar.slider(
         "Select the amount of words per topic", 1, 10, value=5
     )
-    df_combined = combine_column_text(df)
-    df_combined["topics"] = df_combined["combined"].apply(
+    main_df["topics"] = main_df["combined"].apply(
         lambda x: tm.topic_model(
             x, NUM_TOPICS=topic_range, NUM_WORDS=word_range
         )
     )
-    st.write(df_combined)
+    st.write(main_df)
 
 
 def doc_sim():
     """Display document similarity"""
-    df_combined = combine_column_text(df)
-    df_combined["normal_text"] = df_combined["combined"].apply(
+    main_df["normal_text"] = main_df["combined"].apply(
         lambda x: az.normalize(x)
     )
-    pairs = ds.create_pair(df_combined["Reflection by"])
+    pairs = ds.create_pair(main_df["Reflection by"])
     # calculate similarity of the docs of the selected author pairs
     similarity = [
         ds.tfidf_cosine_similarity(
             (
-                df_combined[df_combined["Reflection by"] == pair[0]][
+                main_df[main_df["Reflection by"] == pair[0]][
                     "normal_text"].values[0],
-                df_combined[df_combined["Reflection by"] == pair[1]][
+                main_df[main_df["Reflection by"] == pair[1]][
                     "normal_text"].values[0],
             )
         )
@@ -168,19 +185,6 @@ def doc_sim():
 def overall_freq(freq_range):
     """page fore overall word frequency"""
     plot_frequency(az.dir_frequency(directory, freq_range))
-
-
-def combine_column_text(raw_df):
-    """Combined the questions and store into a new column"""
-    df_combined = raw_df
-    # filter out first column -- user info
-    cols = df_combined.columns[1:]
-    # combining text into combined column
-    df_combined["combined"] = df_combined[cols].apply(
-        lambda row: " ".join(row.values.astype(str)), axis=1
-    )
-
-    return df_combined
 
 
 def overall_senti(senti_df):
@@ -218,12 +222,12 @@ def plot_overall_senti(senti_df):
     st.altair_chart(senti_point)
 
 
-def individual_student_senti(df):
+def individual_student_senti(input_df):
     """page for display individual student's sentiment"""
     students = st.multiselect(
-        label="Select specific students below:", options=df["Reflection by"]
+        label="Select specific students below:", options=input_df["Reflection by"]
     )
-    df_selected_stu = df.loc[df["Reflection by"].isin(students)]
+    df_selected_stu = input_df.loc[input_df["Reflection by"].isin(students)]
     senti_df = pd.DataFrame(
         df_selected_stu, columns=["Reflection by", "sentiment"]
     )
@@ -266,15 +270,15 @@ def individual_student_freq(df_combined, freq_range):
             )
 
 
-def individual_question_freq(df, freq_range):
+def individual_question_freq(input_df, freq_range):
     """page for individual question's word frequency"""
-    st.write(df)
+    st.write(input_df)
     questions = st.multiselect(
-        label="Select specific questions below:", options=df.columns[1:]
+        label="Select specific questions below:", options=input_df.columns[1:]
     )
     select_text = ""
     for column in questions:
-        select_text += df[column].to_string(index=False)
+        select_text += input_df[column].to_string(index=False)
     if select_text != "":
         plot_frequency(az.word_frequency(select_text, freq_range))
 
