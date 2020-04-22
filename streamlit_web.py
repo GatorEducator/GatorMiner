@@ -132,9 +132,7 @@ def doc_sim():
     df_combined["normal_text"] = df_combined["combined"].apply(
         lambda x: az.normalize(x)
     )
-    st.write(df_combined)
     pairs = ds.create_pair(df_combined["Reflection by"])
-    st.write(pairs)
     similarity = [
         ds.tfidf_cosine_similarity(
             (
@@ -145,13 +143,8 @@ def doc_sim():
         for pair in pairs
     ]
     df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
-    st.write(df_sim)
-
-    st.write(similarity)
     df_sim[['doc_1', 'doc_2']] = pd.DataFrame(df_sim['pair'].tolist(), index=df_sim.index)
-
     st.write(df_sim)
-
     heatmap = alt.Chart(df_sim).mark_rect().encode(
         x=alt.X('doc_1', sort=None, title="student"),
         y=alt.Y('doc_2', sort="-x", title="student"),
