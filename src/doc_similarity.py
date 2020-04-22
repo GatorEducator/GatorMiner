@@ -6,7 +6,7 @@ def create_pair(key_lst):
     pairs = []
     # create a list of tuples
     for i, v in enumerate((key_lst)):
-        for key in key_lst[i+1:]:
+        for key in key_lst[i + 1 :]:
             pairs.append((v, key))
 
     return pairs
