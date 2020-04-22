@@ -114,13 +114,17 @@ def summary():
 
 def tpmodel():
     """Display topic modeling"""
-    topic_range = st.sidebar.slider("Select the amount of topics", 1, 10, value=5)
+    topic_range = st.sidebar.slider(
+        "Select the amount of topics", 1, 10, value=5
+    )
     word_range = st.sidebar.slider(
         "Select the amount of words per topic", 1, 10, value=5
     )
     df_combined = combine_column_text(df)
     df_combined["topics"] = df_combined["combined"].apply(
-        lambda x: tm.topic_model(x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
+        lambda x: tm.topic_model(
+            x, NUM_TOPICS=topic_range, NUM_WORDS=word_range
+        )
     )
     st.write(df_combined)
 
@@ -136,15 +140,19 @@ def doc_sim():
     similarity = [
         ds.tfidf_cosine_similarity(
             (
-                df_combined[df_combined["Reflection by"] == pair[0]]["normal_text"].values[0],
-                df_combined[df_combined["Reflection by"] == pair[1]]["normal_text"].values[0],
+                df_combined[df_combined["Reflection by"] == pair[0]][
+                    "normal_text"].values[0],
+                df_combined[df_combined["Reflection by"] == pair[1]][
+                    "normal_text"].values[0],
             )
         )
         for pair in pairs
     ]
     df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
     # Split the pair tuple into two columns for plotting
-    df_sim[['doc_1', 'doc_2']] = pd.DataFrame(df_sim['pair'].tolist(), index=df_sim.index)
+    df_sim[['doc_1', 'doc_2']] = pd.DataFrame(
+        df_sim['pair'].tolist(), index=df_sim.index
+    )
     st.write(df_sim)
     heatmap = alt.Chart(df_sim).mark_rect().encode(
         x=alt.X('doc_1', sort=None, title="student"),
@@ -216,7 +224,9 @@ def individual_student_senti(df):
         label="Select specific students below:", options=df["Reflection by"]
     )
     df_selected_stu = df.loc[df["Reflection by"].isin(students)]
-    senti_df = pd.DataFrame(df_selected_stu, columns=["Reflection by", "sentiment"])
+    senti_df = pd.DataFrame(
+        df_selected_stu, columns=["Reflection by", "sentiment"]
+    )
     plot_student_sentiment(senti_df)
 
 
@@ -240,7 +250,8 @@ def plot_student_sentiment(senti_df):
 def individual_student_freq(df_combined, freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
-        label="Select specific students below:", options=df_combined["Reflection by"]
+        label="Select specific students below:",
+        options=df_combined["Reflection by"]
     )
     # plot based on student selected
     if students != "":
