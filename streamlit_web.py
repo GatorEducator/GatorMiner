@@ -7,6 +7,7 @@ import streamlit as st
 from textblob import TextBlob
 
 import src.analyzer as az
+import src.doc_similarity as ds
 import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
@@ -36,6 +37,7 @@ def main():
             "Sentiment Analysis",
             "Summary",
             "Topic Modeling",
+            "Document Similarity",
         ],
     )
     if analysis_mode == "Home":
@@ -53,6 +55,9 @@ def main():
     elif analysis_mode == "Topic Modeling":
         st.header("Topic Modeling")
         tpmodel()
+    elif analysis_mode == "Document Similarity":
+        st.header("Document Similarity")
+        doc_sim()
 
 
 def frequency():
@@ -122,6 +127,10 @@ def tpmodel():
         )
     )
     st.write(df_combined)
+
+
+def doc_sim():
+    pass
 
 
 def overall_freq(freq_range):
