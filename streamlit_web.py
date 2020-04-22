@@ -232,7 +232,8 @@ def individual_student_senti(input_df):
     senti_df = pd.DataFrame(
         df_selected_stu, columns=["Reflection by", "sentiment"]
     )
-    plot_student_sentiment(senti_df)
+    if len(students) != 0:
+        plot_student_sentiment(senti_df)
 
 
 def individual_question_senti(input_df):
