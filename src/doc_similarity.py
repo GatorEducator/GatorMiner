@@ -3,17 +3,18 @@ import numpy as np
 
 
 def create_pair(key_lst):
+    """Create non-repetitive pairs from two lists"""
     pairs = []
     # create a list of tuples
     for i, v in enumerate((key_lst)):
-        for key in key_lst[i + 1 :]:
+        for key in key_lst[i + 1:]:
             pairs.append((v, key))
 
     return pairs
 
 
 def tfidf_cosine_similarity(pair):
-
+    """Use tfidf vector to calucate similarity of two documents"""
     doc_1, doc_2 = pair
 
     # text to vector
@@ -27,11 +28,3 @@ def tfidf_cosine_similarity(pair):
     cosine_similarity = np.dot(doc_v1, doc_v2)
 
     return cosine_similarity
-
-
-text_lst = ["normalized text1", "normalized text2"]
-
-key_lst = ["author 1", "author 2", "author 3", "author 4", "author 5"]
-
-
-print(create_pair(key_lst))
