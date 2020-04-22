@@ -123,6 +123,7 @@ def sentiment():
         individual_student_senti(main_df)
     elif senti_type == "Question":
         st.header("View sentiment by individual questions")
+        individual_question_senti(main_df)
 
 
 def summary():
@@ -234,6 +235,24 @@ def individual_student_senti(input_df):
     plot_student_sentiment(senti_df)
 
 
+def individual_question_senti(input_df):
+    """page for individual question's sentiment"""
+    st.write(input_df)
+    questions = st.multiselect(
+        label="Select specific questions below:", options=input_df.columns[1:]
+    )
+    select_text = []
+    for column in questions:
+        select_text.append(input_df[column].to_string(index=False))
+    questions_senti_df = pd.DataFrame({"questions": questions, "text": select_text})
+    # calculate overall sentiment from the combined text
+    questions_senti_df["sentiment"] = questions_senti_df["text"].apply(
+        lambda x: TextBlob(x).sentiment.polarity
+    )
+    if len(select_text) != 0:
+        plot_question_sentiment(questions_senti_df)
+
+
 def plot_student_sentiment(senti_df):
     """plot sentiment by student from a df containing name and senti"""
     senti_plot = (
@@ -241,6 +260,23 @@ def plot_student_sentiment(senti_df):
         .mark_bar()
         .encode(
             alt.Y("Reflection by", title="Student", sort="-x"),
+            alt.X("sentiment", title="Sentiment"),
+            tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
+            opacity=alt.value(0.7),
+            color=alt.value("red"),
+        )
+    )
+
+    st.altair_chart(senti_plot)
+
+
+def plot_question_sentiment(senti_df):
+    """plot sentiment by student from a df containing name and senti"""
+    senti_plot = (
+        alt.Chart(senti_df)
+        .mark_bar()
+        .encode(
+            alt.Y("questions", title="Questions", sort="-x"),
             alt.X("sentiment", title="Sentiment"),
             tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
             opacity=alt.value(0.7),
