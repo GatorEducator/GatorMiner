@@ -326,7 +326,7 @@ def individual_student_freq(df_combined, freq_range):
     # freq_df = pd.DataFrame(data, columns=["word", "freq"])
     # st.write(freq_df)
 
-    # from altair.expr import datum
+    from altair.expr import datum
     #
     # freq_base = (
     #     alt.Chart(freq_df)
@@ -348,27 +348,30 @@ def individual_student_freq(df_combined, freq_range):
     #     chart |= freq_base.transform_filter(datum.species == species)
     # chart
 
-    # base = alt.Chart(df_combined).mark_point().encode(
-    #         x='petalLength:Q',
-    #         y='petalWidth:Q',
-    #         color='species:N'
+    # base = alt.Chart(freq_df).mark_bar().encode(
+    #         x='word',
+    #         y='freq',
+    #         color='student'
     #     ).properties(
     #         width=160,
     #         height=160
     #     )
-
+    #
     # chart = alt.hconcat()
-    # for species in ['setosa', 'versicolor', 'virginica']:
-    #     chart |= base.transform_filter(datum.species == species)
-    # chart
+    # for student in students:
+    #     chart |= base.transform_filter(datum.species == student)
+    #
+    # st.altair_chart(base)
 
     facet = alt.Chart(freq_df).mark_bar().encode(
-        x='word',
-        y='freq',
-        column='student'
+        x='word:N',
+        y='freq:Q',
+        color='student'
         ).properties(
             width=100,
             height=100
+        ).facet(
+            column='student',
         )
     st.altair_chart(facet)
 
