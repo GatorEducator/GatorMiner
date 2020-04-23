@@ -327,56 +327,57 @@ def individual_student_freq(df_combined, freq_range):
     # st.write(freq_df)
 
     from altair.expr import datum
-    #
-    # freq_base = (
-    #     alt.Chart(freq_df)
-    #     .mark_bar()
-    #     .encode(
-    #         alt.Y("word", title="words", sort="-x"),
-    #         alt.X("freq", title="frequencies"),
-    #         tooltip=[alt.Tooltip("freq", title="frequency")],
-    #         opacity=alt.value(0.7),
-    #         color=alt.value("blue"),
-    #     )
-    # )
 
-    # st.bar_chart(freq_df)
-    # st.altair_chart(freq_plot)
 
-    # chart = alt.hconcat()
-    # for student in students:
-    #     chart |= freq_base.transform_filter(datum.species == species)
-    # chart
 
-    # base = alt.Chart(freq_df).mark_bar().encode(
-    #         x='word',
-    #         y='freq',
-    #         color='student'
+    # facet = alt.Chart(freq_df).mark_bar().encode(
+    #     alt.X('word:N', sort="-y"),
+    #     alt.Y('freq:Q'),
+    #     tooltip=[alt.Tooltip("freq", title="frequency")],
+    #     opacity=alt.value(0.7),
+    #     color='student'
     #     ).properties(
-    #         width=160,
-    #         height=160
-    #     )
-    #
-    # chart = alt.hconcat()
-    # for student in students:
-    #     chart |= base.transform_filter(datum.species == student)
-    #
-    # st.altair_chart(base)
+    #         width=150,
+    #         height=150
+    #     ).facet(
+    #         column='student',
+    #     ).resolve_scale(x='independent')
+    # st.altair_chart(facet)
 
-    facet = alt.Chart(freq_df).mark_bar().encode(
+    base = alt.Chart(freq_df).mark_bar().encode(
         alt.X('word:N', sort="-y"),
         alt.Y('freq:Q'),
         tooltip=[alt.Tooltip("freq", title="frequency")],
         opacity=alt.value(0.7),
         color='student'
         ).properties(
-            width=100,
-            height=100
-        ).facet(
-            column='student',
-        ).resolve_scale(x='independent')
+            width=150,
+            height=150
+        )
 
-    st.altair_chart(facet)
+    # create a list of subplots
+    subplts = []
+    for stu in students:
+        subplts.append(base.transform_filter(datum.student == stu))
+
+    # def facet_wrap(subplts, plots_per_row):
+    #   
+    column_plot = alt.vconcat()
+    plots_per_row = 3
+    row_plot_lst = []
+    row_stu = [students[i:i+plots_per_row] for i in range(0, len(students), plots_per_row)]
+    for row in row_stu:
+        row_plot = alt.hconcat()
+        for item in row:
+            row_plot |= base.transform_filter(datum.student == item)
+        column_plot &= row_plot
+
+
+    st.write(column_plot)
+
+    # compound_chart = facet_wrap(subplts, plots_per_row=2)
+
+    # st.altair_chart(chart)
 
 
 
