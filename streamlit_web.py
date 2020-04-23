@@ -60,7 +60,6 @@ def main():
         doc_sim()
 
 
-@st.cache
 def df_preprocess(directory_path):
     "build and preprocess pandas dataframe"
     raw_df = pd.DataFrame(md.collect_md(directory_path))
