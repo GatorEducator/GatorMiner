@@ -298,16 +298,100 @@ def individual_student_freq(df_combined, freq_range):
         options=df_combined["Reflection by"]
     )
     # plot based on student selected
-    if students != "":
-        for student in students:
-            plot_frequency(
-                az.word_frequency(
-                    df_combined[df_combined["Reflection by"] == student]
-                    .loc[:, ["combined"]]
-                    .to_string(),
-                    freq_range,
-                )
-            )
+    # if students != "":
+    #     for student in students:
+    #         plot_frequency(
+    #             az.word_frequency(
+    #                 df_combined[df_combined["Reflection by"] == student]
+    #                 .loc[:, ["combined"]]
+    #                 .to_string(),
+    #                 freq_range,
+    #             )
+    #         )
+
+    freq_df = pd.DataFrame(columns=["student", "word", "freq"])
+    st.write(freq_df)
+    for student in students:
+        individual_freq = az.word_frequency(
+                        df_combined[df_combined["Reflection by"] == student]
+                        .loc[:, ["combined"]]
+                        .to_string(),
+                        freq_range,
+        )
+        ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
+        ind_df["student"] = student
+        freq_df = freq_df.append(ind_df)
+    st.write(freq_df)
+
+    # freq_df = pd.DataFrame(data, columns=["word", "freq"])
+    # st.write(freq_df)
+
+    # from altair.expr import datum
+    #
+    # freq_base = (
+    #     alt.Chart(freq_df)
+    #     .mark_bar()
+    #     .encode(
+    #         alt.Y("word", title="words", sort="-x"),
+    #         alt.X("freq", title="frequencies"),
+    #         tooltip=[alt.Tooltip("freq", title="frequency")],
+    #         opacity=alt.value(0.7),
+    #         color=alt.value("blue"),
+    #     )
+    # )
+
+    # st.bar_chart(freq_df)
+    # st.altair_chart(freq_plot)
+
+    # chart = alt.hconcat()
+    # for student in students:
+    #     chart |= freq_base.transform_filter(datum.species == species)
+    # chart
+
+    # base = alt.Chart(df_combined).mark_point().encode(
+    #         x='petalLength:Q',
+    #         y='petalWidth:Q',
+    #         color='species:N'
+    #     ).properties(
+    #         width=160,
+    #         height=160
+    #     )
+
+    # chart = alt.hconcat()
+    # for species in ['setosa', 'versicolor', 'virginica']:
+    #     chart |= base.transform_filter(datum.species == species)
+    # chart
+
+    facet = alt.Chart(freq_df).mark_bar().encode(
+        x='word',
+        y='freq',
+        column='student'
+        ).properties(
+            width=100,
+            height=100
+        )
+    st.altair_chart(facet)
+
+
+
+# def individual_student_freq(df_combined, freq_range):
+#     """page for individual student's word frequency"""
+#     students = st.multiselect(
+#         label="Select specific students below:",
+#         options=df_combined["Reflection by"]
+#     )
+#     # plot based on student selected
+#     if students != "":
+#         for student in students:
+#             plot_frequency(
+#                 az.word_frequency(
+#                     df_combined[df_combined["Reflection by"] == student]
+#                     .loc[:, ["combined"]]
+#                     .to_string(),
+#                     freq_range,
+#                 )
+#             )
+#
 
 
 def individual_question_freq(input_df, freq_range):
