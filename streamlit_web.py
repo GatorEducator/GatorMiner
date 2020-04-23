@@ -364,15 +364,18 @@ def individual_student_freq(df_combined, freq_range):
     # st.altair_chart(base)
 
     facet = alt.Chart(freq_df).mark_bar().encode(
-        x='word:N',
-        y='freq:Q',
+        alt.X('word:N', sort="-y"),
+        alt.Y('freq:Q'),
+        tooltip=[alt.Tooltip("freq", title="frequency")],
+        opacity=alt.value(0.7),
         color='student'
         ).properties(
             width=100,
             height=100
         ).facet(
             column='student',
-        )
+        ).resolve_scale(x='independent')
+
     st.altair_chart(facet)
 
 
