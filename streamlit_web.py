@@ -149,6 +149,7 @@ def tpmodel():
 
 def doc_sim():
     """Display document similarity"""
+    st.header("Similarity between each student's document")
     main_df["normal_text"] = main_df["combined"].apply(
         lambda x: az.normalize(x)
     )
@@ -170,7 +171,7 @@ def doc_sim():
     df_sim[['doc_1', 'doc_2']] = pd.DataFrame(
         df_sim['pair'].tolist(), index=df_sim.index
     )
-    st.write(df_sim)
+    # st.write(df_sim)
     heatmap = alt.Chart(df_sim).mark_rect().encode(
         x=alt.X('doc_1', sort=None, title="student"),
         y=alt.Y('doc_2', sort="-x", title="student"),
@@ -336,7 +337,7 @@ def plot_frequency(data: List[Tuple[str, int]]):
             tooltip=[alt.Tooltip("freq", title="frequency")],
             opacity=alt.value(0.7),
             color=alt.value("blue"),
-        )
+        ).properties(title='frequency plot')
     )
 
     # st.bar_chart(freq_df)
