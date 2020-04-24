@@ -202,8 +202,7 @@ def plot_overall_senti(senti_df):
         .encode(
             alt.Y("sentiment", bin=True),
             x="count()",
-            opacity=alt.value(0.7),
-            color=alt.value("blue"),
+            color="sentiment",
         ).properties(
             height=300,
             width=100
@@ -213,9 +212,9 @@ def plot_overall_senti(senti_df):
         alt.Chart(senti_df)
         .mark_circle(size=300, fillOpacity=0.7)
         .encode(
-            x="Reflection by",
-            y="sentiment",
-            color="Reflection by",
+            alt.X("Reflection by"),
+            alt.Y("sentiment"),
+            alt.Color("Reflection by", legend=alt.Legend(orient="left")),
             tooltip=[
                 alt.Tooltip("sentiment", title="polarity"),
                 alt.Tooltip("Reflection by", title="author"),
@@ -287,8 +286,12 @@ def plot_question_sentiment(senti_df):
             alt.X("sentiment", title="Sentiment"),
             tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
             opacity=alt.value(0.7),
-            color=alt.value("red"),
-        )
+            color=alt.condition(
+                alt.datum.sentiment > 0,
+                alt.value("steelblue"),
+                alt.value("red")
+            )
+        ).properties(width=700, height=450)
     )
 
     st.altair_chart(senti_plot)
