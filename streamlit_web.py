@@ -313,8 +313,8 @@ def individual_student_freq(df_combined, freq_range):
         freq_df = freq_df.append(ind_df)
 
     base = alt.Chart(freq_df).mark_bar().encode(
-        alt.X('freq'),
-        alt.Y('word', sort="-x"),
+        alt.X('freq', title=None),
+        alt.Y('word', title=None, sort="-x"),
         tooltip=[
             alt.Tooltip("freq", title="frequency"),
             alt.Tooltip("word", title="word"),
@@ -323,7 +323,6 @@ def individual_student_freq(df_combined, freq_range):
         color=alt.Color('student', legend=None)
         ).properties(
             width=190,
-            height=190,
         )
 
     subplts = []
@@ -336,7 +335,7 @@ def individual_student_freq(df_combined, freq_range):
                    for i in range(0, len(subplts), plots_per_row)]
         column_plot = alt.vconcat(spacing=10)
         for row in row_stu:
-            row_plot = alt.hconcat(spacing=60)
+            row_plot = alt.hconcat(spacing=10)
             for item in row:
                 row_plot |= item
             column_plot &= row_plot
