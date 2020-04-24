@@ -1,3 +1,5 @@
+# Reflection by 
+
 ## Data
 
 I used two different script data. One is scripts of Green Arrow Season Three, episode 1 to 23, and another one is scripts of Black Mirror Season One to Four, all episodes. Since there are some special symbols in these scripts, I have to use both `utf-8` and `ISO-8859-1` to encode. I manually assigned all Black Mirror scripts to have creativity score of 1 and all Green Arrow scripts to have creativity score of 0. This two selections have similar amount of word count, therefore, the data distribution should not be a big problem. I used these two datasets together with `textgen` package to generate a script text using RNN, then use these two datasets associated with the creativity score to train a KCNN model which can predict the creativity score of generated script text.

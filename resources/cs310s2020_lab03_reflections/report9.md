@@ -1,92 +1,87 @@
+# Reflection by 
+
 ## Data
 
-I used subtitles from the first two episodes of Battlestar Galactica.
-I downloaded the `.srt` files from [tv-subs](https://www.tv-subs.net/) that
-was provided in our assignment sheet. To improve accuracy of the data for the
-use of the project, I manually removed most of the music or non verbal subtitles
-that are typically in brackets. I also removed html italic tags manually.
-
+The data we decided to use in our project came from the popular t.v. series Game of Thrones. We got this data from the website https://www.tv-subs.net/, where were able to obtain the subtitles of a show in the form of an .srt file.
 ## Text Generation
 
-Describe the techniques used for an automated generation of your script synopsis. Cite (provide a link to) any sources you have used. Include your generated text (or its snippet) below.
-
-For automated text generation I used [gpt-2-simple](https://github.com/minimaxir/gpt-2-simple)
-in a Google colab notebook. I chose the basic
-provided training model, and trained the model for 43 rounds, getting about 0.5 loss averages.
-I then generated the text seen below.
+We used textgen to create the synopsis based on the text from the Game of Thrones episode, Rains of Castamere.
 
 ```
-Be careful out there...
+You don'</>
+Killing you who have not say.
 
-Be careful out there... - Akojo...
+Walder the Nancy and a small.
+190
+00:19:22,241 --> 00:00:25,896
+The knowle is the contral.
+Black --> 00:07:31,428 --> 00:09:14,088 —
+277
+472
 
-Akojo... akojo, mei no karasu. I see. I see. What? No problem. I'll put them on the line. - All right. And how long until they're gone? 10 days. - X amount. - Okay. Lets set up a patrol here... before somebody gets hurt. BALTAR: County, county. Its the Federalist, the old colonialist. Its the same as the red light district. It says its the same as nigger, but with a different spelling. GAETA: Boomer. Boomer is the new form of the old monikers. Its a civilian-led protest, but actually a federal protest. Thats just great, isodating a government. Really? [Chuckling] We had a civilian-led civilian protest... a federal one. It was called the Boomer, but theyre the Cylons. Theyre the Cylons, aren't they? Theyre the Cylons, belong to the next generation. BILLY: I want us to have a child, BILLY. That, and a child, and a mighty, mighty great, mighty great, mighty great... and theyll make us. BILLY: You know what? I want us to have a child, too. BILLY: I want us to have a child, too. See, the Cylons look like us. Theyre the Cylons, aren't they? Theyre the Cylons, belong to the next generation. BILLY: You dont know how relieved you are to see us, do you? A little sad, dont you? Im sure some day if youre a good Cylon hell reward you... with a lovely little walking toaster of your very own. BILLY: You cant be serious. - Its Dr. Amarak. - What was that? Im so sorry for interrupting you while you were speaking. You were just saying? I was just saying that a Dr. Amarak... - has requested to speak with the President... regarding a mysterious anomaly... that has afflicted all of us. - Id bephalting you... for one minute at a time. - Is that your Dr. Amarak? You were saying something about something? I was just saying that... a few minutes ago... the President requested to speak with the President regarding a strange anomaly...... regarding which he has requested that we... ask him a few simple personal... and professional... questions. A few days ago, the Cylons... escaped from their servitor ship and began to attack the fleet... taking advantage of the current time break... to continue their attack on the President. Is that what you were saying? The truth is, the Cylons still lurk around the bowels of our FTL port, holding a grudge that we must cut off their heads if they want to survive. - And why are they holding a grudge? - Because theyre Cylons. Theyve been tracking down Cylons all along. A Cylon maybe tracking them, but theyre not showing up. So theres not a whyset wayward BLL... to jump. - Dr. Amarak. - Yes. It is. BILLY: The Cylons still lurk around the bowels of our FTL port. BILLY: Theres a Cylon fleet waiting to jump. Theyve got ships that destroyairlyreaching our fleet. Theyve got bombers that killfast... butarent showing up. Are you there? Yeah, Im here. How about we jump? Callyx: Lets get some of the old men and women in the party... into a coma. Callyx: Ms. Gaeta. Gaius. Gaeta: Well go. Someone hasto jump. Someone hasto jump. Gaeta: We havena jump. GAETA: Boomer. GAETA: Sir. GAETA: ...are recognizing the fourth command. There are 446 ships remaining in our bow... from across the universe. We have no idea when they left or where they are headed. What are we doing here, Gaius? Go back to Raven Rock. Its all wrong. There are 446 people aboard this ship. Why are we showing up? We had a medical error and our FTL drive is down. There may have been other causes... such as the extinction of large swaths of the old world, we do not know the answer to. help us God. Or do you? God is a complex system. Coincidental, serendipitous events... are bound to occur. Happens all the time. Amen. FRASER: [Over PA] Landing base Team Alpha, check three. No. APOLLO: Twelve more contacts, all feeling the effects of the last ship... have passed
+414
+
+00:19:22,888 --> 00:14:02,846
+
+
+487
+
+378
+00:39:42,648 --> 00:00:28,882
+00:10:22,884 --> 00:07:21,119
+The Nation say to you
+00:07:28,867 --> 00:09:48,886
+uncleportably will bed the city.
+90
+We'll go to grand.
+
+00:00:22,488 --> 00:19:41,387
+Marry of you.
+
+00:08:42,882 --> 00:42:03,846
+409
+00:00:42,141 --> 00:17:20,980
+I wanted to replace a sweat.</>
 ```
+This is part of the generated text, the full text is in the src folder, under ```generated_text.txt```.
 
 ## Text Analysis
-
-To complete the text analysis portion of this assignment, I used a previous assingment
-that rated the sentiment of words in a file and provided an overall score. Each sentiment
-word and its rank is stored in the `sentiment.txt` file. Below is the overall calculation
-based on those sentiment words.
-
-```
-Score by summation : -29
-Number of sentiment words: 222
-```
+We used textgen to train the model and generate a text from the synopsis it came up with. Then we used the VADER senitment analyzer to score these texts for their sentiment. We were already familiar with VADER because one of our team members references them in their comp.
 
 ## Supplemental Production
 
-Describe the supplemental production you have created. Include an image if relevant.
-
-This part of the lab assignment was removed due to a move to remote education.
+Our synopsis mentions war and and a sword several times, and this theme kept coming back even when we ran the program multiple times, to generate different kinds of text. Are plan was to 3D print a broken sword using the 3D printer, yet since none of us had access to one at home we were unable. Here is a link to the sword we planned to show along with our project, https://www.thingiverse.com/thing:1933150.
 
 ## Challenges and Learning Experiences
-
-The largest challenge I faced at first was setting up `tensorflow` and `textgenrnn` locally
-on my device. After stuggling with that for awhile, I was able to get both working in a
-Google colab notebook. However, `textgenrnn` would not produce coherent words with the
-training model I had choosen and the amount of data I had. So, I chose to use a different
-tool tot generate my text, which worked well. I feel that through this challenge I
-further understand the importance of choosing the corrent training model for the data
-you are using. I also stuggled with knowing how long I should train my model. It took about
-an hour to get to round 43 and I was unsure as to when the training was going to stop on
-its own or if I was supposed to stop it myself. This I hope will come with more practice
-and with more knowledge of the tools I am using.
+The synopsis we created was minimum, and the program would need more training data to create a better synopsis. While I can understand the dialogue, it isn't fully coherent. This may be due to that particular episode we chose as well.
+During this lab one of the clear challenges was our communication during this lab session. We are very close friends so it was easy to ask hey when do you want to work on this and so on. But it was very difficult to communicate since we were not sitting next to each other it was hard to make sure we were working on separate things and weren't just doing the same thing and repeating it. With communication being an issue another issue we had was working around the hectic time we are currently in. With all the breaks and extensions it was difficult to keep track of everything that was going on and when deadlines were due and making sure we did our work on time.
 
 ## Ethical Benefits and Implications
 
-The overall theme of Battlestar Galactica is that there are two
-societies, one human, one robot. In this scenario, AI has evolved to the
-point of being self sufficient. While this is an example of "perfect AI",
-it is something many people think about when they think about AI in general.
-Will it be able to be controled?
+
+The future technology this could be used for is allowing writers to create their own spinoffs of shows with the same themes. For example if creators are seeing the sci fi movies are a big hit then they can take the scripts of the most popular shows an try to allow a computer to create the next hit show. Another thing this technology could be use for is to directors to create adaptations of the film while not changing the script they could post it online to show how the script could vary if x did y or so on and so forth.
 
 Then, hypothesizing on the issues highlighted in your generated (or modified) text, answer the following questions.
 
 1. What future technology is featured in your synopsis?
-
-    Self sufficient AI.
+The future technology featured is the ability to use scripts and create show spinoffs that are just as popular, and also the other benefit is that it will allow fanatics of the shows to have an alternate ending without costing the film maker extra money with paying the camera crews and everything else.
 
 2. What are the potential social implications and/or ethical issues and/or regulatory challenges with this technology?
 
-    There are major social implications with self sufficient AI. Is this AI
-    allowed to exist? If so, does it exist within society normally, are we
-    aware of what is AI and what is human? Is anyone able to regulate this
-    technology?
+A potential implication is that directors could use this to make extra money off other shows such as spinoffs or alternate endings without having to pay the extra workers since it will all be computer automated. It will create a big fight between the workers and directors sine they will make money off of more shows, but the people who put effort in will not get paid.
 
 3. What do you think might be a cautionary tale related to this technology?
 
-    There is a point where the technology overcomes the need for any type of
-    humanity and can exist completely on its own.
+I think a cautionary tale could be that everyone should be able to make money off of all the extra stuff that is produced because they were all in the process of making the film and thats why it got so popular and was allowed to make spinoffs and alternate endings.
 
 4. What fictional person in the future could best illustrate this caution?
 
+A fictional person in the future could be a director or a person who is in charge of paying people to be in the films. Or the other person could be creating a position that makes sure everyone gets money evenly and no one is scamming other people. This person could make sure everything is sorted out evenly before hands a create a contract people can sign and agree to beforehand.
+
 5. What is their story?
 
-6. Now, consider what a `Light Mirror` scenario would be for this story. That is, what benefit can come out of the  technology featured in the story and how can we work towards preventing the negative consequences of the future they envision?
+Their story is that they strive on making sure everything is equal because they genuinely care about making sure people are happy and accompanied for for the work they do. They love making sure people are happy and feeling the best they can.
 
-    While we have discussed the very real challenges to ethical AI, I'd say
-    self - sufficient AI, if ethical, could be used positively in many ways.
-    However this all still depends on what we as a society can agree on as
-    "ethical".
+6. Now, consider what a ```Light Mirror``` scenario would be for this story. That is, what benefit can come out of the  technology featured in the story and how can we work towards preventing the negative consequences of the future they envision?
+
+A benefit that could come out of this technology is the ability for fans of a certain show to be able to go more in depth with the show and allow for alternate endings to be shown without having to go into production cost of creating a script. Meanwhile a negative consequence is that people will have to be provided for because they were apart of the show and thats why spinoffs or alternate endings that made it so great.

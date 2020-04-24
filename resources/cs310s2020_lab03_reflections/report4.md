@@ -1,3 +1,5 @@
+# Reflection by 
+
 ## Data
 
 The data that we used were the subtitles from the show Mr. Robot. We first downloaded the subtitles of the first season from [tv-subs.net](tv-subs.net). This was done manually and then each episode was added to a folder. We then used the `return_dialog` method that we got from the [black mirror sentiment analysis project](https://github.com/pcalderon0711/black-mirror-sentiment-analysis/blob/master/blackmirrorsentiment.ipynb) that was initially given to us. This was done to remove unnecessary data/text from the subtitles. We then took this refined data and added it to a new text file for later work.

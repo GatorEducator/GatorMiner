@@ -1,3 +1,5 @@
+# Reflection by 
+
 ## Data
 The data used in this project are subtitles from Season 2 episode 6 from Rick and Morty. This show is about a grandfather and his grandson who travel the universe carrying out weird adventures. In the episode that I picked the main characters take a look at a battery they made so they would never run out of power. Coincidentally the battery runs out of power so the characters have to figure out what is going on with the battery. 
 
