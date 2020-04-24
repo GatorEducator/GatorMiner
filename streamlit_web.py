@@ -211,7 +211,7 @@ def plot_overall_senti(senti_df):
     )
     senti_point = (
         alt.Chart(senti_df)
-        .mark_point()
+        .mark_circle(size=300, fillOpacity=0.7)
         .encode(
             x="Reflection by",
             y="sentiment",
