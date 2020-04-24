@@ -2,6 +2,7 @@
 from typing import List, Tuple
 
 import altair as alt
+from altair.expr import datum
 import pandas as pd
 import streamlit as st
 from textblob import TextBlob
@@ -297,20 +298,9 @@ def individual_student_freq(df_combined, freq_range):
         label="Select specific students below:",
         options=df_combined["Reflection by"]
     )
-    # plot based on student selected
-    # if students != "":
-    #     for student in students:
-    #         plot_frequency(
-    #             az.word_frequency(
-    #                 df_combined[df_combined["Reflection by"] == student]
-    #                 .loc[:, ["combined"]]
-    #                 .to_string(),
-    #                 freq_range,
-    #             )
-    #         )
 
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
-    st.write(freq_df)
+
     for student in students:
         individual_freq = az.word_frequency(
                         df_combined[df_combined["Reflection by"] == student]
@@ -321,84 +311,40 @@ def individual_student_freq(df_combined, freq_range):
         ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
         ind_df["student"] = student
         freq_df = freq_df.append(ind_df)
-    st.write(freq_df)
-
-    # freq_df = pd.DataFrame(data, columns=["word", "freq"])
-    # st.write(freq_df)
-
-    from altair.expr import datum
-
-
-
-    # facet = alt.Chart(freq_df).mark_bar().encode(
-    #     alt.X('word:N', sort="-y"),
-    #     alt.Y('freq:Q'),
-    #     tooltip=[alt.Tooltip("freq", title="frequency")],
-    #     opacity=alt.value(0.7),
-    #     color='student'
-    #     ).properties(
-    #         width=150,
-    #         height=150
-    #     ).facet(
-    #         column='student',
-    #     ).resolve_scale(x='independent')
-    # st.altair_chart(facet)
 
     base = alt.Chart(freq_df).mark_bar().encode(
-        alt.X('word:N', sort="-y"),
-        alt.Y('freq:Q'),
-        tooltip=[alt.Tooltip("freq", title="frequency")],
+        alt.X('freq'),
+        alt.Y('word', sort="-x"),
+        tooltip=[
+            alt.Tooltip("freq", title="frequency"),
+            alt.Tooltip("word", title="word"),
+        ],
         opacity=alt.value(0.7),
-        color='student'
+        color=alt.Color('student', legend=None)
         ).properties(
-            width=150,
-            height=150
+            width=190,
+            height=190,
         )
 
-    # create a list of subplots
     subplts = []
     for stu in students:
-        subplts.append(base.transform_filter(datum.student == stu))
+        subplts.append(
+            base.transform_filter(datum.student == stu).properties(title=stu))
 
-    # def facet_wrap(subplts, plots_per_row):
-    #   
-    column_plot = alt.vconcat()
-    plots_per_row = 3
-    row_plot_lst = []
-    row_stu = [students[i:i+plots_per_row] for i in range(0, len(students), plots_per_row)]
-    for row in row_stu:
-        row_plot = alt.hconcat()
-        for item in row:
-            row_plot |= base.transform_filter(datum.student == item)
-        column_plot &= row_plot
+    def facet_wrap(subplts, plots_per_row=3):
+        row_stu = [subplts[i: i + plots_per_row]
+                   for i in range(0, len(subplts), plots_per_row)]
+        column_plot = alt.vconcat(spacing=10)
+        for row in row_stu:
+            row_plot = alt.hconcat(spacing=60)
+            for item in row:
+                row_plot |= item
+            column_plot &= row_plot
 
+        return column_plot
 
-    st.write(column_plot)
-
-    # compound_chart = facet_wrap(subplts, plots_per_row=2)
-
-    # st.altair_chart(chart)
-
-
-
-# def individual_student_freq(df_combined, freq_range):
-#     """page for individual student's word frequency"""
-#     students = st.multiselect(
-#         label="Select specific students below:",
-#         options=df_combined["Reflection by"]
-#     )
-#     # plot based on student selected
-#     if students != "":
-#         for student in students:
-#             plot_frequency(
-#                 az.word_frequency(
-#                     df_combined[df_combined["Reflection by"] == student]
-#                     .loc[:, ["combined"]]
-#                     .to_string(),
-#                     freq_range,
-#                 )
-#             )
-#
+    grid = facet_wrap(subplts)
+    st.altair_chart(grid)
 
 
 def individual_question_freq(input_df, freq_range):
