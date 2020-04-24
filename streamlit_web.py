@@ -180,7 +180,7 @@ def doc_sim():
         tooltip=[
             alt.Tooltip("similarity", title="similarity"),
         ]
-    )
+    ).properties(width=600, height=550)
     st.altair_chart(heatmap)
 
 
@@ -200,10 +200,13 @@ def plot_overall_senti(senti_df):
         alt.Chart(senti_df)
         .mark_bar()
         .encode(
-            alt.X("sentiment", bin=True),
-            y="count()",
+            alt.Y("sentiment", bin=True),
+            x="count()",
             opacity=alt.value(0.7),
             color=alt.value("blue"),
+        ).properties(
+            height=300,
+            width=100
         )
     )
     senti_point = (
@@ -219,9 +222,8 @@ def plot_overall_senti(senti_df):
             ],
         )
     )
-
-    st.altair_chart(senti_hist)
-    st.altair_chart(senti_point)
+    combine = alt.hconcat(senti_point, senti_hist)
+    st.altair_chart(combine)
 
 
 def individual_student_senti(input_df):
@@ -268,8 +270,8 @@ def plot_student_sentiment(senti_df):
             alt.X("sentiment", title="Sentiment"),
             tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
             opacity=alt.value(0.7),
-            color=alt.value("red"),
-        )
+            color="Reflection by",
+        ).properties(width=700, height=450)
     )
 
     st.altair_chart(senti_plot)
