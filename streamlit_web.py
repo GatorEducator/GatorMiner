@@ -179,17 +179,18 @@ def doc_sim():
     df_sim[['doc_1', 'doc_2']] = pd.DataFrame(
         df_sim['pair'].tolist(), index=df_sim.index
     )
-    vis.plot_doc_sim(df_sim)
+    vis.doc_sim_heatmap(df_sim)
 
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
-    vis.plot_frequency(az.dir_frequency(directory, freq_range))
+    freq_df = pd.DataFrame(az.dir_frequency(directory, freq_range), columns=["word", "freq"])
+    vis.freq_barplot(freq_df)
 
 
 def overall_senti(senti_df):
     """page for overall senti"""
-    vis.plot_overall_senti(senti_df, student_id)
+    vis.senti_combinedplot(senti_df, student_id)
 
 
 def individual_student_senti(input_df):
@@ -203,7 +204,7 @@ def individual_student_senti(input_df):
         df_selected_stu, columns=[student_id, "sentiment"]
     )
     if len(students) != 0:
-        vis.plot_student_sentiment(senti_df, student_id)
+        vis.stu_senti_barplot(senti_df, student_id)
 
 
 def individual_question_senti(input_df):
@@ -224,7 +225,7 @@ def individual_question_senti(input_df):
         lambda x: TextBlob(x).sentiment.polarity
     )
     if len(select_text) != 0:
-        vis.plot_question_sentiment(questions_senti_df)
+        vis.question_senti_barplot(questions_senti_df)
 
 
 def individual_student_freq(df_combined, freq_range):
@@ -247,7 +248,7 @@ def individual_student_freq(df_combined, freq_range):
         ind_df["student"] = student
         freq_df = freq_df.append(ind_df)
 
-    vis.plot_individual_student_freq(freq_df, students)
+    vis.stu_freq_barplot(freq_df, students)
 
 
 def individual_question_freq(input_df, freq_range):
@@ -261,7 +262,11 @@ def individual_question_freq(input_df, freq_range):
     for column in questions:
         select_text += input_df[column].to_string(index=False)
     if select_text != "":
-        vis.plot_frequency(az.word_frequency(select_text, freq_range))
+        freq_df = pd.DataFrame(
+            az.word_frequency(select_text, freq_range),
+            columns=["word", "freq"]
+        )
+        vis.freq_barplot(freq_df)
 
 
 if __name__ == "__main__":
