@@ -28,6 +28,11 @@ def main():
         try:
             main_df = df_preprocess(directory)
             st.sidebar.success(f"Analyzing {directory} ....")
+            global student_id
+            student_id = st.sidebar.selectbox(
+                label="Select primary key (the column holds student ids)",
+                options=original_df.columns[0:]
+            )
         except FileNotFoundError as err:
             st.sidebar.text(err)
     analysis_mode = st.sidebar.selectbox(
@@ -155,14 +160,14 @@ def doc_sim():
     main_df["normal_text"] = main_df["combined"].apply(
         lambda x: az.normalize(x)
     )
-    pairs = ds.create_pair(main_df["Reflection by"])
+    pairs = ds.create_pair(main_df[student_id])
     # calculate similarity of the docs of the selected author pairs
     similarity = [
         ds.tfidf_cosine_similarity(
             (
-                main_df[main_df["Reflection by"] == pair[0]][
+                main_df[main_df[student_id] == pair[0]][
                     "normal_text"].values[0],
-                main_df[main_df["Reflection by"] == pair[1]][
+                main_df[main_df[student_id] == pair[1]][
                     "normal_text"].values[0],
             )
         )
@@ -213,12 +218,12 @@ def plot_overall_senti(senti_df):
         alt.Chart(senti_df)
         .mark_circle(size=300, fillOpacity=0.7)
         .encode(
-            alt.X("Reflection by"),
+            alt.X(student_id),
             alt.Y("sentiment"),
-            alt.Color("Reflection by", legend=alt.Legend(orient="left")),
+            alt.Color(student_id, legend=alt.Legend(orient="left")),
             tooltip=[
                 alt.Tooltip("sentiment", title="polarity"),
-                alt.Tooltip("Reflection by", title="author"),
+                alt.Tooltip(student_id, title="author"),
             ],
         )
     )
@@ -230,11 +235,11 @@ def individual_student_senti(input_df):
     """page for display individual student's sentiment"""
     students = st.multiselect(
         label="Select specific students below:",
-        options=input_df["Reflection by"]
+        options=input_df[student_id]
     )
-    df_selected_stu = input_df.loc[input_df["Reflection by"].isin(students)]
+    df_selected_stu = input_df.loc[input_df[student_id].isin(students)]
     senti_df = pd.DataFrame(
-        df_selected_stu, columns=["Reflection by", "sentiment"]
+        df_selected_stu, columns=[student_id, "sentiment"]
     )
     if len(students) != 0:
         plot_student_sentiment(senti_df)
@@ -267,11 +272,11 @@ def plot_student_sentiment(senti_df):
         alt.Chart(senti_df)
         .mark_bar()
         .encode(
-            alt.Y("Reflection by", title="Student", sort="-x"),
+            alt.Y(student_id, title="Student", sort="-x"),
             alt.X("sentiment", title="Sentiment"),
             tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
             opacity=alt.value(0.7),
-            color="Reflection by",
+            color=student_id,
         ).properties(width=700, height=450)
     )
 
@@ -303,14 +308,14 @@ def individual_student_freq(df_combined, freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
         label="Select specific students below:",
-        options=df_combined["Reflection by"]
+        options=df_combined[student_id]
     )
 
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
 
     for student in students:
         individual_freq = az.word_frequency(
-                        df_combined[df_combined["Reflection by"] == student]
+                        df_combined[df_combined[student_id] == student]
                         .loc[:, ["combined"]]
                         .to_string(),
                         freq_range,
