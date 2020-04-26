@@ -44,6 +44,30 @@ def stu_freq_barplot(freq_df, students):
     return grid
 
 
+def question_freq_barplot(freq_df, questions):
+    """facet barplot for individual student's word frequency"""
+    base = alt.Chart(freq_df).mark_bar().encode(
+        alt.X('freq', title=None),
+        alt.Y('word', title=None, sort="-x"),
+        tooltip=[
+            alt.Tooltip("freq", title="frequency"),
+            alt.Tooltip("word", title="word"),
+        ],
+        opacity=alt.value(0.7),
+        color=alt.Color('question', legend=None)
+        ).properties(
+            width=190,
+        )
+
+    subplts = []
+    for item in questions:
+        subplts.append(
+            base.transform_filter(datum.question == item).properties(title=item))
+
+    grid = facet_wrap(subplts, plots_per_row=1)
+    return grid
+
+
 def senti_combinedplot(senti_df, student_id):
     """combined circle and histogram plot for sentiment"""
     combine = alt.hconcat(

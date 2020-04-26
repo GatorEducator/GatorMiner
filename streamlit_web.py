@@ -263,15 +263,30 @@ def individual_question_freq(input_df, freq_range):
         label="Select specific questions below:",
         options=original_df.columns[1:]
     )
-    select_text = ""
-    for column in questions:
-        select_text += input_df[column].to_string(index=False)
-    if select_text != "":
-        freq_df = pd.DataFrame(
-            az.word_frequency(select_text, freq_range),
-            columns=["word", "freq"]
-        )
-        st.altair_chart(vis.freq_barplot(freq_df))
+
+    freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
+
+    select_text = {}
+    for question in questions:
+        select_text[question] = input_df[question].to_string(index=False)
+    question_df = pd.DataFrame(
+        select_text.items(),
+        columns=["question", "text"]
+    )
+
+    if len(questions) != 0:
+        for question in questions:
+            question_freq = az.word_frequency(
+                question_df[question_df["question"] == question]
+                .loc[:, ["text"]]
+                .to_string(),
+                freq_range,
+            )
+            ind_df = pd.DataFrame(question_freq, columns=["word", "freq"])
+            ind_df["question"] = question
+            freq_question_df = freq_question_df.append(ind_df)
+
+        st.altair_chart(vis.question_freq_barplot(freq_question_df, questions))
 
 
 if __name__ == "__main__":
