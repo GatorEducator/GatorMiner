@@ -107,7 +107,7 @@ def frequency():
         individual_student_freq(main_df, freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
-            "Select a range of Most frequent words", 1, 50, value=25
+            "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header("Most frequent words in individual questions")
         individual_question_freq(main_df, freq_range)
