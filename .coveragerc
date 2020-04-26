@@ -1,3 +1,8 @@
 [run]
-omit=test/*
+omit =
+    test/*
+    src/visualization.py
+    src/get_handler.py
+    *__init__*
+
 include=src/*.py
