@@ -1,8 +1,5 @@
 """Web interface"""
-from typing import List, Tuple
 
-import altair as alt
-from altair.expr import datum
 import pandas as pd
 import streamlit as st
 from textblob import TextBlob
@@ -179,18 +176,18 @@ def doc_sim():
     df_sim[['doc_1', 'doc_2']] = pd.DataFrame(
         df_sim['pair'].tolist(), index=df_sim.index
     )
-    vis.doc_sim_heatmap(df_sim)
+    st.altair_chart(vis.doc_sim_heatmap(df_sim))
 
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
     freq_df = pd.DataFrame(az.dir_frequency(directory, freq_range), columns=["word", "freq"])
-    vis.freq_barplot(freq_df)
+    st.altair_chart((vis.freq_barplot(freq_df)))
 
 
 def overall_senti(senti_df):
     """page for overall senti"""
-    vis.senti_combinedplot(senti_df, student_id)
+    st.altair_chart((vis.senti_combinedplot(senti_df, student_id)))
 
 
 def individual_student_senti(input_df):
@@ -204,7 +201,7 @@ def individual_student_senti(input_df):
         df_selected_stu, columns=[student_id, "sentiment"]
     )
     if len(students) != 0:
-        vis.stu_senti_barplot(senti_df, student_id)
+        st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
 
 
 def individual_question_senti(input_df):
@@ -225,7 +222,7 @@ def individual_question_senti(input_df):
         lambda x: TextBlob(x).sentiment.polarity
     )
     if len(select_text) != 0:
-        vis.question_senti_barplot(questions_senti_df)
+        st.altair_chart(vis.question_senti_barplot(questions_senti_df))
 
 
 def individual_student_freq(df_combined, freq_range):
@@ -248,7 +245,7 @@ def individual_student_freq(df_combined, freq_range):
         ind_df["student"] = student
         freq_df = freq_df.append(ind_df)
 
-    vis.stu_freq_barplot(freq_df, students)
+    st.altair_chart(vis.stu_freq_barplot(freq_df, students))
 
 
 def individual_question_freq(input_df, freq_range):
@@ -266,7 +263,7 @@ def individual_question_freq(input_df, freq_range):
             az.word_frequency(select_text, freq_range),
             columns=["word", "freq"]
         )
-        vis.freq_barplot(freq_df)
+        st.altair_chart(vis.freq_barplot(freq_df))
 
 
 if __name__ == "__main__":

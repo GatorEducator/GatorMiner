@@ -1,7 +1,5 @@
 import altair as alt
 from altair.expr import datum
-import pandas as pd
-import streamlit as st
 
 
 def senti_combinedplot(senti_df, student_id):
@@ -32,7 +30,7 @@ def senti_combinedplot(senti_df, student_id):
         )
     )
     combine = alt.hconcat(senti_point, senti_hist)
-    st.altair_chart(combine)
+    return combine
 
 
 def stu_senti_barplot(senti_df, student_id):
@@ -49,7 +47,7 @@ def stu_senti_barplot(senti_df, student_id):
         ).properties(width=700, height=450)
     )
 
-    st.altair_chart(senti_plot)
+    return senti_plot
 
 
 def question_senti_barplot(senti_df):
@@ -70,7 +68,7 @@ def question_senti_barplot(senti_df):
         ).properties(width=700, height=450)
     )
 
-    st.altair_chart(senti_plot)
+    return senti_plot
 
 
 def freq_barplot(freq_df):
@@ -88,7 +86,7 @@ def freq_barplot(freq_df):
     )
 
     # st.bar_chart(freq_df)
-    st.altair_chart(freq_plot)
+    return freq_plot
 
 
 def doc_sim_heatmap(df_sim):
@@ -100,7 +98,7 @@ def doc_sim_heatmap(df_sim):
             alt.Tooltip("similarity", title="similarity"),
         ]
     ).properties(width=600, height=550)
-    st.altair_chart(heatmap)
+    return heatmap
 
 
 def stu_freq_barplot(freq_df, students):
@@ -123,7 +121,7 @@ def stu_freq_barplot(freq_df, students):
             base.transform_filter(datum.student == stu).properties(title=stu))
 
     grid = facet_wrap(subplts)
-    st.altair_chart(grid)
+    return grid
 
 
 def facet_wrap(subplts, plots_per_row=3):
