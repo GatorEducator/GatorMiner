@@ -38,7 +38,8 @@ def facet_freq_barplot(freq_df, options, column_name, plots_per_row=3):
     subplts = []
     for item in options:
         subplts.append(
-            base.transform_filter(datum[column_name] == item).properties(title=item))
+            base.transform_filter(datum[column_name] == item).properties(
+                title=item))
 
     grid = facet_wrap(subplts, plots_per_row)
 
