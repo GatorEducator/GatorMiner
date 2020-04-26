@@ -127,17 +127,18 @@ def plot_individual_student_freq(freq_df, students):
         subplts.append(
             base.transform_filter(datum.student == stu).properties(title=stu))
 
-    def facet_wrap(subplts, plots_per_row=3):
-        row_stu = [subplts[i: i + plots_per_row]
-                   for i in range(0, len(subplts), plots_per_row)]
-        column_plot = alt.vconcat(spacing=10)
-        for row in row_stu:
-            row_plot = alt.hconcat(spacing=10)
-            for item in row:
-                row_plot |= item
-            column_plot &= row_plot
-
-        return column_plot
-
     grid = facet_wrap(subplts)
     st.altair_chart(grid)
+
+
+def facet_wrap(subplts, plots_per_row=3):
+    row_stu = [subplts[i: i + plots_per_row]
+               for i in range(0, len(subplts), plots_per_row)]
+    column_plot = alt.vconcat(spacing=10)
+    for row in row_stu:
+        row_plot = alt.hconcat(spacing=10)
+        for item in row:
+            row_plot |= item
+        column_plot &= row_plot
+
+    return column_plot
