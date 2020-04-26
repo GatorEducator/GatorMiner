@@ -110,13 +110,13 @@ def frequency():
             "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header("Most frequent words by individual students")
-        individual_student_freq(main_df, freq_range)
+        student_freq(main_df, freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header("Most frequent words in individual questions")
-        individual_question_freq(main_df, freq_range)
+        question_freq(main_df, freq_range)
 
 
 def sentiment():
@@ -136,10 +136,10 @@ def sentiment():
         overall_senti(main_df)
     elif senti_type == "Student":
         st.header("View sentiment by individual students")
-        individual_student_senti(main_df)
+        student_senti(main_df)
     elif senti_type == "Question":
         st.header("View sentiment by individual questions")
-        individual_question_senti(main_df)
+        question_senti(main_df)
 
 
 def summary():
@@ -203,7 +203,7 @@ def overall_senti(senti_df):
     st.altair_chart((vis.senti_combinedplot(senti_df, student_id)))
 
 
-def individual_student_senti(input_df):
+def student_senti(input_df):
     """page for display individual student's sentiment"""
     students = st.multiselect(
         label="Select specific students below:",
@@ -217,7 +217,7 @@ def individual_student_senti(input_df):
         st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
 
 
-def individual_question_senti(input_df):
+def question_senti(input_df):
     """page for individual question's sentiment"""
     st.write(original_df)
     questions = st.multiselect(
@@ -238,7 +238,7 @@ def individual_question_senti(input_df):
         st.altair_chart(vis.question_senti_barplot(questions_senti_df))
 
 
-def individual_student_freq(df_combined, freq_range):
+def student_freq(df_combined, freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
         label="Select specific students below:",
@@ -267,7 +267,7 @@ def individual_student_freq(df_combined, freq_range):
             freq_df, students, "student", plots_per_row=plots_range))
 
 
-def individual_question_freq(input_df, freq_range):
+def question_freq(input_df, freq_range):
     """page for individual question's word frequency"""
     st.write(original_df)
     questions = st.multiselect(
