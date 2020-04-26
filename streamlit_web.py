@@ -161,7 +161,7 @@ def tpmodel():
             x, NUM_TOPICS=topic_range, NUM_WORDS=word_range
         )
     )
-    st.write(main_df)
+    st.write(main_df[[student_id, "topics"]])
 
 
 def doc_sim():
