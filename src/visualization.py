@@ -3,7 +3,7 @@ from altair.expr import datum
 
 
 def freq_barplot(freq_df):
-    """function to plot word frequency"""
+    """barplot for word frequency"""
     freq_plot = (
         alt.Chart(freq_df)
         .mark_bar()
@@ -21,6 +21,7 @@ def freq_barplot(freq_df):
 
 
 def stu_freq_barplot(freq_df, students):
+    """facet barplot for individual student's word frequency"""
     base = alt.Chart(freq_df).mark_bar().encode(
         alt.X('freq', title=None),
         alt.Y('word', title=None, sort="-x"),
@@ -44,7 +45,7 @@ def stu_freq_barplot(freq_df, students):
 
 
 def senti_combinedplot(senti_df, student_id):
-    """Visulize overall sentiment with histogram and scatter plots"""
+    """combined circle and histogram plot for sentiment"""
     combine = alt.hconcat(
         senti_circleplot(
             senti_df, student_id),
@@ -55,6 +56,7 @@ def senti_combinedplot(senti_df, student_id):
 
 
 def senti_histplot(senti_df):
+    """histogram plot for sentiment"""
     senti_hist = (
         alt.Chart(senti_df)
         .mark_bar()
@@ -71,6 +73,7 @@ def senti_histplot(senti_df):
 
 
 def senti_circleplot(senti_df, student_id):
+    """circle plot for sentiment"""
     senti_circle = (
         alt.Chart(senti_df)
         .mark_circle(size=300, fillOpacity=0.7)
@@ -88,7 +91,7 @@ def senti_circleplot(senti_df, student_id):
 
 
 def stu_senti_barplot(senti_df, student_id):
-    """plot sentiment by student from a df containing name and senti"""
+    """barplot for individual student' sentiment"""
     senti_plot = (
         alt.Chart(senti_df)
         .mark_bar()
@@ -105,7 +108,7 @@ def stu_senti_barplot(senti_df, student_id):
 
 
 def question_senti_barplot(senti_df):
-    """plot sentiment by student from a df containing name and senti"""
+    """barplot for individual question's sentiment"""
     senti_plot = (
         alt.Chart(senti_df)
         .mark_bar()
@@ -126,6 +129,7 @@ def question_senti_barplot(senti_df):
 
 
 def doc_sim_heatmap(df_sim):
+    """heatmap for document similarity between each student"""
     heatmap = alt.Chart(df_sim).mark_rect().encode(
         x=alt.X('doc_1', sort=None, title="student"),
         y=alt.Y('doc_2', sort="-x", title="student"),
@@ -138,6 +142,7 @@ def doc_sim_heatmap(df_sim):
 
 
 def facet_wrap(subplts, plots_per_row=3):
+    """make subplots into facet based on the plot number per row"""
     row_stu = [subplts[i: i + plots_per_row]
                for i in range(0, len(subplts), plots_per_row)]
     column_plot = alt.vconcat(spacing=10)
