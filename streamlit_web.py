@@ -97,7 +97,7 @@ def frequency():
         st.sidebar.success(
             'To continue see individual frequency analysis select "Individual"'
         )
-        st.header("Overall most frequent words in the directory")
+        st.header(f"Overall most frequent words in {directory}")
         overall_freq(freq_range)
     elif freq_type == "Student":
         freq_range = st.sidebar.slider(
@@ -126,7 +126,7 @@ def sentiment():
         st.sidebar.success(
             'To continue see individual sentiment analysis select "Individual"'
         )
-        st.header("Overall sentiment polarity in the directory")
+        st.header(f"Overall sentiment polarity in {directory}")
         overall_senti(main_df)
     elif senti_type == "Student":
         st.header("View sentiment by individual students")
