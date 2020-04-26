@@ -90,19 +90,25 @@ def frequency():
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
-    freq_range = st.sidebar.slider(
-        "Select a range of Most frequent words", 1, 50, value=25
-    )
     if freq_type == "Overall":
+        freq_range = st.sidebar.slider(
+            "Select a range of Most frequent words", 1, 50, value=25
+        )
         st.sidebar.success(
             'To continue see individual frequency analysis select "Individual"'
         )
         st.header("Overall most frequent words in the directory")
         overall_freq(freq_range)
     elif freq_type == "Student":
+        freq_range = st.sidebar.slider(
+            "Select a range of Most frequent words", 1, 20, value=10
+        )
         st.header("Most frequent words by individual students")
         individual_student_freq(main_df, freq_range)
     elif freq_type == "Question":
+        freq_range = st.sidebar.slider(
+            "Select a range of Most frequent words", 1, 50, value=25
+        )
         st.header("Most frequent words in individual questions")
         individual_question_freq(main_df, freq_range)
 
@@ -234,18 +240,19 @@ def individual_student_freq(df_combined, freq_range):
 
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
 
-    for student in students:
-        individual_freq = az.word_frequency(
-                        df_combined[df_combined[student_id] == student]
-                        .loc[:, ["combined"]]
-                        .to_string(),
-                        freq_range,
-        )
-        ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
-        ind_df["student"] = student
-        freq_df = freq_df.append(ind_df)
+    if len(students) != 0:
+        for student in students:
+            individual_freq = az.word_frequency(
+                df_combined[df_combined[student_id] == student]
+                .loc[:, ["combined"]]
+                .to_string(),
+                freq_range,
+            )
+            ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
+            ind_df["student"] = student
+            freq_df = freq_df.append(ind_df)
 
-    st.altair_chart(vis.stu_freq_barplot(freq_df, students))
+        st.altair_chart(vis.stu_freq_barplot(freq_df, students))
 
 
 def individual_question_freq(input_df, freq_range):
