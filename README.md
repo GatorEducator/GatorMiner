@@ -9,10 +9,10 @@ at Allegheny College.
 
 ## Commands
 
-This program uses [Pipenv](https://github.com/pypa/pipenv) for installation.
+This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency installation.
 
-- If needed, install and upgrade the `pipenv` command: `pip install pipenv --user`
-- Install the development dependencies `pipenv` command: `pipenv install --dev --skip-lock`
+- If needed, install and upgrade the `pipenv` with `pip`: `pip install pipenv --user`
+- Install the development dependencies with `pipenv`: `pipenv install --dev --skip-lock`
 - To learn about features and usage in textMining, type in
   `pipenv run python textmining.py -h`
 
