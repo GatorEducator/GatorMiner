@@ -2,8 +2,59 @@ import altair as alt
 from altair.expr import datum
 
 
+def freq_barplot(freq_df):
+    """function to plot word frequency"""
+    freq_plot = (
+        alt.Chart(freq_df)
+        .mark_bar()
+        .encode(
+            alt.Y("word", title="words", sort="-x"),
+            alt.X("freq", title="frequencies"),
+            tooltip=[alt.Tooltip("freq", title="frequency")],
+            opacity=alt.value(0.7),
+            color=alt.value("blue"),
+        ).properties(title='frequency plot')
+    )
+
+    # st.bar_chart(freq_df)
+    return freq_plot
+
+
+def stu_freq_barplot(freq_df, students):
+    base = alt.Chart(freq_df).mark_bar().encode(
+        alt.X('freq', title=None),
+        alt.Y('word', title=None, sort="-x"),
+        tooltip=[
+            alt.Tooltip("freq", title="frequency"),
+            alt.Tooltip("word", title="word"),
+        ],
+        opacity=alt.value(0.7),
+        color=alt.Color('student', legend=None)
+        ).properties(
+            width=190,
+        )
+
+    subplts = []
+    for stu in students:
+        subplts.append(
+            base.transform_filter(datum.student == stu).properties(title=stu))
+
+    grid = facet_wrap(subplts)
+    return grid
+
+
 def senti_combinedplot(senti_df, student_id):
     """Visulize overall sentiment with histogram and scatter plots"""
+    combine = alt.hconcat(
+        senti_circleplot(
+            senti_df, student_id),
+        senti_histplot(
+            senti_df)
+        )
+    return combine
+
+
+def senti_histplot(senti_df):
     senti_hist = (
         alt.Chart(senti_df)
         .mark_bar()
@@ -16,7 +67,11 @@ def senti_combinedplot(senti_df, student_id):
             width=100
         )
     )
-    senti_point = (
+    return senti_hist
+
+
+def senti_circleplot(senti_df, student_id):
+    senti_circle = (
         alt.Chart(senti_df)
         .mark_circle(size=300, fillOpacity=0.7)
         .encode(
@@ -29,8 +84,7 @@ def senti_combinedplot(senti_df, student_id):
             ],
         )
     )
-    combine = alt.hconcat(senti_point, senti_hist)
-    return combine
+    return senti_circle
 
 
 def stu_senti_barplot(senti_df, student_id):
@@ -71,24 +125,6 @@ def question_senti_barplot(senti_df):
     return senti_plot
 
 
-def freq_barplot(freq_df):
-    """function to plot word frequency"""
-    freq_plot = (
-        alt.Chart(freq_df)
-        .mark_bar()
-        .encode(
-            alt.Y("word", title="words", sort="-x"),
-            alt.X("freq", title="frequencies"),
-            tooltip=[alt.Tooltip("freq", title="frequency")],
-            opacity=alt.value(0.7),
-            color=alt.value("blue"),
-        ).properties(title='frequency plot')
-    )
-
-    # st.bar_chart(freq_df)
-    return freq_plot
-
-
 def doc_sim_heatmap(df_sim):
     heatmap = alt.Chart(df_sim).mark_rect().encode(
         x=alt.X('doc_1', sort=None, title="student"),
@@ -99,29 +135,6 @@ def doc_sim_heatmap(df_sim):
         ]
     ).properties(width=600, height=550)
     return heatmap
-
-
-def stu_freq_barplot(freq_df, students):
-    base = alt.Chart(freq_df).mark_bar().encode(
-        alt.X('freq', title=None),
-        alt.Y('word', title=None, sort="-x"),
-        tooltip=[
-            alt.Tooltip("freq", title="frequency"),
-            alt.Tooltip("word", title="word"),
-        ],
-        opacity=alt.value(0.7),
-        color=alt.Color('student', legend=None)
-        ).properties(
-            width=190,
-        )
-
-    subplts = []
-    for stu in students:
-        subplts.append(
-            base.transform_filter(datum.student == stu).properties(title=stu))
-
-    grid = facet_wrap(subplts)
-    return grid
 
 
 def facet_wrap(subplts, plots_per_row=3):
