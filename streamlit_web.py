@@ -35,37 +35,39 @@ def main():
                 label="Select primary key (the column holds student ids)",
                 options=original_df.columns[0:]
             )
+            analysis_mode = st.sidebar.selectbox(
+                "Choose the analysis mode",
+                [
+                    "Home",
+                    "Frequency Analysis",
+                    "Sentiment Analysis",
+                    "Summary",
+                    "Topic Modeling",
+                    "Document Similarity",
+                ],
+            )
+            if analysis_mode == "Home":
+                with open("README.md") as readme_file:
+                    st.markdown(readme_file.read())
+            if analysis_mode == "Frequency Analysis":
+                st.title("Frequency Analysis")
+                frequency()
+            elif analysis_mode == "Sentiment Analysis":
+                st.title("Sentiment Analysis")
+                sentiment()
+            elif analysis_mode == "Summary":
+                st.title("Summary")
+                summary()
+            elif analysis_mode == "Topic Modeling":
+                st.title("Topic Modeling")
+                tpmodel()
+            elif analysis_mode == "Document Similarity":
+                st.title("Document Similarity")
+                doc_sim()
         except FileNotFoundError as err:
             st.sidebar.text(err)
-        analysis_mode = st.sidebar.selectbox(
-            "Choose the analysis mode",
-            [
-                "Home",
-                "Frequency Analysis",
-                "Sentiment Analysis",
-                "Summary",
-                "Topic Modeling",
-                "Document Similarity",
-            ],
-        )
-        if analysis_mode == "Home":
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
-        if analysis_mode == "Frequency Analysis":
-            st.title("Frequency Analysis")
-            frequency()
-        elif analysis_mode == "Sentiment Analysis":
-            st.title("Sentiment Analysis")
-            sentiment()
-        elif analysis_mode == "Summary":
-            st.title("Summary")
-            summary()
-        elif analysis_mode == "Topic Modeling":
-            st.title("Topic Modeling")
-            tpmodel()
-        elif analysis_mode == "Document Similarity":
-            st.title("Document Similarity")
-            doc_sim()
 
 
 def df_preprocess(directory_path):
