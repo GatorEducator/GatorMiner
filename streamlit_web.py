@@ -187,7 +187,8 @@ def doc_sim():
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
-    freq_df = pd.DataFrame(az.dir_frequency(directory, freq_range), columns=["word", "freq"])
+    freq_df = pd.DataFrame(az.dir_frequency(directory, freq_range),
+                           columns=["word", "freq"])
     st.altair_chart((vis.freq_barplot(freq_df)))
 
 
