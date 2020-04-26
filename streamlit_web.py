@@ -22,7 +22,11 @@ def main():
     global directory
     global main_df
     directory = st.sidebar.text_input("Path to directory")
-    if directory != "":
+    if len(directory) == 0:
+        st.sidebar.text("Please enter the path to the directory")
+        with open("README.md") as readme_file:
+            st.markdown(readme_file.read())
+    elif directory != "":
         try:
             main_df = df_preprocess(directory)
             st.sidebar.success(f"Analyzing {directory} ....")
@@ -31,37 +35,39 @@ def main():
                 label="Select primary key (the column holds student ids)",
                 options=original_df.columns[0:]
             )
+            analysis_mode = st.sidebar.selectbox(
+                "Choose the analysis mode",
+                [
+                    "Home",
+                    "Frequency Analysis",
+                    "Sentiment Analysis",
+                    "Document Similarity",
+                    "Summary",
+                    "Topic Modeling",
+                ],
+            )
+            if analysis_mode == "Home":
+                with open("README.md") as readme_file:
+                    st.markdown(readme_file.read())
+            if analysis_mode == "Frequency Analysis":
+                st.title("Frequency Analysis")
+                frequency()
+            elif analysis_mode == "Sentiment Analysis":
+                st.title("Sentiment Analysis")
+                sentiment()
+            elif analysis_mode == "Document Similarity":
+                st.title("Document Similarity")
+                doc_sim()
+            elif analysis_mode == "Summary":
+                st.title("Summary")
+                summary()
+            elif analysis_mode == "Topic Modeling":
+                st.title("Topic Modeling")
+                tpmodel()
         except FileNotFoundError as err:
             st.sidebar.text(err)
-    analysis_mode = st.sidebar.selectbox(
-        "Choose the analysis mode",
-        [
-            "Home",
-            "Frequency Analysis",
-            "Sentiment Analysis",
-            "Summary",
-            "Topic Modeling",
-            "Document Similarity",
-        ],
-    )
-    if analysis_mode == "Home":
-        with open("README.md") as readme_file:
-            st.markdown(readme_file.read())
-    if analysis_mode == "Frequency Analysis":
-        st.title("Frequency Analysis")
-        frequency()
-    elif analysis_mode == "Sentiment Analysis":
-        st.title("Sentiment Analysis")
-        sentiment()
-    elif analysis_mode == "Summary":
-        st.title("Summary")
-        summary()
-    elif analysis_mode == "Topic Modeling":
-        st.title("Topic Modeling")
-        tpmodel()
-    elif analysis_mode == "Document Similarity":
-        st.title("Document Similarity")
-        doc_sim()
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
 
 
 def df_preprocess(directory_path):
@@ -97,20 +103,20 @@ def frequency():
         st.sidebar.success(
             'To continue see individual frequency analysis select "Individual"'
         )
-        st.header("Overall most frequent words in the directory")
+        st.header(f"Overall most frequent words in {directory}")
         overall_freq(freq_range)
     elif freq_type == "Student":
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header("Most frequent words by individual students")
-        individual_student_freq(main_df, freq_range)
+        student_freq(main_df, freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
-            "Select a range of Most frequent words", 1, 50, value=25
+            "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header("Most frequent words in individual questions")
-        individual_question_freq(main_df, freq_range)
+        question_freq(main_df, freq_range)
 
 
 def sentiment():
@@ -126,14 +132,14 @@ def sentiment():
         st.sidebar.success(
             'To continue see individual sentiment analysis select "Individual"'
         )
-        st.header("Overall sentiment polarity in the directory")
+        st.header(f"Overall sentiment polarity in {directory}")
         overall_senti(main_df)
     elif senti_type == "Student":
         st.header("View sentiment by individual students")
-        individual_student_senti(main_df)
+        student_senti(main_df)
     elif senti_type == "Question":
         st.header("View sentiment by individual questions")
-        individual_question_senti(main_df)
+        question_senti(main_df)
 
 
 def summary():
@@ -155,7 +161,7 @@ def tpmodel():
             x, NUM_TOPICS=topic_range, NUM_WORDS=word_range
         )
     )
-    st.write(main_df)
+    st.write(main_df[[student_id, "topics"]])
 
 
 def doc_sim():
@@ -197,7 +203,7 @@ def overall_senti(senti_df):
     st.altair_chart((vis.senti_combinedplot(senti_df, student_id)))
 
 
-def individual_student_senti(input_df):
+def student_senti(input_df):
     """page for display individual student's sentiment"""
     students = st.multiselect(
         label="Select specific students below:",
@@ -211,7 +217,7 @@ def individual_student_senti(input_df):
         st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
 
 
-def individual_question_senti(input_df):
+def question_senti(input_df):
     """page for individual question's sentiment"""
     st.write(original_df)
     questions = st.multiselect(
@@ -232,11 +238,15 @@ def individual_question_senti(input_df):
         st.altair_chart(vis.question_senti_barplot(questions_senti_df))
 
 
-def individual_student_freq(df_combined, freq_range):
+def student_freq(df_combined, freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
         label="Select specific students below:",
         options=df_combined[student_id]
+    )
+
+    plots_range = st.sidebar.slider(
+        "Select the number of plots per row", 1, 5, value=3
     )
 
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
@@ -253,25 +263,47 @@ def individual_student_freq(df_combined, freq_range):
             ind_df["student"] = student
             freq_df = freq_df.append(ind_df)
 
-        st.altair_chart(vis.stu_freq_barplot(freq_df, students))
+        st.altair_chart(vis.facet_freq_barplot(
+            freq_df, students, "student", plots_per_row=plots_range))
 
 
-def individual_question_freq(input_df, freq_range):
+def question_freq(input_df, freq_range):
     """page for individual question's word frequency"""
     st.write(original_df)
     questions = st.multiselect(
         label="Select specific questions below:",
         options=original_df.columns[1:]
     )
-    select_text = ""
-    for column in questions:
-        select_text += input_df[column].to_string(index=False)
-    if select_text != "":
-        freq_df = pd.DataFrame(
-            az.word_frequency(select_text, freq_range),
-            columns=["word", "freq"]
-        )
-        st.altair_chart(vis.freq_barplot(freq_df))
+
+    plots_range = st.sidebar.slider(
+        "Select the number of plots per row", 1, 5, value=1
+    )
+
+    freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
+
+    select_text = {}
+    for question in questions:
+        select_text[question] = input_df[question].to_string(index=False)
+    question_df = pd.DataFrame(
+        select_text.items(),
+        columns=["question", "text"]
+    )
+
+    if len(questions) != 0:
+        for question in questions:
+            question_freq = az.word_frequency(
+                question_df[question_df["question"] == question]
+                .loc[:, ["text"]]
+                .to_string(),
+                freq_range,
+            )
+            ind_df = pd.DataFrame(question_freq, columns=["word", "freq"])
+            ind_df["question"] = question
+            freq_question_df = freq_question_df.append(ind_df)
+
+        st.altair_chart(vis.facet_freq_barplot(
+            freq_question_df,
+            questions, "question", plots_per_row=plots_range))
 
 
 if __name__ == "__main__":

@@ -20,8 +20,8 @@ def freq_barplot(freq_df):
     return freq_plot
 
 
-def stu_freq_barplot(freq_df, students):
-    """facet barplot for individual student's word frequency"""
+def facet_freq_barplot(freq_df, options, column_name, plots_per_row=3):
+    """facet bar plot for word frequencies"""
     base = alt.Chart(freq_df).mark_bar().encode(
         alt.X('freq', title=None),
         alt.Y('word', title=None, sort="-x"),
@@ -30,18 +30,34 @@ def stu_freq_barplot(freq_df, students):
             alt.Tooltip("word", title="word"),
         ],
         opacity=alt.value(0.7),
-        color=alt.Color('student', legend=None)
+        color=alt.Color(column_name, legend=None)
         ).properties(
             width=190,
         )
 
     subplts = []
-    for stu in students:
+    for item in options:
         subplts.append(
-            base.transform_filter(datum.student == stu).properties(title=stu))
+            base.transform_filter(datum[column_name] == item).properties(
+                title=item))
 
-    grid = facet_wrap(subplts)
+    grid = facet_wrap(subplts, plots_per_row)
+
     return grid
+
+
+def facet_wrap(subplts, plots_per_row=3):
+    """make subplots into facet based on the plot number per row"""
+    row_stu = [subplts[i: i + plots_per_row]
+               for i in range(0, len(subplts), plots_per_row)]
+    column_plot = alt.vconcat(spacing=10)
+    for row in row_stu:
+        row_plot = alt.hconcat(spacing=10)
+        for item in row:
+            row_plot |= item
+        column_plot &= row_plot
+
+    return column_plot
 
 
 def senti_combinedplot(senti_df, student_id):
@@ -139,17 +155,3 @@ def doc_sim_heatmap(df_sim):
         ]
     ).properties(width=600, height=550)
     return heatmap
-
-
-def facet_wrap(subplts, plots_per_row=3):
-    """make subplots into facet based on the plot number per row"""
-    row_stu = [subplts[i: i + plots_per_row]
-               for i in range(0, len(subplts), plots_per_row)]
-    column_plot = alt.vconcat(spacing=10)
-    for row in row_stu:
-        row_plot = alt.hconcat(spacing=10)
-        for item in row:
-            row_plot |= item
-        column_plot &= row_plot
-
-    return column_plot
