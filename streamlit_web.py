@@ -253,7 +253,7 @@ def individual_student_freq(df_combined, freq_range):
             ind_df["student"] = student
             freq_df = freq_df.append(ind_df)
 
-        st.altair_chart(vis.stu_freq_barplot(freq_df, students))
+        st.altair_chart(vis.facet_freq_barplot(freq_df, students, "student"))
 
 
 def individual_question_freq(input_df, freq_range):
@@ -286,7 +286,7 @@ def individual_question_freq(input_df, freq_range):
             ind_df["question"] = question
             freq_question_df = freq_question_df.append(ind_df)
 
-        st.altair_chart(vis.question_freq_barplot(freq_question_df, questions))
+        st.altair_chart(vis.facet_freq_barplot(freq_question_df, questions, "question", plots_per_row=1))
 
 
 if __name__ == "__main__":
