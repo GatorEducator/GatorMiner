@@ -12,6 +12,7 @@ import src.doc_similarity as ds
 import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
+import src.visualization as vis
 
 
 # resources/cs100f2019_lab05_reflections
@@ -192,43 +193,12 @@ def doc_sim():
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
-    plot_frequency(az.dir_frequency(directory, freq_range))
+    vis.plot_frequency(az.dir_frequency(directory, freq_range))
 
 
 def overall_senti(senti_df):
     """page for overall senti"""
-    plot_overall_senti(senti_df)
-
-
-def plot_overall_senti(senti_df):
-    """Visulize overall sentiment with histogram and scatter plots"""
-    senti_hist = (
-        alt.Chart(senti_df)
-        .mark_bar()
-        .encode(
-            alt.Y("sentiment", bin=True),
-            x="count()",
-            color="sentiment",
-        ).properties(
-            height=300,
-            width=100
-        )
-    )
-    senti_point = (
-        alt.Chart(senti_df)
-        .mark_circle(size=300, fillOpacity=0.7)
-        .encode(
-            alt.X(student_id),
-            alt.Y("sentiment"),
-            alt.Color(student_id, legend=alt.Legend(orient="left")),
-            tooltip=[
-                alt.Tooltip("sentiment", title="polarity"),
-                alt.Tooltip(student_id, title="author"),
-            ],
-        )
-    )
-    combine = alt.hconcat(senti_point, senti_hist)
-    st.altair_chart(combine)
+    vis.plot_overall_senti(senti_df, student_id)
 
 
 def individual_student_senti(input_df):
@@ -242,7 +212,7 @@ def individual_student_senti(input_df):
         df_selected_stu, columns=[student_id, "sentiment"]
     )
     if len(students) != 0:
-        plot_student_sentiment(senti_df)
+        vis.plot_student_sentiment(senti_df, student_id)
 
 
 def individual_question_senti(input_df):
@@ -263,45 +233,7 @@ def individual_question_senti(input_df):
         lambda x: TextBlob(x).sentiment.polarity
     )
     if len(select_text) != 0:
-        plot_question_sentiment(questions_senti_df)
-
-
-def plot_student_sentiment(senti_df):
-    """plot sentiment by student from a df containing name and senti"""
-    senti_plot = (
-        alt.Chart(senti_df)
-        .mark_bar()
-        .encode(
-            alt.Y(student_id, title="Student", sort="-x"),
-            alt.X("sentiment", title="Sentiment"),
-            tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
-            opacity=alt.value(0.7),
-            color=student_id,
-        ).properties(width=700, height=450)
-    )
-
-    st.altair_chart(senti_plot)
-
-
-def plot_question_sentiment(senti_df):
-    """plot sentiment by student from a df containing name and senti"""
-    senti_plot = (
-        alt.Chart(senti_df)
-        .mark_bar()
-        .encode(
-            alt.Y("questions", title="Questions", sort="-x"),
-            alt.X("sentiment", title="Sentiment"),
-            tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
-            opacity=alt.value(0.7),
-            color=alt.condition(
-                alt.datum.sentiment > 0,
-                alt.value("steelblue"),
-                alt.value("red")
-            )
-        ).properties(width=700, height=450)
-    )
-
-    st.altair_chart(senti_plot)
+        vis.plot_question_sentiment(questions_senti_df)
 
 
 def individual_student_freq(df_combined, freq_range):
@@ -369,28 +301,7 @@ def individual_question_freq(input_df, freq_range):
     for column in questions:
         select_text += input_df[column].to_string(index=False)
     if select_text != "":
-        plot_frequency(az.word_frequency(select_text, freq_range))
-
-
-def plot_frequency(data: List[Tuple[str, int]]):
-    """function to plot word frequency"""
-    freq_df = pd.DataFrame(data, columns=["word", "freq"])
-    # st.write(freq_df)
-
-    freq_plot = (
-        alt.Chart(freq_df)
-        .mark_bar()
-        .encode(
-            alt.Y("word", title="words", sort="-x"),
-            alt.X("freq", title="frequencies"),
-            tooltip=[alt.Tooltip("freq", title="frequency")],
-            opacity=alt.value(0.7),
-            color=alt.value("blue"),
-        ).properties(title='frequency plot')
-    )
-
-    # st.bar_chart(freq_df)
-    st.altair_chart(freq_plot)
+        vis.plot_frequency(az.word_frequency(select_text, freq_range))
 
 
 if __name__ == "__main__":
