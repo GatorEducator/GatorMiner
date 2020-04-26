@@ -63,14 +63,15 @@ def main():
 
 def df_preprocess(directory_path):
     "build and preprocess pandas dataframe"
-    raw_df = pd.DataFrame(md.collect_md(directory_path))
-    df_combined = combine_column_text(raw_df)
+    global original_df
+    original_df = pd.DataFrame(md.collect_md(directory_path))
+    df_combined = combine_column_text(original_df)
     return df_combined
 
 
 def combine_column_text(raw_df):
     """Combined the questions and store into a new column"""
-    df_combined = raw_df
+    df_combined = raw_df.copy(deep=True)
     # filter out first column -- user info
     cols = df_combined.columns[1:]
     # combining text into combined column
@@ -241,9 +242,10 @@ def individual_student_senti(input_df):
 
 def individual_question_senti(input_df):
     """page for individual question's sentiment"""
-    st.write(input_df)
+    st.write(original_df)
     questions = st.multiselect(
-        label="Select specific questions below:", options=input_df.columns[1:]
+        label="Select specific questions below:",
+        options=original_df.columns[1:]
     )
     select_text = []
     for column in questions:
@@ -353,9 +355,9 @@ def individual_student_freq(df_combined, freq_range):
 
 def individual_question_freq(input_df, freq_range):
     """page for individual question's word frequency"""
-    st.write(input_df)
+    st.write(original_df)
     questions = st.multiselect(
-        label="Select specific questions below:", options=input_df.columns[1:]
+        label="Select specific questions below:", options=original_df.columns[1:]
     )
     select_text = ""
     for column in questions:
