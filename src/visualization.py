@@ -93,3 +93,15 @@ def plot_frequency(data: List[Tuple[str, int]]):
 
     # st.bar_chart(freq_df)
     st.altair_chart(freq_plot)
+
+
+def plot_doc_sim(df_sim):
+    heatmap = alt.Chart(df_sim).mark_rect().encode(
+        x=alt.X('doc_1', sort=None, title="student"),
+        y=alt.Y('doc_2', sort="-x", title="student"),
+        color='similarity',
+        tooltip=[
+            alt.Tooltip("similarity", title="similarity"),
+        ]
+    ).properties(width=600, height=550)
+    st.altair_chart(heatmap)

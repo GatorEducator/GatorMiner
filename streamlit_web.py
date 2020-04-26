@@ -179,16 +179,7 @@ def doc_sim():
     df_sim[['doc_1', 'doc_2']] = pd.DataFrame(
         df_sim['pair'].tolist(), index=df_sim.index
     )
-    # st.write(df_sim)
-    heatmap = alt.Chart(df_sim).mark_rect().encode(
-        x=alt.X('doc_1', sort=None, title="student"),
-        y=alt.Y('doc_2', sort="-x", title="student"),
-        color='similarity',
-        tooltip=[
-            alt.Tooltip("similarity", title="similarity"),
-        ]
-    ).properties(width=600, height=550)
-    st.altair_chart(heatmap)
+    vis.plot_doc_sim(df_sim)
 
 
 def overall_freq(freq_range):
