@@ -1,4 +1,5 @@
 import altair as alt
+from altair.expr import datum
 import pandas as pd
 import streamlit as st
 
@@ -105,3 +106,38 @@ def plot_doc_sim(df_sim):
         ]
     ).properties(width=600, height=550)
     st.altair_chart(heatmap)
+
+
+def plot_individual_student_freq(freq_df, students):
+    base = alt.Chart(freq_df).mark_bar().encode(
+        alt.X('freq', title=None),
+        alt.Y('word', title=None, sort="-x"),
+        tooltip=[
+            alt.Tooltip("freq", title="frequency"),
+            alt.Tooltip("word", title="word"),
+        ],
+        opacity=alt.value(0.7),
+        color=alt.Color('student', legend=None)
+        ).properties(
+            width=190,
+        )
+
+    subplts = []
+    for stu in students:
+        subplts.append(
+            base.transform_filter(datum.student == stu).properties(title=stu))
+
+    def facet_wrap(subplts, plots_per_row=3):
+        row_stu = [subplts[i: i + plots_per_row]
+                   for i in range(0, len(subplts), plots_per_row)]
+        column_plot = alt.vconcat(spacing=10)
+        for row in row_stu:
+            row_plot = alt.hconcat(spacing=10)
+            for item in row:
+                row_plot |= item
+            column_plot &= row_plot
+
+        return column_plot
+
+    grid = facet_wrap(subplts)
+    st.altair_chart(grid)
