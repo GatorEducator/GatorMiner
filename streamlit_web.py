@@ -362,7 +362,8 @@ def individual_question_freq(input_df, freq_range):
     """page for individual question's word frequency"""
     st.write(original_df)
     questions = st.multiselect(
-        label="Select specific questions below:", options=original_df.columns[1:]
+        label="Select specific questions below:",
+        options=original_df.columns[1:]
     )
     select_text = ""
     for column in questions:
