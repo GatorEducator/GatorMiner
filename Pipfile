@@ -21,7 +21,6 @@ codecov = "*"
 streamlit = "*"
 altair = "*"
 textblob = "*"
-scipy = "*"
 
 [pipenv]
 allow_prereleases = true
