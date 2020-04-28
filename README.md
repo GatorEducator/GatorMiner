@@ -29,15 +29,18 @@ This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency instal
 
   Sample usage: python3 textmining.py --directory /path/to/markdown_directory --function frequency
   ```
-  
-- To run streamlit, type in
-  `pipenv run streamlit run streamlit_web.py`
+
 - Install SpaCy model `en_core_web_sm`, a small English model trained on written
   web text (blogs, news, comments), that includes vocabulary, vectors, syntax and entities.
 
   ```bash
   pipenv run python -m spacy download en_core_web_sm
   ```
+
+- To run streamlit, type in
+  `pipenv run streamlit run streamlit_web.py`
+
+- For a sample input diretory, use `resources/cs100f2019_lab05_reflections`
 
 - Sample usage -> run frequency analysis:
 
