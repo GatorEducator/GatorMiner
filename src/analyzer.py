@@ -15,15 +15,14 @@ def normalize(data: str) -> str:
     """Remove numbers, single characters, to lowercase"""
     data = data.lower()
     # number, single characters, code fence blocks
-    regex_lst = [r"\b[a-zA-Z]\b|\b[0-9]+\b", r"^`{3}([\S]+)?\n([\s\S]+)\n`{3}"]
+    regex_lst = [r"\b[a-zA-Z]\b|\b[0-9]+\b", r"```[a-z]*[\n]*[\s\S]*?[\n]*```"]
     generic_re = '|'.join(regex_lst)
-    print(generic_re)
     normal_text = re.sub(rf"{generic_re}", "", data)
     normal_text = "".join(
         c for c in normal_text if c not in string.punctuation
     )
-    print(normal_text)
-    return normal_text
+    spacefree_text = re.sub(r"\s{1,}", " ", normal_text)
+    return spacefree_text
 
 
 def tokenize(normalized_text: str) -> List[str]:

@@ -39,36 +39,56 @@ def test_tokenize_parametrize(input_text, expected):
     "input_text, expected",
     [
         (
-            "numbers 1 2 3 4 5",
-            "numbers     ",
+            "numbers 1 2 3 4 55",
+            "numbers ",
         ),
         (
             "a sentence\nin a new line",
-            " sentence\nin  new line",
+            " sentence in new line",
         ),
-        ("... ! @ # $ *** ##", "      ",),
+        ("... ! @ # $ *** ##", " ",),
+        (
+            "```one line code block```",
+            "",
+        ),
+        (
+            "```\n\n\n multiple new lines\n\n\n```",
+            "",
+        ),
+        (
+            "```\nregular code block\n```",
+            "",
+        ),
+        (
+            "```\ntype\nnew line\n```",
+            "",
+        ),
+        (
+            "```\ntype\nblock one\n``````\ntype\nblock 2\n```",
+            "",
+        ),
+        (
+            "```\ntype\nblock one\n```\ntext in between\n```\ntype\nblock 2\n```",
+            " text in between ",
+        ),
+        (
+            "```\nblock 1\n```\ntext\n```\block 2\n```text\n```\block 3\n```",
+            " text text ",
+        ),
+        (
+            "text with\n```fenced code block\n```",
+            "text with ",
+        ),
+        (
+            "text with\n```multiple line\nfenced code block\n```",
+            "text with ",
+        )
     ],
 )
 # pylint: disable=W0613
 def test_normalize(input_text, expected):
     """parametrize test normalize"""
     output = analyzer.normalize(input_text)
-    assert output == expected
-
-
-def test_normalize_single_code_block():
-    """parametrize test normalize"""
-    input_text = "```\nfenced code block\nnew line\n```"
-    output = analyzer.normalize(input_text)
-    expected = ""
-    assert output == expected
-
-
-def test_normalize_multiple_code_blocks():
-    """parametrize test normalize"""
-    input_text = "```\nfenced code block one\nnew line\n```\n\n```\nfenced code block one\nnew line\n```"
-    output = analyzer.normalize(input_text)
-    expected = ""
     assert output == expected
 
 
