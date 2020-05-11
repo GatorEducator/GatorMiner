@@ -56,6 +56,14 @@ def test_normalize(input_text, expected):
     assert output == expected
 
 
+def test_normalize_code_block():
+    """parametrize test normalize"""
+    input_text = "```\nfenced code block\nnew line\n```"
+    output = analyzer.normalize(input_text)
+    expected = ""
+    assert output == expected
+
+
 def test_compute_frequency():
     """Test if it return correct frequency result"""
     token_lst = ["hello", "hello", "hello"]
