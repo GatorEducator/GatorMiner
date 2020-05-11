@@ -39,12 +39,12 @@ def test_tokenize_parametrize(input_text, expected):
     "input_text, expected",
     [
         (
-            "A list of words with stopwords should drop some",
-            " list of words with stopwords should drop some",
+            "numbers 1 2 3 4 5",
+            "numbers     ",
         ),
         (
-            "A second sentence was more of a test because we need more tests",
-            " second sentence was more of  test because we need more tests",
+            "a sentence\nin a new line",
+            " sentence\nin  new line",
         ),
         ("... ! @ # $ *** ##", "      ",),
     ],
@@ -56,9 +56,17 @@ def test_normalize(input_text, expected):
     assert output == expected
 
 
-def test_normalize_code_block():
+def test_normalize_single_code_block():
     """parametrize test normalize"""
     input_text = "```\nfenced code block\nnew line\n```"
+    output = analyzer.normalize(input_text)
+    expected = ""
+    assert output == expected
+
+
+def test_normalize_multiple_code_blocks():
+    """parametrize test normalize"""
+    input_text = "```\nfenced code block one\nnew line\n```\n\n```\nfenced code block one\nnew line\n```"
     output = analyzer.normalize(input_text)
     expected = ""
     assert output == expected
