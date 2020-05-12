@@ -14,8 +14,8 @@ PARSER = spacy.load("en_core_web_sm")
 def normalize(data: str) -> str:
     """Remove numbers, single characters, to lowercase"""
     data = data.lower()
-    # number, single characters, code fence blocks
-    regex_lst = [r"\b[a-zA-Z]\b|\b[0-9]+\b", r"```[a-z]*[\n]*[\s\S]*?[\n]*```"]
+    # remove number and single characters
+    regex_lst = [r"\b[a-zA-Z]\b|\b[0-9]+\b"]
     generic_re = '|'.join(regex_lst)
     normal_text = re.sub(rf"{generic_re}", "", data)
     normal_text = "".join(

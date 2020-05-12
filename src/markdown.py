@@ -4,6 +4,7 @@ import logging
 from typing import Dict, List
 import commonmark
 import pandas as pd
+from . import analyzer as az
 
 
 logging.basicConfig(
@@ -58,6 +59,35 @@ def collect_md(directory: str) -> Dict[str, List[str]]:
         individual_dict = md_parser(read_file(file))
         main_md_dict = merge_dict(main_md_dict, individual_dict)
     return main_md_dict
+
+
+def collect_md_clean(directory):
+    file_names = get_file_names(directory)
+    main_md_dict = None
+    for file in file_names:
+        individual_dict = md_parser_clean(read_file(file))
+        main_md_dict = merge_dict(main_md_dict, individual_dict)
+    return main_md_dict
+
+
+def md_parser_clean(input_md: str) -> Dict[str, str]:
+    """Parse a markdown file and return as dict of headers and paragraphs"""
+    ast = commonmark.Parser().parse(input_md)
+    types = {"code_block", "link", "image", "code", "block_quote"}
+    md_dict = {}
+    cur_heading = ""
+    for subnode, enter in ast.walker():
+        if subnode.t == "heading" and enter:
+            # set header as key name
+            md_dict[subnode.first_child.literal] = ""
+            cur_heading = subnode.first_child.literal
+        elif subnode.literal is not None and subnode.literal != cur_heading and subnode.t not in types:
+            # add related text to the header
+            md_dict[cur_heading] += az.normalize(subnode.literal) + " "
+        else:
+            continue
+
+    return md_dict
 
 
 def md_parser(input_md: str) -> Dict[str, str]:
