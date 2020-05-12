@@ -59,6 +59,10 @@ The sentiment that was produced when we ran it was
 -- The sentiment rating: 0.982.
 ```
 
+## Supplemental Production
+
+N/A
+
 ## Challenges and Learning Experiences
 <!-- Discuss any challenges you have encountered during the work on this lab and  describe what have you learned. -->
 Our biggest challenge was understanding the code we were using and knowing how

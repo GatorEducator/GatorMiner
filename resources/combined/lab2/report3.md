@@ -50,7 +50,7 @@ cross validation of the given dataset:
 0  Score  0.786287  
 ```
 
-## Output
+## Supplemental Production
 
 By applying the KCNN model we trained during text analysis to the generated script text, we can get the creativity score of the generated text. The score is between 0 and 1.
 

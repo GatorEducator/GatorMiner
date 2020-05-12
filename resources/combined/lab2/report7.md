@@ -19,6 +19,10 @@ Recthing you do matters! Your existence is a lie! If that were really true, then
 ## Text Analysis
 To get the Text Analysis I first read the text file into a string and then clean the text, removing any unwanted characters like stop characters. Then using the nltk API I assigned values to each word and counted the frequency. After getting the frequency of all of the words I plotted the top 35 words to show how many times they occurred.
 
+## Supplemental Production
+
+N/A
+
 ## Challenges and Learning Experiences
 One challenge I had was trying to run tensorflow on a gpu. I have a desktop computer with a dedicated graphics card so I tried to set up tensorflow to run on it. Unfortunately from what I saw online tensorflow can only be run on a Nvidia GPUs while I have an AMD GPU. Another issue I had was with a variable name and trying to track it through the program. This was causing me to get weird error messages but once I found out that I had one instance of the variable spelled with a typo and changed it. One final challenge I had was getting the model to accurately predict text. To try and combat this problem I bumped up the EPOCHS and this seemed to help a little bit. Finally the biggest issue was getting an accurate summary of the show, I worked on this for a while but could not quite get the model to give a super accurate summary.
 

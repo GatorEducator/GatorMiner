@@ -48,7 +48,7 @@ It can have off target effect and one error can be catastrophic effects especial
 I think what researchers are doing now is good at not causing harm. Doing full research and not releasing such substantial treatment to humans before figuring out all side effects.
 
 
-## After completing this assignment, what task that your team wants to practice more? Why?
+## After completing this assignment, what is task that your team wants to practice more? Why?
 Like I said before, one of the hardest things that I found in the project was declaring and keeping track of all my variable in the code. I think the more I practice creating new variable and the more I practice editing such variable I will do better at declaring new variable with different names and keeping track of the names as well. Additionally, I think that I have been doing well with things like the MadLibs which has to do a lot with declaring strings and println statement. When it comes to editing variable and math I struggle so I would like to practice those things more.
 
 
