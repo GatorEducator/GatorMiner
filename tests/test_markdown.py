@@ -35,7 +35,7 @@ terms of embryos. In addition, if germline editing is only offered to a \
 select group of people, the wealthy, it will be problematic for the class \
 system."
     input_md = f"## header1\n{text}\n## header2\n{text}"
-    output = md.md_parser(input_md)
+    output = md.md_parser(input_md, is_clean=False)
     text = text + " "
     expected = {"header1": text, "header2": text}
     assert expected == output
@@ -60,7 +60,7 @@ system."
         "header1": [text + " ", text + " "],
         "header2": [text + " ", text + " "],
     }
-    output = md.collect_md(d)
+    output = md.collect_md(d, is_clean=False)
     assert expected == output
 
 
@@ -85,7 +85,7 @@ system."
         "header1": [text + " ", text + " ", text + " "],
         "header2": [text + " ", text + " ", text + " "],
     }
-    output = md.collect_md(d)
+    output = md.collect_md(d, is_clean=False)
     assert expected == output
 
 
@@ -127,5 +127,5 @@ system."
     ],
 )
 def test_md_parser_clean(input_text, expected):
-    output = md.md_parser_clean(input_text)
+    output = md.md_parser(input_text)
     assert output == expected

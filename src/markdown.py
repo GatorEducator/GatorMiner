@@ -51,29 +51,22 @@ def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
     return dict_1
 
 
-def collect_md(directory: str) -> Dict[str, List[str]]:
+def collect_md(directory: str, is_clean=True) -> Dict[str, List[str]]:
     """A pipeline to collect all the md files in a directory to a dict"""
     file_names = get_file_names(directory)
     main_md_dict = None
     for file in file_names:
-        individual_dict = md_parser(read_file(file))
+        individual_dict = md_parser(read_file(file), is_clean)
         main_md_dict = merge_dict(main_md_dict, individual_dict)
     return main_md_dict
 
 
-def collect_md_clean(directory):
-    file_names = get_file_names(directory)
-    main_md_dict = None
-    for file in file_names:
-        individual_dict = md_parser_clean(read_file(file))
-        main_md_dict = merge_dict(main_md_dict, individual_dict)
-    return main_md_dict
-
-
-def md_parser_clean(input_md: str) -> Dict[str, str]:
+def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
     """Parse a markdown file and return as dict of headers and paragraphs"""
     ast = commonmark.Parser().parse(input_md)
-    types = {"code_block", "link", "image", "code", "block_quote"}
+    types = {}
+    if is_clean:
+        types = {"code_block", "link", "image", "block_quote"}
     md_dict = {}
     cur_heading = ""
     for subnode, enter in ast.walker():
@@ -82,25 +75,6 @@ def md_parser_clean(input_md: str) -> Dict[str, str]:
             md_dict[subnode.first_child.literal] = ""
             cur_heading = subnode.first_child.literal
         elif subnode.literal is not None and subnode.literal != cur_heading and subnode.t not in types:
-            # add related text to the header
-            md_dict[cur_heading] += az.normalize(subnode.literal) + " "
-        else:
-            continue
-
-    return md_dict
-
-
-def md_parser(input_md: str) -> Dict[str, str]:
-    """Parse a markdown file and return as dict of headers and paragraphs"""
-    ast = commonmark.Parser().parse(input_md)
-    md_dict = {}
-    cur_heading = ""
-    for subnode, enter in ast.walker():
-        if subnode.t == "heading" and enter:
-            # set header as key name
-            md_dict[subnode.first_child.literal] = ""
-            cur_heading = subnode.first_child.literal
-        elif subnode.literal is not None and subnode.literal != cur_heading:
             # add related text to the header
             md_dict[cur_heading] += subnode.literal + " "
         else:
