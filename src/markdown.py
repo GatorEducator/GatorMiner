@@ -61,6 +61,17 @@ def collect_md(directory: str, is_clean=True) -> Dict[str, List[str]]:
     return main_md_dict
 
 
+def collect_md_text(directory: str, is_clean=True) -> List[str]:
+    """A pipeline to collect all md files in a directory to a list of text"""
+    file_names = get_file_names(directory)
+    main_md_list = []
+    for file in file_names:
+        individual_dict = md_parser(read_file(file), is_clean)
+        md_text = " ". join(individual_dict.values())
+        main_md_list.append(md_text)
+    return main_md_list
+
+
 def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
     """Parse a markdown file and return as dict of headers and paragraphs"""
     ast = commonmark.Parser().parse(input_md)
