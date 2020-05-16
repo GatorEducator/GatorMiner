@@ -28,7 +28,7 @@ def test_tokenize():
             ["not", "avoid", "use", "punctuation"],
         ),
         ("can't don't won't", ["not", "not", "will", "not"]),
-        ("... ! @ # $ *** ##", [""],),
+        ("... ! @ # $ *** ##", [],),
     ],
 )
 def test_tokenize_parametrize(input_text, expected):
@@ -78,7 +78,7 @@ def test_dir_frequency(tmp_path):
     d.mkdir()
     p1 = d / "hello.md"
     p2 = d / "world.md"
-    text = "hello world hello world hello world"
+    text = "# header\n hello world hello world hello world"
     p1.write_text(text)
     p2.write_text(text)
     output = az.dir_frequency(d)
