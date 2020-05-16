@@ -12,29 +12,32 @@ PARSER = spacy.load("en_core_web_sm")
 
 
 def normalize(data: str) -> str:
-    """Remove numbers, single characters, to lowercase"""
+    """Remove numbers and to lowercase"""
     data = data.lower()
-    # remove number and single characters
-    regex_lst = [r"\b[a-zA-Z]\b|\b[0-9]+\b"]
+    # remove number
+    # using a list in case more regex are needed
+    regex_lst = [r"\b[0-9]+\b"]
     generic_re = '|'.join(regex_lst)
     normal_text = re.sub(rf"{generic_re}", "", data)
-    normal_text = "".join(
-        c for c in normal_text if c not in string.punctuation
-    )
     spacefree_text = re.sub(r"\s{1,}", " ", normal_text)
     return spacefree_text
 
 
 def tokenize(normalized_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
-    tokens = PARSER(normalized_text)
-    # lemmatize tokens
+    # remove punctuation and extra space
+    punc_free = "".join(
+        c for c in normalized_text if c not in string.punctuation
+    )
+    normal_text = re.sub(r"\s{1,}", " ", punc_free)
+    tokens = PARSER(normal_text)
+    # lemmatize tokens, remove pronoun and stop words
     tokens = [
         word.lemma_.strip()
         for word in tokens
-        if word.lemma_ != "-PRON-" and word.is_stop is False
+        if word.lemma_ != "-PRON-"
+        and word.is_stop is False
     ]
-    tokens = [word for word in tokens if len(word) > 1]
     return tokens
 
 

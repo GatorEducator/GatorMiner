@@ -16,7 +16,7 @@ def test_tokenize():
     "input_text, expected",
     [
         (
-            "The programer programs many functional programs.",
+            "The programer is programming many functional programs.",
             ["programer", "program", "functional", "program"],
         ),
         (
@@ -25,8 +25,10 @@ def test_tokenize():
         ),
         (
             "If you can't avoid it. We'll all use punctuation.",
-            ["avoid", "use", "punctuation"],
+            ["not", "avoid", "use", "punctuation"],
         ),
+        ("can't don't won't", ["not", "not", "will", "not"]),
+        ("... ! @ # $ *** ##", [""],),
     ],
 )
 def test_tokenize_parametrize(input_text, expected):
@@ -44,9 +46,8 @@ def test_tokenize_parametrize(input_text, expected):
         ),
         (
             "a sentence\nin a new line",
-            " sentence in new line",
+            "a sentence in a new line",
         ),
-        ("... ! @ # $ *** ##", " ",),
     ],
 )
 # pylint: disable=W0613
