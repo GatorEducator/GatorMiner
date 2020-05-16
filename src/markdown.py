@@ -66,7 +66,7 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
     ast = commonmark.Parser().parse(input_md)
     types = {}
     if is_clean:
-        types = {"code_block", "link", "image", "block_quote"}
+        types = {"code_block", "link", "image", "code", "block_quote"}
     md_dict = {}
     cur_heading = ""
     for subnode, enter in ast.walker():
