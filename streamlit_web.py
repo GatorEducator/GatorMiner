@@ -13,6 +13,7 @@ import src.visualization as vis
 
 
 # resources/cs100f2019_lab05_reflections
+# resources/combined/lab1
 
 
 def main():
@@ -30,6 +31,7 @@ def main():
         try:
             main_df = df_preprocess(directory)
             st.sidebar.success(f"Analyzing {directory} ....")
+            st.write(main_df)
             global student_id
             student_id = st.sidebar.selectbox(
                 label="Select primary key (the column holds student ids)",
@@ -85,8 +87,10 @@ def combine_column_text(raw_df):
     cols = df_combined.columns[1:]
     # combining text into combined column
     df_combined["combined"] = df_combined[cols].apply(
-        lambda row: " ".join(row.values.astype(str)), axis=1
+        lambda row: "\n".join(row.values.astype(str)), axis=1
     )
+    df_combined["normalized"] = df_combined["combined"].apply(lambda row: az.normalize(row))
+    df_combined["clean"] = df_combined["normalized"].apply(lambda row: az.tokenize(row))
 
     return df_combined
 
@@ -195,47 +199,8 @@ def overall_freq(freq_range):
     """page fore overall word frequency"""
     freq_df = pd.DataFrame(az.dir_frequency(directory, freq_range),
                            columns=["word", "freq"])
+    st.write(freq_df)
     st.altair_chart((vis.freq_barplot(freq_df)))
-
-
-def overall_senti(senti_df):
-    """page for overall senti"""
-    st.altair_chart((vis.senti_combinedplot(senti_df, student_id)))
-
-
-def student_senti(input_df):
-    """page for display individual student's sentiment"""
-    students = st.multiselect(
-        label="Select specific students below:",
-        options=input_df[student_id]
-    )
-    df_selected_stu = input_df.loc[input_df[student_id].isin(students)]
-    senti_df = pd.DataFrame(
-        df_selected_stu, columns=[student_id, "sentiment"]
-    )
-    if len(students) != 0:
-        st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
-
-
-def question_senti(input_df):
-    """page for individual question's sentiment"""
-    st.write(original_df)
-    questions = st.multiselect(
-        label="Select specific questions below:",
-        options=original_df.columns[1:]
-    )
-    select_text = []
-    for column in questions:
-        select_text.append(input_df[column].to_string(index=False))
-    questions_senti_df = pd.DataFrame(
-        {"questions": questions, "text": select_text}
-    )
-    # calculate overall sentiment from the combined text
-    questions_senti_df["sentiment"] = questions_senti_df["text"].apply(
-        lambda x: TextBlob(x).sentiment.polarity
-    )
-    if len(select_text) != 0:
-        st.altair_chart(vis.question_senti_barplot(questions_senti_df))
 
 
 def student_freq(df_combined, freq_range):
@@ -304,6 +269,46 @@ def question_freq(input_df, freq_range):
         st.altair_chart(vis.facet_freq_barplot(
             freq_question_df,
             questions, "question", plots_per_row=plots_range))
+
+
+def overall_senti(senti_df):
+    """page for overall senti"""
+    st.altair_chart((vis.senti_combinedplot(senti_df, student_id)))
+
+
+def student_senti(input_df):
+    """page for display individual student's sentiment"""
+    students = st.multiselect(
+        label="Select specific students below:",
+        options=input_df[student_id]
+    )
+    df_selected_stu = input_df.loc[input_df[student_id].isin(students)]
+    senti_df = pd.DataFrame(
+        df_selected_stu, columns=[student_id, "sentiment"]
+    )
+    if len(students) != 0:
+        st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
+
+
+def question_senti(input_df):
+    """page for individual question's sentiment"""
+    st.write(original_df)
+    questions = st.multiselect(
+        label="Select specific questions below:",
+        options=original_df.columns[1:]
+    )
+    select_text = []
+    for column in questions:
+        select_text.append(input_df[column].to_string(index=False))
+    questions_senti_df = pd.DataFrame(
+        {"questions": questions, "text": select_text}
+    )
+    # calculate overall sentiment from the combined text
+    questions_senti_df["sentiment"] = questions_senti_df["text"].apply(
+        lambda x: TextBlob(x).sentiment.polarity
+    )
+    if len(select_text) != 0:
+        st.altair_chart(vis.question_senti_barplot(questions_senti_df))
 
 
 if __name__ == "__main__":
