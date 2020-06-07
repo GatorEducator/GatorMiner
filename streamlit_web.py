@@ -15,7 +15,7 @@ import src.visualization as vis
 
 
 # resources/cs100f2019_lab05_reflections
-# resources/combined/lab1
+# resources/combined/lab1, resources/combined/lab2
 
 
 def main():
@@ -37,8 +37,12 @@ def main():
             for item in directory:
                 item_df = df_preprocess(item)
                 main_df = main_df.append(item_df, ignore_index=True)
-                st.sidebar.success(f"Analyzing {item} ....")
+            st.sidebar.success(f"Analyzing {directory} ....")
             st.write(main_df)
+            assignments = st.sidebar.multiselect(
+                label="Select assignments below:",
+                options=directory
+            )
             global student_id
             student_id = st.sidebar.selectbox(
                 label="Select primary key (the column holds student ids)",
