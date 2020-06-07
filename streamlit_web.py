@@ -24,9 +24,10 @@ def main():
     st.sidebar.title("What to do")
     global directory
     global main_df
+    # initialize main_df
+    main_df = pd.DataFrame()
     directory = st.sidebar.text_input("Path to directory")
     directory = re.split(r'[;,\s]\s*', directory)
-    st.write(directory)
     if len(directory) == 0:
         st.sidebar.text("Please enter the path to the directory")
         with open("README.md") as readme_file:
@@ -34,9 +35,10 @@ def main():
     elif directory != "":
         try:
             for item in directory:
-                main_df = df_preprocess(item)
+                item_df = df_preprocess(item)
+                main_df = main_df.append(item_df, ignore_index=True)
                 st.sidebar.success(f"Analyzing {item} ....")
-                st.write(main_df)
+            st.write(main_df)
             global student_id
             student_id = st.sidebar.selectbox(
                 label="Select primary key (the column holds student ids)",
