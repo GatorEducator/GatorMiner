@@ -1,5 +1,7 @@
 """Web interface"""
 
+import re
+
 import pandas as pd
 import streamlit as st
 from textblob import TextBlob
@@ -23,15 +25,18 @@ def main():
     global directory
     global main_df
     directory = st.sidebar.text_input("Path to directory")
+    directory = re.split(r'[;,\s]\s*', directory)
+    st.write(directory)
     if len(directory) == 0:
         st.sidebar.text("Please enter the path to the directory")
         with open("README.md") as readme_file:
             st.markdown(readme_file.read())
     elif directory != "":
         try:
-            main_df = df_preprocess(directory)
-            st.sidebar.success(f"Analyzing {directory} ....")
-            st.write(main_df)
+            for item in directory:
+                main_df = df_preprocess(item)
+                st.sidebar.success(f"Analyzing {item} ....")
+                st.write(main_df)
             global student_id
             student_id = st.sidebar.selectbox(
                 label="Select primary key (the column holds student ids)",
