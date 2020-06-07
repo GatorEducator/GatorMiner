@@ -39,9 +39,10 @@ def main():
                 main_df = main_df.append(item_df, ignore_index=True)
             st.sidebar.success(f"Analyzing {directory} ....")
             st.write(main_df)
+            global assignments
             assignments = st.sidebar.multiselect(
                 label="Select assignments below:",
-                options=directory
+                options=main_df["Assignment"].unique()
             )
             global student_id
             student_id = st.sidebar.selectbox(
@@ -95,7 +96,7 @@ def combine_column_text(raw_df):
     """Combined the questions and store into a new column"""
     df_combined = raw_df.copy(deep=True)
     # filter out first column -- user info
-    cols = df_combined.columns[1:]
+    cols = df_combined.columns[2:]
     # combining text into combined column
     df_combined["combined"] = df_combined[cols].apply(
         lambda row: "\n".join(row.values.astype(str)), axis=1
@@ -118,7 +119,7 @@ def frequency():
         st.sidebar.success(
             'To continue see individual frequency analysis select "Individual"'
         )
-        st.header(f"Overall most frequent words in {directory}")
+        st.header(f"Overall most frequent words in {', '.join(assignments)}")
         overall_freq(freq_range)
     elif freq_type == "Student":
         freq_range = st.sidebar.slider(
@@ -208,17 +209,27 @@ def doc_sim():
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
-    freq_df = pd.DataFrame(az.dir_frequency(directory, freq_range),
-                           columns=["word", "freq"])
-    st.write(freq_df)
-    st.altair_chart((vis.freq_barplot(freq_df)))
+    plots_range = st.sidebar.slider(
+        "Select the number of plots per row", 1, 5, value=3
+    )
+    freq_df = pd.DataFrame(columns=["assignment", "word", "freq"])
+    # calculate word frequency of each assingments
+    for item in assignments:
+        combined_text = " ".join(main_df[main_df["Assignment"] == item].normalized)
+        item_df = pd.DataFrame(az.word_frequency(combined_text, freq_range),
+                               columns=["word", "freq"])
+        item_df["assignment"] = item
+        freq_df = freq_df.append(item_df)
+    # plot all the subplots of different assingments
+    st.altair_chart(vis.facet_freq_barplot(
+        freq_df, assignments, "assignment", plots_per_row=plots_range))
 
 
 def student_freq(df_combined, freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
         label="Select specific students below:",
-        options=df_combined[student_id]
+        options=df_combined[student_id].unique()
     )
 
     plots_range = st.sidebar.slider(
@@ -226,9 +237,12 @@ def student_freq(df_combined, freq_range):
     )
 
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
+    stu_assignment = df_combined[(df_combined[student_id].isin(students)) & df_combined["Assignment"].isin(assignments)]
+    st.write(stu_assignment)
 
     if len(students) != 0:
         for student in students:
+
             individual_freq = az.word_frequency(
                 df_combined[df_combined[student_id] == student]
                 .loc[:, ["combined"]]
@@ -236,7 +250,10 @@ def student_freq(df_combined, freq_range):
                 freq_range,
             )
             ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
+
             ind_df["student"] = student
+            # ind_df["assignment"] =
+            st.write(ind_df)
             freq_df = freq_df.append(ind_df)
 
         st.altair_chart(vis.facet_freq_barplot(
