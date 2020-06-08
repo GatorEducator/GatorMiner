@@ -102,7 +102,7 @@ def combine_column_text(raw_df):
         lambda row: "\n".join(row.values.astype(str)), axis=1
     )
     df_combined["normalized"] = df_combined["combined"].apply(lambda row: az.normalize(row))
-    df_combined["clean"] = df_combined["normalized"].apply(lambda row: az.tokenize(row))
+    df_combined["tokens"] = df_combined["normalized"].apply(lambda row: az.tokenize(row))
 
     return df_combined
 
