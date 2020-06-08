@@ -145,7 +145,7 @@ def sentiment():
         st.sidebar.success(
             'To continue see individual sentiment analysis select "Individual"'
         )
-        st.header(f"Overall sentiment polarity in {directory}")
+        st.header(f"Overall sentiment polarity in {', '.join(assignments)}")
         overall_senti(main_df)
     elif senti_type == "Student":
         st.header("View sentiment by individual students")
@@ -298,6 +298,8 @@ def question_freq(input_df, freq_range):
 
 def overall_senti(senti_df):
     """page for overall senti"""
+    # display line plot when there are multiple assingments
+    st.altair_chart(vis.stu_senti_lineplot(senti_df, student_id))
     st.altair_chart((vis.senti_combinedplot(senti_df, student_id)))
 
 
@@ -312,9 +314,6 @@ def student_senti(input_df):
         df_selected_stu, columns=["Assignment", student_id, "sentiment"]
     )
     if len(students) != 0:
-        # display line plot when there are multiple assingments
-        if len(assignments) > 1:
-            st.altair_chart(vis.stu_senti_lineplot(senti_df, student_id))
         st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
 
 
@@ -323,11 +322,11 @@ def question_senti(input_df):
     st.write(preprocessed_df)
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=preprocessed_df.columns[1:]
+        options=preprocessed_df.columns[2:]
     )
     select_text = []
     for column in questions:
-        select_text.append(input_df[column].to_string(index=False))
+        select_text.append(input_df[column].to_string(index=False, na_rep=""))
     questions_senti_df = pd.DataFrame(
         {"questions": questions, "text": select_text}
     )
