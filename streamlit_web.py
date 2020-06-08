@@ -254,10 +254,11 @@ def student_freq(df_combined, freq_range):
 
 def question_freq(input_df, freq_range):
     """page for individual question's word frequency"""
-    st.write(preprocessed_df)
+    # drop columns with all na
+    select_preprocess = preprocessed_df[preprocessed_df["Assignment"].isin(assignments)].dropna(axis=1, how="all")
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=preprocessed_df.columns[1:]
+        options=select_preprocess.columns[1:]
     )
 
     plots_range = st.sidebar.slider(
