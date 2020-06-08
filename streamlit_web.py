@@ -87,17 +87,11 @@ def main():
 
 
 def df_preprocess(directory_path):
-    "build and preprocess pandas dataframe"
+    "build and preprocess (combine, normalize, tokenize) text"
     original_df = pd.DataFrame(md.collect_md(directory_path))
     global preprocessed_df
     preprocessed_df = preprocessed_df.append(original_df, ignore_index=True)
-    df_combined = combine_column_text(original_df)
-    return df_combined
-
-
-def combine_column_text(raw_df):
-    """Combined the questions and store into a new column"""
-    df_combined = raw_df.copy(deep=True)
+    df_combined = original_df.copy(deep=True)
     # filter out first column -- user info
     cols = df_combined.columns[2:]
     # combining text into combined column
@@ -287,13 +281,13 @@ def question_freq(input_df, freq_range):
 
     if len(questions) != 0:
         for question in questions:
-            question_freq = az.word_frequency(
+            quest_freq = az.word_frequency(
                 question_df[question_df["question"] == question]
                 .loc[:, ["text"]]
                 .to_string(),
                 freq_range,
             )
-            ind_df = pd.DataFrame(question_freq, columns=["word", "freq"])
+            ind_df = pd.DataFrame(quest_freq, columns=["word", "freq"])
             ind_df["question"] = question
             freq_question_df = freq_question_df.append(ind_df)
 
