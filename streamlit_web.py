@@ -315,9 +315,10 @@ def student_senti(input_df):
     senti_df = pd.DataFrame(
         df_selected_stu, columns=["Assignment", student_id, "sentiment"]
     )
-
     if len(students) != 0:
-        st.altair_chart(vis.stu_senti_lineplot(senti_df, student_id))
+        # display line plot when there are multiple assingments
+        if len(assignments) > 1:
+            st.altair_chart(vis.stu_senti_lineplot(senti_df, student_id))
         st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
 
 
