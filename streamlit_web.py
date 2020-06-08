@@ -148,10 +148,10 @@ def sentiment():
         st.header(f"Overall sentiment polarity in {', '.join(assignments)}")
         overall_senti(main_df)
     elif senti_type == "Student":
-        st.header("View sentiment by individual students")
+        st.header(f"View sentiment by individual students in **{', '.join(assignments)}**")
         student_senti(main_df)
     elif senti_type == "Question":
-        st.header("View sentiment by individual questions")
+        st.header(f"View sentiment by individual questions in **{', '.join(assignments)}**")
         question_senti(main_df)
 
 
@@ -323,10 +323,10 @@ def student_senti(input_df):
 
 def question_senti(input_df):
     """page for individual question's sentiment"""
-    st.write(preprocessed_df)
+    select_preprocess = preprocessed_df[preprocessed_df["Assignment"].isin(assignments)].dropna(axis=1, how="all")
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=preprocessed_df.columns[2:]
+        options=select_preprocess.columns[2:]
     )
     select_text = []
     for column in questions:
