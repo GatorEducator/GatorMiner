@@ -17,6 +17,10 @@ import src.visualization as vis
 # resources/cs100f2019_lab05_reflections
 # resources/combined/lab1, resources/combined/lab2
 
+# initialize main_df and preprocessed_Df
+preprocessed_df = pd.DataFrame()
+main_df = pd.DataFrame()
+
 
 def main():
     """main streamlit function"""
@@ -24,8 +28,6 @@ def main():
     st.sidebar.title("What to do")
     global directory
     global main_df
-    # initialize main_df
-    main_df = pd.DataFrame()
     directory = st.sidebar.text_input("Path to directory")
     directory = re.split(r'[;,\s]\s*', directory)
     if len(directory) == 0:
@@ -47,7 +49,7 @@ def main():
             global student_id
             student_id = st.sidebar.selectbox(
                 label="Select primary key (the column holds student ids)",
-                options=original_df.columns[0:]
+                options=preprocessed_df.columns[0:]
             )
             analysis_mode = st.sidebar.selectbox(
                 "Choose the analysis mode",
@@ -86,8 +88,9 @@ def main():
 
 def df_preprocess(directory_path):
     "build and preprocess pandas dataframe"
-    global original_df
     original_df = pd.DataFrame(md.collect_md(directory_path))
+    global preprocessed_df
+    preprocessed_df = preprocessed_df.append(original_df, ignore_index=True)
     df_combined = combine_column_text(original_df)
     return df_combined
 
@@ -262,10 +265,10 @@ def student_freq(df_combined, freq_range):
 
 def question_freq(input_df, freq_range):
     """page for individual question's word frequency"""
-    st.write(original_df)
+    st.write(preprocessed_df)
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=original_df.columns[1:]
+        options=preprocessed_df.columns[1:]
     )
 
     plots_range = st.sidebar.slider(
@@ -323,10 +326,10 @@ def student_senti(input_df):
 
 def question_senti(input_df):
     """page for individual question's sentiment"""
-    st.write(original_df)
+    st.write(preprocessed_df)
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=original_df.columns[1:]
+        options=preprocessed_df.columns[1:]
     )
     select_text = []
     for column in questions:
