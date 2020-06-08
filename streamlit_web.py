@@ -311,7 +311,6 @@ def student_senti(input_df):
         options=input_df[student_id].unique()
     )
     df_selected_stu = input_df.loc[input_df[student_id].isin(students)]
-    st.write(df_selected_stu)
     senti_df = pd.DataFrame(
         df_selected_stu, columns=["Assignment", student_id, "sentiment"]
     )
