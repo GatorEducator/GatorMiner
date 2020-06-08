@@ -266,7 +266,7 @@ def question_freq(input_df, freq_range):
     )
 
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=1
+        "Select the number of plots per row", 1, 5, value=3
     )
 
     freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
@@ -309,11 +309,18 @@ def student_senti(input_df):
         label="Select specific students below:",
         options=input_df[student_id].unique()
     )
+    plots_range = st.sidebar.slider(
+        "Select the number of plots per row", 1, 5, value=3
+    )
     df_selected_stu = input_df.loc[input_df[student_id].isin(students)]
     senti_df = pd.DataFrame(
         df_selected_stu, columns=["Assignment", student_id, "sentiment"]
     )
     if len(students) != 0:
+        st.altair_chart(vis.facet_senti_barplot(
+            senti_df,
+            students, student_id, plots_per_row=plots_range))
+
         st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
 
 
