@@ -308,13 +308,16 @@ def student_senti(input_df):
     """page for display individual student's sentiment"""
     students = st.multiselect(
         label="Select specific students below:",
-        options=input_df[student_id]
+        options=input_df[student_id].unique()
     )
     df_selected_stu = input_df.loc[input_df[student_id].isin(students)]
+    st.write(df_selected_stu)
     senti_df = pd.DataFrame(
-        df_selected_stu, columns=[student_id, "sentiment"]
+        df_selected_stu, columns=["Assignment", student_id, "sentiment"]
     )
+
     if len(students) != 0:
+        st.altair_chart(vis.stu_senti_lineplot(senti_df, student_id))
         st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
 
 
