@@ -46,6 +46,32 @@ def facet_freq_barplot(freq_df, options, column_name, plots_per_row=3):
     return grid
 
 
+def facet_senti_barplot(senti_df, options, column_name, plots_per_row=3):
+    """facet bar plot for word frequencies"""
+    base = alt.Chart(senti_df).mark_bar().encode(
+        alt.Y('Assignment', title=None),
+        alt.X('sentiment', title=None),
+        tooltip=[
+            alt.Tooltip("Assignment", title="assignment"),
+            alt.Tooltip("sentiment", title="sentiment"),
+        ],
+        opacity=alt.value(0.7),
+        color=alt.Color(column_name, legend=None)
+        ).properties(
+            width=190,
+        )
+
+    subplts = []
+    for item in options:
+        subplts.append(
+            base.transform_filter(datum[column_name] == item).properties(
+                title=item))
+
+    grid = facet_wrap(subplts, plots_per_row)
+
+    return grid
+
+
 def facet_wrap(subplts, plots_per_row=3):
     """make subplots into facet based on the plot number per row"""
     row_stu = [subplts[i: i + plots_per_row]
