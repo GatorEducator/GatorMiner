@@ -123,6 +123,16 @@ def stu_senti_barplot(senti_df, student_id):
     return senti_plot
 
 
+def stu_senti_lineplot(senti_df, student_id):
+    """barplot for individual student' sentiment"""
+    senti_lineplot = alt.Chart(senti_df).mark_line().encode(
+        x='Assignment',
+        y='sentiment',
+        color=student_id,
+    ).properties(width=700, height=450)
+    return senti_lineplot
+
+
 def question_senti_barplot(senti_df):
     """barplot for individual question's sentiment"""
     senti_plot = (
