@@ -295,7 +295,8 @@ def question_freq(input_df, freq_range):
 def overall_senti(senti_df):
     """page for overall senti"""
     # display line plot when there are multiple assingments
-    st.altair_chart(vis.stu_senti_lineplot(senti_df, student_id))
+    if len(assignments) > 1:
+        st.altair_chart(vis.stu_senti_lineplot(senti_df, student_id))
     st.altair_chart((vis.senti_combinedplot(senti_df, student_id)))
 
 
