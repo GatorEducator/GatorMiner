@@ -116,28 +116,30 @@ def frequency():
         st.sidebar.success(
             'To continue see individual frequency analysis select "Individual"'
         )
-        st.header(f"Overall most frequent words in {', '.join(assignments)}")
+        st.header(f"Overall most frequent words in **{', '.join(assignments)}**")
         overall_freq(freq_range)
     elif freq_type == "Student":
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
         )
-        st.header(f"Most frequent words by individual students in {', '.join(assignments)}")
+        st.header(f"Most frequent words by individual students in **{', '.join(assignments)}**")
         student_freq(main_df, freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
         )
-        st.header("Most frequent words in individual questions")
+        st.header(f"Most frequent words in individual questions in **{', '.join(assignments)}**")
         question_freq(main_df, freq_range)
 
 
 def sentiment():
     """main function for sentiment analysis"""
+    senti_df = main_df.copy(deep=True)
     # calculate overall sentiment from the combined text
-    main_df["sentiment"] = main_df["combined"].apply(
+    senti_df["sentiment"] = senti_df["combined"].apply(
         lambda x: TextBlob(x).sentiment.polarity
     )
+    senti_df = senti_df[senti_df["Assignment"].isin(assignments)]
     senti_type = st.sidebar.selectbox(
         "Type of sentiment analysis", ["Overall", "Student", "Question"]
     )
@@ -145,14 +147,14 @@ def sentiment():
         st.sidebar.success(
             'To continue see individual sentiment analysis select "Individual"'
         )
-        st.header(f"Overall sentiment polarity in {', '.join(assignments)}")
-        overall_senti(main_df)
+        st.header(f"Overall sentiment polarity in **{', '.join(assignments)}**")
+        overall_senti(senti_df)
     elif senti_type == "Student":
         st.header(f"View sentiment by individual students in **{', '.join(assignments)}**")
-        student_senti(main_df)
+        student_senti(senti_df)
     elif senti_type == "Question":
         st.header(f"View sentiment by individual questions in **{', '.join(assignments)}**")
-        question_senti(main_df)
+        question_senti(senti_df)
 
 
 def summary():
