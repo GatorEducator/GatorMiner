@@ -99,10 +99,11 @@ system."
             {"heading": ""},
         ),
         (
-            "# heading\n```\ntype\nblock one\n```\ntext in between\n```\ntype\nblock 2\n```",
-            {"heading": "text in between "},
+            "# heading\n```\ntype\nblock1\n```\ntext\n```\ntype\nblock2\n```",
+            {"heading": "text"},
         ),
-        ("# heading\ntext with\n```fenced code block\n```", {"heading": "text with "},),
+        ("# heading\ntext with\n```fenced code block\n```",
+         {"heading": "text with "},),
         (
             "# heading\ntext with\n```multiple line\nfenced code block\n```",
             {"heading": "text with "},

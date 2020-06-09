@@ -42,7 +42,8 @@ def facet_freq_barplot(freq_df, options, column_name, plots_per_row=3):
     subplts = []
     for item in options:
         subplts.append(
-            base.transform_filter(datum[column_name] == item).properties(title=item)
+            base.transform_filter(
+                datum[column_name] == item).properties(title=item)
         )
 
     grid = facet_wrap(subplts, plots_per_row)
@@ -71,7 +72,8 @@ def facet_senti_barplot(senti_df, options, column_name, plots_per_row=3):
     subplts = []
     for item in options:
         subplts.append(
-            base.transform_filter(datum[column_name] == item).properties(title=item)
+            base.transform_filter(
+                datum[column_name] == item).properties(title=item)
         )
 
     grid = facet_wrap(subplts, plots_per_row)
@@ -82,7 +84,9 @@ def facet_senti_barplot(senti_df, options, column_name, plots_per_row=3):
 def facet_wrap(subplts, plots_per_row=3):
     """make subplots into facet based on the plot number per row"""
     row_stu = [
-        subplts[i : i + plots_per_row] for i in range(0, len(subplts), plots_per_row)
+        subplts[i: i + plots_per_row] for i in range(
+            0, len(subplts), plots_per_row
+        )
     ]
     column_plot = alt.vconcat(spacing=10)
     for row in row_stu:
@@ -171,7 +175,9 @@ def question_senti_barplot(senti_df):
             tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
             opacity=alt.value(0.7),
             color=alt.condition(
-                alt.datum.sentiment > 0, alt.value("steelblue"), alt.value("red")
+                alt.datum.sentiment > 0,
+                alt.value("steelblue"),
+                alt.value("red"),
             ),
         )
         .properties(width=700, height=450)
@@ -189,7 +195,7 @@ def doc_sim_heatmap(df_sim):
             x=alt.X("doc_1", sort=None, title="student"),
             y=alt.Y("doc_2", sort="-x", title="student"),
             color="similarity",
-            tooltip=[alt.Tooltip("similarity", title="similarity"),],
+            tooltip=[alt.Tooltip("similarity", title="similarity")],
         )
         .properties(width=600, height=550)
     )
