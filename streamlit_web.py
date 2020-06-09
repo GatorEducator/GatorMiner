@@ -29,7 +29,7 @@ def main():
     global directory
 
     directory = st.sidebar.text_input("Enter path(s) to documents (seperate by comma)")
-    directory = re.split(r'[;,\s]\s*', directory)
+    directory = re.split(r"[;,\s]\s*", directory)
     if len(directory) == 0:
         st.sidebar.text("Please enter the path to the directory")
         with open("README.md") as readme_file:
@@ -44,7 +44,7 @@ def main():
             global assignments
             assignments = st.sidebar.multiselect(
                 label="Select assignments below:",
-                options=main_df["Assignment"].unique()
+                options=main_df["Assignment"].unique(),
             )
             global student_id
             student_id = preprocessed_df.columns[1]
@@ -132,13 +132,17 @@ def frequency():
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
         )
-        st.header(f"Most frequent words by individual students in **{', '.join(assignments)}**")
+        st.header(
+            f"Most frequent words by individual students in **{', '.join(assignments)}**"
+        )
         student_freq(freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
         )
-        st.header(f"Most frequent words in individual questions in **{', '.join(assignments)}**")
+        st.header(
+            f"Most frequent words in individual questions in **{', '.join(assignments)}**"
+        )
         question_freq(freq_range)
 
 
@@ -160,10 +164,14 @@ def sentiment():
         st.header(f"Overall sentiment polarity in **{', '.join(assignments)}**")
         overall_senti(senti_df)
     elif senti_type == "Student":
-        st.header(f"View sentiment by individual students in **{', '.join(assignments)}**")
+        st.header(
+            f"View sentiment by individual students in **{', '.join(assignments)}**"
+        )
         student_senti(senti_df)
     elif senti_type == "Question":
-        st.header(f"View sentiment by individual questions in **{', '.join(assignments)}**")
+        st.header(
+            f"View sentiment by individual questions in **{', '.join(assignments)}**"
+        )
         question_senti(senti_df)
 
 
@@ -176,16 +184,12 @@ def summary():
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
-    topic_range = st.sidebar.slider(
-        "Select the amount of topics", 1, 10, value=5
-    )
+    topic_range = st.sidebar.slider("Select the amount of topics", 1, 10, value=5)
     word_range = st.sidebar.slider(
         "Select the amount of words per topic", 1, 10, value=5
     )
     topic_df["topics"] = topic_df["combined"].apply(
-        lambda x: tm.topic_model(
-            x, NUM_TOPICS=topic_range, NUM_WORDS=word_range
-        )
+        lambda x: tm.topic_model(x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
     )
     st.write(topic_df[[student_id, "topics"]])
 
@@ -193,60 +197,57 @@ def tpmodel():
 def doc_sim():
     """Display document similarity"""
     st.header("Similarity between each student's document")
-    main_df["normal_text"] = main_df["combined"].apply(
-        lambda x: az.normalize(x)
-    )
+    main_df["normal_text"] = main_df["combined"].apply(lambda x: az.normalize(x))
     pairs = ds.create_pair(main_df[student_id])
     # calculate similarity of the docs of the selected author pairs
     similarity = [
         ds.tfidf_cosine_similarity(
             (
-                main_df[main_df[student_id] == pair[0]][
-                    "normal_text"].values[0],
-                main_df[main_df[student_id] == pair[1]][
-                    "normal_text"].values[0],
+                main_df[main_df[student_id] == pair[0]]["normal_text"].values[0],
+                main_df[main_df[student_id] == pair[1]]["normal_text"].values[0],
             )
         )
         for pair in pairs
     ]
     df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
     # Split the pair tuple into two columns for plotting
-    df_sim[['doc_1', 'doc_2']] = pd.DataFrame(
-        df_sim['pair'].tolist(), index=df_sim.index
+    df_sim[["doc_1", "doc_2"]] = pd.DataFrame(
+        df_sim["pair"].tolist(), index=df_sim.index
     )
     st.altair_chart(vis.doc_sim_heatmap(df_sim))
 
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
-    plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3
-    )
+    plots_range = st.sidebar.slider("Select the number of plots per row", 1, 5, value=3)
     freq_df = pd.DataFrame(columns=["assignment", "word", "freq"])
     # calculate word frequency of each assignments
     for item in assignments:
         combined_text = " ".join(main_df[main_df["Assignment"] == item].normalized)
-        item_df = pd.DataFrame(az.word_frequency(combined_text, freq_range),
-                               columns=["word", "freq"])
+        item_df = pd.DataFrame(
+            az.word_frequency(combined_text, freq_range), columns=["word", "freq"]
+        )
         item_df["assignment"] = item
         freq_df = freq_df.append(item_df)
     # plot all the subplots of different assignments
-    st.altair_chart(vis.facet_freq_barplot(
-        freq_df, assignments, "assignment", plots_per_row=plots_range))
+    st.altair_chart(
+        vis.facet_freq_barplot(
+            freq_df, assignments, "assignment", plots_per_row=plots_range
+        )
+    )
 
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
-        label="Select specific students below:",
-        options=main_df[student_id].unique()
+        label="Select specific students below:", options=main_df[student_id].unique()
     )
 
-    plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3
-    )
+    plots_range = st.sidebar.slider("Select the number of plots per row", 1, 5, value=3)
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
-    stu_assignment = main_df[(main_df[student_id].isin(students)) & main_df["Assignment"].isin(assignments)]
+    stu_assignment = main_df[
+        (main_df[student_id].isin(students)) & main_df["Assignment"].isin(assignments)
+    ]
     if len(students) != 0:
         for student in students:
 
@@ -261,32 +262,31 @@ def student_freq(freq_range):
             ind_df["student"] = student
             freq_df = freq_df.append(ind_df)
 
-        st.altair_chart(vis.facet_freq_barplot(
-            freq_df, students, "student", plots_per_row=plots_range))
+        st.altair_chart(
+            vis.facet_freq_barplot(
+                freq_df, students, "student", plots_per_row=plots_range
+            )
+        )
 
 
 def question_freq(freq_range):
     """page for individual question's word frequency"""
     # drop columns with all na
-    select_preprocess = preprocessed_df[preprocessed_df["Assignment"].isin(assignments)].dropna(axis=1, how="all")
+    select_preprocess = preprocessed_df[
+        preprocessed_df["Assignment"].isin(assignments)
+    ].dropna(axis=1, how="all")
     questions = st.multiselect(
-        label="Select specific questions below:",
-        options=select_preprocess.columns[2:]
+        label="Select specific questions below:", options=select_preprocess.columns[2:]
     )
 
-    plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=1
-    )
+    plots_range = st.sidebar.slider("Select the number of plots per row", 1, 5, value=1)
 
     freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
 
     select_text = {}
     for question in questions:
         select_text[question] = main_df[question].to_string(index=False, na_rep="")
-    question_df = pd.DataFrame(
-        select_text.items(),
-        columns=["question", "text"]
-    )
+    question_df = pd.DataFrame(select_text.items(), columns=["question", "text"])
 
     if len(questions) != 0:
         for question in questions:
@@ -300,9 +300,11 @@ def question_freq(freq_range):
             ind_df["question"] = question
             freq_question_df = freq_question_df.append(ind_df)
 
-        st.altair_chart(vis.facet_freq_barplot(
-            freq_question_df,
-            questions, "question", plots_per_row=plots_range))
+        st.altair_chart(
+            vis.facet_freq_barplot(
+                freq_question_df, questions, "question", plots_per_row=plots_range
+            )
+        )
 
 
 def overall_senti(senti_df):
@@ -316,36 +318,34 @@ def overall_senti(senti_df):
 def student_senti(input_df):
     """page for display individual student's sentiment"""
     students = st.multiselect(
-        label="Select specific students below:",
-        options=input_df[student_id].unique()
+        label="Select specific students below:", options=input_df[student_id].unique()
     )
-    plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3
-    )
+    plots_range = st.sidebar.slider("Select the number of plots per row", 1, 5, value=3)
     df_selected_stu = input_df.loc[input_df[student_id].isin(students)]
     senti_df = pd.DataFrame(
         df_selected_stu, columns=["Assignment", student_id, "sentiment"]
     )
     if len(students) != 0:
-        st.altair_chart(vis.facet_senti_barplot(
-            senti_df,
-            students, student_id, plots_per_row=plots_range))
+        st.altair_chart(
+            vis.facet_senti_barplot(
+                senti_df, students, student_id, plots_per_row=plots_range
+            )
+        )
         st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
 
 
 def question_senti(input_df):
     """page for individual question's sentiment"""
-    select_preprocess = preprocessed_df[preprocessed_df["Assignment"].isin(assignments)].dropna(axis=1, how="all")
+    select_preprocess = preprocessed_df[
+        preprocessed_df["Assignment"].isin(assignments)
+    ].dropna(axis=1, how="all")
     questions = st.multiselect(
-        label="Select specific questions below:",
-        options=select_preprocess.columns[2:]
+        label="Select specific questions below:", options=select_preprocess.columns[2:]
     )
     select_text = []
     for column in questions:
         select_text.append(input_df[column].to_string(index=False, na_rep=""))
-    questions_senti_df = pd.DataFrame(
-        {"questions": questions, "text": select_text}
-    )
+    questions_senti_df = pd.DataFrame({"questions": questions, "text": select_text})
     # calculate overall sentiment from the combined text
     questions_senti_df["sentiment"] = questions_senti_df["text"].apply(
         lambda x: TextBlob(x).sentiment.polarity

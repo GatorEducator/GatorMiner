@@ -40,14 +40,8 @@ def test_tokenize_parametrize(input_text, expected):
 @pytest.mark.parametrize(
     "input_text, expected",
     [
-        (
-            "numbers 1 2 3 4 55",
-            "numbers ",
-        ),
-        (
-            "a sentence\nin a new line",
-            "a sentence in a new line",
-        ),
+        ("numbers 1 2 3 4 55", "numbers ",),
+        ("a sentence\nin a new line", "a sentence in a new line",),
     ],
 )
 # pylint: disable=W0613

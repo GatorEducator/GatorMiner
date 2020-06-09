@@ -17,7 +17,7 @@ def normalize(data: str) -> str:
     # remove number
     # using a list in case more regex are needed
     regex_lst = [r"\b[0-9]+\b", r"\W+"]
-    generic_re = '|'.join(regex_lst)
+    generic_re = "|".join(regex_lst)
     normal_text = re.sub(rf"{generic_re}", " ", data)
     spacefree_text = re.sub(r"\s{1,}", " ", normal_text)
     return spacefree_text
@@ -26,9 +26,7 @@ def normalize(data: str) -> str:
 def tokenize(normalized_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
     # remove punctuation
-    normal_text = "".join(
-        c for c in normalized_text if c not in string.punctuation
-    )
+    normal_text = "".join(c for c in normalized_text if c not in string.punctuation)
     tokens = PARSER(normal_text)
     # lemmatize tokens, remove pronoun and stop words
     tokens = [
@@ -41,7 +39,9 @@ def tokenize(normalized_text: str) -> List[str]:
     return tokens
 
 
-def compute_frequency(token_lst: List[str], amount=50) -> List[Tuple[str, int]]:  # noqa: E501
+def compute_frequency(
+    token_lst: List[str], amount=50
+) -> List[Tuple[str, int]]:  # noqa: E501
     """Compute word frequency from a list of tokens"""
     word_freq = Counter(token_lst)
     return word_freq.most_common(amount)

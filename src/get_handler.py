@@ -41,8 +41,8 @@ def get_request(assignment):
     amzdate = t.strftime("%Y%m%dT%H%M%SZ")
     datestamp = t.strftime("%Y%m%d")  # Date w/o time, used in credential scope
 
-    host, stage, method = ENDPOINT.replace('https://', '').split('/')
-    canonical_uri = "/" + stage + '/' + method
+    host, stage, method = ENDPOINT.replace("https://", "").split("/")
+    canonical_uri = "/" + stage + "/" + method
 
     # query
     request_parameters = f"assignment={assignment}"
@@ -91,8 +91,7 @@ def get_request(assignment):
     # Match the algorithm to the hashing algorithm you use, either SHA-1 or
     # SHA-256 (recommended)
     algorithm = "AWS4-HMAC-SHA256"
-    credential_scope = datestamp + "/" \
-        + REGION + "/" + SERVICE + "/" + "aws4_request"
+    credential_scope = datestamp + "/" + REGION + "/" + SERVICE + "/" + "aws4_request"
     string_to_sign = (
         algorithm
         + "\n"
@@ -150,6 +149,6 @@ def get_request(assignment):
     return r.text
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     response = get_request(input("Assignment name: \n"))
     print(response)

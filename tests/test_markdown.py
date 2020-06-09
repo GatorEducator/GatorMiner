@@ -92,38 +92,23 @@ system."
 @pytest.mark.parametrize(
     "input_text, expected",
     [
-        (
-            "# heading\n```\nregular code block\n```",
-            {'heading': ''},
-        ),
-        (
-            "# heading\n```\ntype\nnew line\n```",
-            {'heading': ''},
-        ),
+        ("# heading\n```\nregular code block\n```", {"heading": ""},),
+        ("# heading\n```\ntype\nnew line\n```", {"heading": ""},),
         (
             "# heading\n```\ntype\nblock one\n```\n```\ntype\nblock 2\n```",
-            {'heading': ''},
+            {"heading": ""},
         ),
         (
             "# heading\n```\ntype\nblock one\n```\ntext in between\n```\ntype\nblock 2\n```",
-            {'heading': 'text in between '},
+            {"heading": "text in between "},
         ),
-        (
-            "# heading\ntext with\n```fenced code block\n```",
-            {'heading': 'text with '},
-        ),
+        ("# heading\ntext with\n```fenced code block\n```", {"heading": "text with "},),
         (
             "# heading\ntext with\n```multiple line\nfenced code block\n```",
-            {'heading': 'text with '},
+            {"heading": "text with "},
         ),
-        (
-            "# heading\n[linkname](url)![]()",
-            {'heading': 'linkname '},
-        ),
-        (
-            "# heading\n![imgname](path)",
-            {'heading': 'imgname '},
-        ),
+        ("# heading\n[linkname](url)![]()", {"heading": "linkname "},),
+        ("# heading\n![imgname](path)", {"heading": "imgname "},),
     ],
 )
 def test_md_parser_clean(input_text, expected):
