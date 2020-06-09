@@ -19,7 +19,7 @@ import src.visualization as vis
 
 # initialize main_df and preprocessed_Df
 preprocessed_df = pd.DataFrame()
-main_df = pd.DataFrame()
+# main_df = pd.DataFrame()
 
 
 def main():
@@ -27,7 +27,7 @@ def main():
     # Title
     st.sidebar.title("What to do")
     global directory
-    global main_df
+
     directory = st.sidebar.text_input("Path to directory")
     directory = re.split(r'[;,\s]\s*', directory)
     if len(directory) == 0:
@@ -36,17 +36,17 @@ def main():
             st.markdown(readme_file.read())
     elif directory != "":
         try:
-            for item in directory:
-                item_df = df_preprocess(item)
-                main_df = main_df.append(item_df, ignore_index=True)
+            global preprocessed_df
+            main_df, preprocessed_df = import_data(directory)
+            st.write(main_df)
             st.sidebar.success(f"Analyzing {directory} ....")
-            # st.write(main_df)
             global assignments
             assignments = st.sidebar.multiselect(
                 label="Select assignments below:",
                 options=main_df["Assignment"].unique()
             )
             global student_id
+
             student_id = st.sidebar.selectbox(
                 label="Select primary key (the column holds student ids)",
                 options=preprocessed_df.columns[1:]
@@ -67,44 +67,51 @@ def main():
                     st.markdown(readme_file.read())
             if analysis_mode == "Frequency Analysis":
                 st.title("Frequency Analysis")
-                frequency()
+                frequency(main_df)
             elif analysis_mode == "Sentiment Analysis":
                 st.title("Sentiment Analysis")
-                sentiment()
+                sentiment(main_df)
             elif analysis_mode == "Document Similarity":
                 st.title("Document Similarity")
-                doc_sim()
+                doc_sim(main_df)
             elif analysis_mode == "Summary":
                 st.title("Summary")
-                summary()
+                summary(main_df)
             elif analysis_mode == "Topic Modeling":
                 st.title("Topic Modeling")
-                tpmodel()
+                tpmodel(main_df)
         except FileNotFoundError as err:
             st.sidebar.text(err)
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
 
 
-def df_preprocess(directory_path):
+@st.cache(allow_output_mutation=True)
+def import_data(paths):
+    main_df = pd.DataFrame()
+    raw_data_df = pd.DataFrame()
+    for path in paths:
+        single_df = pd.DataFrame(md.collect_md(path))
+
+        raw_data_df = raw_data_df.append(single_df, ignore_index=True)
+        main_df = main_df.append(df_preprocess(single_df), ignore_index=True)
+    return main_df, raw_data_df
+
+
+def df_preprocess(df):
     "build and preprocess (combine, normalize, tokenize) text"
-    original_df = pd.DataFrame(md.collect_md(directory_path))
-    global preprocessed_df
-    preprocessed_df = preprocessed_df.append(original_df, ignore_index=True)
-    df_combined = original_df.copy(deep=True)
     # filter out first column -- user info
-    cols = df_combined.columns[2:]
+    cols = df.columns[2:]
     # combining text into combined column
-    df_combined["combined"] = df_combined[cols].apply(
+    df["combined"] = df[cols].apply(
         lambda row: "\n".join(row.values.astype(str)), axis=1
     )
-    df_combined["normalized"] = df_combined["combined"].apply(lambda row: az.normalize(row))
-    df_combined["tokens"] = df_combined["normalized"].apply(lambda row: az.tokenize(row))
+    df["normalized"] = df["combined"].apply(lambda row: az.normalize(row))
+    df["tokens"] = df["normalized"].apply(lambda row: az.tokenize(row))
+    return df
 
-    return df_combined
 
-
-def frequency():
+def frequency(main_df):
     """main function for frequency analysis"""
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
@@ -117,7 +124,7 @@ def frequency():
             'To continue see individual frequency analysis select "Individual"'
         )
         st.header(f"Overall most frequent words in **{', '.join(assignments)}**")
-        overall_freq(freq_range)
+        overall_freq(main_df, freq_range)
     elif freq_type == "Student":
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
@@ -132,7 +139,7 @@ def frequency():
         question_freq(main_df, freq_range)
 
 
-def sentiment():
+def sentiment(main_df):
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
     # calculate overall sentiment from the combined text
@@ -157,13 +164,13 @@ def sentiment():
         question_senti(senti_df)
 
 
-def summary():
+def summary(main_df):
     """Display summarization"""
     summary_df = pd.DataFrame(sz.summarizer(directory))
     st.write(summary_df)
 
 
-def tpmodel():
+def tpmodel(main_df):
     """Display topic modeling"""
     topic_range = st.sidebar.slider(
         "Select the amount of topics", 1, 10, value=5
@@ -179,7 +186,7 @@ def tpmodel():
     st.write(main_df[[student_id, "topics"]])
 
 
-def doc_sim():
+def doc_sim(main_df):
     """Display document similarity"""
     st.header("Similarity between each student's document")
     main_df["normal_text"] = main_df["combined"].apply(
@@ -206,7 +213,7 @@ def doc_sim():
     st.altair_chart(vis.doc_sim_heatmap(df_sim))
 
 
-def overall_freq(freq_range):
+def overall_freq(main_df, freq_range):
     """page fore overall word frequency"""
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
