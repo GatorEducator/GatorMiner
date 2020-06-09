@@ -339,8 +339,9 @@ def question_senti(input_df):
 
 def summary():
     """Display summarization"""
-    summary_df = pd.DataFrame(sz.summarizer(directory))
-    st.write(summary_df)
+    for path in directory:
+        summary_df = pd.DataFrame(sz.summarizer(path))
+        st.write(summary_df)
 
 
 def tpmodel():
@@ -362,26 +363,32 @@ def tpmodel():
 def doc_sim():
     """Display document similarity"""
     doc_df = main_df.copy(deep=True)
-    st.header("Similarity between each student's document")
-    doc_df["normal_text"] = doc_df["combined"].apply(
-        lambda x: az.normalize(x))
-    pairs = ds.create_pair(doc_df[stu_id])
-    # calculate similarity of the docs of the selected author pairs
-    similarity = [
-        ds.tfidf_cosine_similarity(
-            (
-                doc_df[doc_df[stu_id] == pair[0]]["normal_text"].values[0],
-                doc_df[doc_df[stu_id] == pair[1]]["normal_text"].values[0],
+    st.header(
+        f"Similarity between each student's document in **{assign_text}**")
+    for assignment in assignments:
+        doc = doc_df[
+            doc_df["Assignment"] == assignment
+        ].dropna(axis=1, how="all")
+
+        pairs = ds.create_pair(doc[stu_id])
+        # calculate similarity of the docs of the selected author pairs
+        similarity = [
+            ds.tfidf_cosine_similarity(
+                (
+                    doc[doc[stu_id] == pair[0]]["normalized"].values[0],
+                    doc[doc[stu_id] == pair[1]]["normalized"].values[0],
+                )
             )
+            for pair in pairs
+        ]
+        df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
+        # Split the pair tuple into two columns for plotting
+        df_sim[["doc_1", "doc_2"]] = pd.DataFrame(
+            df_sim["pair"].tolist(), index=df_sim.index
         )
-        for pair in pairs
-    ]
-    df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
-    # Split the pair tuple into two columns for plotting
-    df_sim[["doc_1", "doc_2"]] = pd.DataFrame(
-        df_sim["pair"].tolist(), index=df_sim.index
-    )
-    st.altair_chart(vis.doc_sim_heatmap(df_sim))
+        st.altair_chart(
+            vis.doc_sim_heatmap(df_sim).properties(title=assignment)
+        )
 
 
 if __name__ == "__main__":
