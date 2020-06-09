@@ -270,7 +270,7 @@ def question_freq(freq_range):
     select_preprocess = preprocessed_df[preprocessed_df["Assignment"].isin(assignments)].dropna(axis=1, how="all")
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=select_preprocess.columns[1:]
+        options=select_preprocess.columns[2:]
     )
 
     plots_range = st.sidebar.slider(
