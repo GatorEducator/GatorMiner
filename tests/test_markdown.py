@@ -100,7 +100,7 @@ system."
         ),
         (
             "# heading\n```\ntype\nblock1\n```\ntext\n```\ntype\nblock2\n```",
-            {"heading": "text"},
+            {"heading": "text "},
         ),
         ("# heading\ntext with\n```fenced code block\n```",
          {"heading": "text with "},),

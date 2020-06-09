@@ -4,7 +4,6 @@ import logging
 from typing import Dict, List
 import commonmark
 import pandas as pd
-from . import analyzer as az
 
 
 logging.basicConfig(
