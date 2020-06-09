@@ -19,7 +19,7 @@ import src.visualization as vis
 
 # initialize main_df and preprocessed_Df
 preprocessed_df = pd.DataFrame()
-# main_df = pd.DataFrame()
+main_df = pd.DataFrame()
 
 
 def main():
@@ -37,6 +37,7 @@ def main():
     elif directory != "":
         try:
             global preprocessed_df
+            global main_df
             main_df, preprocessed_df = import_data(directory)
             st.write(main_df)
             st.sidebar.success(f"Analyzing {directory} ....")
@@ -46,7 +47,6 @@ def main():
                 options=main_df["Assignment"].unique()
             )
             global student_id
-
             student_id = st.sidebar.selectbox(
                 label="Select primary key (the column holds student ids)",
                 options=preprocessed_df.columns[1:]
@@ -67,19 +67,19 @@ def main():
                     st.markdown(readme_file.read())
             if analysis_mode == "Frequency Analysis":
                 st.title("Frequency Analysis")
-                frequency(main_df)
+                frequency()
             elif analysis_mode == "Sentiment Analysis":
                 st.title("Sentiment Analysis")
-                sentiment(main_df)
+                sentiment()
             elif analysis_mode == "Document Similarity":
                 st.title("Document Similarity")
-                doc_sim(main_df)
+                doc_sim()
             elif analysis_mode == "Summary":
                 st.title("Summary")
-                summary(main_df)
+                summary()
             elif analysis_mode == "Topic Modeling":
                 st.title("Topic Modeling")
-                tpmodel(main_df)
+                tpmodel()
         except FileNotFoundError as err:
             st.sidebar.text(err)
             with open("README.md") as readme_file:
@@ -88,30 +88,32 @@ def main():
 
 @st.cache(allow_output_mutation=True)
 def import_data(paths):
-    main_df = pd.DataFrame()
-    raw_data_df = pd.DataFrame()
+    """import and preprocess data from the paths"""
+    tidy_df = pd.DataFrame()
+    raw_df = pd.DataFrame()
     for path in paths:
         single_df = pd.DataFrame(md.collect_md(path))
-
-        raw_data_df = raw_data_df.append(single_df, ignore_index=True)
-        main_df = main_df.append(df_preprocess(single_df), ignore_index=True)
-    return main_df, raw_data_df
+        raw_df = raw_df.append(single_df, ignore_index=True)
+        tidy_df = tidy_df.append(df_preprocess(single_df), ignore_index=True)
+    return tidy_df, raw_df
 
 
 def df_preprocess(df):
-    "build and preprocess (combine, normalize, tokenize) text"
-    # filter out first column -- user info
+    """build and preprocess (combine, normalize, tokenize) text"""
+    # filter out first two columns -- non-report content
     cols = df.columns[2:]
     # combining text into combined column
     df["combined"] = df[cols].apply(
         lambda row: "\n".join(row.values.astype(str)), axis=1
     )
+    # normalize
     df["normalized"] = df["combined"].apply(lambda row: az.normalize(row))
+    # tokenize
     df["tokens"] = df["normalized"].apply(lambda row: az.tokenize(row))
     return df
 
 
-def frequency(main_df):
+def frequency():
     """main function for frequency analysis"""
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
@@ -124,22 +126,22 @@ def frequency(main_df):
             'To continue see individual frequency analysis select "Individual"'
         )
         st.header(f"Overall most frequent words in **{', '.join(assignments)}**")
-        overall_freq(main_df, freq_range)
+        overall_freq(freq_range)
     elif freq_type == "Student":
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header(f"Most frequent words by individual students in **{', '.join(assignments)}**")
-        student_freq(main_df, freq_range)
+        student_freq(freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header(f"Most frequent words in individual questions in **{', '.join(assignments)}**")
-        question_freq(main_df, freq_range)
+        question_freq(freq_range)
 
 
-def sentiment(main_df):
+def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
     # calculate overall sentiment from the combined text
@@ -164,29 +166,30 @@ def sentiment(main_df):
         question_senti(senti_df)
 
 
-def summary(main_df):
+def summary():
     """Display summarization"""
     summary_df = pd.DataFrame(sz.summarizer(directory))
     st.write(summary_df)
 
 
-def tpmodel(main_df):
+def tpmodel():
     """Display topic modeling"""
+    topic_df = main_df.copy(deep=True)
     topic_range = st.sidebar.slider(
         "Select the amount of topics", 1, 10, value=5
     )
     word_range = st.sidebar.slider(
         "Select the amount of words per topic", 1, 10, value=5
     )
-    main_df["topics"] = main_df["combined"].apply(
+    topic_df["topics"] = topic_df["combined"].apply(
         lambda x: tm.topic_model(
             x, NUM_TOPICS=topic_range, NUM_WORDS=word_range
         )
     )
-    st.write(main_df[[student_id, "topics"]])
+    st.write(topic_df[[student_id, "topics"]])
 
 
-def doc_sim(main_df):
+def doc_sim():
     """Display document similarity"""
     st.header("Similarity between each student's document")
     main_df["normal_text"] = main_df["combined"].apply(
@@ -213,7 +216,7 @@ def doc_sim(main_df):
     st.altair_chart(vis.doc_sim_heatmap(df_sim))
 
 
-def overall_freq(main_df, freq_range):
+def overall_freq(freq_range):
     """page fore overall word frequency"""
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
@@ -231,18 +234,18 @@ def overall_freq(main_df, freq_range):
         freq_df, assignments, "assignment", plots_per_row=plots_range))
 
 
-def student_freq(df_combined, freq_range):
+def student_freq(freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
         label="Select specific students below:",
-        options=df_combined[student_id].unique()
+        options=main_df[student_id].unique()
     )
 
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
-    stu_assignment = df_combined[(df_combined[student_id].isin(students)) & df_combined["Assignment"].isin(assignments)]
+    stu_assignment = main_df[(main_df[student_id].isin(students)) & main_df["Assignment"].isin(assignments)]
     if len(students) != 0:
         for student in students:
 
@@ -261,7 +264,7 @@ def student_freq(df_combined, freq_range):
             freq_df, students, "student", plots_per_row=plots_range))
 
 
-def question_freq(input_df, freq_range):
+def question_freq(freq_range):
     """page for individual question's word frequency"""
     # drop columns with all na
     select_preprocess = preprocessed_df[preprocessed_df["Assignment"].isin(assignments)].dropna(axis=1, how="all")
@@ -278,7 +281,7 @@ def question_freq(input_df, freq_range):
 
     select_text = {}
     for question in questions:
-        select_text[question] = input_df[question].to_string(index=False, na_rep="")
+        select_text[question] = main_df[question].to_string(index=False, na_rep="")
     question_df = pd.DataFrame(
         select_text.items(),
         columns=["question", "text"]
