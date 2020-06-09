@@ -25,10 +25,10 @@ main_df = pd.DataFrame()
 def main():
     """main streamlit function"""
     # Title
-    st.sidebar.title("What to do")
+    st.sidebar.title("Welcome to TextMining!")
     global directory
 
-    directory = st.sidebar.text_input("Path to directory")
+    directory = st.sidebar.text_input("Enter path(s) to documents (seperate by comma)")
     directory = re.split(r'[;,\s]\s*', directory)
     if len(directory) == 0:
         st.sidebar.text("Please enter the path to the directory")
@@ -47,10 +47,11 @@ def main():
                 options=main_df["Assignment"].unique()
             )
             global student_id
-            student_id = st.sidebar.selectbox(
-                label="Select primary key (the column holds student ids)",
-                options=preprocessed_df.columns[1:]
-            )
+            student_id = preprocessed_df.columns[1]
+            # student_id = st.sidebar.selectbox(
+            #     label="Select primary key (the column that holds student ids)",
+            #     options=preprocessed_df.columns[1:]
+            # )
             analysis_mode = st.sidebar.selectbox(
                 "Choose the analysis mode",
                 [
