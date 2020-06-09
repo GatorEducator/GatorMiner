@@ -147,82 +147,6 @@ def frequency():
         question_freq(freq_range)
 
 
-def sentiment():
-    """main function for sentiment analysis"""
-    senti_df = main_df.copy(deep=True)
-    # calculate overall sentiment from the combined text
-    senti_df["sentiment"] = senti_df["combined"].apply(
-        lambda x: TextBlob(x).sentiment.polarity
-    )
-    senti_df = senti_df[senti_df["Assignment"].isin(assignments)]
-    senti_type = st.sidebar.selectbox(
-        "Type of sentiment analysis", ["Overall", "Student", "Question"]
-    )
-    if senti_type == "Overall":
-        st.sidebar.success(
-            'To continue see individual sentiment analysis select "Individual"'
-        )
-        st.header(f"Overall sentiment polarity in **{assign_text}**")
-        overall_senti(senti_df)
-    elif senti_type == "Student":
-        st.header(
-            f"View sentiment by individual students in **{assign_text}**"
-        )
-        student_senti(senti_df)
-    elif senti_type == "Question":
-        st.header(
-            f"View sentiment by individual questions in **{assign_text}**"
-        )
-        question_senti(senti_df)
-
-
-def summary():
-    """Display summarization"""
-    summary_df = pd.DataFrame(sz.summarizer(directory))
-    st.write(summary_df)
-
-
-def tpmodel():
-    """Display topic modeling"""
-    topic_df = main_df.copy(deep=True)
-    topic_range = st.sidebar.slider(
-        "Select the amount of topics", 1, 10, value=5
-    )
-    word_range = st.sidebar.slider(
-        "Select the amount of words per topic", 1, 10, value=5
-    )
-    topic_df["topics"] = topic_df["combined"].apply(
-        lambda x: tm.topic_model(
-            x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
-    )
-    st.write(topic_df[[stu_id, "topics"]])
-
-
-def doc_sim():
-    """Display document similarity"""
-    doc_df = main_df.copy(deep=True)
-    st.header("Similarity between each student's document")
-    doc_df["normal_text"] = doc_df["combined"].apply(
-        lambda x: az.normalize(x))
-    pairs = ds.create_pair(doc_df[stu_id])
-    # calculate similarity of the docs of the selected author pairs
-    similarity = [
-        ds.tfidf_cosine_similarity(
-            (
-                doc_df[doc_df[stu_id] == pair[0]]["normal_text"].values[0],
-                doc_df[doc_df[stu_id] == pair[1]]["normal_text"].values[0],
-            )
-        )
-        for pair in pairs
-    ]
-    df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
-    # Split the pair tuple into two columns for plotting
-    df_sim[["doc_1", "doc_2"]] = pd.DataFrame(
-        df_sim["pair"].tolist(), index=df_sim.index
-    )
-    st.altair_chart(vis.doc_sim_heatmap(df_sim))
-
-
 def overall_freq(freq_range):
     """page fore overall word frequency"""
     plots_range = st.sidebar.slider(
@@ -331,6 +255,35 @@ def question_freq(freq_range):
         )
 
 
+def sentiment():
+    """main function for sentiment analysis"""
+    senti_df = main_df.copy(deep=True)
+    # calculate overall sentiment from the combined text
+    senti_df["sentiment"] = senti_df["combined"].apply(
+        lambda x: TextBlob(x).sentiment.polarity
+    )
+    senti_df = senti_df[senti_df["Assignment"].isin(assignments)]
+    senti_type = st.sidebar.selectbox(
+        "Type of sentiment analysis", ["Overall", "Student", "Question"]
+    )
+    if senti_type == "Overall":
+        st.sidebar.success(
+            'To continue see individual sentiment analysis select "Individual"'
+        )
+        st.header(f"Overall sentiment polarity in **{assign_text}**")
+        overall_senti(senti_df)
+    elif senti_type == "Student":
+        st.header(
+            f"View sentiment by individual students in **{assign_text}**"
+        )
+        student_senti(senti_df)
+    elif senti_type == "Question":
+        st.header(
+            f"View sentiment by individual questions in **{assign_text}**"
+        )
+        question_senti(senti_df)
+
+
 def overall_senti(senti_df):
     """page for overall senti"""
     # display line plot when there are multiple assingments
@@ -382,6 +335,53 @@ def question_senti(input_df):
     )
     if len(select_text) != 0:
         st.altair_chart(vis.question_senti_barplot(questions_senti_df))
+
+
+def summary():
+    """Display summarization"""
+    summary_df = pd.DataFrame(sz.summarizer(directory))
+    st.write(summary_df)
+
+
+def tpmodel():
+    """Display topic modeling"""
+    topic_df = main_df.copy(deep=True)
+    topic_range = st.sidebar.slider(
+        "Select the amount of topics", 1, 10, value=5
+    )
+    word_range = st.sidebar.slider(
+        "Select the amount of words per topic", 1, 10, value=5
+    )
+    topic_df["topics"] = topic_df["combined"].apply(
+        lambda x: tm.topic_model(
+            x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
+    )
+    st.write(topic_df[[stu_id, "topics"]])
+
+
+def doc_sim():
+    """Display document similarity"""
+    doc_df = main_df.copy(deep=True)
+    st.header("Similarity between each student's document")
+    doc_df["normal_text"] = doc_df["combined"].apply(
+        lambda x: az.normalize(x))
+    pairs = ds.create_pair(doc_df[stu_id])
+    # calculate similarity of the docs of the selected author pairs
+    similarity = [
+        ds.tfidf_cosine_similarity(
+            (
+                doc_df[doc_df[stu_id] == pair[0]]["normal_text"].values[0],
+                doc_df[doc_df[stu_id] == pair[1]]["normal_text"].values[0],
+            )
+        )
+        for pair in pairs
+    ]
+    df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
+    # Split the pair tuple into two columns for plotting
+    df_sim[["doc_1", "doc_2"]] = pd.DataFrame(
+        df_sim["pair"].tolist(), index=df_sim.index
+    )
+    st.altair_chart(vis.doc_sim_heatmap(df_sim))
 
 
 if __name__ == "__main__":
