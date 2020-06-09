@@ -189,21 +189,27 @@ def student_freq(freq_range):
     ]
     if len(students) != 0:
         for student in students:
-
-            individual_freq = az.word_frequency(
-                stu_assignment[stu_assignment[stu_id] == student]
-                .loc[:, ["combined"]]
-                .to_string(),
-                freq_range,
-            )
-            ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
-
-            ind_df["student"] = student
-            freq_df = freq_df.append(ind_df)
-
+            for item in assignments:
+                individual_freq = az.word_frequency(
+                    stu_assignment[
+                        (stu_assignment["Assignment"] == item) &
+                        (stu_assignment[stu_id] == student)]
+                    .loc[:, ["combined"]]
+                    .to_string(),
+                    freq_range,
+                )
+                ind_df = pd.DataFrame(individual_freq,
+                                      columns=["word", "freq"])
+                ind_df["assignment"] = item
+                ind_df["student"] = student
+                freq_df = freq_df.append(ind_df)
         st.altair_chart(
             vis.facet_freq_barplot(
-                freq_df, students, "student", plots_per_row=plots_range
+                freq_df,
+                students,
+                "student",
+                color_column="assignment",
+                plots_per_row=plots_range
             )
         )
 
