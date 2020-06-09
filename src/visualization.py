@@ -142,7 +142,7 @@ def stu_senti_barplot(senti_df, student_id):
             alt.X("sentiment", title="Sentiment"),
             tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
             opacity=alt.value(0.7),
-            color=student_id,
+            color="Assignment",
         ).properties(width=700, height=450)
     )
 

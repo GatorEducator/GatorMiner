@@ -317,7 +317,6 @@ def student_senti(input_df):
         st.altair_chart(vis.facet_senti_barplot(
             senti_df,
             students, student_id, plots_per_row=plots_range))
-
         st.altair_chart(vis.stu_senti_barplot(senti_df, student_id))
 
 
