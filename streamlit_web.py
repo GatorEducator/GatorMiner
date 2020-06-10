@@ -26,18 +26,18 @@ def main():
     """main streamlit function"""
     # Title
     st.sidebar.title("Welcome to TextMining!")
+    with open("README.md") as readme_file:
+        st.markdown(readme_file.read())
     global directory
-
     directory = st.sidebar.text_input(
         "Enter path(s) to documents (seperate by comma)"
     )
-    directory = re.split(r"[;,\s]\s*", directory)
     if len(directory) == 0:
         st.sidebar.text("Please enter the path to the directory")
-        with open("README.md") as readme_file:
-            st.markdown(readme_file.read())
-    elif directory != "":
+    else:
+        directory = re.split(r"[;,\s]\s*", directory)
         try:
+
             global preprocessed_df
             global main_df
             main_df, preprocessed_df = import_data(directory)
