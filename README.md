@@ -65,7 +65,7 @@ You then will see something like this
 You can now view your Streamlit app in your browser.
 
 Local URL: http://localhost:8501
-Network URL: http://192.168.0.3:8501
+Network URL: http://xxx.xxx.x.x:8501
 ```
 
 as well as the web app in your browser:
@@ -124,18 +124,18 @@ existing test cases or features.
 
 You can follow these steps to make a branch and add a new feature if you are
 already a collaborator on the project. First, you should type the following
-command, substituting the name of your feature for the word `featurename`.
+command, substituting the name of your feature for the word `feature-name`.
 
 ```bash
-git checkout -b new-featurename
+git checkout -b feature-name
 git checkout master
-git push -u origin new-featurename
+git push -u origin feature-name
 ```
 
 You can also create a fork of the repository and make contributions on your own
 fork. You might want to configure an upstream remote repository for your fork of
-`textMining`, so that you can sync changes from the main project back
-into your fork. `textMining` is configured to use `TravisCI` to test and create
+textMining, so that you can sync changes from the main project back
+into your fork. textMining is configured to use `TravisCI` to test and create
 builds for every commit and pull requests. You may want to set up `TravisCI` on
 your own fork to enable continuous integration for your development process.
 
