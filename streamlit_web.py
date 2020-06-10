@@ -26,18 +26,18 @@ def main():
     """main streamlit function"""
     # Title
     st.sidebar.title("Welcome to TextMining!")
+    with open("README.md") as readme_file:
+        st.markdown(readme_file.read())
     global directory
-
     directory = st.sidebar.text_input(
         "Enter path(s) to documents (seperate by comma)"
     )
-    directory = re.split(r"[;,\s]\s*", directory)
     if len(directory) == 0:
         st.sidebar.text("Please enter the path to the directory")
-        with open("README.md") as readme_file:
-            st.markdown(readme_file.read())
-    elif directory != "":
+    else:
+        directory = re.split(r"[;,\s]\s*", directory)
         try:
+
             global preprocessed_df
             global main_df
             main_df, preprocessed_df = import_data(directory)
@@ -189,21 +189,27 @@ def student_freq(freq_range):
     ]
     if len(students) != 0:
         for student in students:
-
-            individual_freq = az.word_frequency(
-                stu_assignment[stu_assignment[stu_id] == student]
-                .loc[:, ["combined"]]
-                .to_string(),
-                freq_range,
-            )
-            ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
-
-            ind_df["student"] = student
-            freq_df = freq_df.append(ind_df)
-
+            for item in assignments:
+                individual_freq = az.word_frequency(
+                    stu_assignment[
+                        (stu_assignment["Assignment"] == item) &
+                        (stu_assignment[stu_id] == student)]
+                    .loc[:, ["combined"]]
+                    .to_string(),
+                    freq_range,
+                )
+                ind_df = pd.DataFrame(individual_freq,
+                                      columns=["word", "freq"])
+                ind_df["assignment"] = item
+                ind_df["student"] = student
+                freq_df = freq_df.append(ind_df)
         st.altair_chart(
             vis.facet_freq_barplot(
-                freq_df, students, "student", plots_per_row=plots_range
+                freq_df,
+                students,
+                "student",
+                color_column="assignment",
+                plots_per_row=plots_range
             )
         )
 

@@ -21,8 +21,16 @@ def freq_barplot(freq_df):
     return freq_plot
 
 
-def facet_freq_barplot(freq_df, options, column_name, plots_per_row=3):
+def facet_freq_barplot(
+        freq_df, options, subplot_column, color_column=None, plots_per_row=3):
     """facet bar plot for word frequencies"""
+    # Don't display legend if color for subplots
+    if color_column is None:
+        color_column = subplot_column
+        legend = None
+    else:
+        legend = alt.Legend(title=f"{color_column} by color")
+
     base = (
         alt.Chart(freq_df)
         .mark_bar()
@@ -34,7 +42,7 @@ def facet_freq_barplot(freq_df, options, column_name, plots_per_row=3):
                 alt.Tooltip("word", title="word"),
             ],
             opacity=alt.value(0.7),
-            color=alt.Color(column_name, legend=None),
+            color=alt.Color(color_column, legend=legend),
         )
         .properties(width=190,)
     )
@@ -43,7 +51,7 @@ def facet_freq_barplot(freq_df, options, column_name, plots_per_row=3):
     for item in options:
         subplts.append(
             base.transform_filter(
-                datum[column_name] == item).properties(title=item)
+                datum[subplot_column] == item).properties(title=item)
         )
 
     grid = facet_wrap(subplts, plots_per_row)
@@ -121,11 +129,12 @@ def senti_circleplot(senti_df, student_id):
     """circle plot for sentiment"""
     senti_circle = (
         alt.Chart(senti_df)
-        .mark_circle(size=300, fillOpacity=0.7)
+        .mark_point(size=100, fillOpacity=0.7)
         .encode(
             alt.X(student_id),
             alt.Y("sentiment"),
-            alt.Color("Assignment", legend=alt.Legend(orient="left")),
+            alt.Color('Assignment', legend=alt.Legend(orient="left")),
+            alt.Shape('Assignment', legend=None),
             tooltip=[
                 alt.Tooltip("sentiment", title="polarity"),
                 alt.Tooltip(student_id, title="author"),
