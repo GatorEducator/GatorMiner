@@ -41,12 +41,31 @@ pipenv run python -m spacy download en_core_web_sm
 
 ## Web Interface
 
+`textMining` is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
+in order to provide fast analysis and visualizations.
 
+In order to run Streamlit, type and run `pipenv run streamlit run streamlit_web.py`
+in your terminal. You then will see something like this
+
+```
+You can now view your Streamlit app in your browser.
+
+Local URL: http://localhost:8501
+Network URL: http://192.168.0.3:8501
+```
+
+as well as the web app in your browser: ![browser](resources/images/landing_page.png)
+
+You can then start to use the tool by typing in the path(s) to the directories
+that hold reflection documents. You are welcome to use the sample documents we
+provided in `resources`. You can then navigate through the select box in the
+sidebar to view the analysis:
+![select box](resources/images/select_box.png)
 
 ## Command Line Interface
 
-To learn about the command line interface of textMining, type in
-  `pipenv run python textmining.py -h`
+- To learn about the command line interface of textMining, type in
+`pipenv run python textmining.py -h` in the terminal.
 
   ```bash
   $ pipenv run python textmining.py -h
@@ -61,11 +80,6 @@ To learn about the command line interface of textMining, type in
 
   Sample usage: python3 textmining.py --directory /path/to/markdown_directory --function frequency
   ```
-
-
-
-- To run streamlit, type in
-  `pipenv run streamlit run streamlit_web.py`
 
 - For a sample input diretory, use `resources/cs100f2019_lab05_reflections`
 
