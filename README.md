@@ -8,20 +8,32 @@ students' reflection documents and five questions survey based on Natural langua
 processing in the Department of Computer Science at Allegheny College.
 
 
-## Install
+## Installation
+
+You can clone the repository by running the following command:
+
+```bash
+git clone git@github.com:Allegheny-Mozilla-Fellows/textMining.git
+```
+
+`cd` into the project root folder
+
+```bash
+cd textMining
+```
 
 This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency installation.
 
-Once you have cloned the repository:
+Once you have finished the previous step:
 
 - If needed, install and upgrade the `pipenv` with `pip`: `pip install pipenv --user`
-- To install dependencies and use the program with `pipenv`: `pipenv install`:
+- To create virtual environment and use the program: `pipenv install`:
 
 TextMining relied on `en_core_web_sm`, a small English model trained on
 written web text (blogs, news, comments), that includes vocabulary, vectors,
 syntax and entities.
 
-To install the pretrained model, you can run this following command:
+To install the pre-trained model, you can run this following command:
 
 ```bash
 pipenv run python -m spacy download en_core_web_sm
@@ -68,4 +80,51 @@ To learn about the command line interface of textMining, type in
 
 ## Contribute
 
-To install the development dependencies with `pipenv`: `pipenv install --dev --skip-lock`
+In order to contribute code or documentation to the project, we encourage you to
+install the development dependencies with `pipenv` as follows:
+
+```
+pipenv install --dev --skip-lock
+```
+
+If you want to add a new feature, please ensure that it is
+accompanied by high coverage test cases and that you do not break any of the
+existing test cases or features.
+
+You can follow these steps to make a branch and add a new feature if you are
+already a collaborator on the project. First, you should type the following
+command, substituting the name of your feature for the word `featurename`.
+
+`git checkout -b new-featurename`
+`git checkout master`
+`git push -u origin new-featurename`
+
+You can also create a fork of the repository and make contributions on your own
+fork. You might want to configure an upstream remote repository for your fork of
+`textMining`, so that you can sync changes from the main project back
+into your fork. `textMining` is configured to use `TravisCI` to test and create
+builds for every commit and pull requests. You may want to set up `TravisCI` on
+your own fork to enable continuous integration for your development process.
+
+You should open a pull request on the GitHub repository for the new branch or
+the fork that you have created once you are ready to merge them into the
+master branch of the main project. This pull request should describe the changes
+that it will make to the project.
+
+We expect your Pull Respect is passing the build. We hope your code is tested
+and well documented. You can run the test suites locally as follows:
+
+```bash
+pipenv run pytest
+```
+
+It might also be helpful for you to run this following command to see the test
+coverage and lines that are missing test:
+
+```bash
+pipenv run pytest --cov-config pytest.cov --cov --cov-report term-missing
+```
+
+Besides, you are also welcome to reporting issues, including both feature
+requests and bug reports. Feedback is greatly appreciated if you are using
+our tool.
