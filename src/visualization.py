@@ -129,11 +129,12 @@ def senti_circleplot(senti_df, student_id):
     """circle plot for sentiment"""
     senti_circle = (
         alt.Chart(senti_df)
-        .mark_circle(size=300, fillOpacity=0.7)
+        .mark_point(size=100, fillOpacity=0.7)
         .encode(
             alt.X(student_id),
             alt.Y("sentiment"),
-            alt.Color("Assignment", legend=alt.Legend(orient="left")),
+            alt.Color('Assignment', legend=alt.Legend(orient="left")),
+            alt.Shape('Assignment', legend=None),
             tooltip=[
                 alt.Tooltip("sentiment", title="polarity"),
                 alt.Tooltip(student_id, title="author"),
