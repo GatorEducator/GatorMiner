@@ -12,29 +12,38 @@ PARSER = spacy.load("en_core_web_sm")
 
 
 def normalize(data: str) -> str:
-    """Remove numbers, single characters, to lowercase"""
+    """Remove numbers and to lowercase"""
     data = data.lower()
-    normalized_data = re.sub(r"\b[a-zA-Z]\b|\b[0-9]+\b", "", data)
-    normalized_data = "".join(
-        c for c in normalized_data if c not in string.punctuation
-    )
-    return normalized_data
+    # remove number
+    # using a list in case more regex are needed
+    regex_lst = [r"\b[0-9]+\b", r"\W+"]
+    generic_re = "|".join(regex_lst)
+    normal_text = re.sub(rf"{generic_re}", " ", data)
+    spacefree_text = re.sub(r"\s{1,}", " ", normal_text)
+    return spacefree_text
 
 
 def tokenize(normalized_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
-    tokens = PARSER(normalized_text)
-    # lemmatize tokens
+    # remove punctuation
+    normal_text = "".join(
+        c for c in normalized_text if c not in string.punctuation
+    )
+    tokens = PARSER(normal_text)
+    # lemmatize tokens, remove pronoun and stop words
     tokens = [
         word.lemma_.strip()
         for word in tokens
-        if word.lemma_ != "-PRON-" and word.is_stop is False
+        if word.lemma_ != "-PRON-"
+        and word.is_stop is False
+        and len(word.lemma_.strip()) > 1
     ]
-    tokens = [word for word in tokens if len(word) > 1]
     return tokens
 
 
-def compute_frequency(token_lst: List[str], amount=50) -> List[Tuple[str, int]]:  # noqa: E501
+def compute_frequency(
+        token_lst: List[str], amount=50
+) -> List[Tuple[str, int]]:  # noqa: E501
     """Compute word frequency from a list of tokens"""
     word_freq = Counter(token_lst)
     return word_freq.most_common(amount)
@@ -49,11 +58,8 @@ def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:
     """A pipeline to normalize, tokenize, and
     find word frequency of a directory of raw input file"""
-    file_list = md.get_file_names(dirname)
-    doc_list = []
-    for file in file_list:
-        doc_list.append(md.read_file(file))
-    return compute_frequency(tokenize(normalize(" ".join(doc_list))), amount)
+    md_list = md.collect_md_text(dirname)
+    return compute_frequency(tokenize(normalize(" ".join(md_list))), amount)
 
 
 def sentence_tokenize(input_text):

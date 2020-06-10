@@ -1,4 +1,5 @@
 """Test module for markdown.py"""
+import pytest
 import src.markdown as md
 
 
@@ -34,7 +35,7 @@ terms of embryos. In addition, if germline editing is only offered to a \
 select group of people, the wealthy, it will be problematic for the class \
 system."
     input_md = f"## header1\n{text}\n## header2\n{text}"
-    output = md.md_parser(input_md)
+    output = md.md_parser(input_md, is_clean=False)
     text = text + " "
     expected = {"header1": text, "header2": text}
     assert expected == output
@@ -59,7 +60,7 @@ system."
         "header1": [text + " ", text + " "],
         "header2": [text + " ", text + " "],
     }
-    output = md.collect_md(d)
+    output = md.collect_md(d, is_clean=False)
     assert expected == output
 
 
@@ -84,5 +85,33 @@ system."
         "header1": [text + " ", text + " ", text + " "],
         "header2": [text + " ", text + " ", text + " "],
     }
-    output = md.collect_md(d)
+    output = md.collect_md(d, is_clean=False)
     assert expected == output
+
+
+@pytest.mark.parametrize(
+    "input_text, expected",
+    [
+        ("# heading\n```\nregular code block\n```", {"heading": ""},),
+        ("# heading\n```\ntype\nnew line\n```", {"heading": ""},),
+        (
+            "# heading\n```\ntype\nblock one\n```\n```\ntype\nblock 2\n```",
+            {"heading": ""},
+        ),
+        (
+            "# heading\n```\ntype\nblock1\n```\ntext\n```\ntype\nblock2\n```",
+            {"heading": "text "},
+        ),
+        ("# heading\ntext with\n```fenced code block\n```",
+         {"heading": "text with "},),
+        (
+            "# heading\ntext with\n```multiple line\nfenced code block\n```",
+            {"heading": "text with "},
+        ),
+        ("# heading\n[linkname](url)![]()", {"heading": "linkname "},),
+        ("# heading\n![imgname](path)", {"heading": "imgname "},),
+    ],
+)
+def test_md_parser_clean(input_text, expected):
+    output = md.md_parser(input_text)
+    assert output == expected
