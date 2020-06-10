@@ -158,6 +158,6 @@ coverage and lines that are missing test:
 pipenv run pytest --cov-config pytest.cov --cov --cov-report term-missing
 ```
 
-Besides, you are also welcome to reporting issues, including both feature
+Besides, you are also welcome to report issues, including both feature
 requests and bug reports. Feedback is greatly appreciated if you are using
 our tool.
