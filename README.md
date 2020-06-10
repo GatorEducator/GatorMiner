@@ -26,10 +26,19 @@ This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency instal
 
 Once you have finished the previous step:
 
-- If needed, install and upgrade the `pipenv` with `pip`: `pip install pipenv --user`
-- To create virtual environment and use the program: `pipenv install`:
+- If needed, install and upgrade the `pipenv` with `pip`:
 
-TextMining relied on `en_core_web_sm`, a small English model trained on
+  ```bash
+  pip install pipenv --user
+  ```
+
+- To create virtual environment and use the program:
+
+  ```bash
+  pipenv install
+  ```
+
+textMining relies on `en_core_web_sm`, a small English model trained on
 written web text (blogs, news, comments), that includes vocabulary, vectors,
 syntax and entities.
 
@@ -41,11 +50,16 @@ pipenv run python -m spacy download en_core_web_sm
 
 ## Web Interface
 
-`textMining` is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
+textMining is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
 in order to provide fast analysis and visualizations.
 
-In order to run Streamlit, type and run `pipenv run streamlit run streamlit_web.py`
-in your terminal. You then will see something like this
+In order to run Streamlit, type and run the following command in your terminal.
+
+```bash
+pipenv run streamlit run streamlit_web.py
+```
+
+You then will see something like this
 
 ```
 You can now view your Streamlit app in your browser.
@@ -54,12 +68,15 @@ Local URL: http://localhost:8501
 Network URL: http://192.168.0.3:8501
 ```
 
-as well as the web app in your browser: ![browser](resources/images/landing_page.png)
+as well as the web app in your browser:
+
+![browser](resources/images/landing_page.png)
 
 You can then start to use the tool by typing in the path(s) to the directories
 that hold reflection documents. You are welcome to use the sample documents we
 provided in `resources`. You can then navigate through the select box in the
 sidebar to view the analysis:
+
 ![select box](resources/images/select_box.png)
 
 ## Command Line Interface
@@ -97,7 +114,7 @@ sidebar to view the analysis:
 In order to contribute code or documentation to the project, we encourage you to
 install the development dependencies with `pipenv` as follows:
 
-```
+```bash
 pipenv install --dev --skip-lock
 ```
 
@@ -109,9 +126,11 @@ You can follow these steps to make a branch and add a new feature if you are
 already a collaborator on the project. First, you should type the following
 command, substituting the name of your feature for the word `featurename`.
 
-`git checkout -b new-featurename`
-`git checkout master`
-`git push -u origin new-featurename`
+```bash
+git checkout -b new-featurename
+git checkout master
+git push -u origin new-featurename
+```
 
 You can also create a fork of the repository and make contributions on your own
 fork. You might want to configure an upstream remote repository for your fork of
