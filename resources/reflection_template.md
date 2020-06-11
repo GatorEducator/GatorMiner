@@ -1,14 +1,10 @@
 # Assignment
 
-assignment
+Assignment name
 
 # Author
 
 Author name
-
-# Assignment
-
-Assignment name
 
 ## Prompt 1
 
