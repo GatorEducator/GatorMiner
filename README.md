@@ -49,9 +49,47 @@ To install the pre-trained model, you can run this following command:
 pipenv run python -m spacy download en_core_web_sm
 ```
 
+
+## Supporting Libraries
+
+There are other libraries that may be necessary to install, depending on your system configuration. The libraries are listed below, along with the commands to install them.
+
+
+ - Spacy is a library for language processing and is used for some text mining manipulations (reference: `https://spacy.io/`). It can be installed with the following command:
+
+ ```bash
+ pip install spacy --user
+ ```
+
+ - Commonmark is a markdown parcer (reference: `https://pypi.org/project/commonmark/`) and can installed with the following command.
+
+ ``` bash
+ pip install commonmark --user
+ ```
+
+
+
+ - Gensim is an open-source library for unsupervised topic modeling and natural language processing, using modern statistical machine learning. (reference: `https://radimrehurek.com/gensim/`) and can installed with the following command.
+``` bash
+pip install gensim --user
+```
+
+
+ - TextBlob is a Python (2 and 3) library for processing textual data. It provides a consistent API for diving into common natural language processing (NLP) tasks such as part-of-speech tagging, noun phrase extraction, sentiment analysis, and more (reference: https://textblob.readthedocs.io/en/dev/). It can be installed with the following command.
+ ```bash
+ pip install textblob --user
+```
+ - Scikit-learn is a library for the mathematical manipulation of data for the application of modeling. This library includes machine learning, regression, statistical tools, as well as a host of other analytical software to aid in analysis (reference: https://scikit-learn.org/stable/). Scikit-learn can be installed with the following command.
+``` bash
+pip install scikit-learn --user
+```
+
+
+
+
 ## Web Interface
 
-textMining is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
+TextMining is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
 in order to provide fast analysis and visualizations.
 
 In order to run Streamlit, type and run the following command in your terminal.
