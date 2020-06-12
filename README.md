@@ -70,9 +70,9 @@ There are other libraries that may be necessary to install, depending on your sy
 
 
  - Gensim is an open-source library for unsupervised topic modeling and natural language processing, using modern statistical machine learning. (reference: `https://radimrehurek.com/gensim/`) and can installed with the following command.
-``` bash
-pip install gensim --user
-```
+ ``` bash
+ pip install gensim --user
+ ```
 
 
  - TextBlob is a Python (2 and 3) library for processing textual data. It provides a consistent API for diving into common natural language processing (NLP) tasks such as part-of-speech tagging, noun phrase extraction, sentiment analysis, and more (reference: https://textblob.readthedocs.io/en/dev/). It can be installed with the following command.
