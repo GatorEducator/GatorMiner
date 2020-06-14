@@ -359,7 +359,9 @@ def tpmodel():
     word_range = st.sidebar.slider(
         "Select the amount of words per topic", 1, 10, value=5
     )
-    topic_df["topics"] = topic_df["combined"].apply(
+    st.write(topic_df["tokens"])
+
+    topic_df["topics"] = topic_df["tokens"].apply(
         lambda x: tm.topic_model(
             x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
     )
