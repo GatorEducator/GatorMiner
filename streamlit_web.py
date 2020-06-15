@@ -409,14 +409,23 @@ def tpmodel():
 
         st.write(topic_num)
 
+        random_state = st.sidebar.slider(
+            "Select random_state", 1, 1000, value=500
+        )
+
+        angle = st.sidebar.slider(
+            "Select angle", 0, 100, value=50
+        )
+
         # tSNE Dimension Reduction
-        tsne_model = TSNE(n_components=2, verbose=1, random_state=0, angle=.99, init='pca')
+        tsne_model = TSNE(n_components=2, verbose=1, random_state=random_state, angle=angle/100, init='pca')
         tsne_lda = tsne_model.fit_transform(arr)
 
         df_tsne = pd.DataFrame({
             "x": tsne_lda[:, 0],
             "y": tsne_lda[:, 1],
-            "topic": topic_num
+            "topic": topic_num,
+            "topic_num": overall_topic_df["Dominant_Topic"]
         })
         # df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
         st.write(df_tsne)
@@ -427,10 +436,11 @@ def tpmodel():
         # import matplotlib.colors as mcolors
         # mycolors = np.array([color for name, color in mcolors.TABLEAU_COLORS.items()])
         # st.write(mycolors)
-        lda = alt.Chart(df_tsne).mark_point().encode(
+        lda = alt.Chart(df_tsne).mark_point(size=100, filled=True).encode(
             x='x',
             y='y',
-            color='topic:N'
+            shape='topic:N',
+            color='topic_num:N',
             )
         st.altair_chart(lda)
 
