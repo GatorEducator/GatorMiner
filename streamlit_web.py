@@ -416,9 +416,9 @@ def tpmodel():
         df_tsne = pd.DataFrame({
             "x": tsne_lda[:, 0],
             "y": tsne_lda[:, 1],
-            "topic": overall_topic_df["Topic_Keywords"]
+            "topic": topic_num
         })
-        df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
+        # df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
         st.write(df_tsne)
 
         import altair as alt
@@ -430,7 +430,7 @@ def tpmodel():
         lda = alt.Chart(df_tsne).mark_point().encode(
             x='x',
             y='y',
-            shape='topic'
+            color='topic:N'
             )
         st.altair_chart(lda)
 
