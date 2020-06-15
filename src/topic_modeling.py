@@ -10,13 +10,11 @@ import pandas as pd
 
 def topic_model(tokens, NUM_TOPICS=5, NUM_WORDS=4) -> List[Tuple[int, str]]:
     """Find topics from inout text"""
-    # text_data = [az.tokenize(az.normalize(input))]
-    print([tokens])
     # Create Dictionary by giving id to each word
-    id2word = gensim.corpora.Dictionary([tokens])
+    id2word = gensim.corpora.Dictionary(tokens)
 
     # Term Document Frequency
-    corpus = [id2word.doc2bow(text) for text in [tokens]]
+    corpus = [id2word.doc2bow(text) for text in tokens]
 
     # Build LDA model
     ldamodel = gensim.models.ldamodel.LdaModel(
@@ -37,9 +35,9 @@ def topic_model(tokens, NUM_TOPICS=5, NUM_WORDS=4) -> List[Tuple[int, str]]:
     # ldamodel.save("model5.gensim")
 
     # dominant topic and its percentage contribution in each document
-    topics = ldamodel.print_topics(num_words=NUM_WORDS)
-
-    return topics
+    # topics = ldamodel.print_topics(num_words=NUM_WORDS)
+    dom_topic_df = format_topics_sentences(ldamodel, corpus, tokens)
+    return dom_topic_df
 
 
 def format_topics_sentences(ldamodel, corpus, texts):
@@ -67,5 +65,6 @@ def format_topics_sentences(ldamodel, corpus, texts):
 
     # Add original text to the end of the output
     contents = pd.Series(texts)
-    sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
+    sent_topics_df["Text"] = contents
+
     return sent_topics_df

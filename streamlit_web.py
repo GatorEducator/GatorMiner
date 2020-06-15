@@ -353,19 +353,31 @@ def summary():
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
-    topic_range = st.sidebar.slider(
-        "Select the amount of topics", 1, 10, value=5
+    tp_type = st.sidebar.selectbox(
+        "Type of topic modeling analysis", ["Overall", "Student", "Question"]
     )
-    word_range = st.sidebar.slider(
-        "Select the amount of words per topic", 1, 10, value=5
-    )
-    st.write(topic_df["tokens"])
-
-    topic_df["topics"] = topic_df["tokens"].apply(
-        lambda x: tm.topic_model(
-            x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
-    )
-    st.write(topic_df[[stu_id, "topics"]])
+    if tp_type == "Overall":
+        st.sidebar.success(
+            'To continue see individual topic modeling analysis select "Individual"'
+        )
+        st.header(f"Overall topics in **{assign_text}**")
+        st.write(topic_df)
+        topic_range = st.sidebar.slider(
+            "Select the amount of topics", 1, 10, value=5
+        )
+        word_range = st.sidebar.slider(
+            "Select the amount of words per topic", 1, 10, value=5
+        )
+        # topic_df["topics"] = topic_df["tokens"].apply(
+        #     lambda x: tm.topic_model(
+        #         x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
+        # )
+        overall_topic_df = tm.topic_model(
+            topic_df["tokens"].tolist(),
+            NUM_TOPICS=topic_range,
+            NUM_WORDS=word_range,
+        )
+        st.write(overall_topic_df)
 
 
 def doc_sim():
