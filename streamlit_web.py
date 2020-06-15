@@ -3,7 +3,9 @@
 import re
 import time
 
+import numpy as np
 import pandas as pd
+from sklearn.manifold import TSNE
 import streamlit as st
 from textblob import TextBlob
 
@@ -358,9 +360,6 @@ def tpmodel():
         "Type of topic modeling analysis", ["Overall", "Student", "Question"]
     )
     if tp_type == "Overall":
-        st.sidebar.success(
-            'To continue see individual topic modeling analysis select "Student"'
-        )
         st.header(f"Overall topics in **{assign_text}**")
         st.write(topic_df)
         topic_range = st.sidebar.slider(
@@ -373,11 +372,68 @@ def tpmodel():
         #     lambda x: tm.topic_model(
         #         x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
         # )
-        overall_topic_df = tm.topic_model(
+        overall_topic_df, lda_model, corpus = tm.topic_model(
             topic_df["tokens"].tolist(),
             NUM_TOPICS=topic_range,
             NUM_WORDS=word_range,
         )
+        overall_topic_df["Student"] = topic_df[stu_id]
+        overall_topic_df["Assignment"] = topic_df["Assignment"]
+        overall_topic_df = overall_topic_df[[
+            'Assignment',
+            'Student',
+            'Dominant_Topic',
+            'Topic_Keywords',
+            'Text',
+            'Perc_Contribution',
+        ]]
+
+        topics = lda_model.show_topics(formatted=False)
+
+        topic_weights = []
+        for i, row_list in enumerate(lda_model[corpus]):
+            topic_weights.append([w for i, w in row_list[0]])
+
+        # Array of topic weights
+        arr = pd.DataFrame(topic_weights).fillna(0).values
+
+        st.write(arr)
+
+        # Keep the well separated points (optional)
+        arr = arr[np.amax(arr, axis=1) > 0.35]
+
+        st.write(arr)
+
+        # Dominant topic number in each doc
+        topic_num = np.argmax(arr, axis=1)
+
+        st.write(topic_num)
+
+        # tSNE Dimension Reduction
+        tsne_model = TSNE(n_components=2, verbose=1, random_state=0, angle=.99, init='pca')
+        tsne_lda = tsne_model.fit_transform(arr)
+
+        df_tsne = pd.DataFrame({
+            "x": tsne_lda[:, 0],
+            "y": tsne_lda[:, 1],
+            "topic": overall_topic_df["Topic_Keywords"]
+        })
+        df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
+        st.write(df_tsne)
+
+        import altair as alt
+
+        # n_topics = 4
+        # import matplotlib.colors as mcolors
+        # mycolors = np.array([color for name, color in mcolors.TABLEAU_COLORS.items()])
+        # st.write(mycolors)
+        lda = alt.Chart(df_tsne).mark_point().encode(
+            x='x',
+            y='y',
+            shape='topic'
+            )
+        st.altair_chart(lda)
+
         st.write(overall_topic_df)
 
 
