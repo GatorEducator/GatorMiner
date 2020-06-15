@@ -1,6 +1,7 @@
 """Web interface"""
 
 import re
+import time
 
 import pandas as pd
 import streamlit as st
@@ -37,11 +38,11 @@ def main():
     else:
         directory = re.split(r"[;,\s]\s*", directory)
         try:
-
             global preprocessed_df
             global main_df
             main_df, preprocessed_df = import_data(directory)
-            st.sidebar.success(f"Analyzing {directory} ....")
+            if main_df is not None:
+                st.sidebar.success(f"Sucessfully Loaded!!")
             global assignments
             assignments = st.sidebar.multiselect(
                 label="Select assignments below:",
@@ -123,7 +124,7 @@ def frequency():
             "Select a range of Most frequent words", 1, 50, value=25
         )
         st.sidebar.success(
-            'To continue see individual frequency analysis select "Individual"'
+            'To continue see individual frequency analysis select "Student"'
         )
         st.header(
             f"Overall most frequent words in **{assign_text}**"
@@ -274,7 +275,7 @@ def sentiment():
     )
     if senti_type == "Overall":
         st.sidebar.success(
-            'To continue see individual sentiment analysis select "Individual"'
+            'To continue see individual sentiment analysis select "Student"'
         )
         st.header(f"Overall sentiment polarity in **{assign_text}**")
         overall_senti(senti_df)
@@ -358,7 +359,7 @@ def tpmodel():
     )
     if tp_type == "Overall":
         st.sidebar.success(
-            'To continue see individual topic modeling analysis select "Individual"'
+            'To continue see individual topic modeling analysis select "Student"'
         )
         st.header(f"Overall topics in **{assign_text}**")
         st.write(topic_df)
