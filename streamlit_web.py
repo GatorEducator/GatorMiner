@@ -60,6 +60,7 @@ def main():
                     "Document Similarity",
                     "Summary",
                     "Topic Modeling",
+                    "Interactive",
                 ],
             )
             if analysis_mode == "Home":
@@ -80,6 +81,9 @@ def main():
             elif analysis_mode == "Topic Modeling":
                 st.title("Topic Modeling")
                 tpmodel()
+            elif analysis_mode == "Interactive":
+                st.title("Interactive NLP")
+                interactive()
         except FileNotFoundError as err:
             st.sidebar.text(err)
             with open("README.md") as readme_file:
@@ -395,6 +399,34 @@ def doc_sim():
         st.altair_chart(
             vis.doc_sim_heatmap(df_sim).properties(title=assignment)
         )
+
+
+def interactive():
+    inter_type = st.sidebar.selectbox(
+        "Type of interactive nlp",
+        ["Tokenization", "Named Entity", "Sentiment", "Summarization"]
+    )
+    if inter_type == "Tokenization":
+        st.subheader("Tokenize Text")
+        input_text = st.text_area("Enter text", "Type here")
+        if st.button("Analysis"):
+            st.success("Running Analysis")
+    elif inter_type == "Named Entity":
+        st.subheader("Named Entity")
+        input_text = st.text_area("Enter text", "Type here")
+        if st.button("Analysis"):
+            st.success("Running Analysis")
+    elif inter_type == "Sentiment":
+        st.subheader("Sentiment")
+        input_text = st.text_area("Enter text", "Type here")
+        if st.button("Analysis"):
+            st.success("Running Analysis")
+    elif inter_type == "Summarization":
+        st.subheader("Summarize")
+        input_text = st.text_area("Enter text", "Type here")
+        if st.button("Analysis"):
+            st.success("Running Analysis")
+
 
 
 if __name__ == "__main__":
