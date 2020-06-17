@@ -402,31 +402,26 @@ def doc_sim():
 
 
 def interactive():
-    inter_type = st.sidebar.selectbox(
-        "Type of interactive nlp",
-        ["Tokenization", "Named Entity", "Sentiment", "Summarization"]
-    )
-    if inter_type == "Tokenization":
-        st.subheader("Tokenize Text")
-        input_text = st.text_area("Enter text", "Type here")
-        if st.button("Analysis"):
-            st.success("Running Analysis")
-    elif inter_type == "Named Entity":
-        st.subheader("Named Entity")
-        input_text = st.text_area("Enter text", "Type here")
-        if st.button("Analysis"):
-            st.success("Running Analysis")
-    elif inter_type == "Sentiment":
-        st.subheader("Sentiment")
-        input_text = st.text_area("Enter text", "Type here")
-        if st.button("Analysis"):
-            st.success("Running Analysis")
-    elif inter_type == "Summarization":
-        st.subheader("Summarize")
-        input_text = st.text_area("Enter text", "Type here")
-        if st.button("Analysis"):
-            st.success("Running Analysis")
+    input_text = st.text_area("Enter text", "Type here")
+    token_cb = st.checkbox("Show tokens")
+    ner_cb = st.checkbox("Show named entities")
+    sentiment_cb = st.checkbox("Show sentiment")
+    summary_cb = st.checkbox("Show Summary")
+    # if st.button("Analysis"):
+    tokens = az.tokenize(input_text)
+    named_entities = az.named_entity_recognization(input_text)
+    summaries = sz.summarize_text(input_text)
+    sentiments = TextBlob(input_text)
+    # st.success("Running Analysis")
 
+    if token_cb:
+        st.write(tokens)
+    if ner_cb:
+        st.write(named_entities)
+    if sentiment_cb:
+        st.write(sentiments.sentiment)
+    if summary_cb:
+        st.write(summaries)
 
 
 if __name__ == "__main__":
