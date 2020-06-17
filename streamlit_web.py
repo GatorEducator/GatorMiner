@@ -402,6 +402,7 @@ def doc_sim():
 
 
 def interactive():
+    """Page to allow nlp analysis from user input"""
     input_text = st.text_area("Enter text", "Type here")
     token_cb = st.checkbox("Show tokens")
     ner_cb = st.checkbox("Show named entities")
