@@ -60,6 +60,7 @@ def main():
                     "Document Similarity",
                     "Summary",
                     "Topic Modeling",
+                    "Interactive",
                 ],
             )
             if analysis_mode == "Home":
@@ -80,6 +81,9 @@ def main():
             elif analysis_mode == "Topic Modeling":
                 st.title("Topic Modeling")
                 tpmodel()
+            elif analysis_mode == "Interactive":
+                st.title("Interactive NLP")
+                interactive()
         except FileNotFoundError as err:
             st.sidebar.text(err)
             with open("README.md") as readme_file:
@@ -395,6 +399,30 @@ def doc_sim():
         st.altair_chart(
             vis.doc_sim_heatmap(df_sim).properties(title=assignment)
         )
+
+
+def interactive():
+    """Page to allow nlp analysis from user input"""
+    input_text = st.text_area("Enter text", "Type here")
+    token_cb = st.checkbox("Show tokens")
+    ner_cb = st.checkbox("Show named entities")
+    sentiment_cb = st.checkbox("Show sentiment")
+    summary_cb = st.checkbox("Show Summary")
+    # if st.button("Analysis"):
+    tokens = az.tokenize(input_text)
+    named_entities = az.named_entity_recognization(input_text)
+    summaries = sz.summarize_text(input_text)
+    sentiments = TextBlob(input_text)
+    # st.success("Running Analysis")
+
+    if token_cb:
+        st.write(tokens)
+    if ner_cb:
+        st.write(named_entities)
+    if sentiment_cb:
+        st.write(sentiments.sentiment)
+    if summary_cb:
+        st.write(summaries)
 
 
 if __name__ == "__main__":
