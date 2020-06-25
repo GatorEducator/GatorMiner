@@ -31,8 +31,7 @@ def main():
     st.sidebar.title("Welcome to TextMining!")
     global directory
     directory = st.sidebar.text_input(
-        "Enter path(s) to documents (seperate by comma)"
-    )
+        "Enter path(s) to documents (seperate by comma)")
     if len(directory) == 0:
         st.sidebar.text("Please enter the path to the directory")
         with open("README.md") as readme_file:
@@ -51,7 +50,7 @@ def main():
                 options=main_df["Assignment"].unique(),
             )
             global assign_text
-            assign_text = ', '.join(assignments)
+            assign_text = ", ".join(assignments)
             global stu_id
             stu_id = preprocessed_df.columns[1]
             analysis_mode = st.sidebar.selectbox(
@@ -128,17 +127,14 @@ def frequency():
         st.sidebar.success(
             'To continue see individual frequency analysis select "Student"'
         )
-        st.header(
-            f"Overall most frequent words in **{assign_text}**"
-        )
+        st.header(f"Overall most frequent words in **{assign_text}**")
         overall_freq(freq_range)
     elif freq_type == "Student":
         freq_range = st.sidebar.slider(
             "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header(
-            f"Most frequent words by individual students in **{assign_text}**"
-        )
+            f"Most frequent words by individual students in **{assign_text}**")
         student_freq(freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
@@ -146,24 +142,22 @@ def frequency():
         )
         st.header(
             f"Most frequent words in individual questions in **{assign_text}**"
-        )
+            )
         question_freq(freq_range)
 
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3
-    )
+        "Select the number of plots per row", 1, 5, value=3)
     freq_df = pd.DataFrame(columns=["assignment", "word", "freq"])
     # calculate word frequency of each assignments
     for item in assignments:
         combined_text = " ".join(
-            main_df[main_df["Assignment"] == item].normalized
-        )
+            main_df[main_df["Assignment"] == item].normalized)
         item_df = pd.DataFrame(
-            az.word_frequency(
-                combined_text, freq_range), columns=["word", "freq"]
+            az.word_frequency(combined_text, freq_range),
+            columns=["word", "freq"]
         )
         item_df["assignment"] = item
         freq_df = freq_df.append(item_df)
@@ -183,26 +177,26 @@ def student_freq(freq_range):
     )
 
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3
-    )
+        "Select the number of plots per row", 1, 5, value=3)
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
     stu_assignment = main_df[
-        (main_df[stu_id].isin(students)) &
-        main_df["Assignment"].isin(assignments)
+        (main_df[stu_id].isin(students)) & main_df["Assignment"].isin(
+            assignments)
     ]
     if len(students) != 0:
         for student in students:
             for item in assignments:
                 individual_freq = az.word_frequency(
                     stu_assignment[
-                        (stu_assignment["Assignment"] == item) &
-                        (stu_assignment[stu_id] == student)]
+                        (stu_assignment["Assignment"] == item)
+                        & (stu_assignment[stu_id] == student)
+                    ]
                     .loc[:, ["combined"]]
                     .to_string(),
                     freq_range,
                 )
-                ind_df = pd.DataFrame(individual_freq,
-                                      columns=["word", "freq"])
+                ind_df = pd.DataFrame(
+                    individual_freq, columns=["word", "freq"])
                 ind_df["assignment"] = item
                 ind_df["student"] = student
                 freq_df = freq_df.append(ind_df)
@@ -212,7 +206,7 @@ def student_freq(freq_range):
                 students,
                 "student",
                 color_column="assignment",
-                plots_per_row=plots_range
+                plots_per_row=plots_range,
             )
         )
 
@@ -229,19 +223,16 @@ def question_freq(freq_range):
     )
 
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=1
-    )
+        "Select the number of plots per row", 1, 5, value=1)
 
     freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
 
     select_text = {}
     for question in questions:
         select_text[question] = main_df[question].to_string(
-            index=False, na_rep=""
-        )
+            index=False, na_rep="")
     question_df = pd.DataFrame(
-        select_text.items(), columns=["question", "text"]
-    )
+        select_text.items(), columns=["question", "text"])
     if len(questions) != 0:
         for question in questions:
             quest_freq = az.word_frequency(
@@ -256,9 +247,7 @@ def question_freq(freq_range):
 
         st.altair_chart(
             vis.facet_freq_barplot(
-                freq_question_df,
-                questions,
-                "question",
+                freq_question_df, questions, "question",
                 plots_per_row=plots_range,
             )
         )
@@ -283,13 +272,11 @@ def sentiment():
         overall_senti(senti_df)
     elif senti_type == "Student":
         st.header(
-            f"View sentiment by individual students in **{assign_text}**"
-        )
+            f"View sentiment by individual students in **{assign_text}**")
         student_senti(senti_df)
     elif senti_type == "Question":
         st.header(
-            f"View sentiment by individual questions in **{assign_text}**"
-        )
+            f"View sentiment by individual questions in **{assign_text}**")
         question_senti(senti_df)
 
 
@@ -308,8 +295,7 @@ def student_senti(input_df):
         options=input_df[stu_id].unique(),
     )
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3
-    )
+        "Select the number of plots per row", 1, 5, value=3)
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
     senti_df = pd.DataFrame(
         df_selected_stu, columns=["Assignment", stu_id, "sentiment"]
@@ -336,8 +322,7 @@ def question_senti(input_df):
     for column in questions:
         select_text.append(input_df[column].to_string(index=False, na_rep=""))
     questions_senti_df = pd.DataFrame(
-        {"questions": questions, "text": select_text}
-    )
+        {"questions": questions, "text": select_text})
     # calculate overall sentiment from the combined text
     questions_senti_df["sentiment"] = questions_senti_df["text"].apply(
         lambda x: TextBlob(x).sentiment.polarity
@@ -357,14 +342,13 @@ def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
     tp_type = st.sidebar.selectbox(
-        "Type of topic modeling analysis", ["Overall", "Student", "Question"]
+        "Type of topic modeling analysis", ["Histogram", "Scatter"]
     )
-    if tp_type == "Overall":
+    if tp_type == "Histogram":
         st.header(f"Overall topics in **{assign_text}**")
         st.write(topic_df)
         topic_range = st.sidebar.slider(
-            "Select the amount of topics", 1, 10, value=5
-        )
+            "Select the amount of topics", 1, 10, value=5)
         word_range = st.sidebar.slider(
             "Select the amount of words per topic", 1, 10, value=5
         )
@@ -379,16 +363,22 @@ def tpmodel():
         )
         overall_topic_df["Student"] = topic_df[stu_id]
         overall_topic_df["Assignment"] = topic_df["Assignment"]
-        overall_topic_df = overall_topic_df[[
-            'Assignment',
-            'Student',
-            'Dominant_Topic',
-            'Topic_Keywords',
-            'Text',
-            'Perc_Contribution',
-        ]]
+        # reorder the column
+        overall_topic_df = overall_topic_df[
+            [
+                "Assignment",
+                "Student",
+                "Dominant_Topic",
+                "Topic_Keywords",
+                "Text",
+                "Perc_Contribution",
+            ]
+        ]
+        st.write(overall_topic_df)
+        st.altair_chart(vis.tp_hist_plot(overall_topic_df))
+    elif tp_type == "Scatter":
 
-        topics = lda_model.show_topics(formatted=False)
+        # topics = lda_model.show_topics(formatted=False)
 
         topic_weights = []
         for i, row_list in enumerate(lda_model[corpus]):
@@ -397,12 +387,12 @@ def tpmodel():
         # Array of topic weights
         arr = pd.DataFrame(topic_weights).fillna(0).values
 
-        st.write(arr)
+        # st.write(arr)
 
         # Keep the well separated points (optional)
         arr = arr[np.amax(arr, axis=1) > 0.35]
 
-        st.write(arr)
+        # st.write(arr)
 
         # Dominant topic number in each doc
         topic_num = np.argmax(arr, axis=1)
@@ -410,41 +400,33 @@ def tpmodel():
         st.write(topic_num)
 
         random_state = st.sidebar.slider(
-            "Select random_state", 1, 1000, value=500
-        )
+            "Select random_state", 1, 1000, value=500)
 
-        angle = st.sidebar.slider(
-            "Select angle", 0, 100, value=50
-        )
+        angle = st.sidebar.slider("Select angle", 0, 100, value=50)
 
         # tSNE Dimension Reduction
-        tsne_model = TSNE(n_components=2, verbose=1, random_state=random_state, angle=angle/100, init='pca')
+        tsne_model = TSNE(
+            n_components=2,
+            verbose=1,
+            random_state=random_state,
+            angle=angle / 100,
+            init="pca",
+        )
         tsne_lda = tsne_model.fit_transform(arr)
 
-        df_tsne = pd.DataFrame({
-            "x": tsne_lda[:, 0],
-            "y": tsne_lda[:, 1],
-            "topic": topic_num,
-            "topic_num": overall_topic_df["Dominant_Topic"]
-        })
+        df_tsne = pd.DataFrame(
+            {
+                "x": tsne_lda[:, 0],
+                "y": tsne_lda[:, 1],
+                "topic": topic_num,
+                "topic_num": overall_topic_df["Dominant_Topic"],
+            }
+        )
         # df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
-        st.write(df_tsne)
+        # st.write(df_tsne)
 
-        import altair as alt
-
-        # n_topics = 4
-        # import matplotlib.colors as mcolors
-        # mycolors = np.array([color for name, color in mcolors.TABLEAU_COLORS.items()])
-        # st.write(mycolors)
-        lda = alt.Chart(df_tsne).mark_point(size=100, filled=True).encode(
-            x='x',
-            y='y',
-            shape='topic:N',
-            color='topic_num:N',
-            )
-        st.altair_chart(lda)
-
-        st.write(overall_topic_df)
+        lda_scatter = vis.tp_scatter_plot(df_tsne)
+        st.altair_chart(lda_scatter)
 
 
 def doc_sim():
@@ -463,9 +445,8 @@ def doc_sim():
 
 def tf_idf_sim(doc_df):
     for assignment in assignments:
-        doc = doc_df[
-            doc_df["Assignment"] == assignment
-        ].dropna(axis=1, how="all")
+        doc = doc_df[doc_df["Assignment"] == assignment].dropna(
+            axis=1, how="all")
 
         pairs = ds.create_pair(doc[stu_id])
         # calculate similarity of the docs of the selected author pairs
@@ -484,15 +465,13 @@ def tf_idf_sim(doc_df):
             df_sim["pair"].tolist(), index=df_sim.index
         )
         st.altair_chart(
-            vis.doc_sim_heatmap(df_sim).properties(title=assignment)
-        )
+            vis.doc_sim_heatmap(df_sim).properties(title=assignment))
 
 
 def spacy_sim(doc_df):
     for assignment in assignments:
-        doc = doc_df[
-            doc_df["Assignment"] == assignment
-        ].dropna(axis=1, how="all")
+        doc = doc_df[doc_df["Assignment"] == assignment].dropna(
+            axis=1, how="all")
 
         pairs = ds.create_pair(doc[stu_id])
         # calculate similarity of the docs of the selected author pairs
@@ -511,8 +490,7 @@ def spacy_sim(doc_df):
             df_sim["pair"].tolist(), index=df_sim.index
         )
         st.altair_chart(
-            vis.doc_sim_heatmap(df_sim).properties(title=assignment)
-        )
+            vis.doc_sim_heatmap(df_sim).properties(title=assignment))
 
 
 if __name__ == "__main__":
