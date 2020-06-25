@@ -22,7 +22,6 @@ import src.visualization as vis
 # initialize main_df and preprocessed_Df
 preprocessed_df = pd.DataFrame()
 main_df = pd.DataFrame()
-directory = None
 assignments = None
 assign_text = None
 stu_id = None
@@ -36,9 +35,13 @@ def main():
     directory = st.sidebar.text_input(
         "Enter path(s) to documents (seperate by comma)")
     if len(directory) == 0:
-        st.sidebar.text("Please enter the path to the directory")
-        with open("README.md") as readme_file:
-            st.markdown(readme_file.read())
+        landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
+        if landing == "Home":
+            st.sidebar.text("Please enter the path to the directory")
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+        else:
+            interactive()
     else:
         directory = re.split(r"[;,\s]\s*", directory)
         try:
@@ -386,56 +389,56 @@ def tpmodel():
         st.write(overall_topic_df)
         st.altair_chart(vis.tp_hist_plot(overall_topic_df))
     elif tp_type == "Scatter":
+        pass
+        # # topics = lda_model.show_topics(formatted=False)
 
-        # topics = lda_model.show_topics(formatted=False)
+        # topic_weights = []
+        # for i, row_list in enumerate(lda_model[corpus]):
+        #     topic_weights.append([w for i, w in row_list[0]])
 
-        topic_weights = []
-        for i, row_list in enumerate(lda_model[corpus]):
-            topic_weights.append([w for i, w in row_list[0]])
+        # # Array of topic weights
+        # arr = pd.DataFrame(topic_weights).fillna(0).values
 
-        # Array of topic weights
-        arr = pd.DataFrame(topic_weights).fillna(0).values
+        # # st.write(arr)
 
-        # st.write(arr)
+        # # Keep the well separated points (optional)
+        # arr = arr[np.amax(arr, axis=1) > 0.35]
 
-        # Keep the well separated points (optional)
-        arr = arr[np.amax(arr, axis=1) > 0.35]
+        # # st.write(arr)
 
-        # st.write(arr)
+        # # Dominant topic number in each doc
+        # topic_num = np.argmax(arr, axis=1)
 
-        # Dominant topic number in each doc
-        topic_num = np.argmax(arr, axis=1)
+        # # st.write(topic_num)
 
-        # st.write(topic_num)
+        # random_state = st.sidebar.slider(
+        #     "Select random_state", 1, 1000, value=500)
 
-        random_state = st.sidebar.slider(
-            "Select random_state", 1, 1000, value=500)
+        # angle = st.sidebar.slider("Select angle", 0, 100, value=50)
 
-        angle = st.sidebar.slider("Select angle", 0, 100, value=50)
+        # # tSNE Dimension Reduction
+        # tsne_model = TSNE(
+        #     n_components=2,
+        #     verbose=1,
+        #     random_state=random_state,
+        #     angle=angle / 100,
+        #     init="pca",
+        # )
+        # tsne_lda = tsne_model.fit_transform(arr)
 
-        # tSNE Dimension Reduction
-        tsne_model = TSNE(
-            n_components=2,
-            verbose=1,
-            random_state=random_state,
-            angle=angle / 100,
-            init="pca",
-        )
-        tsne_lda = tsne_model.fit_transform(arr)
+        # df_tsne = pd.DataFrame(
+        #     {
+        #         "x": tsne_lda[:, 0],
+        #         "y": tsne_lda[:, 1],
+        #         "topic": topic_num,
+        #         "topic_num": overall_topic_df["Dominant_Topic"],
+        #     }
+        # )
+        # # df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
+        # # st.write(df_tsne)
 
-        df_tsne = pd.DataFrame(
-            {
-                "x": tsne_lda[:, 0],
-                "y": tsne_lda[:, 1],
-                "topic": topic_num,
-                "topic_num": overall_topic_df["Dominant_Topic"],
-            }
-        )
-        # df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
-        # st.write(df_tsne)
-
-        lda_scatter = vis.tp_scatter_plot(df_tsne)
-        st.altair_chart(lda_scatter)
+        # lda_scatter = vis.tp_scatter_plot(df_tsne)
+        # st.altair_chart(lda_scatter)
 
 
 def doc_sim():
@@ -512,10 +515,10 @@ def interactive():
     # if st.button("Analysis"):
     tokens = az.tokenize(input_text)
     named_entities = az.named_entity_recognization(input_text)
-    summaries = sz.summarize_text(input_text)
     sentiments = TextBlob(input_text)
-    # st.success("Running Analysis")
 
+    # st.success("Running Analysis")
+    # if st.button("Analysis"):
     if token_cb:
         st.write(tokens)
     if ner_cb:
@@ -523,6 +526,7 @@ def interactive():
     if sentiment_cb:
         st.write(sentiments.sentiment)
     if summary_cb:
+        summaries = sz.summarize_text(input_text)
         st.write(summaries)
 
 
