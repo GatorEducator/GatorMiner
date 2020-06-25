@@ -209,3 +209,20 @@ def doc_sim_heatmap(df_sim):
         .properties(width=600, height=550)
     )
     return heatmap
+
+
+def tp_hist_plot(df):
+    """histogram plot for topics"""
+    tp_hist = (
+        alt.Chart(df).mark_bar().encode(
+            alt.X("Dominant_Topic:N"),
+            y="count()",
+            color="Assignment",
+            tooltip=[
+                alt.Tooltip("Student", title="Student"),
+                alt.Tooltip("Topic_Keywords", title="Keywords")
+            ],
+            )
+            .properties(height=600, width=700)
+    )
+    return tp_hist
