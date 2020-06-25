@@ -450,8 +450,18 @@ def tpmodel():
 def doc_sim():
     """Display document similarity"""
     doc_df = main_df.copy(deep=True)
+    doc_sim_type = st.sidebar.selectbox(
+        "Type of similarity analysis", ["TF-IDF", "Spacy"]
+    )
     st.header(
         f"Similarity between each student's document in **{assign_text}**")
+    if doc_sim_type == "TF-IDF":
+        tf_idf_sim(doc_df)
+    elif doc_sim_type == "Spacy":
+        spacy_sim(doc_df)
+
+
+def tf_idf_sim(doc_df):
     for assignment in assignments:
         doc = doc_df[
             doc_df["Assignment"] == assignment
@@ -461,6 +471,33 @@ def doc_sim():
         # calculate similarity of the docs of the selected author pairs
         similarity = [
             ds.tfidf_cosine_similarity(
+                (
+                    doc[doc[stu_id] == pair[0]]["normalized"].values[0],
+                    doc[doc[stu_id] == pair[1]]["normalized"].values[0],
+                )
+            )
+            for pair in pairs
+        ]
+        df_sim = pd.DataFrame({"pair": pairs, "similarity": similarity})
+        # Split the pair tuple into two columns for plotting
+        df_sim[["doc_1", "doc_2"]] = pd.DataFrame(
+            df_sim["pair"].tolist(), index=df_sim.index
+        )
+        st.altair_chart(
+            vis.doc_sim_heatmap(df_sim).properties(title=assignment)
+        )
+
+
+def spacy_sim(doc_df):
+    for assignment in assignments:
+        doc = doc_df[
+            doc_df["Assignment"] == assignment
+        ].dropna(axis=1, how="all")
+
+        pairs = ds.create_pair(doc[stu_id])
+        # calculate similarity of the docs of the selected author pairs
+        similarity = [
+            ds.spacy_doc_similarity(
                 (
                     doc[doc[stu_id] == pair[0]]["normalized"].values[0],
                     doc[doc[stu_id] == pair[1]]["normalized"].values[0],
