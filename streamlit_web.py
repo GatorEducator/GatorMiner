@@ -1,7 +1,6 @@
 """Web interface"""
 
 import re
-import time
 
 import numpy as np
 import pandas as pd
@@ -23,6 +22,10 @@ import src.visualization as vis
 # initialize main_df and preprocessed_Df
 preprocessed_df = pd.DataFrame()
 main_df = pd.DataFrame()
+directory = None
+assignments = None
+assign_text = None
+stu_id = None
 
 
 def main():
@@ -43,7 +46,7 @@ def main():
             global main_df
             main_df, preprocessed_df = import_data(directory)
             if main_df is not None:
-                st.sidebar.success(f"Sucessfully Loaded!!")
+                st.sidebar.success("Sucessfully Loaded!!")
             global assignments
             assignments = st.sidebar.multiselect(
                 label="Select assignments below:",
@@ -153,6 +156,7 @@ def overall_freq(freq_range):
     freq_df = pd.DataFrame(columns=["assignment", "word", "freq"])
     # calculate word frequency of each assignments
     for item in assignments:
+        # combined text of the whole assignment
         combined_text = " ".join(
             main_df[main_df["Assignment"] == item].normalized)
         item_df = pd.DataFrame(
