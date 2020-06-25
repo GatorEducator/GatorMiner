@@ -30,7 +30,7 @@ install:
   - pip install --upgrade pip
   - pip install pipenv --upgrade
   - pipenv install --dev --skip-lock --python "$PYENV_VERSION"
-  - pipenv run python -m spacy download en_core_web_sm
+  - pipenv run python -m spacy download en_core_web_md
   - pip install coverage
 
 script:
