@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 PARSER = spacy.load("en_core_web_md")
 
+
 def create_pair(key_lst):
     """Create non-repetitive pairs from two lists"""
     pairs = []
