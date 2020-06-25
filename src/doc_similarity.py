@@ -1,6 +1,8 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
+import spacy
+from sklearn.feature_extraction.text import TfidfVectorizer
 
+PARSER = spacy.load("en_core_web_md")
 
 def create_pair(key_lst):
     """Create non-repetitive pairs from two lists"""
@@ -28,3 +30,11 @@ def tfidf_cosine_similarity(pair):
     cosine_similarity = np.dot(doc_v1, doc_v2)
 
     return cosine_similarity
+
+
+def spacy_doc_similarity(pair):
+    doc_1, doc_2 = pair
+    doc_1 = PARSER(doc_1)
+    doc_2 = PARSER(doc_2)
+    similarity = doc_1.similarity(doc_2)
+    return similarity
