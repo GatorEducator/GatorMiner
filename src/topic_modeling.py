@@ -2,7 +2,6 @@
 from typing import List, Tuple
 
 import gensim
-from . import analyzer as az
 import pandas as pd
 
 # import pickle
