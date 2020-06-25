@@ -222,7 +222,17 @@ def tp_hist_plot(df):
                 alt.Tooltip("Student", title="Student"),
                 alt.Tooltip("Topic_Keywords", title="Keywords")
             ],
-            )
-            .properties(height=600, width=700)
+            ).properties(height=600, width=700)
     )
     return tp_hist
+
+
+def tp_scatter_plot(df):
+    """scatter plot for lda"""
+    lda = alt.Chart(df).mark_point(size=100, filled=True).encode(
+        x='x',
+        y='y',
+        shape='topic:N',
+        color='topic_num:N',
+    )
+    return lda
