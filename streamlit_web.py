@@ -348,36 +348,37 @@ def tpmodel():
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
     )
+    topic_range = st.sidebar.slider(
+            "Select the amount of topics", 1, 10, value=5)
+    word_range = st.sidebar.slider(
+        "Select the amount of words per topic", 1, 10, value=5
+    )
+    # topic_df["topics"] = topic_df["tokens"].apply(
+    #     lambda x: tm.topic_model(
+    #         x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
+    # )
+    overall_topic_df, lda_model, corpus = tm.topic_model(
+        topic_df["tokens"].tolist(),
+        NUM_TOPICS=topic_range,
+        NUM_WORDS=word_range,
+    )
+    overall_topic_df["Student"] = topic_df[stu_id]
+    overall_topic_df["Assignment"] = topic_df["Assignment"]
+    # reorder the column
+    overall_topic_df = overall_topic_df[
+        [
+            "Assignment",
+            "Student",
+            "Dominant_Topic",
+            "Topic_Keywords",
+            "Text",
+            "Perc_Contribution",
+        ]
+    ]
     if tp_type == "Histogram":
         st.header(f"Overall topics in **{assign_text}**")
         st.write(topic_df)
-        topic_range = st.sidebar.slider(
-            "Select the amount of topics", 1, 10, value=5)
-        word_range = st.sidebar.slider(
-            "Select the amount of words per topic", 1, 10, value=5
-        )
-        # topic_df["topics"] = topic_df["tokens"].apply(
-        #     lambda x: tm.topic_model(
-        #         x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
-        # )
-        overall_topic_df, lda_model, corpus = tm.topic_model(
-            topic_df["tokens"].tolist(),
-            NUM_TOPICS=topic_range,
-            NUM_WORDS=word_range,
-        )
-        overall_topic_df["Student"] = topic_df[stu_id]
-        overall_topic_df["Assignment"] = topic_df["Assignment"]
-        # reorder the column
-        overall_topic_df = overall_topic_df[
-            [
-                "Assignment",
-                "Student",
-                "Dominant_Topic",
-                "Topic_Keywords",
-                "Text",
-                "Perc_Contribution",
-            ]
-        ]
+
         st.write(overall_topic_df)
         st.altair_chart(vis.tp_hist_plot(overall_topic_df))
     elif tp_type == "Scatter":
@@ -401,7 +402,7 @@ def tpmodel():
         # Dominant topic number in each doc
         topic_num = np.argmax(arr, axis=1)
 
-        st.write(topic_num)
+        # st.write(topic_num)
 
         random_state = st.sidebar.slider(
             "Select random_state", 1, 1000, value=500)
