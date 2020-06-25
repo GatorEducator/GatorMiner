@@ -48,7 +48,7 @@ def format_topics_sentences(ldamodel, corpus, texts):
         row = row_list[0] if ldamodel.per_word_topics else row_list
         row = sorted(row, key=lambda x: (x[1]), reverse=True)
         print(row)
-        # Get the Dominant topic, Perc Contribution and Keywords for each document
+        # Get the Dominant topic, Perc Contribution and Keywords for each doc
         for j, (topic_num, prop_topic) in enumerate(row):
             if j == 0:  # => dominant topic
                 word_prop = ldamodel.show_topic(topic_num)
@@ -61,7 +61,8 @@ def format_topics_sentences(ldamodel, corpus, texts):
             else:
                 break
 
-    sent_topics_df.columns = ['Dominant_Topic', 'Perc_Contribution', 'Topic_Keywords']
+    sent_topics_df.columns = [
+        'Dominant_Topic', 'Perc_Contribution', 'Topic_Keywords']
     # Add original text to the end of the output
     contents = pd.Series(texts)
     sent_topics_df["Text"] = contents
