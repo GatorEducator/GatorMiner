@@ -117,3 +117,42 @@ def test_noun_phrase():
     text = "Apple is looking at buying U.K. startup for $1 billion"
     output = az.noun_phrase(text)
     assert output == ["Apple", "U.K. startup"]
+
+
+def test_lemmatized_text():
+    """Test lemmatized text works"""
+    text = "She loves dogs"
+    output = az.lemmatized_text(text)
+    expect = "love dog"
+    print(output)
+    assert output == expect
+
+
+def test_sentence_tokenize():
+    """Test sentence tokenizer works"""
+    text = "The greatest technical challenge that I faced \
+was getting the program to run. I am looking forward to some \
+poroblem even involing some challenging math to be more interesting."
+    output = az.sentence_tokenize(text)
+    assert output == [
+        "The greatest technical challenge that I faced was getting the program \
+to run.",
+        "I am looking forward to some poroblem even involing some challenging \
+math to be more interesting.",
+    ]
+
+
+def test_tfidf():
+    input_tokens = [
+        "test",
+        "tokenize",
+        "break",
+        "str",
+        "list",
+        "str",
+        "correctly",
+    ]
+    tf, vector = az.compute_tfidf(input_tokens)
+    assert tf is not None
+    assert vector is not None
+
