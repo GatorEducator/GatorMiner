@@ -1,13 +1,14 @@
 # Text Mining
+
 [![Build Status](https://travis-ci.com/Allegheny-Mozilla-Fellows/textMining.svg?branch=master)](https://travis-ci.com/Allegheny-Mozilla-Fellows/textMining)
 [![codecov](https://codecov.io/gh/Allegheny-Mozilla-Fellows/textMining/branch/master/graph/badge.svg)](https://codecov.io/gh/Allegheny-Mozilla-Fellows/textMining)
 [![Built with spaCy](https://img.shields.io/badge/built%20with-spaCy-09a3d5.svg)](https://spacy.io)
+[![Built with Streamlit](https://img.shields.io/badge/built%20with-Streamlit-09a3d5.svg)](https://www.streamlit.io/)
 
 An automated text-mining tool written in Python to measure the technical
 responsibility of students in computer science courses, being used to analyze
 students' reflection documents and five questions survey based on Natural language
 processing in the Department of Computer Science at Allegheny College.
-
 
 ## Installation
 
@@ -39,7 +40,7 @@ Once you have finished the previous step:
   pipenv install
   ```
 
-textMining relies on `en_core_web_sm`, a small English model trained on
+textMining relies on `en_core_web_sm` and `en_core_web_md`, English models trained on
 written web text (blogs, news, comments), that includes vocabulary, vectors,
 syntax and entities.
 
@@ -47,45 +48,57 @@ To install the pre-trained model, you can run this following command:
 
 ```bash
 pipenv run python -m spacy download en_core_web_sm
+pipenv run python -m spacy download en_core_web_md
 ```
-
 
 ## Supporting Libraries
 
-There are other libraries that may be necessary to install, depending on your system configuration. The libraries are listed below, along with the commands to install them.
+There are other libraries that may be necessary to install, depending on your
+system configuration. The libraries are listed below, along with the commands to
+install them.
 
-
- - Spacy is a library for language processing and is used for some text mining manipulations (reference: `https://spacy.io/`). It can be installed with the following command:
+- [Spacy](https://spacy.io/)is a library for language processing and is used
+  for some text mining  manipulations. It can be installed with the
+  following command:
 
  ```bash
  pip install spacy --user
  ```
 
- - Commonmark is a markdown parcer (reference: `https://pypi.org/project/commonmark/`) and can installed with the following command.
+- [Commonmark](https://pypi.org/project/commonmark/) is a markdown parser
+  and can installed with the following command.
 
  ``` bash
  pip install commonmark --user
  ```
 
+- [Gensim](https://radimrehurek.com/gensim/) is an open-source library for
+  unsupervised topic modeling and natural language processing, using modern
+  statistical machine learning. and can installed with the following command.
 
-
- - Gensim is an open-source library for unsupervised topic modeling and natural language processing, using modern statistical machine learning. (reference: `https://radimrehurek.com/gensim/`) and can installed with the following command.
  ``` bash
  pip install gensim --user
  ```
 
+- [TextBlob](https://textblob.readthedocs.io/en/dev/) is a Python (2 and 3)
+  library for processing textual data. It provides a consistent API for diving
+  into common natural language processing tasks such as part-of-speech tagging,
+  noun phrase extraction, sentiment analysis, and more. It can be installed
+  with the following command.
 
- - TextBlob is a Python (2 and 3) library for processing textual data. It provides a consistent API for diving into common natural language processing (NLP) tasks such as part-of-speech tagging, noun phrase extraction, sentiment analysis, and more (reference: https://textblob.readthedocs.io/en/dev/). It can be installed with the following command.
- ```bash
- pip install textblob --user
-```
- - Scikit-learn is a library for the mathematical manipulation of data for the application of modeling. This library includes machine learning, regression, statistical tools, as well as a host of other analytical software to aid in analysis (reference: https://scikit-learn.org/stable/). Scikit-learn can be installed with the following command.
-``` bash
-pip install scikit-learn --user
-```
+  ```bash
+   pip install textblob --user
+  ```
 
+- [Scikit-learn](https://scikit-learn.org/stable/) is a library for the
+  mathematical manipulation of data for the application of modeling. This
+  library includes machine learning, regression, statistical tools, as well as
+  a host of other analytical software to aid in analysis.
+  Scikit-learn can be installed with the following command.
 
-
+  ``` bash
+  pip install scikit-learn --user
+  ```
 
 ## Web Interface
 
@@ -121,7 +134,7 @@ sidebar to view the analysis:
 ## Command Line Interface
 
 - To learn about the command line interface of textMining, type in
-`pipenv run python textmining.py -h` in the terminal.
+  `pipenv run python textmining.py -h` in the terminal.
 
   ```bash
   $ pipenv run python textmining.py -h

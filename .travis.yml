@@ -17,10 +17,12 @@ env:
   - LC_ALL=en_US.UTF-8
   - CODECOV_TOKEN="59a0baf8-461c-4d50-b6d3-ad40bed4ae21"
 
-# install pyenv with travis-pyenv
 before_install:
+  # install pyenv with travis-pyenv
   - wget https://github.com/praekeltfoundation/travis-pyenv/releases/latest/download/setup-pyenv.sh
   - source setup-pyenv.sh
+  # install mdl to check markdown
+  - gem install mdl
 
 notifications:
   email: never
@@ -34,7 +36,7 @@ install:
 script:
   - pipenv run pytest tests --cov-config pytest.cov --cov
   - pipenv run flake8 src
-  - pipenv run flake8 *.py
   - pipenv run flake8 tests
+  - mdl README.md
 after_success:
   - pipenv run codecov

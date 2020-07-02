@@ -67,7 +67,7 @@ After this, I would like to practice the random class more, as it is the newest 
 ## After completing this assignment, what is one learning experience you have valued the most?
 I valued learning how to program randomization and replacement methods, but also the ethics and debate surrounding gene editing as a whole. I feel much more capable of weighing in on genome editing in social and political conversations, and have a deeper appreciation for what the software we develop is truly capable of when applies in the right context.
 
-
+```
 Final Gradle Run:
 
 bash-5.0# gradle grade
@@ -119,3 +119,4 @@ Finished!
 	┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 	┃ Passed 23/24 (96%) of checks for cs100-01-lab05-solution! ┃
 	┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```

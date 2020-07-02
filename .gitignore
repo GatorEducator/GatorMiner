@@ -219,4 +219,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# vscode settings
 .vscode/settings.json

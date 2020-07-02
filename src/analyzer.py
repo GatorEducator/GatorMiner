@@ -23,6 +23,17 @@ def normalize(data: str) -> str:
     return spacefree_text
 
 
+def lemmatized_text(text):
+    """Return lemmatized text"""
+    tokens = PARSER(text)
+    tokens = [
+        word.lemma_.strip()
+        for word in tokens if word.lemma_ != "-PRON-"
+    ]
+    lem_text = " ".join(tokens)
+    return lem_text
+
+
 def tokenize(normalized_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
     # remove punctuation
