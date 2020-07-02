@@ -352,6 +352,8 @@ def summary():
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
+    topic_df = topic_df[topic_df["Assignment"].isin(assignments)]
+    st.write(topic_df)
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
     )
@@ -369,8 +371,8 @@ def tpmodel():
         NUM_TOPICS=topic_range,
         NUM_WORDS=word_range,
     )
-    overall_topic_df["Student"] = topic_df[stu_id]
-    overall_topic_df["Assignment"] = topic_df["Assignment"]
+    overall_topic_df["Student"] = topic_df[stu_id].tolist()
+    overall_topic_df["Assignment"] = topic_df["Assignment"].tolist()
     # reorder the column
     overall_topic_df = overall_topic_df[
         [
@@ -382,62 +384,69 @@ def tpmodel():
             "Perc_Contribution",
         ]
     ]
+    st.header(f"Overall topics in **{assign_text}**")
     if tp_type == "Histogram":
-        st.header(f"Overall topics in **{assign_text}**")
-        st.write(topic_df)
-
-        st.write(overall_topic_df)
-        st.altair_chart(vis.tp_hist_plot(overall_topic_df))
+        hist_tm(overall_topic_df)
     elif tp_type == "Scatter":
         # topics = lda_model.show_topics(formatted=False)
+        scatter_tm(lda_model, corpus, overall_topic_df)
 
-        topic_weights = []
-        for i, row_list in enumerate(lda_model[corpus]):
-            topic_weights.append([w for i, w in row_list[0]])
 
-        # Array of topic weights
-        arr = pd.DataFrame(topic_weights).fillna(0).values
+def hist_tm(topic_df):
+    """Topic modeling in histogram"""
+    st.write(topic_df)
+    st.altair_chart(vis.tp_hist_plot(topic_df))
 
-        # st.write(arr)
 
-        # Keep the well separated points (optional)
-        arr = arr[np.amax(arr, axis=1) > 0.35]
+def scatter_tm(lda_model, corpus, overall_topic_df):
+    """Topic modeling in scatter plot"""
+    topic_weights = []
+    for i, row_list in enumerate(lda_model[corpus]):
+        topic_weights.append([w for i, w in row_list[0]])
 
-        # st.write(arr)
+    # Array of topic weights
+    arr = pd.DataFrame(topic_weights).fillna(0).values
 
-        # Dominant topic number in each doc
-        topic_num = np.argmax(arr, axis=1)
+    # st.write(arr)
 
-        # st.write(topic_num)
+    # Keep the well separated points (optional)
+    arr = arr[np.amax(arr, axis=1) > 0.35]
 
-        random_state = st.sidebar.slider(
-            "Select random_state", 1, 1000, value=500)
+    # st.write(arr)
 
-        angle = st.sidebar.slider("Select angle", 0, 100, value=50)
+    # Dominant topic number in each doc
+    topic_num = np.argmax(arr, axis=1)
 
-        # tSNE Dimension Reduction
-        tsne_model = TSNE(
-            n_components=2,
-            verbose=1,
-            random_state=random_state,
-            angle=angle / 100,
-            init="pca",
-        )
-        tsne_lda = tsne_model.fit_transform(arr)
+    # st.write(topic_num)
 
-        df_tsne = pd.DataFrame(
-            {
-                "x": tsne_lda[:, 0],
-                "y": tsne_lda[:, 1],
-                "topic": topic_num,
-                "topic_num": overall_topic_df["Dominant_Topic"],
-            }
-        )
-        # df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
-        # st.write(df_tsne)
+    random_state = st.sidebar.slider(
+        "Select random_state", 1, 1000, value=500)
 
-        lda_scatter = vis.tp_scatter_plot(df_tsne)
-        st.altair_chart(lda_scatter)
+    angle = st.sidebar.slider("Select angle", 0, 100, value=50)
+
+    # tSNE Dimension Reduction
+    tsne_model = TSNE(
+        n_components=2,
+        verbose=1,
+        random_state=random_state,
+        angle=angle / 100,
+        init="pca",
+    )
+    tsne_lda = tsne_model.fit_transform(arr)
+
+    df_tsne = pd.DataFrame(
+        {
+            "x": tsne_lda[:, 0],
+            "y": tsne_lda[:, 1],
+            "topic": topic_num,
+            "topic_num": overall_topic_df["Dominant_Topic"],
+        }
+    )
+    # df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
+    # st.write(df_tsne)
+
+    lda_scatter = vis.tp_scatter_plot(df_tsne)
+    st.altair_chart(lda_scatter)
 
 
 def doc_sim():
