@@ -8,7 +8,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
 from . import markdown as md
 
-PARSER = spacy.load("en_core_web_md")
+PARSER = spacy.load("en_core_web_sm")
 
 
 def normalize(data: str) -> str:
