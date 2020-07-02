@@ -39,7 +39,7 @@ Once you have finished the previous step:
   pipenv install
   ```
 
-textMining relies on `en_core_web_sm`, a small English model trained on
+textMining relies on `en_core_web_sm` and `en_core_web_md`, English models trained on
 written web text (blogs, news, comments), that includes vocabulary, vectors,
 syntax and entities.
 
@@ -47,6 +47,7 @@ To install the pre-trained model, you can run this following command:
 
 ```bash
 pipenv run python -m spacy download en_core_web_sm
+pipenv run python -m spacy download en_core_web_md
 ```
 
 ## Supporting Libraries
