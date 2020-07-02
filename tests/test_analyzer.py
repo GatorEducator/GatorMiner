@@ -155,4 +155,3 @@ def test_tfidf():
     tf, vector = az.compute_tfidf(input_tokens)
     assert tf is not None
     assert vector is not None
-
