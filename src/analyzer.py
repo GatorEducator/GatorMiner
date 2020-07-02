@@ -28,7 +28,7 @@ def lemmatized_text(text):
     tokens = PARSER(text)
     tokens = [
         word.lemma_.strip()
-        for word in tokens
+        for word in tokens if word.lemma_ != "-PRON-"
     ]
     lem_text = " ".join(tokens)
     return lem_text
