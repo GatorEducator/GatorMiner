@@ -2,6 +2,7 @@
 import os
 import logging
 from typing import Dict, List
+from . import constants as cts
 import commonmark
 import pandas as pd
 
@@ -26,7 +27,7 @@ def get_file_names(directory_name: str) -> List[str]:
     file_list = []
     for file in os.listdir(directory_name):
         filename = os.fsdecode(file)
-        if filename.endswith(".md") or filename.endswith("txt"):
+        if filename.endswith(cts.MD_EXT) or filename.endswith(cts.TXT_EXT):
             file_list.append(os.path.join(directory_name, filename))
         else:
             continue
