@@ -120,9 +120,9 @@ def df_preprocess(df):
         lambda row: "\n".join(row.values.astype(str)), axis=1
     )
     # normalize
-    df["normalized"] = df["combined"].apply(lambda row: az.normalize(row))
+    df[cts.NORMAL] = df["combined"].apply(lambda row: az.normalize(row))
     # tokenize
-    df["tokens"] = df["normalized"].apply(lambda row: az.tokenize(row))
+    df[cts.TOKEN] = df[cts.NORMAL].apply(lambda row: az.tokenize(row))
     return df
 
 
@@ -166,7 +166,7 @@ def overall_freq(freq_range):
     for item in assignments:
         # combined text of the whole assignment
         combined_text = " ".join(
-            main_df[main_df[cts.ASSIGNMENT] == item].normalized)
+            main_df[main_df[cts.ASSIGNMENT] == item][cts.NORMAL])
         item_df = pd.DataFrame(
             az.word_frequency(combined_text, freq_range),
             columns=["word", "freq"]
@@ -368,7 +368,7 @@ def tpmodel():
     #         x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
     # )
     overall_topic_df, lda_model, corpus = tm.topic_model(
-        topic_df["tokens"].tolist(),
+        topic_df[cts.TOKEN].tolist(),
         NUM_TOPICS=topic_range,
         NUM_WORDS=word_range,
     )
@@ -474,8 +474,8 @@ def tf_idf_sim(doc_df):
         similarity = [
             ds.tfidf_cosine_similarity(
                 (
-                    doc[doc[stu_id] == pair[0]]["normalized"].values[0],
-                    doc[doc[stu_id] == pair[1]]["normalized"].values[0],
+                    doc[doc[stu_id] == pair[0]][cts.NORMAL].values[0],
+                    doc[doc[stu_id] == pair[1]][cts.NORMAL].values[0],
                 )
             )
             for pair in pairs
@@ -499,8 +499,8 @@ def spacy_sim(doc_df):
         similarity = [
             ds.spacy_doc_similarity(
                 (
-                    doc[doc[stu_id] == pair[0]]["normalized"].values[0],
-                    doc[doc[stu_id] == pair[1]]["normalized"].values[0],
+                    doc[doc[stu_id] == pair[0]][cts.NORMAL].values[0],
+                    doc[doc[stu_id] == pair[1]][cts.NORMAL].values[0],
                 )
             )
             for pair in pairs
