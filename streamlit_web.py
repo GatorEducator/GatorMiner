@@ -9,6 +9,7 @@ import streamlit as st
 from textblob import TextBlob
 
 import src.analyzer as az
+import src.constants as cts
 import src.doc_similarity as ds
 import src.markdown as md
 import src.summarizer as sz
@@ -53,7 +54,7 @@ def main():
             global assignments
             assignments = st.sidebar.multiselect(
                 label="Select assignments below:",
-                options=main_df["Assignment"].unique(),
+                options=main_df[cts.ASSIGNMENT].unique(),
             )
             global assign_text
             assign_text = ", ".join(assignments)
@@ -160,22 +161,22 @@ def overall_freq(freq_range):
     """page fore overall word frequency"""
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3)
-    freq_df = pd.DataFrame(columns=["assignment", "word", "freq"])
+    freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
     # calculate word frequency of each assignments
     for item in assignments:
         # combined text of the whole assignment
         combined_text = " ".join(
-            main_df[main_df["Assignment"] == item].normalized)
+            main_df[main_df[cts.ASSIGNMENT] == item].normalized)
         item_df = pd.DataFrame(
             az.word_frequency(combined_text, freq_range),
             columns=["word", "freq"]
         )
-        item_df["assignment"] = item
+        item_df["assignments"] = item
         freq_df = freq_df.append(item_df)
     # plot all the subplots of different assignments
     st.altair_chart(
         vis.facet_freq_barplot(
-            freq_df, assignments, "assignment", plots_per_row=plots_range
+            freq_df, assignments, "assignments", plots_per_row=plots_range
         )
     )
 
@@ -191,7 +192,7 @@ def student_freq(freq_range):
         "Select the number of plots per row", 1, 5, value=3)
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
     stu_assignment = main_df[
-        (main_df[stu_id].isin(students)) & main_df["Assignment"].isin(
+        (main_df[stu_id].isin(students)) & main_df[cts.ASSIGNMENT].isin(
             assignments)
     ]
     if len(students) != 0:
@@ -199,7 +200,7 @@ def student_freq(freq_range):
             for item in assignments:
                 individual_freq = az.word_frequency(
                     stu_assignment[
-                        (stu_assignment["Assignment"] == item)
+                        (stu_assignment[cts.ASSIGNMENT] == item)
                         & (stu_assignment[stu_id] == student)
                     ]
                     .loc[:, ["combined"]]
@@ -208,7 +209,7 @@ def student_freq(freq_range):
                 )
                 ind_df = pd.DataFrame(
                     individual_freq, columns=["word", "freq"])
-                ind_df["assignment"] = item
+                ind_df["assignments"] = item
                 ind_df["student"] = student
                 freq_df = freq_df.append(ind_df)
         st.altair_chart(
@@ -216,7 +217,7 @@ def student_freq(freq_range):
                 freq_df,
                 students,
                 "student",
-                color_column="assignment",
+                color_column="assignments",
                 plots_per_row=plots_range,
             )
         )
@@ -226,7 +227,7 @@ def question_freq(freq_range):
     """page for individual question's word frequency"""
     # drop columns with all na
     select_preprocess = preprocessed_df[
-        preprocessed_df["Assignment"].isin(assignments)
+        preprocessed_df[cts.ASSIGNMENT].isin(assignments)
     ].dropna(axis=1, how="all")
     questions = st.multiselect(
         label="Select specific questions below:",
@@ -271,7 +272,7 @@ def sentiment():
     senti_df["sentiment"] = senti_df["combined"].apply(
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
     )
-    senti_df = senti_df[senti_df["Assignment"].isin(assignments)]
+    senti_df = senti_df[senti_df[cts.ASSIGNMENT].isin(assignments)]
     senti_type = st.sidebar.selectbox(
         "Type of sentiment analysis", ["Overall", "Student", "Question"]
     )
@@ -309,7 +310,7 @@ def student_senti(input_df):
         "Select the number of plots per row", 1, 5, value=3)
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
     senti_df = pd.DataFrame(
-        df_selected_stu, columns=["Assignment", stu_id, "sentiment"]
+        df_selected_stu, columns=[cts.ASSIGNMENT, stu_id, "sentiment"]
     )
     if len(students) != 0:
         st.altair_chart(
@@ -323,7 +324,7 @@ def student_senti(input_df):
 def question_senti(input_df):
     """page for individual question's sentiment"""
     select_preprocess = preprocessed_df[
-        preprocessed_df["Assignment"].isin(assignments)
+        preprocessed_df[cts.ASSIGNMENT].isin(assignments)
     ].dropna(axis=1, how="all")
     questions = st.multiselect(
         label="Select specific questions below:",
@@ -352,7 +353,7 @@ def summary():
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
-    topic_df = topic_df[topic_df["Assignment"].isin(assignments)]
+    topic_df = topic_df[topic_df[cts.ASSIGNMENT].isin(assignments)]
     st.write(topic_df)
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
@@ -372,11 +373,11 @@ def tpmodel():
         NUM_WORDS=word_range,
     )
     overall_topic_df["Student"] = topic_df[stu_id].tolist()
-    overall_topic_df["Assignment"] = topic_df["Assignment"].tolist()
+    overall_topic_df[cts.ASSIGNMENT] = topic_df[cts.ASSIGNMENT].tolist()
     # reorder the column
     overall_topic_df = overall_topic_df[
         [
-            "Assignment",
+            cts.ASSIGNMENT,
             "Student",
             "Dominant_Topic",
             "Topic_Keywords",
@@ -465,7 +466,7 @@ def doc_sim():
 
 def tf_idf_sim(doc_df):
     for assignment in assignments:
-        doc = doc_df[doc_df["Assignment"] == assignment].dropna(
+        doc = doc_df[doc_df[cts.ASSIGNMENT] == assignment].dropna(
             axis=1, how="all")
 
         pairs = ds.create_pair(doc[stu_id])
@@ -490,7 +491,7 @@ def tf_idf_sim(doc_df):
 
 def spacy_sim(doc_df):
     for assignment in assignments:
-        doc = doc_df[doc_df["Assignment"] == assignment].dropna(
+        doc = doc_df[doc_df[cts.ASSIGNMENT] == assignment].dropna(
             axis=1, how="all")
 
         pairs = ds.create_pair(doc[stu_id])

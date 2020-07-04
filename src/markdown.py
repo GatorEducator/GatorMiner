@@ -83,18 +83,18 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
     for subnode, enter in ast.walker():
         if subnode.t == "heading" and enter:
             # set header as key name
-            md_dict[subnode.first_child.literal] = ""
-            cur_heading = subnode.first_child.literal
+            md_dict[subnode.first_child.literal.lower()] = ""
+            cur_heading = subnode.first_child.literal.lower()
         elif (
             subnode.literal is not None
-            and subnode.literal != cur_heading
+            and subnode.literal.lower() != cur_heading
             and subnode.t not in types
         ):
             # add related text to the header
             md_dict[cur_heading] += subnode.literal + " "
         else:
             continue
-
+    print(md_dict)
     return md_dict
 
 

@@ -1,6 +1,8 @@
 import altair as alt
 from altair.expr import datum
 
+import src.constants as cts
+
 
 def freq_barplot(freq_df):
     """barplot for word frequency"""
@@ -65,10 +67,10 @@ def facet_senti_barplot(senti_df, options, column_name, plots_per_row=3):
         alt.Chart(senti_df)
         .mark_bar()
         .encode(
-            alt.Y("Assignment", title=None),
+            alt.Y(cts.ASSIGNMENT, title=None),
             alt.X("sentiment", title=None),
             tooltip=[
-                alt.Tooltip("Assignment", title="assignment"),
+                alt.Tooltip(cts.ASSIGNMENT, title="assignment"),
                 alt.Tooltip("sentiment", title="sentiment"),
             ],
             opacity=alt.value(0.7),
@@ -133,8 +135,8 @@ def senti_circleplot(senti_df, student_id):
         .encode(
             alt.X(student_id),
             alt.Y("sentiment"),
-            alt.Color('Assignment', legend=alt.Legend(orient="left")),
-            alt.Shape('Assignment', legend=None),
+            alt.Color(cts.ASSIGNMENT, legend=alt.Legend(orient="left")),
+            alt.Shape(cts.ASSIGNMENT, legend=None),
             tooltip=[
                 alt.Tooltip("sentiment", title="polarity"),
                 alt.Tooltip(student_id, title="author"),
@@ -154,7 +156,7 @@ def stu_senti_barplot(senti_df, student_id):
             alt.X("sentiment", title="Sentiment"),
             tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
             opacity=alt.value(0.7),
-            color="Assignment",
+            color=cts.ASSIGNMENT,
         )
         .properties(width=700, height=450)
     )
@@ -167,7 +169,7 @@ def stu_senti_lineplot(senti_df, student_id):
     senti_lineplot = (
         alt.Chart(senti_df)
         .mark_line()
-        .encode(x="Assignment", y="sentiment", color=student_id,)
+        .encode(x=cts.ASSIGNMENT, y="sentiment", color=student_id,)
         .properties(width=700, height=450)
     )
     return senti_lineplot
@@ -217,7 +219,7 @@ def tp_hist_plot(df):
         alt.Chart(df).mark_bar().encode(
             alt.X("Dominant_Topic:N"),
             y="count()",
-            color="Assignment",
+            color=cts.ASSIGNMENT,
             tooltip=[
                 alt.Tooltip("Student", title="Student"),
                 alt.Tooltip("Topic_Keywords", title="Keywords")
