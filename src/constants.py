@@ -12,3 +12,8 @@ JSON_EXT = ".json"
 PYTHON_EXT = ".py"
 TXT_EXT = ".txt"
 MD_EXT = ".md"
+
+# Dataframe
+TOKEN = "tokens"
+NORMAL = "normalized"
+ASSIGNMENT = "assignment"
