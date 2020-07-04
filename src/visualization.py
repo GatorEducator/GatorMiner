@@ -68,10 +68,10 @@ def facet_senti_barplot(senti_df, options, column_name, plots_per_row=3):
         .mark_bar()
         .encode(
             alt.Y(cts.ASSIGNMENT, title=None),
-            alt.X("sentiment", title=None),
+            alt.X(cts.SENTI, title=None),
             tooltip=[
                 alt.Tooltip(cts.ASSIGNMENT, title="assignment"),
-                alt.Tooltip("sentiment", title="sentiment"),
+                alt.Tooltip(cts.SENTI, title="sentiment"),
             ],
             opacity=alt.value(0.7),
             color=alt.Color(column_name, legend=None),
@@ -121,7 +121,7 @@ def senti_histplot(senti_df):
     senti_hist = (
         alt.Chart(senti_df)
         .mark_bar()
-        .encode(alt.Y("sentiment", bin=True), x="count()", color="sentiment",)
+        .encode(alt.Y(cts.SENTI, bin=True), x="count()", color=cts.SENTI,)
         .properties(height=300, width=100)
     )
     return senti_hist
@@ -134,11 +134,11 @@ def senti_circleplot(senti_df, student_id):
         .mark_point(size=100, fillOpacity=0.7)
         .encode(
             alt.X(student_id),
-            alt.Y("sentiment"),
+            alt.Y(cts.SENTI),
             alt.Color(cts.ASSIGNMENT, legend=alt.Legend(orient="left")),
             alt.Shape(cts.ASSIGNMENT, legend=None),
             tooltip=[
-                alt.Tooltip("sentiment", title="polarity"),
+                alt.Tooltip(cts.SENTI, title="polarity"),
                 alt.Tooltip(student_id, title="author"),
             ],
         )
@@ -153,8 +153,8 @@ def stu_senti_barplot(senti_df, student_id):
         .mark_bar()
         .encode(
             alt.Y(student_id, title="Student", sort="-x"),
-            alt.X("sentiment", title="Sentiment"),
-            tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
+            alt.X(cts.SENTI, title="Sentiment"),
+            tooltip=[alt.Tooltip(cts.SENTI, title="Sentiment")],
             opacity=alt.value(0.7),
             color=cts.ASSIGNMENT,
         )
@@ -169,7 +169,7 @@ def stu_senti_lineplot(senti_df, student_id):
     senti_lineplot = (
         alt.Chart(senti_df)
         .mark_line()
-        .encode(x=cts.ASSIGNMENT, y="sentiment", color=student_id,)
+        .encode(x=cts.ASSIGNMENT, y=cts.SENTI, color=student_id,)
         .properties(width=700, height=450)
     )
     return senti_lineplot
@@ -182,11 +182,11 @@ def question_senti_barplot(senti_df):
         .mark_bar()
         .encode(
             alt.Y("questions", title="Questions", sort="-x"),
-            alt.X("sentiment", title="Sentiment"),
-            tooltip=[alt.Tooltip("sentiment", title="Sentiment")],
+            alt.X(cts.SENTI, title="Sentiment"),
+            tooltip=[alt.Tooltip(cts.SENTI, title="Sentiment")],
             opacity=alt.value(0.7),
             color=alt.condition(
-                alt.datum.sentiment > 0,
+                alt.datum[cts.SENTI] > 0,
                 alt.value("steelblue"),
                 alt.value("red"),
             ),

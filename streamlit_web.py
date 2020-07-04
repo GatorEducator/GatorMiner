@@ -269,7 +269,7 @@ def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
     # calculate overall sentiment from the combined text
-    senti_df["sentiment"] = senti_df["combined"].apply(
+    senti_df[cts.SENTI] = senti_df["combined"].apply(
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
     )
     senti_df = senti_df[senti_df[cts.ASSIGNMENT].isin(assignments)]
@@ -310,7 +310,7 @@ def student_senti(input_df):
         "Select the number of plots per row", 1, 5, value=3)
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
     senti_df = pd.DataFrame(
-        df_selected_stu, columns=[cts.ASSIGNMENT, stu_id, "sentiment"]
+        df_selected_stu, columns=[cts.ASSIGNMENT, stu_id, cts.SENTI]
     )
     if len(students) != 0:
         st.altair_chart(
@@ -336,7 +336,7 @@ def question_senti(input_df):
     questions_senti_df = pd.DataFrame(
         {"questions": questions, "text": select_text})
     # calculate overall sentiment from the combined text
-    questions_senti_df["sentiment"] = questions_senti_df["text"].apply(
+    questions_senti_df[cts.SENTI] = questions_senti_df["text"].apply(
         lambda x: TextBlob(x).sentiment.polarity
     )
     if len(select_text) != 0:
