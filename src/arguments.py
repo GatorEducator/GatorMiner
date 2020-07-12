@@ -24,6 +24,19 @@ def parse(args):
         type=str,
         help="Function to analyze (frequency/summary)",
     )
+    parser.add_argument(
+        "--assignment",
+        required=False,
+        type=str,
+        help="The name of assignment to get from AWS",
+    )
+    parser.add_argument(
+        "--passBuild",
+        required=False,
+        action="store_false",
+        default="true",
+        help="Whether to get only passed build reports",
+    )
 
     # parse the arguments and return the finished result
     arguments_finished = parser.parse_args(args)
