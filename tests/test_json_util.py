@@ -12,7 +12,10 @@ def test_get_json_files(tmp_path):
     p1.write_text("{\"assignment\": \"java-assignment\"}")
     p2.write_text("{\"assignment\": \"java-assignment\"}")
     output = js.get_json_files(d)
-    expect = [{'assignment': 'java-assignment'}, {'assignment': 'java-assignment'}]
+    expect = [
+        {'assignment': 'java-assignment'},
+        {'assignment': 'java-assignment'}
+    ]
     assert expect == output
 
 
@@ -21,7 +24,8 @@ def test_clean_report():
     raw_json_lst = [
         {
             "assignment": "java-assignment",
-            "reflection": "# Reflection by\nuser one\n## Header1\nHello World.",
+            "reflection": """# Reflection by\nuser one\n## Header1\n\
+Hello World.""",
             "report": "A report",
             "time": "2020-01-15T18:01:55.416Z",
             "userId": "computer-science-101-fall-2018-practical-9-user1",
@@ -29,7 +33,8 @@ def test_clean_report():
         },
         {
             "assignment": "java-assignment",
-            "reflection": "# Reflection by\n user two \n\n## Header1\ntext.\n## Header2\nWorld.",
+            "reflection": """# Reflection by\n user two \n\n## Header1\ntext.\
+\n## Header2\nWorld.""",
             "report": "A report",
             "time": "2020-01-15T18:01:55.416Z",
             "userId": "computer-science-101-fall-2018-practical-9-user2",
