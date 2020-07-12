@@ -21,7 +21,7 @@ def summarize_text(text: str) -> str:
 def summarizer(directory: str) -> Dict[str, List[str]]:
     """A summarizing pipeline"""
     main_md_dict = md.collect_md(directory, is_clean=False)
-    del main_md_dict["Reflection by"]
+    del main_md_dict["reflection by"]
     # initialize summarized dict with keys in sources
     summarized = {k: [] for k in main_md_dict.keys()}
     for key, values in main_md_dict.items():

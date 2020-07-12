@@ -56,7 +56,7 @@ system."
     p1.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
     p2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
     expected = {
-        "Reflection by": ["", ""],
+        "reflection by": ["", ""],
         "header1": [text + " ", text + " "],
         "header2": [text + " ", text + " "],
     }
@@ -81,7 +81,7 @@ system."
     p2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
     p3.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
     expected = {
-        "Reflection by": ["", "", ""],
+        "reflection by": ["", "", ""],
         "header1": [text + " ", text + " ", text + " "],
         "header2": [text + " ", text + " ", text + " "],
     }
