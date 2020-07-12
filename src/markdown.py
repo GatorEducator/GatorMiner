@@ -2,6 +2,7 @@
 import os
 import logging
 from typing import Dict, List
+from . import constants as cts
 import commonmark
 import pandas as pd
 
@@ -26,7 +27,7 @@ def get_file_names(directory_name: str) -> List[str]:
     file_list = []
     for file in os.listdir(directory_name):
         filename = os.fsdecode(file)
-        if filename.endswith(".md") or filename.endswith("txt"):
+        if filename.endswith(cts.MD_EXT) or filename.endswith(cts.TXT_EXT):
             file_list.append(os.path.join(directory_name, filename))
         else:
             continue
@@ -82,18 +83,18 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
     for subnode, enter in ast.walker():
         if subnode.t == "heading" and enter:
             # set header as key name
-            md_dict[subnode.first_child.literal] = ""
-            cur_heading = subnode.first_child.literal
+            md_dict[subnode.first_child.literal.lower()] = ""
+            cur_heading = subnode.first_child.literal.lower()
         elif (
             subnode.literal is not None
-            and subnode.literal != cur_heading
+            and subnode.literal.lower() != cur_heading
             and subnode.t not in types
         ):
             # add related text to the header
             md_dict[cur_heading] += subnode.literal + " "
         else:
             continue
-
+    print(md_dict)
     return md_dict
 
 

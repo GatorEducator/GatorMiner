@@ -5,6 +5,9 @@ import datetime
 import hashlib
 import hmac
 import requests
+import json
+
+import arguments
 
 # REQUEST VALUES
 METHOD = "GET"
@@ -15,8 +18,18 @@ ENDPOINT = os.environ.get("GATOR_ENDPOINT")
 # Read AWS access key from env. variables or configuration file
 ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
 SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-if ACCESS_KEY is None or SECRET_KEY is None:
-    print("No access key is available.")
+
+if ACCESS_KEY is None:
+    print("No aws access key is given.")
+    sys.exit()
+elif SECRET_KEY is None:
+    print("No aws secret key is given.")
+    sys.exit()
+elif API_KEY is None:
+    print("No gator api key is given.")
+    sys.exit()
+elif ENDPOINT is None:
+    print("No gator endpoint is given.")
     sys.exit()
 
 
@@ -34,7 +47,7 @@ def getSignatureKey(key, dateStamp, regionName, serviceName):
     return k_signing
 
 
-def get_request(assignment):
+def get_request(assignment, passBuild):
     """Create and sign request"""
     # Create a date for headers and the credential string
     t = datetime.datetime.utcnow()
@@ -45,7 +58,7 @@ def get_request(assignment):
     canonical_uri = "/" + stage + "/" + method
 
     # query
-    request_parameters = f"assignment={assignment}"
+    request_parameters = f"assignment={assignment}&passBuild={str(passBuild)}"
     # Create the canonical query string
     canonical_querystring = request_parameters
 
@@ -151,5 +164,8 @@ def get_request(assignment):
 
 
 if __name__ == "__main__":
-    response = get_request(input("Assignment name: \n"))
-    print(response)
+    get_arguments = arguments.parse(sys.argv[1:])
+    assignment = get_arguments.assignment
+    passBuild = get_arguments.passBuild
+    response = get_request(assignment, passBuild)
+    print(json.dumps(response))

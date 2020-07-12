@@ -1,0 +1,113 @@
+{
+    "assignment": "java-assignment-solution-100-02",
+    "reflection": "# Reflection by\n Gregory M. Kapfhammer\n\n## Using a fenced code block, please display the output from running your program\n\n```\nGregory M. Kapfhammer Mon Sep 02 21:20:42 GMT 2019\nHello World.\nGradle is Great.\nDocker is Dynamite.\n```\n\n## For each Gradle command, add an explanation to the following list\n\n- `gradle build`: compiles the source code, checking for errors, producing the bytecode\n- `gradle run`: run the program, producing output in the terminal window\n- `gradle grade`: automatically checks to ensure that submission meets learning objectives\n\n## What was the greatest technical challenge that you faced and how did you overcome it?\n\nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod\ntempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At\nvero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd\ngubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum\ndolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt\nut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud\nexercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute\nirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat\nnulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa\nqui officia deserunt mollit anim id est laborum.\n\n## After completing this assignment, what is task that you want to practice more? Why?\n\nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod\ntempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At\nvero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd\ngubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum\ndolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt\nut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud\nexercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute\nirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat\nnulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa\nqui officia deserunt mollit anim id est laborum.\n\n## After completing this assignment, what is one experience for which you are grateful?\n\nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod\ntempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At\nvero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd\ngubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum\ndolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt\nut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud\nexercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute\nirure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat\nnulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa\nqui officia deserunt mollit anim id est laborum.",
+    "report": {
+      "numberOfChecks": 20,
+      "numberOfFailures": 1,
+      "results": [
+        {
+          "check": "The file DisplayOutput.java exists in the src/main/java/labone directory",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The DisplayOutput.java in src/main/java/labone has exactly 1 match(es) of the 'println\\\\((.)*\\\\)' regular expression",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The reflection.md in writing has exactly 0 of the 'Add Your Name Here' fragment",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The command output has exactly 1 match(es) of the 'Hello\\\\s+\\\\w+\\\\.(\\\\n)Gradle(\\\\s+\\\\w+)*\\\\.(\\\\n)Docker(\\\\s+\\\\w+)*\\\\.' regular expression",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The reflection.md in writing has at least 300 word(s) in total",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The reflection.md in writing has exactly 6 of the 'heading' tag",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The command 'gradle -q --console plain run' executes correctly",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The reflection.md in writing has exactly 1 of the 'list' tag",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The file reflection.md exists in the writing directory",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The reflection.md in writing has exactly 3 of the 'code' tag",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The reflection.md in writing has exactly 1 of the 'code_block' tag",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The repository has at least 100 commit(s)",
+          "diagnostic": "Found 14 commit(s) in the Git repository",
+          "outcome": false
+        },
+        {
+          "check": "The DisplayOutput.java in src/main/java/labone has at least 2 multiple-line Java comment(s)",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The DisplayOutput.java in src/main/java/labone has exactly 0 of the 'Add Your Name Here' fragment",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The DisplayOutput.java in src/main/java/labone has exactly 1 of the 'import java.util.Date' fragment",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The command output has exactly 4 lines",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The DisplayOutput.java in src/main/java/labone has exactly 1 of the 'new Date()' fragment",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The DisplayOutput.java in src/main/java/labone has exactly 0 of the 'TODO' fragment",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The DisplayOutput.java in src/main/java/labone has at least 2 single-line Java comment(s)",
+          "diagnostic": null,
+          "outcome": true
+        },
+        {
+          "check": "The command 'gradle build' executes correctly",
+          "diagnostic": null,
+          "outcome": true
+        }
+      ]
+    },
+    "time": "2020-01-15T18:01:55.416Z",
+    "userId": "Allegheny-Computer-Science-101-F2018/computer-science-101-fall-2018-practical-9-user1",
+    "uuidID": "069004d0-2a9a-4030-822c-b99560e89b30"
+  }
