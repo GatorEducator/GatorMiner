@@ -5,6 +5,7 @@ import re
 import numpy as np
 import pandas as pd
 from sklearn.manifold import TSNE
+import spacy
 import streamlit as st
 from textblob import TextBlob
 
@@ -21,6 +22,7 @@ import src.visualization as vis
 # resources/combined/lab1, resources/combined/lab2
 
 # initialize main_df and preprocessed_Df
+SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
 preprocessed_df = pd.DataFrame()
 main_df = pd.DataFrame()
 assignments = None
@@ -97,6 +99,11 @@ def main():
             st.sidebar.text(err)
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
+
+
+@st.cache(allow_output_mutation=True)
+def load_model(name):
+    return spacy.load(name)
 
 
 @st.cache(allow_output_mutation=True)
@@ -490,6 +497,8 @@ def tf_idf_sim(doc_df):
 
 
 def spacy_sim(doc_df):
+    spacy_model = st.sidebar.selectbox("Model name", SPACY_MODEL_NAMES)
+    nlp = load_model(spacy_model)
     for assignment in assignments:
         doc = doc_df[doc_df[cts.ASSIGNMENT] == assignment].dropna(
             axis=1, how="all")
@@ -497,7 +506,7 @@ def spacy_sim(doc_df):
         pairs = ds.create_pair(doc[stu_id])
         # calculate similarity of the docs of the selected author pairs
         similarity = [
-            ds.spacy_doc_similarity(
+            ds.spacy_doc_similarity(nlp,
                 (
                     doc[doc[stu_id] == pair[0]][cts.NORMAL].values[0],
                     doc[doc[stu_id] == pair[1]][cts.NORMAL].values[0],
