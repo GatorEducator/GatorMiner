@@ -51,8 +51,9 @@ def main():
             global preprocessed_df
             global main_df
             main_df, preprocessed_df = import_data(directory)
+            success_msg = None
             if main_df is not None:
-                st.sidebar.success("Sucessfully Loaded!!")
+                success_msg = st.sidebar.success("Sucessfully Loaded!!")
             global assignments
             assignments = st.sidebar.multiselect(
                 label="Select assignments below:",
@@ -78,21 +79,27 @@ def main():
                 with open("README.md") as readme_file:
                     st.markdown(readme_file.read())
             if analysis_mode == "Frequency Analysis":
+                success_msg.empty()
                 st.title("Frequency Analysis")
                 frequency()
             elif analysis_mode == "Sentiment Analysis":
+                success_msg.empty()
                 st.title("Sentiment Analysis")
                 sentiment()
             elif analysis_mode == "Document Similarity":
+                success_msg.empty()
                 st.title("Document Similarity")
                 doc_sim()
             elif analysis_mode == "Summary":
+                success_msg.empty()
                 st.title("Summary")
                 summary()
             elif analysis_mode == "Topic Modeling":
+                success_msg.empty()
                 st.title("Topic Modeling")
                 tpmodel()
             elif analysis_mode == "Interactive":
+                success_msg.empty()
                 st.title("Interactive NLP")
                 interactive()
         except FileNotFoundError as err:
@@ -361,7 +368,7 @@ def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
     topic_df = topic_df[topic_df[cts.ASSIGNMENT].isin(assignments)]
-    st.write(topic_df)
+    # st.write(topic_df)
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
     )
