@@ -36,6 +36,8 @@ def main():
     """main streamlit function"""
     # Title
     st.sidebar.title("Welcome to TextMining!")
+    global preprocessed_df
+    global main_df
     data_retreive = st.sidebar.selectbox(
                 "Choose the data retrieving method",
                 [
@@ -44,7 +46,27 @@ def main():
                 ],
             )
     if data_retreive == "Local file system":
-        pass
+        global directory
+        directory = st.sidebar.text_input(
+            "Enter path(s) to documents (seperate by comma)"
+        )
+        if len(directory) == 0:
+            landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
+            if landing == "Home":
+                st.sidebar.text("Please enter the path to the directory")
+                with open("README.md") as readme_file:
+                    st.markdown(readme_file.read())
+            else:
+                interactive()
+        else:
+            directory = re.split(r"[;,\s]\s*", directory)
+            try:
+                main_df, preprocessed_df = import_data(directory)
+                st.write(main_df)
+            except FileNotFoundError as err:
+                st.sidebar.text(err)
+                with open("README.md") as readme_file:
+                    st.markdown(readme_file.read())
     else:
         passbuild = st.sidebar.checkbox("Only retreive build success records", value=True)
         aws_assignment = st.sidebar.text_input(
@@ -62,87 +84,83 @@ def main():
             try:
                 configs = gh.auth_config()
                 response = gh.get_request(aws_assignment, passbuild, **configs)
-                st.write(ju.clean_report(response))
-                print(response)
+                preprocessed_df = pd.DataFrame(response)
+                main_df = pd.DataFrame(ju.clean_report(response))
+                st.write(main_df)
             except EnvironmentError as err:
                 st.sidebar.error(err)
 
 
 
-    global directory
-    directory = st.sidebar.text_input(
-        "Enter path(s) to documents (seperate by comma)"
+    # global directory
+    # directory = st.sidebar.text_input(
+    #     "Enter path(s) to documents (seperate by comma)"
+    # )
+    # if len(directory) == 0:
+    #     landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
+    #     if landing == "Home":
+    #         st.sidebar.text("Please enter the path to the directory")
+    #         with open("README.md") as readme_file:
+    #             st.markdown(readme_file.read())
+    #     else:
+    #         interactive()
+    # else:
+    #     directory = re.split(r"[;,\s]\s*", directory)
+    #     try:
+    #         global preprocessed_df
+    #         global main_df
+    #         main_df, preprocessed_df = import_data(directory)
+    success_msg = None
+    if main_df is not None:
+        success_msg = st.sidebar.success("Sucessfully Loaded!!")
+    global assignments
+    assignments = st.sidebar.multiselect(
+        label="Select assignments below:",
+        options=main_df[cts.ASSIGNMENT].unique(),
     )
-    if len(directory) == 0:
-        landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
-        if landing == "Home":
-            st.sidebar.text("Please enter the path to the directory")
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
-        else:
-            interactive()
-    else:
-        directory = re.split(r"[;,\s]\s*", directory)
-        try:
-            global preprocessed_df
-            global main_df
-            main_df, preprocessed_df = import_data(directory)
-            success_msg = None
-            if main_df is not None:
-                success_msg = st.sidebar.success("Sucessfully Loaded!!")
-            global assignments
-            assignments = st.sidebar.multiselect(
-                label="Select assignments below:",
-                options=main_df[cts.ASSIGNMENT].unique(),
-            )
-            global assign_text
-            assign_text = ", ".join(assignments)
-            global stu_id
-            stu_id = preprocessed_df.columns[1]
-            analysis_mode = st.sidebar.selectbox(
-                "Choose the analysis mode",
-                [
-                    "Home",
-                    "Frequency Analysis",
-                    "Sentiment Analysis",
-                    "Document Similarity",
-                    "Summary",
-                    "Topic Modeling",
-                    "Interactive",
-                ],
-            )
-            if analysis_mode == "Home":
-                with open("README.md") as readme_file:
-                    st.markdown(readme_file.read())
-            if analysis_mode == "Frequency Analysis":
-                success_msg.empty()
-                st.title("Frequency Analysis")
-                frequency()
-            elif analysis_mode == "Sentiment Analysis":
-                success_msg.empty()
-                st.title("Sentiment Analysis")
-                sentiment()
-            elif analysis_mode == "Document Similarity":
-                success_msg.empty()
-                st.title("Document Similarity")
-                doc_sim()
-            elif analysis_mode == "Summary":
-                success_msg.empty()
-                st.title("Summary")
-                summary()
-            elif analysis_mode == "Topic Modeling":
-                success_msg.empty()
-                st.title("Topic Modeling")
-                tpmodel()
-            elif analysis_mode == "Interactive":
-                success_msg.empty()
-                st.title("Interactive NLP")
-                interactive()
-        except FileNotFoundError as err:
-            st.sidebar.text(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
-
+    global assign_text
+    assign_text = ", ".join(assignments)
+    global stu_id
+    stu_id = preprocessed_df.columns[1]
+    analysis_mode = st.sidebar.selectbox(
+        "Choose the analysis mode",
+        [
+            "Home",
+            "Frequency Analysis",
+            "Sentiment Analysis",
+            "Document Similarity",
+            "Summary",
+            "Topic Modeling",
+            "Interactive",
+        ],
+    )
+    if analysis_mode == "Home":
+        with open("README.md") as readme_file:
+            st.markdown(readme_file.read())
+    if analysis_mode == "Frequency Analysis":
+        success_msg.empty()
+        st.title("Frequency Analysis")
+        frequency()
+    elif analysis_mode == "Sentiment Analysis":
+        success_msg.empty()
+        st.title("Sentiment Analysis")
+        sentiment()
+    elif analysis_mode == "Document Similarity":
+        success_msg.empty()
+        st.title("Document Similarity")
+        doc_sim()
+    elif analysis_mode == "Summary":
+        success_msg.empty()
+        st.title("Summary")
+        summary()
+    elif analysis_mode == "Topic Modeling":
+        success_msg.empty()
+        st.title("Topic Modeling")
+        tpmodel()
+    elif analysis_mode == "Interactive":
+        success_msg.empty()
+        st.title("Interactive NLP")
+        interactive()
 
 @st.cache(allow_output_mutation=True)
 def load_model(name):
