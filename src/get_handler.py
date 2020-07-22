@@ -205,7 +205,7 @@ def get_request(assignment, passBuild, API_KEY, ENDPOINT, ACCESS_KEY, SECRET_KEY
     # print("\nRESPONSE++++++++++++++++++++++++++++++++++++")
     # print("Response code: %d\n" % r.status_code)
 
-    return r.text
+    return r.json()
 
 
 if __name__ == "__main__":
