@@ -12,6 +12,8 @@ from textblob import TextBlob
 import src.analyzer as az
 import src.constants as cts
 import src.doc_similarity as ds
+import src.get_handler as gh
+import src.json_util as ju
 import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
@@ -34,6 +36,39 @@ def main():
     """main streamlit function"""
     # Title
     st.sidebar.title("Welcome to TextMining!")
+    data_retreive = st.sidebar.selectbox(
+                "Choose the data retrieving method",
+                [
+                    "Local file system",
+                    "AWS",
+                ],
+            )
+    if data_retreive == "Local file system":
+        pass
+    else:
+        passbuild = st.sidebar.checkbox("Only retreive build success records", value=True)
+        aws_assignment = st.sidebar.text_input(
+            "Please enter the assignment that you would like to retreive")
+        st.sidebar.info("You will need to store keys and endpoints in the environment variables")
+        if len(aws_assignment) == 0:
+            landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
+            if landing == "Home":
+                st.sidebar.text("Please enter the path to the directory")
+                with open("README.md") as readme_file:
+                    st.markdown(readme_file.read())
+            else:
+                interactive()
+        else:
+            try:
+                configs = gh.auth_config()
+                response = gh.get_request(aws_assignment, passbuild, **configs)
+                st.write(ju.clean_report(response))
+                print(response)
+            except EnvironmentError as err:
+                st.sidebar.error(err)
+
+
+
     global directory
     directory = st.sidebar.text_input(
         "Enter path(s) to documents (seperate by comma)"
