@@ -180,14 +180,30 @@ def get_request(assignment, passBuild, API_KEY, ENDPOINT, ACCESS_KEY, SECRET_KEY
         "Authorization": authorization_header,
     }
 
-    # SEND THE REQUEST
     request_url = ENDPOINT + "?" + request_parameters
 
-    print("\nBEGIN REQUEST++++++++++++++++++++++++++++++++++++")
-    print("Request URL = " + request_url)
-    r = requests.get(request_url, headers=headers)
-    print("\nRESPONSE++++++++++++++++++++++++++++++++++++")
-    print("Response code: %d\n" % r.status_code)
+    # SEND THE REQUEST
+    try:
+        r = requests.get(request_url, headers=headers)
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as errh:
+        print("Http Error:", errh)
+        raise
+    except requests.exceptions.ConnectionError as errc:
+        print("Error Connecting:", errc)
+        raise
+    except requests.exceptions.Timeout as errt:
+        print("Timeout Error:", errt)
+        raise
+    except requests.exceptions.RequestException as err:
+        print("RequestException:", err)
+        raise
+
+    # print("\nBEGIN REQUEST++++++++++++++++++++++++++++++++++++")
+    # print("Request URL = " + request_url)
+    # r = requests.get(request_url, headers=headers)
+    # print("\nRESPONSE++++++++++++++++++++++++++++++++++++")
+    # print("Response code: %d\n" % r.status_code)
 
     return r.text
 
@@ -200,4 +216,3 @@ if __name__ == "__main__":
     response = get_request(assignment, passBuild, **configs)
     # response = get_request(assignment, passBuild)
     print(json.dumps(response))
-
