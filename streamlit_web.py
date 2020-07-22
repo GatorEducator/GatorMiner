@@ -51,13 +51,7 @@ def main():
             "Enter path(s) to documents (seperate by comma)"
         )
         if len(directory) == 0:
-            landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
-            if landing == "Home":
-                st.sidebar.text("Please enter the path to the directory")
-                with open("README.md") as readme_file:
-                    st.markdown(readme_file.read())
-            else:
-                interactive()
+            landing_pg()
         else:
             directory = re.split(r"[;,\s]\s*", directory)
             try:
@@ -68,18 +62,14 @@ def main():
                 with open("README.md") as readme_file:
                     st.markdown(readme_file.read())
     else:
-        passbuild = st.sidebar.checkbox("Only retreive build success records", value=True)
+        passbuild = st.sidebar.checkbox(
+            "Only retreive build success records", value=True)
         aws_assignment = st.sidebar.text_input(
             "Please enter the assignment that you would like to retreive")
-        st.sidebar.info("You will need to store keys and endpoints in the environment variables")
+        st.sidebar.info(
+            "You will need to store keys and endpoints in the environment variables")
         if len(aws_assignment) == 0:
-            landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
-            if landing == "Home":
-                st.sidebar.text("Please enter the path to the directory")
-                with open("README.md") as readme_file:
-                    st.markdown(readme_file.read())
-            else:
-                interactive()
+            landing_pg()
         else:
             try:
                 configs = gh.auth_config()
@@ -89,29 +79,11 @@ def main():
                 st.write(main_df)
             except EnvironmentError as err:
                 st.sidebar.error(err)
+                with open("README.md") as readme_file:
+                    st.markdown(readme_file.read())
 
-
-
-    # global directory
-    # directory = st.sidebar.text_input(
-    #     "Enter path(s) to documents (seperate by comma)"
-    # )
-    # if len(directory) == 0:
-    #     landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
-    #     if landing == "Home":
-    #         st.sidebar.text("Please enter the path to the directory")
-    #         with open("README.md") as readme_file:
-    #             st.markdown(readme_file.read())
-    #     else:
-    #         interactive()
-    # else:
-    #     directory = re.split(r"[;,\s]\s*", directory)
-    #     try:
-    #         global preprocessed_df
-    #         global main_df
-    #         main_df, preprocessed_df = import_data(directory)
     success_msg = None
-    if main_df is not None:
+    if main_df.empty is not True:
         success_msg = st.sidebar.success("Sucessfully Loaded!!")
     global assignments
     assignments = st.sidebar.multiselect(
@@ -161,6 +133,17 @@ def main():
         success_msg.empty()
         st.title("Interactive NLP")
         interactive()
+
+
+def landing_pg():
+    """landing page"""
+    landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
+    if landing == "Home":
+        with open("README.md") as readme_file:
+            st.markdown(readme_file.read())
+    else:
+        interactive()
+
 
 @st.cache(allow_output_mutation=True)
 def load_model(name):
