@@ -36,7 +36,8 @@ def main():
     st.sidebar.title("Welcome to TextMining!")
     global directory
     directory = st.sidebar.text_input(
-        "Enter path(s) to documents (seperate by comma)")
+        "Enter path(s) to documents (seperate by comma)"
+    )
     if len(directory) == 0:
         landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
         if landing == "Home":
@@ -159,7 +160,8 @@ def frequency():
             "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header(
-            f"Most frequent words by individual students in **{assign_text}**")
+            f"Most frequent words by individual students in **{assign_text}**"
+        )
         student_freq(freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
@@ -167,23 +169,25 @@ def frequency():
         )
         st.header(
             f"Most frequent words in individual questions in **{assign_text}**"
-            )
+        )
         question_freq(freq_range)
 
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3)
+        "Select the number of plots per row", 1, 5, value=3
+    )
     freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
     # calculate word frequency of each assignments
     for item in assignments:
         # combined text of the whole assignment
         combined_text = " ".join(
-            main_df[main_df[cts.ASSIGNMENT] == item][cts.NORMAL])
+            main_df[main_df[cts.ASSIGNMENT] == item][cts.NORMAL]
+        )
         item_df = pd.DataFrame(
             az.word_frequency(combined_text, freq_range),
-            columns=["word", "freq"]
+            columns=["word", "freq"],
         )
         item_df["assignments"] = item
         freq_df = freq_df.append(item_df)
@@ -203,11 +207,12 @@ def student_freq(freq_range):
     )
 
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3)
+        "Select the number of plots per row", 1, 5, value=3
+    )
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
     stu_assignment = main_df[
-        (main_df[stu_id].isin(students)) & main_df[cts.ASSIGNMENT].isin(
-            assignments)
+        (main_df[stu_id].isin(students))
+        & main_df[cts.ASSIGNMENT].isin(assignments)
     ]
     if len(students) != 0:
         for student in students:
@@ -221,8 +226,7 @@ def student_freq(freq_range):
                     .to_string(),
                     freq_range,
                 )
-                ind_df = pd.DataFrame(
-                    individual_freq, columns=["word", "freq"])
+                ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
                 ind_df["assignments"] = item
                 ind_df["student"] = student
                 freq_df = freq_df.append(ind_df)
@@ -249,16 +253,19 @@ def question_freq(freq_range):
     )
 
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=1)
+        "Select the number of plots per row", 1, 5, value=1
+    )
 
     freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
 
     select_text = {}
     for question in questions:
         select_text[question] = main_df[question].to_string(
-            index=False, na_rep="")
+            index=False, na_rep=""
+        )
     question_df = pd.DataFrame(
-        select_text.items(), columns=["question", "text"])
+        select_text.items(), columns=["question", "text"]
+    )
     if len(questions) != 0:
         for question in questions:
             quest_freq = az.word_frequency(
@@ -273,7 +280,9 @@ def question_freq(freq_range):
 
         st.altair_chart(
             vis.facet_freq_barplot(
-                freq_question_df, questions, "question",
+                freq_question_df,
+                questions,
+                "question",
                 plots_per_row=plots_range,
             )
         )
@@ -297,12 +306,12 @@ def sentiment():
         st.header(f"Overall sentiment polarity in **{assign_text}**")
         overall_senti(senti_df)
     elif senti_type == "Student":
-        st.header(
-            f"View sentiment by individual students in **{assign_text}**")
+        st.header(f"View sentiment by individual students in **{assign_text}**")
         student_senti(senti_df)
     elif senti_type == "Question":
         st.header(
-            f"View sentiment by individual questions in **{assign_text}**")
+            f"View sentiment by individual questions in **{assign_text}**"
+        )
         question_senti(senti_df)
 
 
@@ -321,7 +330,8 @@ def student_senti(input_df):
         options=input_df[stu_id].unique(),
     )
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3)
+        "Select the number of plots per row", 1, 5, value=3
+    )
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
     senti_df = pd.DataFrame(
         df_selected_stu, columns=[cts.ASSIGNMENT, stu_id, cts.SENTI]
@@ -348,7 +358,8 @@ def question_senti(input_df):
     for column in questions:
         select_text.append(input_df[column].to_string(index=False, na_rep=""))
     questions_senti_df = pd.DataFrame(
-        {"questions": questions, "text": select_text})
+        {"questions": questions, "text": select_text}
+    )
     # calculate overall sentiment from the combined text
     questions_senti_df[cts.SENTI] = questions_senti_df["text"].apply(
         lambda x: TextBlob(x).sentiment.polarity
@@ -373,7 +384,8 @@ def tpmodel():
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
     )
     topic_range = st.sidebar.slider(
-            "Select the amount of topics", 1, 10, value=5)
+        "Select the amount of topics", 1, 10, value=5
+    )
     word_range = st.sidebar.slider(
         "Select the amount of words per topic", 1, 10, value=5
     )
@@ -434,8 +446,7 @@ def scatter_tm(lda_model, corpus, overall_topic_df):
 
     # st.write(topic_num)
 
-    random_state = st.sidebar.slider(
-        "Select random_state", 1, 1000, value=500)
+    random_state = st.sidebar.slider("Select random_state", 1, 1000, value=500)
 
     angle = st.sidebar.slider("Select angle", 0, 100, value=50)
 
@@ -471,7 +482,8 @@ def doc_sim():
         "Type of similarity analysis", ["TF-IDF", "Spacy"]
     )
     st.header(
-        f"Similarity between each student's document in **{assign_text}**")
+        f"Similarity between each student's document in **{assign_text}**"
+    )
     if doc_sim_type == "TF-IDF":
         tf_idf_sim(doc_df)
     elif doc_sim_type == "Spacy":
@@ -481,7 +493,8 @@ def doc_sim():
 def tf_idf_sim(doc_df):
     for assignment in assignments:
         doc = doc_df[doc_df[cts.ASSIGNMENT] == assignment].dropna(
-            axis=1, how="all")
+            axis=1, how="all"
+        )
 
         pairs = ds.create_pair(doc[stu_id])
         # calculate similarity of the docs of the selected author pairs
@@ -500,7 +513,8 @@ def tf_idf_sim(doc_df):
             df_sim["pair"].tolist(), index=df_sim.index
         )
         st.altair_chart(
-            vis.doc_sim_heatmap(df_sim).properties(title=assignment))
+            vis.doc_sim_heatmap(df_sim).properties(title=assignment)
+        )
 
 
 def spacy_sim(doc_df):
@@ -508,16 +522,18 @@ def spacy_sim(doc_df):
     nlp = load_model(spacy_model)
     for assignment in assignments:
         doc = doc_df[doc_df[cts.ASSIGNMENT] == assignment].dropna(
-            axis=1, how="all")
+            axis=1, how="all"
+        )
 
         pairs = ds.create_pair(doc[stu_id])
         # calculate similarity of the docs of the selected author pairs
         similarity = [
-            ds.spacy_doc_similarity(nlp,
+            ds.spacy_doc_similarity(
+                nlp,
                 (
                     doc[doc[stu_id] == pair[0]][cts.NORMAL].values[0],
                     doc[doc[stu_id] == pair[1]][cts.NORMAL].values[0],
-                )
+                ),
             )
             for pair in pairs
         ]
@@ -527,7 +543,8 @@ def spacy_sim(doc_df):
             df_sim["pair"].tolist(), index=df_sim.index
         )
         st.altair_chart(
-            vis.doc_sim_heatmap(df_sim).properties(title=assignment))
+            vis.doc_sim_heatmap(df_sim).properties(title=assignment)
+        )
 
 
 def interactive():
@@ -537,18 +554,27 @@ def interactive():
     ner_cb = st.checkbox("Show named entities")
     sentiment_cb = st.checkbox("Show sentiment")
     summary_cb = st.checkbox("Show Summary")
-    # if st.button("Analysis"):
-    tokens = az.tokenize(input_text)
-    named_entities = az.named_entity_recognization(input_text)
-    sentiments = TextBlob(az.lemmatized_text(input_text))
 
     # st.success("Running Analysis")
     # if st.button("Analysis"):
     if token_cb:
+        tokens = az.tokenize(input_text)
         st.write(tokens)
     if ner_cb:
-        st.write(named_entities)
+        doc = az.get_nlp(input_text)
+        named_entities = az.named_entity_recognization(input_text)
+        if len(named_entities) > 0:
+            html = spacy.displacy.render(doc, style="ent")
+            # Newlines seem to mess with the rendering
+            html = html.replace("\n", " ")
+            HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
+        #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
+        {}</div>"""
+            st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
+        else:
+            st.info("No named entity recognized")
     if sentiment_cb:
+        sentiments = TextBlob(az.lemmatized_text(input_text))
         st.write(sentiments.sentiment)
     if summary_cb:
         summaries = sz.summarize_text(input_text)
