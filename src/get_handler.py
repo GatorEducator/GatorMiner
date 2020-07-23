@@ -73,7 +73,8 @@ def getSignatureKey(key, dateStamp, regionName, serviceName):
     return k_signing
 
 
-def get_request(assignment, passBuild, API_KEY, ENDPOINT, ACCESS_KEY, SECRET_KEY):
+def get_request(
+        assignment, passBuild, API_KEY, ENDPOINT, ACCESS_KEY, SECRET_KEY):
     """Create and sign request"""
     # Create a date for headers and the credential string
     t = datetime.datetime.utcnow()

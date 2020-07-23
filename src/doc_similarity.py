@@ -1,5 +1,4 @@
 import numpy as np
-import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
