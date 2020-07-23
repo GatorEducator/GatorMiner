@@ -56,7 +56,6 @@ def main():
             directory = re.split(r"[;,\s]\s*", directory)
             try:
                 main_df, preprocessed_df = import_data(directory)
-                st.write(main_df)
             except FileNotFoundError as err:
                 st.sidebar.text(err)
                 with open("README.md") as readme_file:
@@ -74,9 +73,8 @@ def main():
             try:
                 configs = gh.auth_config()
                 response = gh.get_request(aws_assignment, passbuild, **configs)
-                preprocessed_df = pd.DataFrame(response)
-                main_df = pd.DataFrame(ju.clean_report(response))
-                st.write(main_df)
+                preprocessed_df = pd.DataFrame(ju.clean_report(response))
+                main_df = df_preprocess(preprocessed_df)
             except EnvironmentError as err:
                 st.sidebar.error(err)
                 with open("README.md") as readme_file:
