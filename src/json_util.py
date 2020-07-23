@@ -26,7 +26,9 @@ def clean_report(raw_json_lst):
         filtered = {
             k.lower(): v for k, v in js.items() if k in cts.REPORT_KEYS}
         md_dict = md.md_parser(filtered[cts.REPORT_REFLECTION.lower()])
-        filtered.update({"combined": " ".join(md_dict.values())})
+        # filtered.update({"combined": " ".join(md_dict.values())})
         filtered.update(md_dict)
+        del filtered[cts.REPORT_REFLECTION]
         clean_json.append(filtered)
+        # clean_json.append(md_dict)
     return clean_json

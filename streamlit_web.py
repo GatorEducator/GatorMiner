@@ -5,12 +5,15 @@ import re
 import numpy as np
 import pandas as pd
 from sklearn.manifold import TSNE
+import spacy
 import streamlit as st
 from textblob import TextBlob
 
 import src.analyzer as az
 import src.constants as cts
 import src.doc_similarity as ds
+import src.get_handler as gh
+import src.json_util as ju
 import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
@@ -21,6 +24,7 @@ import src.visualization as vis
 # resources/combined/lab1, resources/combined/lab2
 
 # initialize main_df and preprocessed_Df
+SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
 preprocessed_df = pd.DataFrame()
 main_df = pd.DataFrame()
 assignments = None
@@ -32,71 +36,116 @@ def main():
     """main streamlit function"""
     # Title
     st.sidebar.title("Welcome to TextMining!")
-    global directory
-    directory = st.sidebar.text_input(
-        "Enter path(s) to documents (seperate by comma)")
-    if len(directory) == 0:
-        landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
-        if landing == "Home":
-            st.sidebar.text("Please enter the path to the directory")
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
-        else:
-            interactive()
-    else:
-        directory = re.split(r"[;,\s]\s*", directory)
-        try:
-            global preprocessed_df
-            global main_df
-            main_df, preprocessed_df = import_data(directory)
-            if main_df is not None:
-                st.sidebar.success("Sucessfully Loaded!!")
-            global assignments
-            assignments = st.sidebar.multiselect(
-                label="Select assignments below:",
-                options=main_df[cts.ASSIGNMENT].unique(),
-            )
-            global assign_text
-            assign_text = ", ".join(assignments)
-            global stu_id
-            stu_id = preprocessed_df.columns[1]
-            analysis_mode = st.sidebar.selectbox(
-                "Choose the analysis mode",
+    global preprocessed_df
+    global main_df
+    data_retreive = st.sidebar.selectbox(
+                "Choose the data retrieving method",
                 [
-                    "Home",
-                    "Frequency Analysis",
-                    "Sentiment Analysis",
-                    "Document Similarity",
-                    "Summary",
-                    "Topic Modeling",
-                    "Interactive",
+                    "Local file system",
+                    "AWS",
                 ],
             )
-            if analysis_mode == "Home":
+    if data_retreive == "Local file system":
+        global directory
+        directory = st.sidebar.text_input(
+            "Enter path(s) to documents (seperate by comma)"
+        )
+        if len(directory) == 0:
+            landing_pg()
+        else:
+            directory = re.split(r"[;,\s]\s*", directory)
+            try:
+                main_df, preprocessed_df = import_data(directory)
+            except FileNotFoundError as err:
+                st.sidebar.text(err)
                 with open("README.md") as readme_file:
                     st.markdown(readme_file.read())
-            if analysis_mode == "Frequency Analysis":
-                st.title("Frequency Analysis")
-                frequency()
-            elif analysis_mode == "Sentiment Analysis":
-                st.title("Sentiment Analysis")
-                sentiment()
-            elif analysis_mode == "Document Similarity":
-                st.title("Document Similarity")
-                doc_sim()
-            elif analysis_mode == "Summary":
-                st.title("Summary")
-                summary()
-            elif analysis_mode == "Topic Modeling":
-                st.title("Topic Modeling")
-                tpmodel()
-            elif analysis_mode == "Interactive":
-                st.title("Interactive NLP")
-                interactive()
-        except FileNotFoundError as err:
-            st.sidebar.text(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+    else:
+        passbuild = st.sidebar.checkbox(
+            "Only retreive build success records", value=True)
+        aws_assignment = st.sidebar.text_input(
+            "Please enter the assignment that you would like to retreive")
+        st.sidebar.info(
+            "You will need to store keys and endpoints in the environment variables")
+        if len(aws_assignment) == 0:
+            landing_pg()
+        else:
+            try:
+                configs = gh.auth_config()
+                response = gh.get_request(aws_assignment, passbuild, **configs)
+                preprocessed_df = pd.DataFrame(ju.clean_report(response))
+                main_df = df_preprocess(preprocessed_df)
+            except EnvironmentError as err:
+                st.sidebar.error(err)
+                with open("README.md") as readme_file:
+                    st.markdown(readme_file.read())
+
+    success_msg = None
+    if main_df.empty is not True:
+        success_msg = st.sidebar.success("Sucessfully Loaded!!")
+    global assignments
+    assignments = st.sidebar.multiselect(
+        label="Select assignments below:",
+        options=main_df[cts.ASSIGNMENT].unique(),
+    )
+    global assign_text
+    assign_text = ", ".join(assignments)
+    global stu_id
+    stu_id = preprocessed_df.columns[1]
+    analysis_mode = st.sidebar.selectbox(
+        "Choose the analysis mode",
+        [
+            "Home",
+            "Frequency Analysis",
+            "Sentiment Analysis",
+            "Document Similarity",
+            "Summary",
+            "Topic Modeling",
+            "Interactive",
+        ],
+    )
+    if analysis_mode == "Home":
+        with open("README.md") as readme_file:
+            st.markdown(readme_file.read())
+    if analysis_mode == "Frequency Analysis":
+        success_msg.empty()
+        st.title("Frequency Analysis")
+        frequency()
+    elif analysis_mode == "Sentiment Analysis":
+        success_msg.empty()
+        st.title("Sentiment Analysis")
+        sentiment()
+    elif analysis_mode == "Document Similarity":
+        success_msg.empty()
+        st.title("Document Similarity")
+        doc_sim()
+    elif analysis_mode == "Summary":
+        success_msg.empty()
+        st.title("Summary")
+        summary()
+    elif analysis_mode == "Topic Modeling":
+        success_msg.empty()
+        st.title("Topic Modeling")
+        tpmodel()
+    elif analysis_mode == "Interactive":
+        success_msg.empty()
+        st.title("Interactive NLP")
+        interactive()
+
+
+def landing_pg():
+    """landing page"""
+    landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
+    if landing == "Home":
+        with open("README.md") as readme_file:
+            st.markdown(readme_file.read())
+    else:
+        interactive()
+
+
+@st.cache(allow_output_mutation=True)
+def load_model(name):
+    return spacy.load(name)
 
 
 @st.cache(allow_output_mutation=True)
@@ -145,7 +194,8 @@ def frequency():
             "Select a range of Most frequent words", 1, 20, value=10
         )
         st.header(
-            f"Most frequent words by individual students in **{assign_text}**")
+            f"Most frequent words by individual students in **{assign_text}**"
+        )
         student_freq(freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
@@ -153,23 +203,25 @@ def frequency():
         )
         st.header(
             f"Most frequent words in individual questions in **{assign_text}**"
-            )
+        )
         question_freq(freq_range)
 
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3)
+        "Select the number of plots per row", 1, 5, value=3
+    )
     freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
     # calculate word frequency of each assignments
     for item in assignments:
         # combined text of the whole assignment
         combined_text = " ".join(
-            main_df[main_df[cts.ASSIGNMENT] == item][cts.NORMAL])
+            main_df[main_df[cts.ASSIGNMENT] == item][cts.NORMAL]
+        )
         item_df = pd.DataFrame(
             az.word_frequency(combined_text, freq_range),
-            columns=["word", "freq"]
+            columns=["word", "freq"],
         )
         item_df["assignments"] = item
         freq_df = freq_df.append(item_df)
@@ -189,11 +241,12 @@ def student_freq(freq_range):
     )
 
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3)
+        "Select the number of plots per row", 1, 5, value=3
+    )
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
     stu_assignment = main_df[
-        (main_df[stu_id].isin(students)) & main_df[cts.ASSIGNMENT].isin(
-            assignments)
+        (main_df[stu_id].isin(students))
+        & main_df[cts.ASSIGNMENT].isin(assignments)
     ]
     if len(students) != 0:
         for student in students:
@@ -207,8 +260,7 @@ def student_freq(freq_range):
                     .to_string(),
                     freq_range,
                 )
-                ind_df = pd.DataFrame(
-                    individual_freq, columns=["word", "freq"])
+                ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
                 ind_df["assignments"] = item
                 ind_df["student"] = student
                 freq_df = freq_df.append(ind_df)
@@ -235,16 +287,19 @@ def question_freq(freq_range):
     )
 
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=1)
+        "Select the number of plots per row", 1, 5, value=1
+    )
 
     freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
 
     select_text = {}
     for question in questions:
         select_text[question] = main_df[question].to_string(
-            index=False, na_rep="")
+            index=False, na_rep=""
+        )
     question_df = pd.DataFrame(
-        select_text.items(), columns=["question", "text"])
+        select_text.items(), columns=["question", "text"]
+    )
     if len(questions) != 0:
         for question in questions:
             quest_freq = az.word_frequency(
@@ -259,7 +314,9 @@ def question_freq(freq_range):
 
         st.altair_chart(
             vis.facet_freq_barplot(
-                freq_question_df, questions, "question",
+                freq_question_df,
+                questions,
+                "question",
                 plots_per_row=plots_range,
             )
         )
@@ -283,12 +340,12 @@ def sentiment():
         st.header(f"Overall sentiment polarity in **{assign_text}**")
         overall_senti(senti_df)
     elif senti_type == "Student":
-        st.header(
-            f"View sentiment by individual students in **{assign_text}**")
+        st.header(f"View sentiment by individual students in **{assign_text}**")
         student_senti(senti_df)
     elif senti_type == "Question":
         st.header(
-            f"View sentiment by individual questions in **{assign_text}**")
+            f"View sentiment by individual questions in **{assign_text}**"
+        )
         question_senti(senti_df)
 
 
@@ -307,7 +364,8 @@ def student_senti(input_df):
         options=input_df[stu_id].unique(),
     )
     plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3)
+        "Select the number of plots per row", 1, 5, value=3
+    )
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
     senti_df = pd.DataFrame(
         df_selected_stu, columns=[cts.ASSIGNMENT, stu_id, cts.SENTI]
@@ -334,7 +392,8 @@ def question_senti(input_df):
     for column in questions:
         select_text.append(input_df[column].to_string(index=False, na_rep=""))
     questions_senti_df = pd.DataFrame(
-        {"questions": questions, "text": select_text})
+        {"questions": questions, "text": select_text}
+    )
     # calculate overall sentiment from the combined text
     questions_senti_df[cts.SENTI] = questions_senti_df["text"].apply(
         lambda x: TextBlob(x).sentiment.polarity
@@ -345,21 +404,28 @@ def question_senti(input_df):
 
 def summary():
     """Display summarization"""
-    for path in directory:
-        summary_df = pd.DataFrame(sz.summarizer(path))
-        st.write(summary_df)
+    sum_df = preprocessed_df[
+        preprocessed_df[cts.ASSIGNMENT].isin(assignments)
+    ].dropna(axis=1, how="all")
+    for column in preprocessed_df.columns[2:]:
+        sum_df[column] = preprocessed_df[column].apply(
+            lambda x: sz.summarize_text(x)
+        )
+    st.write(sum_df)
+
 
 
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
     topic_df = topic_df[topic_df[cts.ASSIGNMENT].isin(assignments)]
-    st.write(topic_df)
+    # st.write(topic_df)
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
     )
     topic_range = st.sidebar.slider(
-            "Select the amount of topics", 1, 10, value=5)
+        "Select the amount of topics", 1, 10, value=5
+    )
     word_range = st.sidebar.slider(
         "Select the amount of words per topic", 1, 10, value=5
     )
@@ -420,8 +486,7 @@ def scatter_tm(lda_model, corpus, overall_topic_df):
 
     # st.write(topic_num)
 
-    random_state = st.sidebar.slider(
-        "Select random_state", 1, 1000, value=500)
+    random_state = st.sidebar.slider("Select random_state", 1, 1000, value=500)
 
     angle = st.sidebar.slider("Select angle", 0, 100, value=50)
 
@@ -457,7 +522,8 @@ def doc_sim():
         "Type of similarity analysis", ["TF-IDF", "Spacy"]
     )
     st.header(
-        f"Similarity between each student's document in **{assign_text}**")
+        f"Similarity between each student's document in **{assign_text}**"
+    )
     if doc_sim_type == "TF-IDF":
         tf_idf_sim(doc_df)
     elif doc_sim_type == "Spacy":
@@ -467,7 +533,8 @@ def doc_sim():
 def tf_idf_sim(doc_df):
     for assignment in assignments:
         doc = doc_df[doc_df[cts.ASSIGNMENT] == assignment].dropna(
-            axis=1, how="all")
+            axis=1, how="all"
+        )
 
         pairs = ds.create_pair(doc[stu_id])
         # calculate similarity of the docs of the selected author pairs
@@ -486,22 +553,27 @@ def tf_idf_sim(doc_df):
             df_sim["pair"].tolist(), index=df_sim.index
         )
         st.altair_chart(
-            vis.doc_sim_heatmap(df_sim).properties(title=assignment))
+            vis.doc_sim_heatmap(df_sim).properties(title=assignment)
+        )
 
 
 def spacy_sim(doc_df):
+    spacy_model = st.sidebar.selectbox("Model name", SPACY_MODEL_NAMES)
+    nlp = load_model(spacy_model)
     for assignment in assignments:
         doc = doc_df[doc_df[cts.ASSIGNMENT] == assignment].dropna(
-            axis=1, how="all")
+            axis=1, how="all"
+        )
 
         pairs = ds.create_pair(doc[stu_id])
         # calculate similarity of the docs of the selected author pairs
         similarity = [
             ds.spacy_doc_similarity(
+                nlp,
                 (
                     doc[doc[stu_id] == pair[0]][cts.NORMAL].values[0],
                     doc[doc[stu_id] == pair[1]][cts.NORMAL].values[0],
-                )
+                ),
             )
             for pair in pairs
         ]
@@ -511,7 +583,8 @@ def spacy_sim(doc_df):
             df_sim["pair"].tolist(), index=df_sim.index
         )
         st.altair_chart(
-            vis.doc_sim_heatmap(df_sim).properties(title=assignment))
+            vis.doc_sim_heatmap(df_sim).properties(title=assignment)
+        )
 
 
 def interactive():
@@ -521,18 +594,27 @@ def interactive():
     ner_cb = st.checkbox("Show named entities")
     sentiment_cb = st.checkbox("Show sentiment")
     summary_cb = st.checkbox("Show Summary")
-    # if st.button("Analysis"):
-    tokens = az.tokenize(input_text)
-    named_entities = az.named_entity_recognization(input_text)
-    sentiments = TextBlob(az.lemmatized_text(input_text))
 
     # st.success("Running Analysis")
     # if st.button("Analysis"):
     if token_cb:
+        tokens = az.tokenize(input_text)
         st.write(tokens)
     if ner_cb:
-        st.write(named_entities)
+        doc = az.get_nlp(input_text)
+        named_entities = az.named_entity_recognization(input_text)
+        if len(named_entities) > 0:
+            html = spacy.displacy.render(doc, style="ent")
+            # Newlines seem to mess with the rendering
+            html = html.replace("\n", " ")
+            HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
+        #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
+        {}</div>"""
+            st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
+        else:
+            st.info("No named entity recognized")
     if sentiment_cb:
+        sentiments = TextBlob(az.lemmatized_text(input_text))
         st.write(sentiments.sentiment)
     if summary_cb:
         summaries = sz.summarize_text(input_text)

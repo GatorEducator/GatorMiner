@@ -46,7 +46,5 @@ Hello World.""",
     assert "report" not in clean_json_lst[0].keys()
     assert "time" not in clean_json_lst[0].keys()
     assert "uuidid" not in clean_json_lst[0].keys()
-    assert "combined" in clean_json_lst[0].keys()
-    assert clean_json_lst[0]["combined"] == "user one  Hello World. "
     assert "header1" in clean_json_lst[0].keys()
     assert "reflection by" in clean_json_lst[0].keys()

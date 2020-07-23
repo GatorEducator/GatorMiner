@@ -1,5 +1,4 @@
 import numpy as np
-import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
@@ -31,10 +30,9 @@ def tfidf_cosine_similarity(pair):
     return cosine_similarity
 
 
-def spacy_doc_similarity(pair):
-    PARSER = spacy.load("en_core_web_sm")
+def spacy_doc_similarity(nlp, pair):
     doc_1, doc_2 = pair
-    doc_1 = PARSER(doc_1)
-    doc_2 = PARSER(doc_2)
+    doc_1 = nlp(doc_1)
+    doc_2 = nlp(doc_2)
     similarity = doc_1.similarity(doc_2)
     return similarity

@@ -7,30 +7,56 @@ import hmac
 import requests
 import json
 
-import arguments
+from . import arguments
+# import arguments
 
 # REQUEST VALUES
 METHOD = "GET"
 SERVICE = "execute-api"
 REGION = "us-east-2"
-API_KEY = os.environ.get("GATOR_API_KEY")
-ENDPOINT = os.environ.get("GATOR_ENDPOINT")
-# Read AWS access key from env. variables or configuration file
-ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
-SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
-if ACCESS_KEY is None:
-    print("No aws access key is given.")
-    sys.exit()
-elif SECRET_KEY is None:
-    print("No aws secret key is given.")
-    sys.exit()
-elif API_KEY is None:
-    print("No gator api key is given.")
-    sys.exit()
-elif ENDPOINT is None:
-    print("No gator endpoint is given.")
-    sys.exit()
+# API_KEY = os.environ.get("GATOR_API_KEY")
+# ENDPOINT = os.environ.get("GATOR_ENDPOINT")
+# # Read AWS access key from env. variables or configuration file
+# ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
+# SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
+# if ACCESS_KEY is None:
+#     print("No aws access key is given.")
+#     sys.exit()
+# elif SECRET_KEY is None:
+#     print("No aws secret key is given.")
+#     sys.exit()
+# elif API_KEY is None:
+#     print("No gator api key is given.")
+#     sys.exit()
+# elif ENDPOINT is None:
+#     print("No gator endpoint is given.")
+#     sys.exit()
+
+
+def auth_config():
+    API_KEY = os.environ.get("GATOR_API_KEY")
+    ENDPOINT = os.environ.get("GATOR_ENDPOINT")
+    # Read AWS access key from env. variables or configuration file
+    ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
+    SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
+    if ACCESS_KEY is None:
+        raise EnvironmentError("No aws access key is given.")
+    elif SECRET_KEY is None:
+        raise EnvironmentError("No aws secret key is given.")
+    elif API_KEY is None:
+        raise EnvironmentError("No gator api key is given.")
+    elif ENDPOINT is None:
+        raise EnvironmentError("No gator endpoint is given.")
+
+    return {
+        "API_KEY": API_KEY,
+        "ENDPOINT": ENDPOINT,
+        "ACCESS_KEY": ACCESS_KEY,
+        "SECRET_KEY": SECRET_KEY,
+    }
 
 
 def sign(key, msg):
@@ -47,7 +73,8 @@ def getSignatureKey(key, dateStamp, regionName, serviceName):
     return k_signing
 
 
-def get_request(assignment, passBuild):
+def get_request(
+        assignment, passBuild, API_KEY, ENDPOINT, ACCESS_KEY, SECRET_KEY):
     """Create and sign request"""
     # Create a date for headers and the credential string
     t = datetime.datetime.utcnow()
@@ -100,12 +127,15 @@ def get_request(assignment, passBuild):
         + payload_hash
     )
 
+    # print(canonical_request)
+
     # CREATE THE STRING TO SIGN
     # Match the algorithm to the hashing algorithm you use, either SHA-1 or
     # SHA-256 (recommended)
     algorithm = "AWS4-HMAC-SHA256"
-    credential_scope = datestamp + "/" + REGION + "/" + SERVICE + "/" \
-        + "aws4_request"
+    credential_scope = (
+        datestamp + "/" + REGION + "/" + SERVICE + "/" + "aws4_request"
+    )
     string_to_sign = (
         algorithm
         + "\n"
@@ -151,21 +181,39 @@ def get_request(assignment, passBuild):
         "Authorization": authorization_header,
     }
 
-    # SEND THE REQUEST
     request_url = ENDPOINT + "?" + request_parameters
 
-    print("\nBEGIN REQUEST++++++++++++++++++++++++++++++++++++")
-    print("Request URL = " + request_url)
-    r = requests.get(request_url, headers=headers)
-    print("\nRESPONSE++++++++++++++++++++++++++++++++++++")
-    print("Response code: %d\n" % r.status_code)
+    # SEND THE REQUEST
+    try:
+        r = requests.get(request_url, headers=headers)
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as errh:
+        print("Http Error:", errh)
+        raise
+    except requests.exceptions.ConnectionError as errc:
+        print("Error Connecting:", errc)
+        raise
+    except requests.exceptions.Timeout as errt:
+        print("Timeout Error:", errt)
+        raise
+    except requests.exceptions.RequestException as err:
+        print("RequestException:", err)
+        raise
 
-    return r.text
+    # print("\nBEGIN REQUEST++++++++++++++++++++++++++++++++++++")
+    # print("Request URL = " + request_url)
+    # r = requests.get(request_url, headers=headers)
+    # print("\nRESPONSE++++++++++++++++++++++++++++++++++++")
+    # print("Response code: %d\n" % r.status_code)
+
+    return r.json()
 
 
 if __name__ == "__main__":
     get_arguments = arguments.parse(sys.argv[1:])
     assignment = get_arguments.assignment
     passBuild = get_arguments.passBuild
-    response = get_request(assignment, passBuild)
+    configs = auth_config()
+    response = get_request(assignment, passBuild, **configs)
+    # response = get_request(assignment, passBuild)
     print(json.dumps(response))

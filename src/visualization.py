@@ -17,7 +17,7 @@ def freq_barplot(freq_df):
             color=alt.value("blue"),
         )
         .properties(title="frequency plot")
-    )
+    ).interactive()
 
     # st.bar_chart(freq_df)
     return freq_plot
@@ -47,7 +47,7 @@ def facet_freq_barplot(
             color=alt.Color(color_column, legend=legend),
         )
         .properties(width=190,)
-    )
+    ).interactive()
 
     subplts = []
     for item in options:
@@ -77,7 +77,7 @@ def facet_senti_barplot(senti_df, options, column_name, plots_per_row=3):
             color=alt.Color(column_name, legend=None),
         )
         .properties(width=190,)
-    )
+    ).interactive()
 
     subplts = []
     for item in options:
@@ -123,7 +123,7 @@ def senti_histplot(senti_df):
         .mark_bar()
         .encode(alt.Y(cts.SENTI, bin=True), x="count()", color=cts.SENTI,)
         .properties(height=300, width=100)
-    )
+    ).interactive()
     return senti_hist
 
 
@@ -142,7 +142,7 @@ def senti_circleplot(senti_df, student_id):
                 alt.Tooltip(student_id, title="author"),
             ],
         )
-    )
+    ).interactive()
     return senti_circle
 
 
@@ -159,7 +159,7 @@ def stu_senti_barplot(senti_df, student_id):
             color=cts.ASSIGNMENT,
         )
         .properties(width=700, height=450)
-    )
+    ).interactive()
 
     return senti_plot
 
@@ -171,7 +171,7 @@ def stu_senti_lineplot(senti_df, student_id):
         .mark_line()
         .encode(x=cts.ASSIGNMENT, y=cts.SENTI, color=student_id,)
         .properties(width=700, height=450)
-    )
+    ).interactive()
     return senti_lineplot
 
 
@@ -192,7 +192,7 @@ def question_senti_barplot(senti_df):
             ),
         )
         .properties(width=700, height=450)
-    )
+    ).interactive()
 
     return senti_plot
 
@@ -209,7 +209,7 @@ def doc_sim_heatmap(df_sim):
             tooltip=[alt.Tooltip("similarity", title="similarity")],
         )
         .properties(width=600, height=550)
-    )
+    ).interactive()
     return heatmap
 
 
@@ -225,7 +225,7 @@ def tp_hist_plot(df):
                 alt.Tooltip("Topic_Keywords", title="Keywords")
             ],
             ).properties(height=600, width=700)
-    )
+    ).interactive()
     return tp_hist
 
 
@@ -236,5 +236,5 @@ def tp_scatter_plot(df):
         y='y',
         shape='topic:N',
         color='topic_num:N',
-    )
+    ).interactive()
     return lda

@@ -125,6 +125,12 @@ def named_entity_recognization(input_text):
     return ent_lst
 
 
+def get_nlp(input_text):
+    """return the spacy nlp object"""
+    doc = PARSER(input_text)
+    return doc
+
+
 def noun_phrase(input_text):
     """Extract noun phrases of the document in a list"""
     doc = PARSER(input_text)
