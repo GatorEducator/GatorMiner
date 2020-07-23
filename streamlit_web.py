@@ -404,9 +404,15 @@ def question_senti(input_df):
 
 def summary():
     """Display summarization"""
-    for path in directory:
-        summary_df = pd.DataFrame(sz.summarizer(path))
-        st.write(summary_df)
+    sum_df = preprocessed_df[
+        preprocessed_df[cts.ASSIGNMENT].isin(assignments)
+    ].dropna(axis=1, how="all")
+    for column in preprocessed_df.columns[2:]:
+        sum_df[column] = preprocessed_df[column].apply(
+            lambda x: sz.summarize_text(x)
+        )
+    st.write(sum_df)
+
 
 
 def tpmodel():
