@@ -15,7 +15,14 @@ logging.basicConfig(
 
 def summarize_text(text: str) -> str:
     """Uses gensim's summarization to summarize the given text """
-    return summarize(text, word_count=30)
+    summarized = ""
+    try:
+        summarized = summarize(text, word_count=30)
+    except ValueError as err:
+        logging.warning(f"Cannot summarize text: {err}")
+    except TypeError as err:
+        logging.warning(f"Cannot summarize text: {err}")
+    return summarized
 
 
 def summarizer(directory: str) -> Dict[str, List[str]]:
