@@ -18,13 +18,14 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install PIpenv
       run: |
-        pip install pipenv
+        pip install pipenv --upgrade
     - name: Install dependencies
       run: |
-        pipenv install --dev
+        pipenv install --dev --skip-lock
+        pipenv run python -m spacy download en_core_web_sm
     - name: Test with pytest
       run: |
-        pipenv run pytest
+        pipenv run pytest tests --cov-config pytest.cov --cov
     - name: Linting
       run: |
         pipenv run flake8 src
