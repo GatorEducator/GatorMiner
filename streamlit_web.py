@@ -63,8 +63,9 @@ def main():
     else:
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
-        aws_assignment = st.sidebar.text_input(
+        aws_assignments = st.sidebar.text_input(
             "Please enter the assignment that you would like to retreive")
+        aws_assignments = re.split(r"[;,\s]\s*", aws_assignments)
         st.sidebar.info(
             "You will need to store keys and endpoints in the environment variables")
         if len(aws_assignment) == 0:
@@ -72,8 +73,10 @@ def main():
         else:
             try:
                 configs = gh.auth_config()
-                response = gh.get_request(aws_assignment, passbuild, **configs)
-                preprocessed_df = pd.DataFrame(ju.clean_report(response))
+                preprocessed_df = pd.DataFrame()
+                for aws_assign in aws_assignments:
+                    response = gh.get_request(aws_assignment, passbuild, **configs)
+                    preprocessed_df = preprocessed_df.append(pd.DataFrame(ju.clean_report(response)), ignore_index=True)
                 main_df = df_preprocess(preprocessed_df)
             except EnvironmentError as err:
                 st.sidebar.error(err)
