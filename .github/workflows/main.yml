@@ -29,4 +29,4 @@ jobs:
     - name: Linting
       run: |
         pipenv run flake8 src
-        pipenv run pylint tests
+        pipenv run flake8 tests
