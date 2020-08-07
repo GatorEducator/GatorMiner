@@ -419,7 +419,6 @@ def summary():
     st.write(sum_df)
 
 
-
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
