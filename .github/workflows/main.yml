@@ -1,0 +1,32 @@
+name: Tests
+on: [push, pull_request]
+
+
+jobs:
+  build:
+    name: ${{ matrix.os }} / ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        os: [Ubuntu, MacOS, Windows]
+        python-version: [3.6, 3.7, 3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install PIpenv
+      run: |
+        pip install pipenv --upgrade
+    - name: Install dependencies
+      run: |
+        pipenv install --dev --skip-lock
+        pipenv run python -m spacy download en_core_web_sm
+    - name: Test with pytest
+      run: |
+        pipenv run pytest tests --cov-config pytest.cov --cov
+    - name: Linting
+      run: |
+        pipenv run flake8 src
+        pipenv run flake8 tests
