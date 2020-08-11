@@ -24,7 +24,7 @@ git clone git@github.com:Allegheny-Mozilla-Fellows/textMining.git
 cd textMining
 ```
 
-This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency installation.
+This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency management.
 
 Once you have finished the previous step:
 
@@ -50,55 +50,6 @@ To install the pre-trained model, you can run this following command:
 pipenv run python -m spacy download en_core_web_sm
 pipenv run python -m spacy download en_core_web_md
 ```
-
-## Supporting Libraries
-
-There are other libraries that may be necessary to install, depending on your
-system configuration. The libraries are listed below, along with the commands to
-install them.
-
-- [Spacy](https://spacy.io/)is a library for language processing and is used
-  for some text mining  manipulations. It can be installed with the
-  following command:
-
- ```bash
- pip install spacy --user
- ```
-
-- [Commonmark](https://pypi.org/project/commonmark/) is a markdown parser
-  and can installed with the following command.
-
- ``` bash
- pip install commonmark --user
- ```
-
-- [Gensim](https://radimrehurek.com/gensim/) is an open-source library for
-  unsupervised topic modeling and natural language processing, using modern
-  statistical machine learning. and can installed with the following command.
-
- ``` bash
- pip install gensim --user
- ```
-
-- [TextBlob](https://textblob.readthedocs.io/en/dev/) is a Python (2 and 3)
-  library for processing textual data. It provides a consistent API for diving
-  into common natural language processing tasks such as part-of-speech tagging,
-  noun phrase extraction, sentiment analysis, and more. It can be installed
-  with the following command.
-
-  ```bash
-   pip install textblob --user
-  ```
-
-- [Scikit-learn](https://scikit-learn.org/stable/) is a library for the
-  mathematical manipulation of data for the application of modeling. This
-  library includes machine learning, regression, statistical tools, as well as
-  a host of other analytical software to aid in analysis.
-  Scikit-learn can be installed with the following command.
-
-  ``` bash
-  pip install scikit-learn --user
-  ```
 
 ## Web Interface
 
