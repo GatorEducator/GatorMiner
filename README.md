@@ -109,6 +109,16 @@ the select box in the sidebar to view the analysis:
 
 ![select box](resources/images/select_box.png)
 
+##### Reflection Documents
+
+We are using markdown for the student reflection documents, due to the fact that
+its organized structure allows us to parse and perform analysis easily. With that
+said, there are few requirements for the reflection document before it could be
+seamlessly processed and analyzed with our tool. A
+[template](resources/reflection_template.md) is provided here. Note that the
+header `Assignment` and `Reflection by` are required with the assignment's and
+student's ID/name.
+
 ### Analysis
 
 ![frequency](resources/images/frequency.png)
