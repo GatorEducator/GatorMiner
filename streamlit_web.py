@@ -20,7 +20,6 @@ import src.topic_modeling as tm
 import src.visualization as vis
 
 
-# resources/cs100f2019_lab05_reflections
 # resources/combined/lab1, resources/combined/lab2
 
 # initialize main_df and preprocessed_Df
