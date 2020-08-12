@@ -87,10 +87,12 @@ def main():
     success_msg = None
     if main_df.empty is not True:
         success_msg = st.sidebar.success("Sucessfully Loaded!!")
+    global assign_id
+    assign_id = preprocessed_df.columns[0]
     global assignments
     assignments = st.sidebar.multiselect(
         label="Select assignments below:",
-        options=main_df[cts.ASSIGNMENT].unique(),
+        options=main_df[assign_id].unique(),
     )
     global assign_text
     assign_text = ", ".join(assignments)
@@ -221,7 +223,7 @@ def overall_freq(freq_range):
     for item in assignments:
         # combined text of the whole assignment
         combined_text = " ".join(
-            main_df[main_df[cts.ASSIGNMENT] == item][cts.NORMAL]
+            main_df[main_df[assign_id] == item][cts.NORMAL]
         )
         item_df = pd.DataFrame(
             az.word_frequency(combined_text, freq_range),
@@ -250,14 +252,14 @@ def student_freq(freq_range):
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
     stu_assignment = main_df[
         (main_df[stu_id].isin(students))
-        & main_df[cts.ASSIGNMENT].isin(assignments)
+        & main_df[assign_id].isin(assignments)
     ]
     if len(students) != 0:
         for student in students:
             for item in assignments:
                 individual_freq = az.word_frequency(
                     stu_assignment[
-                        (stu_assignment[cts.ASSIGNMENT] == item)
+                        (stu_assignment[assign_id] == item)
                         & (stu_assignment[stu_id] == student)
                     ]
                     .loc[:, ["combined"]]
@@ -283,7 +285,7 @@ def question_freq(freq_range):
     """page for individual question's word frequency"""
     # drop columns with all na
     select_preprocess = preprocessed_df[
-        preprocessed_df[cts.ASSIGNMENT].isin(assignments)
+        preprocessed_df[assign_id].isin(assignments)
     ].dropna(axis=1, how="all")
     questions = st.multiselect(
         label="Select specific questions below:",
@@ -333,7 +335,7 @@ def sentiment():
     senti_df[cts.SENTI] = senti_df["combined"].apply(
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
     )
-    senti_df = senti_df[senti_df[cts.ASSIGNMENT].isin(assignments)]
+    senti_df = senti_df[senti_df[assign_id].isin(assignments)]
     senti_type = st.sidebar.selectbox(
         "Type of sentiment analysis", ["Overall", "Student", "Question"]
     )
@@ -372,7 +374,7 @@ def student_senti(input_df):
     )
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
     senti_df = pd.DataFrame(
-        df_selected_stu, columns=[cts.ASSIGNMENT, stu_id, cts.SENTI]
+        df_selected_stu, columns=[assign_id, stu_id, cts.SENTI]
     )
     if len(students) != 0:
         st.altair_chart(
@@ -386,7 +388,7 @@ def student_senti(input_df):
 def question_senti(input_df):
     """page for individual question's sentiment"""
     select_preprocess = preprocessed_df[
-        preprocessed_df[cts.ASSIGNMENT].isin(assignments)
+        preprocessed_df[assign_id].isin(assignments)
     ].dropna(axis=1, how="all")
     questions = st.multiselect(
         label="Select specific questions below:",
@@ -409,7 +411,7 @@ def question_senti(input_df):
 def summary():
     """Display summarization"""
     sum_df = preprocessed_df[
-        preprocessed_df[cts.ASSIGNMENT].isin(assignments)
+        preprocessed_df[assign_id].isin(assignments)
     ].dropna(axis=1, how="all")
     for column in preprocessed_df.columns[2:]:
         sum_df[column] = preprocessed_df[column].apply(
@@ -421,7 +423,7 @@ def summary():
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
-    topic_df = topic_df[topic_df[cts.ASSIGNMENT].isin(assignments)]
+    topic_df = topic_df[topic_df[assign_id].isin(assignments)]
     # st.write(topic_df)
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
@@ -442,11 +444,11 @@ def tpmodel():
         NUM_WORDS=word_range,
     )
     overall_topic_df["Student"] = topic_df[stu_id].tolist()
-    overall_topic_df[cts.ASSIGNMENT] = topic_df[cts.ASSIGNMENT].tolist()
+    overall_topic_df[assign_id] = topic_df[assign_id].tolist()
     # reorder the column
     overall_topic_df = overall_topic_df[
         [
-            cts.ASSIGNMENT,
+            assign_id,
             "Student",
             "Dominant_Topic",
             "Topic_Keywords",
@@ -535,7 +537,7 @@ def doc_sim():
 
 def tf_idf_sim(doc_df):
     for assignment in assignments:
-        doc = doc_df[doc_df[cts.ASSIGNMENT] == assignment].dropna(
+        doc = doc_df[doc_df[assign_id] == assignment].dropna(
             axis=1, how="all"
         )
 
@@ -564,7 +566,7 @@ def spacy_sim(doc_df):
     spacy_model = st.sidebar.selectbox("Model name", SPACY_MODEL_NAMES)
     nlp = load_model(spacy_model)
     for assignment in assignments:
-        doc = doc_df[doc_df[cts.ASSIGNMENT] == assignment].dropna(
+        doc = doc_df[doc_df[assign_id] == assignment].dropna(
             axis=1, how="all"
         )
 
