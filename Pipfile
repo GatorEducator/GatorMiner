@@ -12,7 +12,7 @@ pytest-cov = "*"
 [packages]
 matplotlib = "*"
 gensim = '*'
-spacy = '*'
+spacy = "~=2.3"
 sklearn = "*"
 pytest = "*"
 requests = "*"
