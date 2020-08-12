@@ -9,6 +9,7 @@ user 9
 ## Data
 
 The data we decided to use in our project came from the popular t.v. series Game of Thrones. We got this data from the website https://www.tv-subs.net/, where were able to obtain the subtitles of a show in the form of an .srt file.
+
 ## Text Generation
 
 We used textgen to create the synopsis based on the text from the Game of Thrones episode, Rains of Castamere.
@@ -59,11 +60,11 @@ We used textgen to train the model and generate a text from the synopsis it came
 Our synopsis mentions war and and a sword several times, and this theme kept coming back even when we ran the program multiple times, to generate different kinds of text. Are plan was to 3D print a broken sword using the 3D printer, yet since none of us had access to one at home we were unable. Here is a link to the sword we planned to show along with our project, https://www.thingiverse.com/thing:1933150.
 
 ## Challenges and Learning Experiences
+
 The synopsis we created was minimum, and the program would need more training data to create a better synopsis. While I can understand the dialogue, it isn't fully coherent. This may be due to that particular episode we chose as well.
 During this lab one of the clear challenges was our communication during this lab session. We are very close friends so it was easy to ask hey when do you want to work on this and so on. But it was very difficult to communicate since we were not sitting next to each other it was hard to make sure we were working on separate things and weren't just doing the same thing and repeating it. With communication being an issue another issue we had was working around the hectic time we are currently in. With all the breaks and extensions it was difficult to keep track of everything that was going on and when deadlines were due and making sure we did our work on time.
 
 ## Ethical Benefits and Implications
-
 
 The future technology this could be used for is allowing writers to create their own spinoffs of shows with the same themes. For example if creators are seeing the sci fi movies are a big hit then they can take the scripts of the most popular shows an try to allow a computer to create the next hit show. Another thing this technology could be use for is to directors to create adaptations of the film while not changing the script they could post it online to show how the script could vary if x did y or so on and so forth.
 
