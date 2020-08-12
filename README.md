@@ -26,8 +26,6 @@ cd textMining
 
 This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency management.
 
-Once you have finished the previous step:
-
 - If needed, install and upgrade the `pipenv` with `pip`:
 
   ```bash
@@ -54,7 +52,7 @@ pipenv run python -m spacy download en_core_web_md
 ## Web Interface
 
 TextMining is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
-in order to provide fast analysis and visualizations.
+in order to provide fast text analysis and visualizations.
 
 In order to run Streamlit, type and run the following command in your terminal.
 
@@ -62,23 +60,52 @@ In order to run Streamlit, type and run the following command in your terminal.
 pipenv run streamlit run streamlit_web.py
 ```
 
-You then will see something like this
+You then will see something like this in your terminal window:
 
-```
+```bash
 You can now view your Streamlit app in your browser.
 
 Local URL: http://localhost:8501
 Network URL: http://xxx.xxx.x.x:8501
 ```
 
-as well as the web app in your browser:
+the web app will be opened in your browser like this:
 
 ![browser](resources/images/landing_page.png)
 
-You can then start to use the tool by typing in the path(s) to the directories
-that hold reflection documents. You are welcome to use the sample documents we
-provided in `resources`. You can then navigate through the select box in the
-sidebar to view the analysis:
+### Data Retreiving
+
+There are currently two ways to import text data for analysis: through local
+file system or AWS DynamoDB.
+
+#### Local File System
+
+You can type in the path(s) to the directorie(s) that hold reflection markdown
+documents. You are welcome to try the tool with the sample documents we
+provided in `resources`.
+
+#### AWS
+
+Retreiving reflection documents from AWS is a feature intergrated with the use
+of [GatorGrader](https://github.com/GatorEducator/gatorgrader) where student's
+reflection markdown documents are being collected and stored inside the a
+pre-configured DynamoDB database. In order to use this feature, you will need
+to have some credential tokens stored as environment variables:
+
+```bash
+export GATOR_ENDPOINT=<Your Endpoint>
+export GATOR_API_KEY=<Your API Key>
+export AWS_ACCESS_KEY_ID=<Your Access Key ID>
+export AWS_SECRET_ACCESS_KEY=<Your Secret Access Key>
+```
+
+It is likely that you already have these ready when using textMining in
+conjunction with GatorGrader, since these would already be exported when
+setting up the AWS services. You can view more about setting up an AWS services
+with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb)
+
+Once the documents are successfully imported, you can then navigate through
+the select box in the sidebar to view the analysis:
 
 ![select box](resources/images/select_box.png)
 
