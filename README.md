@@ -116,8 +116,10 @@ its organized structure allows us to parse and perform analysis easily. With tha
 said, there are few requirements for the reflection document before it could be
 seamlessly processed and analyzed with our tool. A
 [template](resources/reflection_template.md) is provided here. Note that the
-header `Assignment` and `Reflection by` are required with the assignment's and
-student's ID/name. You can also check out the
+headers with the assignment's and student's ID/name are required. TextMining is
+set default to take the first header as assignment and the second header as student.
+
+You can also check out the
 [sample json report](resources/sample_json_report/report%201.json) to see the
 format of json reports textMining gathers from AWS.
 
