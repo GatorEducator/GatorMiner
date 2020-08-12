@@ -109,6 +109,13 @@ the select box in the sidebar to view the analysis:
 
 ![select box](resources/images/select_box.png)
 
+### Analysis
+
+![frequency](resources/images/frequency.png)
+![sentiment](resources/images/sentiment.png)
+![similarity](resources/images/similarity.png)
+![topic](resources/images/topic.png)
+
 ## Contribute
 
 In order to contribute code or documentation to the project, we encourage you to
