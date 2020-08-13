@@ -15,25 +15,6 @@ METHOD = "GET"
 SERVICE = "execute-api"
 REGION = "us-east-2"
 
-# API_KEY = os.environ.get("GATOR_API_KEY")
-# ENDPOINT = os.environ.get("GATOR_ENDPOINT")
-# # Read AWS access key from env. variables or configuration file
-# ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
-# SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-
-# if ACCESS_KEY is None:
-#     print("No aws access key is given.")
-#     sys.exit()
-# elif SECRET_KEY is None:
-#     print("No aws secret key is given.")
-#     sys.exit()
-# elif API_KEY is None:
-#     print("No gator api key is given.")
-#     sys.exit()
-# elif ENDPOINT is None:
-#     print("No gator endpoint is given.")
-#     sys.exit()
-
 
 def auth_config():
     API_KEY = os.environ.get("GATOR_API_KEY")
