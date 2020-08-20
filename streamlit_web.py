@@ -47,10 +47,10 @@ def main():
     input_assignments = st.sidebar.text_input(
             "Enter path(s) to documents (seperate by comma)"
     )
-    input_assignments = re.split(r"[;,\s]\s*", input_assignments)
-    if len(input_assignments) == 0:
+    if not input_assignments:
         landing_pg()
     else:
+        input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         main_df, preprocessed_df = import_data_only(data_retreive, input_assignments)
     # if data_retreive == "Local file system":
     #     global directory
@@ -92,50 +92,50 @@ def main():
     #             with open("README.md") as readme_file:
     #                 st.markdown(readme_file.read())
 
-    success_msg = None
-    if main_df.empty is not True:
-        success_msg = st.sidebar.success("Sucessfully Loaded!!")
-    global assign_id
-    assign_id = preprocessed_df.columns[0]
-    global assignments
-    assignments = st.sidebar.multiselect(
-        label="Select assignments below:",
-        options=main_df[assign_id].unique(),
-    )
-    global assign_text
-    assign_text = ", ".join(assignments)
-    global stu_id
-    stu_id = preprocessed_df.columns[1]
-    analysis_mode = st.sidebar.selectbox(
-        "Choose the analysis mode",
-        [
-            "Home",
-            "Frequency Analysis",
-            "Sentiment Analysis",
-            "Document Similarity",
-            "Summary",
-            "Topic Modeling",
-            "Interactive",
-        ],
-    )
-    if analysis_mode == "Home":
-        with open("README.md") as readme_file:
-            st.markdown(readme_file.read())
-    else:
-        if analysis_mode == "Frequency Analysis":
-            frequency()
-        elif analysis_mode == "Sentiment Analysis":
-            sentiment()
-        elif analysis_mode == "Document Similarity":
-            doc_sim()
-        elif analysis_mode == "Summary":
-            summary()
-        elif analysis_mode == "Topic Modeling":
-            tpmodel()
-        elif analysis_mode == "Interactive":
-            interactive()
-        success_msg.empty()
-        st.title(analysis_mode)
+        success_msg = None
+        if main_df.empty is not True:
+            success_msg = st.sidebar.success("Sucessfully Loaded!!")
+        global assign_id
+        assign_id = preprocessed_df.columns[0]
+        global assignments
+        assignments = st.sidebar.multiselect(
+            label="Select assignments below:",
+            options=main_df[assign_id].unique(),
+        )
+        global assign_text
+        assign_text = ", ".join(assignments)
+        global stu_id
+        stu_id = preprocessed_df.columns[1]
+        analysis_mode = st.sidebar.selectbox(
+            "Choose the analysis mode",
+            [
+                "Home",
+                "Frequency Analysis",
+                "Sentiment Analysis",
+                "Document Similarity",
+                "Summary",
+                "Topic Modeling",
+                "Interactive",
+            ],
+        )
+        if analysis_mode == "Home":
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+        else:
+            if analysis_mode == "Frequency Analysis":
+                frequency()
+            elif analysis_mode == "Sentiment Analysis":
+                sentiment()
+            elif analysis_mode == "Document Similarity":
+                doc_sim()
+            elif analysis_mode == "Summary":
+                summary()
+            elif analysis_mode == "Topic Modeling":
+                tpmodel()
+            elif analysis_mode == "Interactive":
+                interactive()
+            success_msg.empty()
+            st.title(analysis_mode)
 
 
 def landing_pg():
