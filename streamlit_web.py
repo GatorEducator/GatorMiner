@@ -36,14 +36,14 @@ def main():
     """main streamlit function"""
     # Title
     st.sidebar.title("Welcome to TextMining!")
-    data_retreive = st.sidebar.selectbox(
+    data_retreive_method = st.sidebar.selectbox(
             "Choose the data retrieving method",
             [
                 "Local file system",
                 "AWS",
             ],
         )
-    if retreive_data(data_retreive):
+    if retreive_data(data_retreive_method):
         analysis_mode = st.sidebar.selectbox(
             "Choose the analysis mode",
             [
@@ -92,6 +92,7 @@ def landing_pg():
 
 
 def retreive_data(data_retreive):
+    """pipeline to retrieve data from user input to output"""
     global preprocessed_df
     global main_df
     if data_retreive == "Local file system":
@@ -139,11 +140,13 @@ environment variables")
 
 @st.cache(allow_output_mutation=True)
 def load_model(name):
+    """load spacy model"""
     return spacy.load(name)
 
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def import_data(data_retreive_method, paths):
+    """pipeline to import data from local or aws"""
     json_lst = []
     if data_retreive_method == "Local file system":
         try:
