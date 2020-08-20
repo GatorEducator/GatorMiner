@@ -169,24 +169,25 @@ def get_request(
         r = requests.get(request_url, headers=headers)
         r.raise_for_status()
     except requests.exceptions.HTTPError as errh:
-        print("Http Error:", errh)
-        raise
+        print(f"Http Error: {errh}")
+        raise Exception(f"Http Error: {errh}")
     except requests.exceptions.ConnectionError as errc:
         print("Error Connecting:", errc)
-        raise
+        raise Exception(f"Connecting Error: {errc}")
     except requests.exceptions.Timeout as errt:
         print("Timeout Error:", errt)
-        raise
+        raise Exception(f"Timeout Error: {errt}")
     except requests.exceptions.RequestException as err:
         print("RequestException:", err)
-        raise
+        raise Exception(f"RequestException: {err}")
 
     # print("\nBEGIN REQUEST++++++++++++++++++++++++++++++++++++")
     # print("Request URL = " + request_url)
     # r = requests.get(request_url, headers=headers)
     # print("\nRESPONSE++++++++++++++++++++++++++++++++++++")
     # print("Response code: %d\n" % r.status_code)
-
+    if not r.json():
+        raise Exception("The response is empty, the requested assignment might not be in the database")
     return r.json()
 
 
