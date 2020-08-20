@@ -29,21 +29,71 @@ main_df = pd.DataFrame()
 assignments = None
 assign_text = None
 stu_id = None
+success_msg = None
 
 
 def main():
     """main streamlit function"""
     # Title
     st.sidebar.title("Welcome to TextMining!")
+    data_retreive = st.sidebar.selectbox(
+            "Choose the data retrieving method",
+            [
+                "Local file system",
+                "AWS",
+            ],
+        )
+    if retreive_data(data_retreive):
+        analysis_mode = st.sidebar.selectbox(
+            "Choose the analysis mode",
+            [
+                "Home",
+                "Frequency Analysis",
+                "Sentiment Analysis",
+                "Document Similarity",
+                "Summary",
+                "Topic Modeling",
+                "Interactive",
+            ],
+        )
+        if analysis_mode == "Home":
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+        else:
+            if analysis_mode == "Frequency Analysis":
+                st.title(analysis_mode)
+                frequency()
+            elif analysis_mode == "Sentiment Analysis":
+                st.title(analysis_mode)
+                sentiment()
+            elif analysis_mode == "Document Similarity":
+                st.title(analysis_mode)
+                doc_sim()
+            elif analysis_mode == "Summary":
+                st.title(analysis_mode)
+                summary()
+            elif analysis_mode == "Topic Modeling":
+                st.title(analysis_mode)
+                tpmodel()
+            elif analysis_mode == "Interactive":
+                st.title(analysis_mode)
+                interactive()
+            success_msg.empty()
+
+
+def landing_pg():
+    """landing page"""
+    landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
+    if landing == "Home":
+        with open("README.md") as readme_file:
+            st.markdown(readme_file.read())
+    else:
+        interactive()
+
+
+def retreive_data(data_retreive):
     global preprocessed_df
     global main_df
-    data_retreive = st.sidebar.selectbox(
-                "Choose the data retrieving method",
-                [
-                    "Local file system",
-                    "AWS",
-                ],
-            )
     if data_retreive == "Local file system":
         input_assignments = st.sidebar.text_input(
                 "Enter path(s) to markdown documents (seperate by comma)"
@@ -69,6 +119,7 @@ environment variables")
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
         else:
+            global success_msg
             success_msg = None
             if main_df.empty is not True:
                 success_msg = st.sidebar.success("Sucessfully Loaded!!")
@@ -83,46 +134,7 @@ environment variables")
             assign_text = ", ".join(assignments)
             global stu_id
             stu_id = preprocessed_df.columns[1]
-            analysis_mode = st.sidebar.selectbox(
-                "Choose the analysis mode",
-                [
-                    "Home",
-                    "Frequency Analysis",
-                    "Sentiment Analysis",
-                    "Document Similarity",
-                    "Summary",
-                    "Topic Modeling",
-                    "Interactive",
-                ],
-            )
-            if analysis_mode == "Home":
-                with open("README.md") as readme_file:
-                    st.markdown(readme_file.read())
-            else:
-                if analysis_mode == "Frequency Analysis":
-                    frequency()
-                elif analysis_mode == "Sentiment Analysis":
-                    sentiment()
-                elif analysis_mode == "Document Similarity":
-                    doc_sim()
-                elif analysis_mode == "Summary":
-                    summary()
-                elif analysis_mode == "Topic Modeling":
-                    tpmodel()
-                elif analysis_mode == "Interactive":
-                    interactive()
-                success_msg.empty()
-                st.title(analysis_mode)
-
-
-def landing_pg():
-    """landing page"""
-    landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
-    if landing == "Home":
-        with open("README.md") as readme_file:
-            st.markdown(readme_file.read())
-    else:
-        interactive()
+            return True
 
 
 @st.cache(allow_output_mutation=True)
