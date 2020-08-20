@@ -50,8 +50,12 @@ def main():
         )
     else:
         input_assignments = st.sidebar.text_input(
-                "Enter assignment names of the markdown documents(seperate by comma)"
+                "Enter assignment names of the markdown \
+documents(seperate by comma)"
         )
+        st.sidebar.info(
+            "You will need to store keys and endpoints in the \
+environment variables")
     if not input_assignments:
         landing_pg()
     else:
@@ -62,7 +66,8 @@ def main():
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input")
-            landing_pg()
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
         else:
             success_msg = None
             if main_df.empty is not True:
@@ -134,10 +139,9 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(md.collect_md(path))
         except FileNotFoundError as err:
             st.sidebar.text(err)
-            landing_pg()
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
     else:
-        st.sidebar.info(
-            "You will need to store keys and endpoints in the environment variables")
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
         try:
@@ -147,7 +151,8 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(ju.clean_report(response))
         except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
-            landing_pg()
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
     # when data is retreived
     if json_lst:
         raw_df = pd.DataFrame()
