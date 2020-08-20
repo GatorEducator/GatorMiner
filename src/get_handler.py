@@ -187,7 +187,8 @@ def get_request(
     # print("\nRESPONSE++++++++++++++++++++++++++++++++++++")
     # print("Response code: %d\n" % r.status_code)
     if not r.json():
-        raise Exception("The response is empty, the requested assignment might not be in the database")
+        raise Exception("The response is empty, the requested \
+assignment might not be in the database")
     return r.json()
 
 
