@@ -190,23 +190,25 @@ def import_data_only(data_retreive_method, paths):
     else:
         st.sidebar.info(
             "You will need to store keys and endpoints in the environment variables")
+        passbuild = st.sidebar.checkbox(
+            "Only retreive build success records", value=True)
         try:
             configs = gh.auth_config()
-        except EnvironmentError as err:
+            for path in paths:
+                response = gh.get_request(path, passbuild, **configs)
+                json_lst.append(ju.clean_report(response))
+        except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
-        passbuild = st.sidebar.checkbox(
-            "Only retreive build success records", value=True)
-        for path in paths:
-            response = gh.get_request(path, passbuild, **configs)
-            json_lst.append(ju.clean_report(response))
-    raw_df = pd.DataFrame()
-    for item in json_lst:
-        single_df = pd.DataFrame(item)
-        raw_df = raw_df.append(single_df, ignore_index=True)
-    tidy_df = df_preprocess(raw_df)
-    return tidy_df, raw_df
+    # when data is retreived
+    if json_lst:
+        raw_df = pd.DataFrame()
+        for item in json_lst:
+            single_df = pd.DataFrame(item)
+            raw_df = raw_df.append(single_df, ignore_index=True)
+        tidy_df = df_preprocess(raw_df)
+        return tidy_df, raw_df
 
 
 def df_preprocess(df):
