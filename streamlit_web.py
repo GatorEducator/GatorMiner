@@ -44,98 +44,70 @@ def main():
                     "AWS",
                 ],
             )
-    input_assignments = st.sidebar.text_input(
-            "Enter path(s) to documents (seperate by comma)"
-    )
+    if data_retreive == "Local file system":
+        input_assignments = st.sidebar.text_input(
+                "Enter path(s) to markdown documents (seperate by comma)"
+        )
+    else:
+        input_assignments = st.sidebar.text_input(
+                "Enter assignment names of the markdown documents(seperate by comma)"
+        )
     if not input_assignments:
         landing_pg()
     else:
         input_assignments = re.split(r"[;,\s]\s*", input_assignments)
-        main_df, preprocessed_df = import_data_only(data_retreive, input_assignments)
-    # if data_retreive == "Local file system":
-    #     global directory
-    #     directory = st.sidebar.text_input(
-    #         "Enter path(s) to documents (seperate by comma)"
-    #     )
-    #     if len(directory) == 0:
-    #         landing_pg()
-    #     else:
-    #         directory = re.split(r"[;,\s]\s*", directory)
-    #         try:
-    #             main_df, preprocessed_df = import_data(directory)
-    #         except FileNotFoundError as err:
-    #             st.sidebar.text(err)
-    #             with open("README.md") as readme_file:
-    #                 st.markdown(readme_file.read())
-    # else:
-    #     passbuild = st.sidebar.checkbox(
-    #         "Only retreive build success records", value=True)
-    #     aws_assignments = st.sidebar.text_input(
-    #         "Please enter the assignment(s) that you would like to retreive")
-    #     aws_assignments = re.split(r"[;,\s]\s*", aws_assignments)
-    #     st.sidebar.info(
-    #         "You will need to store keys and endpoints in the environment variables")
-    #     if len(aws_assignments) == 0:
-    #         landing_pg()
-    #     else:
-    #         try:
-    #             configs = gh.auth_config()
-    #             preprocessed_df = pd.DataFrame()
-    #             for aws_assign in aws_assignments:
-    #                 response = gh.get_request(aws_assign, passbuild, **configs)
-    #                 preprocessed_df = preprocessed_df.append(
-    #                     pd.DataFrame(
-    #                         ju.clean_report(response)), ignore_index=True)
-    #             main_df = df_preprocess(preprocessed_df)
-    #         except EnvironmentError as err:
-    #             st.sidebar.error(err)
-    #             with open("README.md") as readme_file:
-    #                 st.markdown(readme_file.read())
-
-        success_msg = None
-        if main_df.empty is not True:
-            success_msg = st.sidebar.success("Sucessfully Loaded!!")
-        global assign_id
-        assign_id = preprocessed_df.columns[0]
-        global assignments
-        assignments = st.sidebar.multiselect(
-            label="Select assignments below:",
-            options=main_df[assign_id].unique(),
-        )
-        global assign_text
-        assign_text = ", ".join(assignments)
-        global stu_id
-        stu_id = preprocessed_df.columns[1]
-        analysis_mode = st.sidebar.selectbox(
-            "Choose the analysis mode",
-            [
-                "Home",
-                "Frequency Analysis",
-                "Sentiment Analysis",
-                "Document Similarity",
-                "Summary",
-                "Topic Modeling",
-                "Interactive",
-            ],
-        )
-        if analysis_mode == "Home":
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+        try:
+            main_df, preprocessed_df = import_data(
+                data_retreive, input_assignments)
+        except TypeError:
+            st.sidebar.warning(
+                "No data imported. Please check the reflection document input")
+            landing_pg()
         else:
-            if analysis_mode == "Frequency Analysis":
-                frequency()
-            elif analysis_mode == "Sentiment Analysis":
-                sentiment()
-            elif analysis_mode == "Document Similarity":
-                doc_sim()
-            elif analysis_mode == "Summary":
-                summary()
-            elif analysis_mode == "Topic Modeling":
-                tpmodel()
-            elif analysis_mode == "Interactive":
-                interactive()
-            success_msg.empty()
-            st.title(analysis_mode)
+            success_msg = None
+            if main_df.empty is not True:
+                success_msg = st.sidebar.success("Sucessfully Loaded!!")
+            global assign_id
+            assign_id = preprocessed_df.columns[0]
+            global assignments
+            assignments = st.sidebar.multiselect(
+                label="Select assignments below:",
+                options=main_df[assign_id].unique(),
+            )
+            global assign_text
+            assign_text = ", ".join(assignments)
+            global stu_id
+            stu_id = preprocessed_df.columns[1]
+            analysis_mode = st.sidebar.selectbox(
+                "Choose the analysis mode",
+                [
+                    "Home",
+                    "Frequency Analysis",
+                    "Sentiment Analysis",
+                    "Document Similarity",
+                    "Summary",
+                    "Topic Modeling",
+                    "Interactive",
+                ],
+            )
+            if analysis_mode == "Home":
+                with open("README.md") as readme_file:
+                    st.markdown(readme_file.read())
+            else:
+                if analysis_mode == "Frequency Analysis":
+                    frequency()
+                elif analysis_mode == "Sentiment Analysis":
+                    sentiment()
+                elif analysis_mode == "Document Similarity":
+                    doc_sim()
+                elif analysis_mode == "Summary":
+                    summary()
+                elif analysis_mode == "Topic Modeling":
+                    tpmodel()
+                elif analysis_mode == "Interactive":
+                    interactive()
+                success_msg.empty()
+                st.title(analysis_mode)
 
 
 def landing_pg():
@@ -153,31 +125,8 @@ def load_model(name):
     return spacy.load(name)
 
 
-@st.cache(allow_output_mutation=True)
-def import_data(paths):
-    """import and preprocess data from the paths"""
-    tidy_df = pd.DataFrame()
-    raw_df = pd.DataFrame()
-    for path in paths:
-        single_df = pd.DataFrame(md.collect_md(path))
-        raw_df = raw_df.append(single_df, ignore_index=True)
-        tidy_df = tidy_df.append(df_preprocess(single_df), ignore_index=True)
-    return tidy_df, raw_df
-
-
-def retrieve_data(data_retreive):
-    input_assignments = st.sidebar.text_input(
-            "Enter path(s) to documents (seperate by comma)"
-    )
-    input_assignments = re.split(r"[;,\s]\s*", input_assignments)
-    if len(input_assignments) == 0:
-        landing_pg()
-    else:
-        import_data_only(data_retreive, input_assignments)
-
-
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
-def import_data_only(data_retreive_method, paths):
+def import_data(data_retreive_method, paths):
     json_lst = []
     if data_retreive_method == "Local file system":
         try:
@@ -185,8 +134,7 @@ def import_data_only(data_retreive_method, paths):
                 json_lst.append(md.collect_md(path))
         except FileNotFoundError as err:
             st.sidebar.text(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            landing_pg()
     else:
         st.sidebar.info(
             "You will need to store keys and endpoints in the environment variables")
@@ -199,8 +147,7 @@ def import_data_only(data_retreive_method, paths):
                 json_lst.append(ju.clean_report(response))
         except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            landing_pg()
     # when data is retreived
     if json_lst:
         raw_df = pd.DataFrame()
