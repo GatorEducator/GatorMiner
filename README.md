@@ -51,7 +51,7 @@ pipenv run python -m spacy download en_core_web_md
 
 ## Web Interface
 
-TextMining is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
+textMining is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
 in order to provide fast text analysis and visualizations.
 
 In order to run Streamlit, type and run the following command in your terminal.
