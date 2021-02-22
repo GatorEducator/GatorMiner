@@ -180,12 +180,6 @@ def get_request(
     except requests.exceptions.RequestException as err:
         print("RequestException:", err)
         raise Exception(f"RequestException: {err}")
-
-    # print("\nBEGIN REQUEST++++++++++++++++++++++++++++++++++++")
-    # print("Request URL = " + request_url)
-    # r = requests.get(request_url, headers=headers)
-    # print("\nRESPONSE++++++++++++++++++++++++++++++++++++")
-    # print("Response code: %d\n" % r.status_code)
     if not r.json():
         raise Exception("The response is empty, the requested \
 assignment might not be in the database")
@@ -198,5 +192,4 @@ if __name__ == "__main__":
     passBuild = get_arguments.passBuild
     configs = auth_config()
     response = get_request(assignment, passBuild, **configs)
-    # response = get_request(assignment, passBuild)
     print(json.dumps(response))
