@@ -5,7 +5,6 @@ to effectively get stared and contribute to the project.
 
 ## Table of Contents
 
-- [Contributing Guidelines](#contributing-guidelines)
   - [Table of Contents](#table-of-contents)
   - [Code of Conduct](#code-of-conduct)
   - [Raise an Issue](#raise-an-issue)
@@ -14,7 +13,8 @@ to effectively get stared and contribute to the project.
     - [Development Environment](#development-environment)
     - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
     - [Automated Testing](#automated-testing)
-*
+    - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
+
 ## Code of Conduct
 
 To build a diverse and inclusive community, we ask that everyone contributing to this project follow the [code of conduct](https://github.com/Allegheny-Ethical-CS/textMining/blob/master/CODE_OF_CONDUCT.md).
@@ -39,7 +39,7 @@ git clone git@github.com:Allegheny-Mozilla-Fellows/textMining.git
 
 You can install and set up the development dependencies with `Pipenv` as follows:
 
-```bash
+```sh
 pipenv install --dev --skip-lock
 ```
 
@@ -53,7 +53,9 @@ git checkout master
 git push -u origin feature-name
 ```
 
-If you are not yet a collaborator on this project, then we recommend you to first fork the repository, add your new feature, document and test it as appropriate.
+If you are not yet a collaborator on this project, then we recommend you to first fork the repository, add your new feature, document and test it as appropriate. You can also contact the project maintainers and we could grant you the access as an project contributor as soon as possible.
+
+You are welcome to open an issue first to describe what you want to do. If there is already an issue that matches with your PR or if you want to work on, leave a comment there instead and let us know what you plan to do.
 
 ### Automated Testing
 
@@ -68,4 +70,13 @@ coverage and lines that are currently not tested:
 
 ```bash
 pipenv run pytest --cov-config pytest.cov --cov --cov-report term-missing
+```
+
+### Code Linting and Continuous Integration
+
+When making contributions to the project, please make sure that you adhere to the coding standard that are enforced by automated linting tools such as `Flake8`. The project uses both Travis CI and Github Action to build and test the tool in Ubuntu and MacOS system with Python versions of 3.6, 3.7, and 3.8. Following are some of the linting checks being checked in Travis CI and Github Action platform. You can also run these checks locally to see if your changes have conformed to the coding standard.
+
+```sh
+pipenv run flake8 tada
+pipenv run flake8 tests
 ```
