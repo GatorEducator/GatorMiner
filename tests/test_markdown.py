@@ -45,20 +45,20 @@ def test_collect_md_with_two_inputs(tmp_path):
     """Test that md pipeline works"""
     directory = tmp_path / "sub"
     directory.mkdir()
-    para_1 = directory / "hello.md"
-    para_2 = directory / "world.md"
-    text = "Some solutions that can be developed to \
+    p_1 = directory / "hello.md"
+    p_2 = directory / "world.md"
+    txt = "Some solutions that can be developed to \
 avoid harm or fix the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be done especially in \
 terms of embryos. In addition, if germline editing is only offered to a \
 select group of people, the wealthy, it will be problematic for the class \
 system."
-    para_1.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    para_2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
+    p_1.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
+    p_2.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
     expected = {
         "reflection by": ["", ""],
-        "header1": [text + " ", text + " "],
-        "header2": [text + " ", text + " "],
+        "header1": [txt + " ", txt + " "],
+        "header2": [txt + " ", txt + " "],
     }
     output = md.collect_md(directory, is_clean=False)
     assert expected == output
@@ -68,22 +68,22 @@ def test_collect_md_with_three_inputs(tmp_path):
     """Test that md pipeline works"""
     directory = tmp_path / "sub"
     directory.mkdir()
-    para_1 = directory / "hello.md"
-    para_2 = directory / "world.md"
-    para_3 = directory / "python.md"
-    text = "Some solutions that can be developed to \
+    p_1 = directory / "hello.md"
+    p_2 = directory / "world.md"
+    p_3 = directory / "python.md"
+    txt = "Some solutions that can be developed to \
 avoid harm or fix the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be done especially in \
 terms of embryos. In addition, if germline editing is only offered to a \
 select group of people, the wealthy, it will be problematic for the class \
 system."
-    para_1.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    para_2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    para_3.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
+    p_1.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
+    p_2.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
+    p_3.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
     expected = {
         "reflection by": ["", "", ""],
-        "header1": [text + " ", text + " ", text + " "],
-        "header2": [text + " ", text + " ", text + " "],
+        "header1": [txt + " ", txt + " ", txt + " "],
+        "header2": [txt + " ", txt + " ", txt + " "],
     }
     output = md.collect_md(directory, is_clean=False)
     assert expected == output

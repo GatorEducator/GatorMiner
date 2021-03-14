@@ -14,8 +14,8 @@ def get_json_files(dir_path):
         if js.endswith(cts.JSON_EXT)
     ]
     raw_json_lst = []
-    for file in json_files:
-        with open(file) as file:
+    for json_file in json_files:
+        with open(json_file) as file:
             raw_json_lst.append(json.load(file))
     return raw_json_lst
 
