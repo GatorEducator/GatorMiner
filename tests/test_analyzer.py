@@ -68,14 +68,14 @@ def test_word_frequency():
 
 def test_dir_frequency(tmp_path):
     """Test if it return correct frequency result from a directory"""
-    d = tmp_path / "sub"
-    d.mkdir()
-    p1 = d / "hello.md"
-    p2 = d / "world.md"
+    directory = tmp_path / "sub"
+    directory.mkdir()
+    para_1 = directory / "hello.md"
+    para_2 = directory / "world.md"
     text = "# header\n hello world hello world hello world"
-    p1.write_text(text)
-    p2.write_text(text)
-    output = az.dir_frequency(d)
+    para_1.write_text(text)
+    para_2.write_text(text)
+    output = az.dir_frequency(directory)
     expected = [("hello", 6), ("world", 6)]
     assert expected == output
 
@@ -114,6 +114,7 @@ def test_named_entity_recognization():
 
 
 def test_noun_phrase():
+    """test return correct noun phrase"""
     text = "Apple is looking at buying U.K. startup for $1 billion"
     output = az.noun_phrase(text)
     assert output == ["Apple", "U.K. startup"]
@@ -143,6 +144,7 @@ math to be more interesting.",
 
 
 def test_tfidf():
+    """test tfidf return result"""
     input_tokens = [
         "test",
         "tokenize",
@@ -152,6 +154,6 @@ def test_tfidf():
         "str",
         "correctly",
     ]
-    tf, vector = az.compute_tfidf(input_tokens)
-    assert tf is not None
+    term_frequency, vector = az.compute_tfidf(input_tokens)
+    assert term_frequency is not None
     assert vector is not None

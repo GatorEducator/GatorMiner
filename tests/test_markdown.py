@@ -14,14 +14,14 @@ def test_merge_dict():
 
 def test_get_file_names(tmp_path):
     """Test that get file names return a list of paths"""
-    d = tmp_path / "sub"
-    d.mkdir()
-    p1 = d / "hello.md"
-    p2 = d / "world.md"
-    p1.write_text("text")
-    p2.write_text("text")
-    output = md.get_file_names(d)
-    expected = [f"{d}/hello.md", f"{d}/world.md"]
+    directory = tmp_path / "sub"
+    directory.mkdir()
+    para_1 = directory / "hello.md"
+    para_2 = directory / "world.md"
+    para_1.write_text("text")
+    para_2.write_text("text")
+    output = md.get_file_names(directory)
+    expected = [f"{directory}/hello.md", f"{directory}/world.md"]
     assert expected == output
 
 
@@ -43,49 +43,49 @@ system."
 
 def test_collect_md_with_two_inputs(tmp_path):
     """Test that md pipeline works"""
-    d = tmp_path / "sub"
-    d.mkdir()
-    p1 = d / "hello.md"
-    p2 = d / "world.md"
+    directory = tmp_path / "sub"
+    directory.mkdir()
+    para_1 = directory / "hello.md"
+    para_2 = directory / "world.md"
     text = "Some solutions that can be developed to \
 avoid harm or fix the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be done especially in \
 terms of embryos. In addition, if germline editing is only offered to a \
 select group of people, the wealthy, it will be problematic for the class \
 system."
-    p1.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    p2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
+    para_1.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
+    para_2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
     expected = {
         "reflection by": ["", ""],
         "header1": [text + " ", text + " "],
         "header2": [text + " ", text + " "],
     }
-    output = md.collect_md(d, is_clean=False)
+    output = md.collect_md(directory, is_clean=False)
     assert expected == output
 
 
 def test_collect_md_with_three_inputs(tmp_path):
     """Test that md pipeline works"""
-    d = tmp_path / "sub"
-    d.mkdir()
-    p1 = d / "hello.md"
-    p2 = d / "world.md"
-    p3 = d / "python.md"
+    directory = tmp_path / "sub"
+    directory.mkdir()
+    para_1 = directory / "hello.md"
+    para_2 = directory / "world.md"
+    para_3 = directory / "python.md"
     text = "Some solutions that can be developed to \
 avoid harm or fix the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be done especially in \
 terms of embryos. In addition, if germline editing is only offered to a \
 select group of people, the wealthy, it will be problematic for the class \
 system."
-    p1.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    p2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    p3.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
+    para_1.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
+    para_2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
+    para_3.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
     expected = {
         "reflection by": ["", "", ""],
         "header1": [text + " ", text + " ", text + " "],
         "header2": [text + " ", text + " ", text + " "],
     }
-    output = md.collect_md(d, is_clean=False)
+    output = md.collect_md(directory, is_clean=False)
     assert expected == output
 
 
@@ -113,5 +113,6 @@ system."
     ],
 )
 def test_md_parser_clean(input_text, expected):
+    """Test if md parser cleans the markdown documents"""
     output = md.md_parser(input_text)
     assert output == expected
