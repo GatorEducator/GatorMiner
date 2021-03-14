@@ -1,3 +1,4 @@
+"""Visualization used in main streamlit interface"""
 import altair as alt
 from altair.expr import datum
 
@@ -213,10 +214,10 @@ def doc_sim_heatmap(df_sim):
     return heatmap
 
 
-def tp_hist_plot(df):
+def tp_hist_plot(df_tp):
     """histogram plot for topics"""
     tp_hist = (
-        alt.Chart(df).mark_bar().encode(
+        alt.Chart(df_tp).mark_bar().encode(
             alt.X("Dominant_Topic:N"),
             y="count()",
             color=cts.ASSIGNMENT,
@@ -229,9 +230,9 @@ def tp_hist_plot(df):
     return tp_hist
 
 
-def tp_scatter_plot(df):
+def tp_scatter_plot(df_lda):
     """scatter plot for lda"""
-    lda = alt.Chart(df).mark_point(size=100, filled=True).encode(
+    lda = alt.Chart(df_lda).mark_point(size=100, filled=True).encode(
         x='x',
         y='y',
         shape='topic:N',

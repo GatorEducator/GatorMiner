@@ -4,7 +4,7 @@ from typing import Dict, List
 from gensim.summarization import summarize
 from . import markdown as md
 
-
+# pylint: disable=logging-fstring-interpolation
 logging.basicConfig(
     format="[%(asctime)s]{%(pathname)s:%(lineno)d}\n\
 %(levelname)s: %(message)s",

@@ -7,7 +7,8 @@ import pandas as pd
 # import pickle
 
 
-def topic_model(tokens, NUM_TOPICS=5, NUM_WORDS=4) -> List[Tuple[int, str]]:
+# pylint: disable=unused-argument
+def topic_model(tokens, num_topics=5, num_words=4) -> List[Tuple[int, str]]:
     """Find topics from inout text"""
     # Create Dictionary by giving id to each word
     id2word = gensim.corpora.Dictionary(tokens)
@@ -18,7 +19,7 @@ def topic_model(tokens, NUM_TOPICS=5, NUM_WORDS=4) -> List[Tuple[int, str]]:
     # Build LDA model
     ldamodel = gensim.models.ldamodel.LdaModel(
         corpus,
-        num_topics=NUM_TOPICS,
+        num_topics=num_topics,
         id2word=id2word,
         random_state=100,
         update_every=1,
@@ -40,11 +41,12 @@ def topic_model(tokens, NUM_TOPICS=5, NUM_WORDS=4) -> List[Tuple[int, str]]:
 
 
 def format_topics_sentences(ldamodel, corpus, texts):
+    """format topic sentences from model to dataframe"""
     # Init output
     sent_topics_df = pd.DataFrame()
 
     # Get main topic in each document
-    for i, row_list in enumerate(ldamodel[corpus]):
+    for row_list in ldamodel[corpus]:
         row = row_list[0] if ldamodel.per_word_topics else row_list
         row = sorted(row, key=lambda x: (x[1]), reverse=True)
         print(row)

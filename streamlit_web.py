@@ -452,8 +452,8 @@ def tpmodel():
     # )
     overall_topic_df, lda_model, corpus = tm.topic_model(
         topic_df[cts.TOKEN].tolist(),
-        NUM_TOPICS=topic_range,
-        NUM_WORDS=word_range,
+        num_topics=topic_range,
+        num_words=word_range,
     )
     overall_topic_df["Student"] = topic_df[stu_id].tolist()
     overall_topic_df[assign_id] = topic_df[assign_id].tolist()
