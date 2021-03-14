@@ -7,8 +7,8 @@ def test_get_json_files(tmp_path):
     """Test that get json files return correct json files"""
     directory = tmp_path / "sub"
     directory.mkdir()
-    para_1 = directory / "hello.md"
-    para_2 = directory / "world.md"
+    para_1 = directory / "hello.json"
+    para_2 = directory / "world.json"
     para_1.write_text("{\"assignment\": \"java-assignment\"}")
     para_2.write_text("{\"assignment\": \"java-assignment\"}")
     output = js.get_json_files(directory)
