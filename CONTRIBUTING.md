@@ -64,7 +64,7 @@ A well-crafted git commit message is the best way to document and communicate co
 
 #### Branches
 
-You can create and publish a branch via the following command. Substitute the name of your branch for the `feature/feature-name`.
+You can create and publish a branch via the following commands. Substitute the name of your branch for the `feature/feature-name`.
 
 ```bash
 git checkout -b feature/feature-name
@@ -74,7 +74,7 @@ git push -u origin feature/feature-name
 
 Using a consistent naming convention for branches improves the maintainability of a project. We encourage you to follow the recommend rules listed below:
 
-- Use hyphen and/or slash as separators: prefix/branch-name-issue-id.
+- Use hyphen and/or slash as separators: `prefix`/`branch`-`name`-`issue-id`.
 - Use the types of the branch as prefixes to the branch name.
   - feat: implement or expand a feature.
   - bug: bug fix.
