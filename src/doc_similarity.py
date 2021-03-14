@@ -1,3 +1,4 @@
+"""Compute document similarity"""
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -6,9 +7,9 @@ def create_pair(key_lst):
     """Create non-repetitive pairs from two lists"""
     pairs = []
     # create a list of tuples
-    for i, v in enumerate((key_lst)):
-        for key in key_lst[i + 1:]:
-            pairs.append((v, key))
+    for item, value in enumerate((key_lst)):
+        for key in key_lst[item + 1:]:
+            pairs.append((value, key))
 
     return pairs
 
@@ -31,6 +32,7 @@ def tfidf_cosine_similarity(pair):
 
 
 def spacy_doc_similarity(nlp, pair):
+    """compute document similarity with spacy built-in method"""
     doc_1, doc_2 = pair
     doc_1 = nlp(doc_1)
     doc_2 = nlp(doc_2)
