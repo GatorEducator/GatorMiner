@@ -1,7 +1,7 @@
 # Contributing Guidelines
 
-Thank you for taking time to contribute to TextMining! This guide will help you
-to effectively get stared and contribute to the project.
+Thank you for taking the time to contribute to TextMining! This guide will help you
+to effectively get started and contribute to the project.
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ to effectively get stared and contribute to the project.
 
 ## Code of Conduct
 
-To build a diverse and inclusive community, we ask that everyone contributing to this project follow the [code of conduct](https://github.com/Allegheny-Ethical-CS/textMining/blob/master/CODE_OF_CONDUCT.md).
+To build a diverse, respectful, and inclusive community, we ask that everyone contributing to this project follow the [code of conduct](https://github.com/Allegheny-Ethical-CS/textMining/blob/master/CODE_OF_CONDUCT.md) document.
 
 ## Raise an Issue
 
@@ -47,7 +47,7 @@ pipenv install --dev --skip-lock
 
 ### Contribute with Github Flow Model
 
-If you are already a collaborator on the project and would like to contribute a new feature or bug fix, you can do so by creating and publishing a branch off from the master branch. If you are not yet a collaborator, we recommend you to either fork the repository or to contact the project maintainers. We would grant you access as a project contributor as soon as possible. You could then add your new feature, document, or test it as appropriate.
+If you are already a collaborator on the project and would like to contribute a new feature or bug fix, you can do so by creating and publishing a branch off from the `master` branch. If you are not yet a collaborator, we recommend you to either fork the repository or to contact the project maintainers. We would grant you access as a project contributor as soon as possible. You could then add your new feature, document, or test it as appropriate.
 
 You are welcome to open an issue first to describe what you want to do. If there is an issue you would like to work on or if it matches with your PR, leave a comment there instead and let us know what you plan to do.
 
@@ -74,7 +74,7 @@ git push -u origin feature/feature-name
 
 Using a consistent naming convention for branches improves the maintainability of a project. We encourage you to follow the recommend rules listed below:
 
-- Use hyphen and/or slash as separators: <prefix>/<branch>-<name>-<issue-id>.
+- Use hyphen and/or slash as separators: prefix/branch-name-issue-id.
 - Use the types of the branch as prefixes to the branch name.
   - feat: implement or expand a feature.
   - bug: bug fix.
@@ -103,6 +103,6 @@ pipenv run pytest --cov-config pytest.cov --cov --cov-report term-missing
 When making contributions to the project, please make sure that you adhere to the coding standard that is enforced by automated linting tools such as `Flake8`. The project uses both Travis CI and Github Action to build and test the tool in Ubuntu and Mac operating systems with Python versions of 3.6, 3.7, and 3.8. Following are some of the linting checks executed in Travis CI and Github Action platform. You can also run these checks locally to see if your changes have conformed to the coding standard.
 
 ```sh
-pipenv run flake8 tada
+pipenv run flake8 src
 pipenv run flake8 tests
 ```
