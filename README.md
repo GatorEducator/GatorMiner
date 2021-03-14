@@ -82,7 +82,11 @@ file system or AWS DynamoDB.
 
 You can type in the path(s) to the directorie(s) that hold reflection markdown
 documents. You are welcome to try the tool with the sample documents we
-provided in `resources`.
+provided in `resources`, for example:
+
+```shell
+resources/sample_md_reflections/lab1, resources/sample_md_reflections/lab2, resources/sample_md_reflections/lab3
+```
 
 #### AWS
 
