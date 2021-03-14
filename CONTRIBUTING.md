@@ -12,6 +12,8 @@ to effectively get stared and contribute to the project.
   - [Project Overview](#project-overview)
     - [Development Environment](#development-environment)
     - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
+      - [Commits](#commits)
+      - [Branches](#branches)
     - [Automated Testing](#automated-testing)
     - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
 
@@ -25,7 +27,7 @@ If you have a new issue to raise (bug report, feature request, etc.), go ahead a
 
 ## Make a Pull Request
 
-The development team uses the [GitHub Flow Model](https://guides.github.com/introduction/flow/) to guide our engineering of this tool and we invite you to also follow it as you make a contribution. Once you have made some new changes and want the maintainers to merge them into the project, we encourgae you to go ahead and open a [pull request](https://github.com/Allegheny-Ethical-CS/textMining/pulls) on the GitHub repository. Please follow the provided pull request template and describe the new feature or bug fix that you are proposing with the necessary information. The proposed change should not break the existing test cases or features, as each PR will be checked with our Continuous Integration service (code standard, test suites, etc.) We hope your proposed change is well-documented and highly recommend you to provide tests along with the PR if you are making a code contribution.
+The development team uses the [GitHub Flow Model](https://guides.github.com/introduction/flow/) to guide our engineering of this tool and we invite you to also follow it as you make a contribution. Once you have made some new changes and want the maintainers to merge them into the project, we encourage you to go ahead and open a [pull request](https://github.com/Allegheny-Ethical-CS/textMining/pulls) on the GitHub repository. Please follow the provided pull request template and describe the new feature or bug fix that you are proposing with the necessary information. The proposed change should not break the existing test cases or features, as each PR will be checked with our Continuous Integration service (code standard, test suites, etc.) We hope your proposed change is well-documented and highly recommend you to provide tests along with the PR if you are making a code contribution.
 
 ## Project Overview
 
@@ -45,36 +47,60 @@ pipenv install --dev --skip-lock
 
 ### Contribute with Github Flow Model
 
-If you are already a collaborator on the project and would like to contribute a new feature or bug fix, you should create and publish your new branch via the following command. Substitute the name of your feature/branch for the word feature-name.
+If you are already a collaborator on the project and would like to contribute a new feature or bug fix, you can do so by creating and publishing a branch off from the master branch. If you are not yet a collaborator, we recommend you to either fork the repository or to contact the project maintainers. We would grant you access as a project contributor as soon as possible. You could then add your new feature, document, or test it as appropriate.
+
+You are welcome to open an issue first to describe what you want to do. If there is an issue you would like to work on or if it matches with your PR, leave a comment there instead and let us know what you plan to do.
+
+#### Commits
+
+A well-crafted git commit message is the best way to document and communicate context about a change to fellow developers and their future selves. We encourage you to write proper and descriptive commit messages, as they will become the project's log and determine the maintainability of a project. Some of the basic rules of commit message include:
+
+- Capitalize the commit message.
+- Do not end the commit message with a period.
+- Use the imperative mood.
+- Limit the message to within 50 characters.
+- Describe why a change is being made.
+- How does it address the issue?
+
+#### Branches
+
+You can create and publish a branch via the following command. Substitute the name of your branch for the `feature/feature-name`.
 
 ```bash
-git checkout -b feature-name
+git checkout -b feature/feature-name
 git checkout master
-git push -u origin feature-name
+git push -u origin feature/feature-name
 ```
 
-If you are not yet a collaborator on this project, then we recommend you to first fork the repository, add your new feature, document and test it as appropriate. You can also contact the project maintainers and we could grant you the access as an project contributor as soon as possible.
+Using a consistent naming convention for branches improves the maintainability of a project. We encourage you to follow the recommend rules listed below:
 
-You are welcome to open an issue first to describe what you want to do. If there is already an issue that matches with your PR or if you want to work on, leave a comment there instead and let us know what you plan to do.
+- Use hyphen and/or slash as separators: <prefix>/<branch>-<name>-<issue-id>.
+- Use the types of the branch as prefixes to the branch name.
+  - feat: implement or expand a feature.
+  - bug: bug fix.
+  - doc: documentation related contribution.
+  - test: test related contribution.
+  - refact: code refactoring.
+  - expr: experiment.
 
 ### Automated Testing
 
 You can run the test suites locally as follows:
 
-```ba
+```sh
 pipenv run pytest
 ```
 
 It might also be helpful for you to run the following command to see the test
 coverage and lines that are currently not tested:
 
-```bash
+```sh
 pipenv run pytest --cov-config pytest.cov --cov --cov-report term-missing
 ```
 
 ### Code Linting and Continuous Integration
 
-When making contributions to the project, please make sure that you adhere to the coding standard that are enforced by automated linting tools such as `Flake8`. The project uses both Travis CI and Github Action to build and test the tool in Ubuntu and MacOS system with Python versions of 3.6, 3.7, and 3.8. Following are some of the linting checks being checked in Travis CI and Github Action platform. You can also run these checks locally to see if your changes have conformed to the coding standard.
+When making contributions to the project, please make sure that you adhere to the coding standard that is enforced by automated linting tools such as `Flake8`. The project uses both Travis CI and Github Action to build and test the tool in Ubuntu and Mac operating systems with Python versions of 3.6, 3.7, and 3.8. Following are some of the linting checks executed in Travis CI and Github Action platform. You can also run these checks locally to see if your changes have conformed to the coding standard.
 
 ```sh
 pipenv run flake8 tada
