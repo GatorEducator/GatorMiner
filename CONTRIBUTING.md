@@ -5,16 +5,18 @@ to effectively get started and contribute to the project.
 
 ## Table of Contents
 
-- [Code of Conduct](#code-of-conduct)
-- [Raise an Issue](#raise-an-issue)
-- [Make a Pull Request](#make-a-pull-request)
-- [Project Overview](#project-overview)
-  - [Development Environment](#development-environment)
-  - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
-    - [Commits](#commits)
-    - [Branches](#branches)
-  - [Automated Testing](#automated-testing)
-  - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
+- [Contributing Guidelines](#contributing-guidelines)
+  - [Table of Contents](#table-of-contents)
+  - [Code of Conduct](#code-of-conduct)
+  - [Raise an Issue](#raise-an-issue)
+  - [Make a Pull Request](#make-a-pull-request)
+  - [Project Overview](#project-overview)
+    - [Development Environment](#development-environment)
+    - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
+      - [Commits](#commits)
+      - [Branches](#branches)
+    - [Automated Testing](#automated-testing)
+    - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
 
 ## Code of Conduct
 
@@ -99,9 +101,11 @@ pipenv run pytest --cov-config pytest.cov --cov --cov-report term-missing
 
 ### Code Linting and Continuous Integration
 
-When making contributions to the project, please make sure that you adhere to the coding standard that is enforced by automated linting tools such as `Flake8`. The project uses both Travis CI and Github Action to build and test the tool in Ubuntu and Mac operating systems with Python versions of 3.6, 3.7, and 3.8. Following are some of the linting checks executed in Travis CI and Github Action platform. You can also run these checks locally to see if your changes have conformed to the coding standard.
+When making contributions to the project, please make sure that you adhere to the coding standard that is enforced by automated linting tools such as `Flake8` and `Pylint`. The project uses both Travis CI and Github Action to build and test the tool in Ubuntu and Mac operating systems with Python versions of 3.6, 3.7, and 3.8. Following are some of the linting checks executed in Travis CI and Github Action platform. You can also run these checks locally to see if your changes have conformed to the coding standard.
 
 ```sh
 pipenv run flake8 src
 pipenv run flake8 tests
+pipenv run pylint src
+pipenv run pylint tests
 ```
