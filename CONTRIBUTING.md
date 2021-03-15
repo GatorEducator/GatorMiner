@@ -5,18 +5,16 @@ to effectively get started and contribute to the project.
 
 ## Table of Contents
 
-- [Contributing Guidelines](#contributing-guidelines)
-  - [Table of Contents](#table-of-contents)
-  - [Code of Conduct](#code-of-conduct)
-  - [Raise an Issue](#raise-an-issue)
-  - [Make a Pull Request](#make-a-pull-request)
-  - [Project Overview](#project-overview)
-    - [Development Environment](#development-environment)
-    - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
-      - [Commits](#commits)
-      - [Branches](#branches)
-    - [Automated Testing](#automated-testing)
-    - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
+- [Code of Conduct](#code-of-conduct)
+- [Raise an Issue](#raise-an-issue)
+- [Make a Pull Request](#make-a-pull-request)
+- [Project Overview](#project-overview)
+  - [Development Environment](#development-environment)
+  - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
+    - [Commits](#commits)
+    - [Branches](#branches)
+  - [Automated Testing](#automated-testing)
+  - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
 
 ## Code of Conduct
 
