@@ -35,7 +35,7 @@ success_msg = None
 def main():
     """main streamlit function"""
     # Title
-    st.sidebar.title("Welcome to TextMining!")
+    st.sidebar.title("Welcome to GatorMiner!")
     data_retreive_method = st.sidebar.selectbox(
             "Choose the data retrieving method",
             [
