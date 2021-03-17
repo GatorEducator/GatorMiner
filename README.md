@@ -1,11 +1,11 @@
 # Text Mining
 
-[![Build Status](https://travis-ci.com/Allegheny-Mozilla-Fellows/textMining.svg?branch=master)](https://travis-ci.com/Allegheny-Mozilla-Fellows/textMining)
-[![codecov](https://codecov.io/gh/Allegheny-Mozilla-Fellows/textMining/branch/master/graph/badge.svg)](https://codecov.io/gh/Allegheny-Mozilla-Fellows/textMining)
+[![Build Status](https://travis-ci.com/Allegheny-Ethical-CS/GatorMiner.svg?branch=master)](https://travis-ci.com/Allegheny-Ethical-CS/GatorMiner)
+[![codecov](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner/branch/master/graph/badge.svg)](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner)
 [![Built with spaCy](https://img.shields.io/badge/built%20with-spaCy-09a3d5.svg)](https://spacy.io)
 [![Built with Streamlit](https://img.shields.io/badge/built%20with-Streamlit-09a3d5.svg)](https://www.streamlit.io/)
 
-An automated text-mining tool written in Python to measure the technical
+An automated text mining tool written in Python to measure the technical
 responsibility of students in computer science courses, being used to analyze
 students' reflection documents and five questions survey based on Natural language
 processing in the Department of Computer Science at Allegheny College.
@@ -15,13 +15,13 @@ processing in the Department of Computer Science at Allegheny College.
 You can clone the repository by running the following command:
 
 ```bash
-git clone git@github.com:Allegheny-Mozilla-Fellows/textMining.git
+git clone git@github.com:Allegheny-Ethical-CS/GatorMiner.git
 ```
 
 `cd` into the project root folder
 
 ```bash
-cd textMining
+cd GatorMiner
 ```
 
 This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency management.
@@ -38,7 +38,7 @@ This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency manage
   pipenv install
   ```
 
-textMining relies on `en_core_web_sm` and `en_core_web_md`, English models trained on
+GatorMiner relies on `en_core_web_sm` and `en_core_web_md`, English models trained on
 written web text (blogs, news, comments), that includes vocabulary, vectors,
 syntax and entities.
 
@@ -51,7 +51,7 @@ pipenv run python -m spacy download en_core_web_md
 
 ## Web Interface
 
-textMining is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
+GatorMiner is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
 in order to provide fast text analysis and visualizations.
 
 In order to run Streamlit, type and run the following command in your terminal.
@@ -103,7 +103,7 @@ export AWS_ACCESS_KEY_ID=<Your Access Key ID>
 export AWS_SECRET_ACCESS_KEY=<Your Secret Access Key>
 ```
 
-It is likely that you already have these ready when using textMining in
+It is likely that you already have these ready when using GatorMiner in
 conjunction with GatorGrader, since these would already be exported when
 setting up the AWS services. You can view more about setting up an AWS services
 with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb)
@@ -115,17 +115,17 @@ the select box in the sidebar to view the analysis:
 
 ##### Reflection Documents
 
-We are using markdown for the student reflection documents, due to the fact that
+We are using markdown format for the student reflection documents, due to the fact that
 its organized structure allows us to parse and perform analysis easily. With that
 said, there are few requirements for the reflection document before it could be
 seamlessly processed and analyzed with our tool. A
 [template](resources/reflection_template.md) is provided here. Note that the
-headers with the assignment's and student's ID/name are required. TextMining is
+headers with the assignment's and student's ID/name are required. GatorMiner is
 set default to take the first header as assignment and the second header as student.
 
 You can also check out the
 [sample json report](resources/sample_json_report/report%201.json) to see the
-format of json reports textMining gathers from AWS.
+format of json reports GatorMiner gathers from AWS.
 
 ### Analysis
 
