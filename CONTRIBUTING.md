@@ -10,6 +10,7 @@ to effectively get started and contribute to the project.
 - [Make a Pull Request](#make-a-pull-request)
 - [Project Overview](#project-overview)
   - [Development Environment](#development-environment)
+    - [Test GatorMiner with Sample Data](#test-gatorminer-with-sample-data) 
   - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
     - [Commits](#commits)
     - [Branches](#branches)
