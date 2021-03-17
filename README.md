@@ -1,4 +1,4 @@
-# Text Mining
+# GatorMiner
 
 [![Build Status](https://travis-ci.com/Allegheny-Ethical-CS/GatorMiner.svg?branch=master)](https://travis-ci.com/Allegheny-Ethical-CS/GatorMiner)
 [![codecov](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner/branch/master/graph/badge.svg)](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner)
