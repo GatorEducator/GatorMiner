@@ -5,10 +5,11 @@
 [![Built with spaCy](https://img.shields.io/badge/built%20with-spaCy-09a3d5.svg)](https://spacy.io)
 [![Built with Streamlit](https://img.shields.io/badge/built%20with-Streamlit-09a3d5.svg)](https://www.streamlit.io/)
 
-An automated text mining tool written in Python to measure the technical
+An automated text-mining tool written in Python to measure the technical
 responsibility of students in computer science courses, being used to analyze
-students' reflection documents and five questions survey based on Natural language
-processing in the Department of Computer Science at Allegheny College.
+students' markdown reflection documents and five questions survey based on
+Natural Language Processing in the Department of Computer Science at Allegheny
+College.
 
 ## Installation
 
@@ -18,7 +19,7 @@ You can clone the repository by running the following command:
 git clone git@github.com:Allegheny-Ethical-CS/GatorMiner.git
 ```
 
-`cd` into the project root folder
+`cd` into the project root folder:
 
 ```bash
 cd GatorMiner
@@ -32,17 +33,17 @@ This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency manage
   pip install pipenv --user
   ```
 
-- To create virtual environment and use the program:
+- To create a virtual environment and use the program:
 
   ```bash
   pipenv install
   ```
 
 GatorMiner relies on `en_core_web_sm` and `en_core_web_md`, English models trained on
-written web text (blogs, news, comments), that includes vocabulary, vectors,
+written web text (blogs, news, comments) that includes vocabulary, vectors,
 syntax and entities.
 
-To install the pre-trained model, you can run this following command:
+To install the pre-trained model, you can run the following command:
 
 ```bash
 pipenv run python -m spacy download en_core_web_sm
@@ -54,7 +55,8 @@ pipenv run python -m spacy download en_core_web_md
 GatorMiner is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
 in order to provide fast text analysis and visualizations.
 
-In order to run Streamlit, type and run the following command in your terminal.
+In order to run the `Streamlit` interface, type and execute the following command
+in your terminal:
 
 ```bash
 pipenv run streamlit run streamlit_web.py
@@ -69,7 +71,7 @@ Local URL: http://localhost:8501
 Network URL: http://xxx.xxx.x.x:8501
 ```
 
-the web app will be opened in your browser like this:
+The web interface will be automatically opened in your browser:
 
 ![browser](resources/images/landing_page.png)
 
@@ -90,11 +92,11 @@ resources/sample_md_reflections/lab1, resources/sample_md_reflections/lab2, reso
 
 #### AWS
 
-Retreiving reflection documents from AWS is a feature intergrated with the use
-of [GatorGrader](https://github.com/GatorEducator/gatorgrader) where student's
-reflection markdown documents are being collected and stored inside the a
+Retrieving reflection documents from AWS is a feature integrated with the use
+of [GatorGrader](https://github.com/GatorEducator/gatorgrader) where students'
+markdown reflection documents are being collected and stored inside the a
 pre-configured DynamoDB database. In order to use this feature, you will need
-to have some credential tokens stored as environment variables:
+to have some credential tokens (listed below) stored as environment variables:
 
 ```bash
 export GATOR_ENDPOINT=<Your Endpoint>
@@ -103,25 +105,26 @@ export AWS_ACCESS_KEY_ID=<Your Access Key ID>
 export AWS_SECRET_ACCESS_KEY=<Your Secret Access Key>
 ```
 
-It is likely that you already have these ready when using GatorMiner in
+It is likely that you already have these prepared when using GatorMiner in
 conjunction with GatorGrader, since these would already be exported when
-setting up the AWS services. You can view more about setting up an AWS services
-with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb)
+setting up the AWS services. You can read more about setting up an AWS service
+with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb).
 
 Once the documents are successfully imported, you can then navigate through
-the select box in the sidebar to view the analysis:
+the select box in the sidebar to view the text analysis:
 
 ![select box](resources/images/select_box.png)
 
 ##### Reflection Documents
 
-We are using markdown format for the student reflection documents, due to the fact that
-its organized structure allows us to parse and perform analysis easily. With that
+We are using markdown format for the student reflection documents.
+Its organized structure allows us to parse and perform text analysis easily. With that
 said, there are few requirements for the reflection document before it could be
-seamlessly processed and analyzed with our tool. A
-[template](resources/reflection_template.md) is provided here. Note that the
-headers with the assignment's and student's ID/name are required. GatorMiner is
-set default to take the first header as assignment and the second header as student.
+seamlessly processed and analyzed with GatorMiner. A
+[template](resources/reflection_template.md) is provided within the repo. Note
+that the headers with the assignment's and student's ID/name are required.
+GatorMiner is set in default to take the first header as assignment name and the
+second header as student name.
 
 You can also check out the
 [sample json report](resources/sample_json_report/report%201.json) to see the
@@ -133,3 +136,9 @@ format of json reports GatorMiner gathers from AWS.
 ![sentiment](resources/images/sentiment.png)
 ![similarity](resources/images/similarity.png)
 ![topic](resources/images/topic.png)
+
+### Contribution
+
+We are excited that you would take the time to contribute to GatorMiner! We have
+provided a [contributing guideline](CONTRIBUTING.md) that will help you
+effectively get started and make contributions to the project.
