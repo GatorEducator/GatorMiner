@@ -5,16 +5,16 @@ to effectively get started and contribute to the project.
 
 ## Table of Contents
 
-  - [Code of Conduct](#code-of-conduct)
-  - [Raise an Issue](#raise-an-issue)
-  - [Make a Pull Request](#make-a-pull-request)
-  - [Project Overview](#project-overview)
-    - [Development Environment](#development-environment)
-    - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
-      - [Commits](#commits)
-      - [Branches](#branches)
-    - [Automated Testing](#automated-testing)
-    - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
+- [Code of Conduct](#code-of-conduct)
+- [Raise an Issue](#raise-an-issue)
+- [Make a Pull Request](#make-a-pull-request)
+- [Project Overview](#project-overview)
+  - [Development Environment](#development-environment)
+  - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
+    - [Commits](#commits)
+    - [Branches](#branches)
+  - [Automated Testing](#automated-testing)
+  - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
 
 ## Code of Conduct
 
@@ -74,6 +74,15 @@ To install the pre-trained model, you can run the following command:
 ```bash
 pipenv run python -m spacy download en_core_web_sm
 pipenv run python -m spacy download en_core_web_md
+```
+
+#### Test GatorMiner with Sample Data
+
+When working on GatorMiner, you are welcome to test the tool with the sample markdown
+documents and JSON reports we have provided in [resources](resources), for example:
+
+```shell
+resources/sample_md_reflections/lab1, resources/sample_md_reflections/lab2, resources/sample_md_reflections/lab3
 ```
 
 ### Contribute with Github Flow Model
