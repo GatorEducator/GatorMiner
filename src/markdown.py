@@ -2,14 +2,15 @@
 import os
 import logging
 from typing import Dict, List
-from . import constants as cts
 import commonmark
 import pandas as pd
+from . import constants as cts
 
 
+# pylint: disable=logging-fstring-interpolation
 logging.basicConfig(
-    format="[%(asctime)s]{%(pathname)s:%(lineno)d}\n\
-%(levelname)s: %(message)s",
+    format="[%(asctime)s]{%(pathname)s:%(lineno)d}\n%(levelname)s:\
+         %(message)s",
     datefmt="%Y-%m-%d:%H:%M:%S",
     level=logging.ERROR,
 )
@@ -99,8 +100,9 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
 
 
 def build_pd(md_dict):
-    df = pd.DataFrame(md_dict)
-    return df
+    """build dictionary into dataframe"""
+    md_df = pd.DataFrame(md_dict)
+    return md_df
 
 
 if __name__ == "__main__":

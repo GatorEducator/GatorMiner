@@ -16,17 +16,21 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install PIpenv
+    - name: Install Pipenv
       run: |
         pip install pipenv --upgrade
     - name: Install dependencies
       run: |
         pipenv install --dev --skip-lock
         pipenv run python -m spacy download en_core_web_sm
-    - name: Test with pytest
+    - name: Run test with pytest
       run: |
         pipenv run pytest tests --cov-config pytest.cov --cov
-    - name: Linting
+    - name: Lint with flake8
       run: |
         pipenv run flake8 src
         pipenv run flake8 tests
+    - name: Lint with pylint
+      run: |
+        pipenv run pylint src
+        pipenv run pylint tests

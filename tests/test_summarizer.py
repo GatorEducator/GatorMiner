@@ -19,19 +19,19 @@ it to a selective group of people."
 
 def test_summarizer_with_two_inputs(tmp_path):
     """Test that summarizer pipeline works"""
-    d = tmp_path / "sub"
-    d.mkdir()
-    p1 = d / "hello.md"
-    p2 = d / "world.md"
-    text = "Some solutions that can be developed to \
+    directory = tmp_path / "sub"
+    directory.mkdir()
+    p_1 = directory / "hello.md"
+    p_2 = directory / "world.md"
+    txt = "Some solutions that can be developed to \
 avoid harm or fix the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be done especially in \
 terms of embryos. In addition, if germline editing is only offered to a \
 select group of people, the wealthy, it will be problematic for the class \
 system."
-    p1.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    p2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    output = summarizer.summarizer(d)
+    p_1.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
+    p_2.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
+    output = summarizer.summarizer(directory)
     summrized_text = "Some solutions that can be developed to avoid harm or \
 fix the harm are conducting more research and not offering \
 it to a selective group of people."
@@ -44,21 +44,21 @@ it to a selective group of people."
 
 def test_summarizer_with_three_inputs(tmp_path):
     """Test that summarizer pipeline works"""
-    d = tmp_path / "sub"
-    d.mkdir()
-    p1 = d / "hello.md"
-    p2 = d / "world.md"
-    p3 = d / "python.md"
-    text = "Some solutions that can be developed to \
+    directory = tmp_path / "sub"
+    directory.mkdir()
+    p_1 = directory / "hello.md"
+    p_2 = directory / "world.md"
+    p_3 = directory / "python.md"
+    txt = "Some solutions that can be developed to \
 avoid harm or fix the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be done especially in \
 terms of embryos. In addition, if germline editing is only offered to a \
 select group of people, the wealthy, it will be problematic for the class \
 system."
-    p1.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    p2.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    p3.write_text(f"# Reflection by\n\n## header1\n{text}\n## header2\n{text}")
-    output = summarizer.summarizer(d)
+    p_1.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
+    p_2.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
+    p_3.write_text(f"# Reflection by\n\n## header1\n{txt}\n## header2\n{txt}")
+    output = summarizer.summarizer(directory)
     summrized_text = "Some solutions that can be developed to avoid harm or \
 fix the harm are conducting more research and not offering \
 it to a selective group of people."

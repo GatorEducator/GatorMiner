@@ -30,12 +30,13 @@ assignments = None
 assign_text = None
 stu_id = None
 success_msg = None
+debug_mode = False
 
 
 def main():
     """main streamlit function"""
     # Title
-    st.sidebar.title("Welcome to TextMining!")
+    st.sidebar.title("Welcome to GatorMiner!")
     data_retreive_method = st.sidebar.selectbox(
             "Choose the data retrieving method",
             [
@@ -56,6 +57,8 @@ def main():
                 "Interactive",
             ],
         )
+        if debug_mode:
+            st.write(main_df)
         if analysis_mode == "Home":
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
@@ -173,7 +176,7 @@ def import_data(data_retreive_method, paths):
         raw_df = pd.DataFrame()
         for item in json_lst:
             single_df = pd.DataFrame(item)
-            raw_df = raw_df.append(single_df, ignore_index=True)
+            raw_df = pd.concat([raw_df, single_df]).fillna("")
         tidy_df = df_preprocess(raw_df)
         return tidy_df, raw_df
 
@@ -452,8 +455,8 @@ def tpmodel():
     # )
     overall_topic_df, lda_model, corpus = tm.topic_model(
         topic_df[cts.TOKEN].tolist(),
-        NUM_TOPICS=topic_range,
-        NUM_WORDS=word_range,
+        num_topics=topic_range,
+        num_words=word_range,
     )
     overall_topic_df["Student"] = topic_df[stu_id].tolist()
     overall_topic_df[assign_id] = topic_df[assign_id].tolist()

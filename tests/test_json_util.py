@@ -5,13 +5,13 @@ import src.json_util as js
 
 def test_get_json_files(tmp_path):
     """Test that get json files return correct json files"""
-    d = tmp_path / "sub"
-    d.mkdir()
-    p1 = d / "hello.json"
-    p2 = d / "world.json"
-    p1.write_text("{\"assignment\": \"java-assignment\"}")
-    p2.write_text("{\"assignment\": \"java-assignment\"}")
-    output = js.get_json_files(d)
+    directory = tmp_path / "sub"
+    directory.mkdir()
+    para_1 = directory / "hello.json"
+    para_2 = directory / "world.json"
+    para_1.write_text("{\"assignment\": \"java-assignment\"}")
+    para_2.write_text("{\"assignment\": \"java-assignment\"}")
+    output = js.get_json_files(directory)
     expect = [
         {'assignment': 'java-assignment'},
         {'assignment': 'java-assignment'}

@@ -4,8 +4,8 @@ import os
 import datetime
 import hashlib
 import hmac
-import requests
 import json
+import requests
 
 from . import arguments
 # import arguments
@@ -17,26 +17,27 @@ REGION = "us-east-2"
 
 
 def auth_config():
-    API_KEY = os.environ.get("GATOR_API_KEY")
-    ENDPOINT = os.environ.get("GATOR_ENDPOINT")
+    """Authorization configuration"""
+    api_key = os.environ.get("GATOR_API_KEY")
+    endpoint = os.environ.get("GATOR_ENDPOINT")
     # Read AWS access key from env. variables or configuration file
-    ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
-    SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    access_key = os.environ.get("AWS_ACCESS_KEY_ID")
+    secret_key = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
-    if ACCESS_KEY is None:
+    if access_key is None:
         raise EnvironmentError("No aws access key is given.")
-    elif SECRET_KEY is None:
+    if secret_key is None:
         raise EnvironmentError("No aws secret key is given.")
-    elif API_KEY is None:
+    if api_key is None:
         raise EnvironmentError("No gator api key is given.")
-    elif ENDPOINT is None:
+    if endpoint is None:
         raise EnvironmentError("No gator endpoint is given.")
 
     return {
-        "API_KEY": API_KEY,
-        "ENDPOINT": ENDPOINT,
-        "ACCESS_KEY": ACCESS_KEY,
-        "SECRET_KEY": SECRET_KEY,
+        "api_key": api_key,
+        "endpoint": endpoint,
+        "access_key": access_key,
+        "secret_key": secret_key,
     }
 
 
@@ -45,28 +46,31 @@ def sign(key, msg):
     return hmac.new(key, msg.encode("utf-8"), hashlib.sha256).digest()
 
 
-def getSignatureKey(key, dateStamp, regionName, serviceName):
+def get_signature_key(key, date_stamp, region_name, service_name):
     """Key derivation functions from AWS"""
-    k_date = sign(("AWS4" + key).encode("utf-8"), dateStamp)
-    k_region = sign(k_date, regionName)
-    k_service = sign(k_region, serviceName)
+    k_date = sign(("AWS4" + key).encode("utf-8"), date_stamp)
+    k_region = sign(k_date, region_name)
+    k_service = sign(k_region, service_name)
     k_signing = sign(k_service, "aws4_request")
     return k_signing
 
 
+# pylint: disable=too-many-arguments
+# pylint: disable=too-many-locals
 def get_request(
-        assignment, passBuild, API_KEY, ENDPOINT, ACCESS_KEY, SECRET_KEY):
+        assignment, passbuild, api_key, endpoint, access_key, secret_key):
     """Create and sign request"""
     # Create a date for headers and the credential string
-    t = datetime.datetime.utcnow()
-    amzdate = t.strftime("%Y%m%dT%H%M%SZ")
-    datestamp = t.strftime("%Y%m%d")  # Date w/o time, used in credential scope
+    time = datetime.datetime.utcnow()
+    amzdate = time.strftime("%Y%m%dT%H%M%SZ")
+    # Date w/o time, used in credential scope
+    datestamp = time.strftime("%Y%m%d")
 
-    host, stage, method = ENDPOINT.replace("https://", "").split("/")
+    host, stage, method = endpoint.replace("https://", "").split("/")
     canonical_uri = "/" + stage + "/" + method
 
     # query
-    request_parameters = f"assignment={assignment}&passBuild={str(passBuild)}"
+    request_parameters = f"assignment={assignment}&passBuild={str(passbuild)}"
     # Create the canonical query string
     canonical_querystring = request_parameters
 
@@ -81,7 +85,7 @@ def get_request(
         + amzdate
         + "\n"
         + "x-api-key:"
-        + API_KEY
+        + api_key
         + "\n"
     )
 
@@ -129,7 +133,7 @@ def get_request(
 
     # CALCULATE THE SIGNATURE
     # Create the signing key using the function defined above.
-    signing_key = getSignatureKey(SECRET_KEY, datestamp, REGION, SERVICE)
+    signing_key = get_signature_key(secret_key, datestamp, REGION, SERVICE)
 
     # Sign the string_to_sign using the signing_key
     signature = hmac.new(
@@ -143,7 +147,7 @@ def get_request(
         algorithm
         + " "
         + "Credential="
-        + ACCESS_KEY
+        + access_key
         + "/"
         + credential_scope
         + ", "
@@ -157,39 +161,38 @@ def get_request(
     # headers include "host", "x-amz-date", and "Authorization"
     # The 'host' header is added automatically by the Python 'requests' library
     headers = {
-        "x-api-key": API_KEY,
+        "x-api-key": api_key,
         "x-amz-date": amzdate,
         "Authorization": authorization_header,
     }
 
-    request_url = ENDPOINT + "?" + request_parameters
+    request_url = endpoint + "?" + request_parameters
 
     # SEND THE REQUEST
     try:
-        r = requests.get(request_url, headers=headers)
-        r.raise_for_status()
+        response = requests.get(request_url, headers=headers)
+        response.raise_for_status()
     except requests.exceptions.HTTPError as errh:
         print(f"Http Error: {errh}")
-        raise Exception(f"Http Error: {errh}")
+        raise Exception(f"Http Error: {errh}") from errh
     except requests.exceptions.ConnectionError as errc:
         print("Error Connecting:", errc)
-        raise Exception(f"Connecting Error: {errc}")
+        raise Exception(f"Connecting Error: {errc}") from errc
     except requests.exceptions.Timeout as errt:
         print("Timeout Error:", errt)
-        raise Exception(f"Timeout Error: {errt}")
+        raise Exception(f"Timeout Error: {errt}") from errt
     except requests.exceptions.RequestException as err:
         print("RequestException:", err)
-        raise Exception(f"RequestException: {err}")
-    if not r.json():
+        raise Exception(f"RequestException: {err}") from err
+    if not response.json():
         raise Exception("The response is empty, the requested \
 assignment might not be in the database")
-    return r.json()
+    return response.json()
 
 
 if __name__ == "__main__":
     get_arguments = arguments.parse(sys.argv[1:])
-    assignment = get_arguments.assignment
-    passBuild = get_arguments.passBuild
+    arg_assignment = get_arguments.assignment
+    arg_passbuild = get_arguments.passBuild
     configs = auth_config()
-    response = get_request(assignment, passBuild, **configs)
-    print(json.dumps(response))
+    print(json.dumps(get_request(arg_assignment, arg_passbuild, **configs)))

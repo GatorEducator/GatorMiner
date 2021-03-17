@@ -1,4 +1,4 @@
-"""Constants used in textmining"""
+"""Constants used in GatorMining"""
 
 # Gradle report
 REPORT_ID = "userID"
