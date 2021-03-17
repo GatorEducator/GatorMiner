@@ -30,6 +30,7 @@ assignments = None
 assign_text = None
 stu_id = None
 success_msg = None
+debug_mode = False
 
 
 def main():
@@ -56,6 +57,8 @@ def main():
                 "Interactive",
             ],
         )
+        if debug_mode:
+            st.write(main_df)
         if analysis_mode == "Home":
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
@@ -173,7 +176,7 @@ def import_data(data_retreive_method, paths):
         raw_df = pd.DataFrame()
         for item in json_lst:
             single_df = pd.DataFrame(item)
-            raw_df = raw_df.append(single_df, ignore_index=True)
+            raw_df = pd.concat([raw_df, single_df]).fillna("")
         tidy_df = df_preprocess(raw_df)
         return tidy_df, raw_df
 
