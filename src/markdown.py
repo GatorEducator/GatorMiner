@@ -18,7 +18,7 @@ logging.basicConfig(
 
 def read_file(path: str) -> str:
     """ read file from path """
-    with open(path) as input_file:
+    with open(path, encoding="utf8") as input_file:
         data = input_file.read()
         return data
 
