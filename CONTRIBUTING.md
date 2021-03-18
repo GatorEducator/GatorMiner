@@ -77,6 +77,13 @@ pipenv run python -m spacy download en_core_web_sm
 pipenv run python -m spacy download en_core_web_md
 ```
 
+In order to run the `Streamlit` interface, type and execute the following command
+in your terminal:
+
+```bash
+pipenv run streamlit run streamlit_web.py
+```
+
 #### Test GatorMiner with Sample Data
 
 When working on GatorMiner, you are welcome to test the tool with the sample markdown
