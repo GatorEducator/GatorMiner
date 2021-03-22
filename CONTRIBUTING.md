@@ -105,6 +105,24 @@ command in your terminal:
 pipenv run streamlit run streamlit_web.py
 ```
 
+#### Develop GatorMiner on Windows
+
+GatorMiner depends on gensim, and gensim requires Microsoft Visual C++ 14.0+. You can check the version you have from
+`Control Panel -> Programs and Features`. To download or update this, go to the 
+[Visual Studio 2019 Downloads](https://visualstudio.microsoft.com/downloads/), scroll down and 
+expand the `Tools for Visual Studio 2019` and click the download link for `Build tools for Visual Studio 2019`. 
+
+Once the installer is downloaded, launch it and select the `C++ build tools` option under `Desktop and Mobile`.
+After that select install at the bottom and wait.
+Note that it is a ~6GB download and may take some time. Once the C++ build tools are finished
+installing, the installer will ask to restart the computer to finish the installation.
+
+After your computer has finished installing the C++ build tools, you may need to reinstall the dependencies. To do this,
+just run the `pipenv install --dev` command as previously instructed.
+
+If you still receive the error, delete the `Pipfile.lock` file in the root of the GatorMiner directory and reinstall 
+using the previous command.
+
 #### Test GatorMiner with Sample Data
 
 When working on GatorMiner, you are welcome to test the tool with the sample markdown
@@ -114,27 +132,6 @@ the project with Local File System input.
 
 ```shell
 resources/sample_md_reflections/lab1, resources/sample_md_reflections/lab2, resources/sample_md_reflections/lab3
-```
-
-#### Missing Module Gensim or gensim.summarization With Windows
-
-If you run streamlit_web.py and are met with a `No module named Gensim` or similar
-error and are running windows, You can fix this problem by installing Microsoft Visual
-C++ 14.0+. You can do this by going to the [Visual Studio 2019 Downloads](https://visualstudio.microsoft.com/downloads/),
-scrolling down and expanding the `Tools for Visual Studio 2019` and clicking the download link for
-`Build tools for Visual Studio 2019`. 
-
-Once the installer is downloaded, launch it and select
-the `C++ build tools` option under `Desktop and Mobile`. After that select install at the bottom
-and wait. Note that it is a ~6GB download and may take some time. Once the C++ build tools are finished
-installing, the installer will ask to restart the computer to finish the installation.
-
-After your computer has finished installing the C++ build tools, you may need to reinstall the dependencies.
-To do this, delete the `Pipfile.lock` file in the root of the GatorMiner directory and reinstall the
-dependencies with the following command:
-
-```
-pipenv install --dev
 ```
 
 ### Contribute with Github Flow Model
