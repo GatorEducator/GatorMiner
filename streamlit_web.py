@@ -42,6 +42,7 @@ def main():
             [
                 "Local file system",
                 "AWS",
+                "File Upload",
             ],
         )
     if retreive_data(data_retreive_method):
@@ -102,7 +103,7 @@ def retreive_data(data_retreive):
         input_assignments = st.sidebar.text_input(
                 "Enter path(s) to markdown documents (seperate by comma)"
         )
-    else:
+    elif data_retreive == "AWS":
         input_assignments = st.sidebar.text_input(
                 "Enter assignment names of the markdown \
 documents(seperate by comma)"
@@ -110,6 +111,12 @@ documents(seperate by comma)"
         st.sidebar.info(
             "You will need to store keys and endpoints in the \
 environment variables")
+    else:
+    uploaded_files = st.file_uploader("Choose a Markdown file", type=['md'],accept_multiple_files=True)
+    for uploaded_file in uploaded_files:
+        bytes_data = uploaded_file.read()
+        st.write("filename:", uploaded_file.name)
+        st.write(bytes_data)
     if not input_assignments:
         landing_pg()
     else:
