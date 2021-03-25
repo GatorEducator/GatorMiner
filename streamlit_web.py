@@ -112,15 +112,13 @@ documents(seperate by comma)"
             "You will need to store keys and endpoints in the \
 environment variables")
     else:
-    uploaded_files = st.file_uploader("Choose a Markdown file", type=['md'],accept_multiple_files=True)
-    for uploaded_file in uploaded_files:
+      input_assignments = st.file_uploader("Choose a Markdown file", type=['md'],accept_multiple_files=True)
+      for uploaded_file in input_assignments:
         bytes_data = uploaded_file.read()
-        st.write("filename:", uploaded_file.name)
-        st.write(bytes_data)
     if not input_assignments:
         landing_pg()
     else:
-        input_assignments = re.split(r"[;,\s]\s*", input_assignments)
+        input_assignments = re.split(r"[;,\s]\s*", str(bytes_data))
         try:
             main_df, preprocessed_df = import_data(
                 data_retreive, input_assignments)
@@ -166,7 +164,7 @@ def import_data(data_retreive_method, paths):
             st.sidebar.text(err)
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
-    else:
+    elif data_retreive_method == "AWS":
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
         try:
