@@ -73,7 +73,7 @@ Network URL: http://xxx.xxx.x.x:8501
 
 The web interface will be automatically opened in your browser:
 
-![browser](resources/images/landing_page.png)
+<img src="resources/images/landing_page.png" alt="browser" style="width:100%"/>
 
 ### Data Retreiving
 
@@ -113,7 +113,7 @@ with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb).
 Once the documents are successfully imported, you can then navigate through
 the select box in the sidebar to view the text analysis:
 
-![select box](resources/images/select_box.png)
+<img src="resources/images/select_box.png" alt="select box" style="width:100%"/>
 
 ##### Reflection Documents
 
@@ -132,10 +132,10 @@ format of json reports GatorMiner gathers from AWS.
 
 ### Analysis
 
-![frequency](resources/images/frequency.png)
-![sentiment](resources/images/sentiment.png)
-![similarity](resources/images/similarity.png)
-![topic](resources/images/topic.png)
+<img src="resources/images/frequency.png" alt="frequency" style="width:100%"/>
+<img src="resources/images/sentiment.png" alt="sentiment" style="width:100%"/>
+<img src="resources/images/similarity.png" alt="similarity" style="width:100%"/>
+<img src="resources/images/topic.png" alt="topic" style="width:100%"/>
 
 ### Contribution
 

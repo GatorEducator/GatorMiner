@@ -2,7 +2,9 @@
 
 import re
 
+import base64
 import numpy as np
+import os
 import pandas as pd
 from sklearn.manifold import TSNE
 import spacy
@@ -89,7 +91,14 @@ def landing_pg():
     landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
     if landing == "Home":
         with open("README.md") as readme_file:
-            st.markdown(readme_file.read())
+            readme_src = readme_file.read()
+            for file in os.listdir("resources/images"):
+                if file.endswith(".png"):
+                    img_path = f"resources/images/{file}"
+                    with open(img_path, "rb") as f:
+                        img_bin = base64.b64encode(f.read()).decode()
+                    readme_src = readme_src.replace(img_path, f"data:image/png;base64,{img_bin}")
+            st.markdown(readme_src, unsafe_allow_html=True)
     else:
         interactive()
 
