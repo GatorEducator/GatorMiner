@@ -62,8 +62,7 @@ def main():
         if debug_mode:
             st.write(main_df)
         if analysis_mode == "Home":
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            landing_pg()
         else:
             if analysis_mode == "Frequency Analysis":
                 st.title(analysis_mode)
@@ -129,8 +128,7 @@ environment variables")
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input")
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            landing_pg()
         else:
             global success_msg
             success_msg = None
@@ -166,8 +164,7 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(md.collect_md(path))
         except FileNotFoundError as err:
             st.sidebar.text(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            landing_pg()
     else:
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
@@ -178,8 +175,7 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(ju.clean_report(response))
         except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            landing_pg()
     # when data is retreived
     if json_lst:
         raw_df = pd.DataFrame()
