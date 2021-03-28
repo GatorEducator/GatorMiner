@@ -55,6 +55,7 @@ def main():
                 "Summary",
                 "Topic Modeling",
                 "Interactive",
+                "Entity Analysis",
             ],
         )
         if debug_mode:
@@ -81,6 +82,9 @@ def main():
             elif analysis_mode == "Interactive":
                 st.title(analysis_mode)
                 interactive()
+            elif analysis_mode == "Entity Analysis":
+                st.title(analysis_mode)
+                entities()
             success_msg.empty()
 
 
@@ -639,6 +643,12 @@ def interactive():
     if summary_cb:
         summaries = sz.summarize_text(input_text)
         st.write(summaries)
+
+
+def entities():
+    """Page to display entity analysis"""
+    st.header("Hello world!")
+    st.sidebar.success("Hello sidebar!")
 
 
 if __name__ == "__main__":
