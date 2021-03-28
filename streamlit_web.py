@@ -2,6 +2,7 @@
 
 import re
 
+from io import StringIO
 import numpy as np
 import pandas as pd
 from sklearn.manifold import TSNE
@@ -113,12 +114,11 @@ documents(seperate by comma)"
 environment variables")
     else:
       input_assignments = st.file_uploader("Choose a Markdown file", type=['md'],accept_multiple_files=True)
-      for uploaded_file in input_assignments:
-        bytes_data = uploaded_file.read()
     if not input_assignments:
         landing_pg()
     else:
-        input_assignments = re.split(r"[;,\s]\s*", str(bytes_data))
+        if data_retreive == "AWS" or data_retreive == "Local file system":
+            input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
             main_df, preprocessed_df = import_data(
                 data_retreive, input_assignments)
@@ -144,7 +144,6 @@ environment variables")
             global stu_id
             stu_id = preprocessed_df.columns[1]
             return True
-
 
 @st.cache(allow_output_mutation=True)
 def load_model(name):
@@ -174,6 +173,18 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(ju.clean_report(response))
         except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+    else:
+        try:
+            main_md_dict = None
+            for path in paths:
+                stringio = StringIO(path.getvalue().decode("utf-8"))
+                individual_dict = md.md_parser(stringio.read(), True)
+                main_md_dict = md.merge_dict(main_md_dict, individual_dict)
+            json_lst.append(main_md_dict)
+        except FileNotFoundError as err:
+            st.sidebar.text(err)
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
     # when data is retreived
