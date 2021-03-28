@@ -178,11 +178,14 @@ def import_data(data_retreive_method, paths):
     else:
         try:
             main_md_dict = None
-            for path in paths:
-                stringio = StringIO(path.getvalue().decode("utf-8"))
-                individual_dict = md.md_parser(stringio.read(), True)
-                main_md_dict = md.merge_dict(main_md_dict, individual_dict)
-            json_lst.append(main_md_dict)
+            if len(paths) < 2:
+                st.sidebar.warning("Please select more than one file!")
+            else:
+                for path in paths:
+                    stringio = StringIO(path.getvalue().decode("utf-8"))
+                    individual_dict = md.md_parser(stringio.read(), True)
+                    main_md_dict = md.merge_dict(main_md_dict, individual_dict)
+                json_lst.append(main_md_dict)
         except FileNotFoundError as err:
             st.sidebar.text(err)
             with open("README.md") as readme_file:
