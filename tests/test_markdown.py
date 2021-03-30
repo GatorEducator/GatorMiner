@@ -1,6 +1,7 @@
 """Test module for markdown.py"""
 import pytest
 import src.markdown as md
+import os
 
 
 def test_merge_dict():
@@ -21,8 +22,9 @@ def test_get_file_names(tmp_path):
     para_1.write_text("text")
     para_2.write_text("text")
     output = md.get_file_names(directory)
-    expected = [f"{directory}\\hello.md", f"{directory}\\world.md"]
-    assert expected == output
+    expected = [f"{directory}{os.path.sep}hello.md", f"{directory}{os.path.sep}world.md"]
+    assert expected[0] in output
+    assert expected[1] in output
 
 
 def test_md_parser():
