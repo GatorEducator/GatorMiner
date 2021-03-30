@@ -11,7 +11,7 @@ pytest-cov = "*"
 
 [packages]
 matplotlib = "*"
-gensim = '*'
+gensim = "~=3.8.3"
 spacy = "~=2.3"
 sklearn = "*"
 pytest = "*"
@@ -23,6 +23,7 @@ altair = "*"
 textblob = "*"
 scipy = "*"
 pylint = "*"
+importlib-metadata = "*"
 
 [pipenv]
 allow_prereleases = true
