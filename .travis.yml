@@ -22,7 +22,7 @@ before_install:
   - wget https://github.com/praekeltfoundation/travis-pyenv/releases/latest/download/setup-pyenv.sh
   - source setup-pyenv.sh
   - gem install chef-utils -v 16.6.14
-  # install mdl to check markdown
+  # install mdl to check markdown beep
   - gem install mdl
 
 notifications:
