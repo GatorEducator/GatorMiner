@@ -18,7 +18,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Pipenv
       run: |
-        pip install pipenv --upgrade
+        python -m pip install pipenv --upgrade
     - name: Install dependencies
       run: |
         # install dependencies according to the lock file
