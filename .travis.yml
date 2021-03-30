@@ -21,6 +21,7 @@ before_install:
   # install pyenv with travis-pyenv
   - wget https://github.com/praekeltfoundation/travis-pyenv/releases/latest/download/setup-pyenv.sh
   - source setup-pyenv.sh
+  
   # install mdl to check markdown
   - gem install mdl
 
