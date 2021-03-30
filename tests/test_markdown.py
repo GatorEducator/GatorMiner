@@ -1,7 +1,6 @@
 """Test module for markdown.py"""
 import pytest
 import src.markdown as md
-import os
 
 
 def test_merge_dict():

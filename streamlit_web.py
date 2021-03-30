@@ -113,7 +113,9 @@ documents(seperate by comma)"
             "You will need to store keys and endpoints in the \
 environment variables")
     else:
-      input_assignments = st.file_uploader("Choose a Markdown file", type=['md'],accept_multiple_files=True)
+        input_assignments = st.file_uploader("Choose a Markdown file",
+                                             type=['md'],
+                                             accept_multiple_files=True)
     if not input_assignments:
         landing_pg()
     else:
@@ -144,6 +146,7 @@ environment variables")
             global stu_id
             stu_id = preprocessed_df.columns[1]
             return True
+
 
 @st.cache(allow_output_mutation=True)
 def load_model(name):
@@ -300,7 +303,8 @@ def student_freq(freq_range):
                     .to_string(),
                     freq_range,
                 )
-                ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
+                ind_df = pd.DataFrame(individual_freq,
+                                      columns=["word", "freq"])
                 ind_df["assignments"] = item
                 ind_df["student"] = student
                 freq_df = freq_df.append(ind_df)
@@ -380,7 +384,8 @@ def sentiment():
         st.header(f"Overall sentiment polarity in **{assign_text}**")
         overall_senti(senti_df)
     elif senti_type == "Student":
-        st.header(f"View sentiment by individual students in **{assign_text}**")
+        st.header(f"View sentiment by individual students in "
+                  f"**{assign_text}**")
         student_senti(senti_df)
     elif senti_type == "Question":
         st.header(
@@ -647,7 +652,8 @@ def interactive():
             # Newlines seem to mess with the rendering
             html = html.replace("\n", " ")
             HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
-        #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
+        #e6e9ef; border-radius: 0.25rem; padding: 1rem;
+        margin-bottom: 2.5rem">\
         {}</div>"""
             st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
         else:
