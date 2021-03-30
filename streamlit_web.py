@@ -125,7 +125,7 @@ documents(seperate by comma)"
             "You will need to store keys and endpoints in the \
 environment variables")
     if not input_assignments:
-        readme()
+        landing_pg()
     else:
         input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
