@@ -21,7 +21,8 @@ jobs:
         pip install pipenv --upgrade
     - name: Install dependencies
       run: |
-        pipenv install --dev --skip-lock
+        # install dependencies according to the lock file
+        pipenv install --dev --ignore-pipfile
         pipenv run python -m spacy download en_core_web_sm
     - name: Run test with pytest
       run: |
