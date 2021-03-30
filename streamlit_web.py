@@ -62,7 +62,7 @@ def main():
         if debug_mode:
             st.write(main_df)
         if analysis_mode == "Home":
-            landing_pg()
+            readme()
         else:
             if analysis_mode == "Frequency Analysis":
                 st.title(analysis_mode)
