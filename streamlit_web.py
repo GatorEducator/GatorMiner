@@ -41,9 +41,9 @@ def main():
     data_retreive_method = st.sidebar.selectbox(
             "Choose the data retrieving method",
             [
-                "Local file system",
+                "Path input",
                 "AWS",
-                "File Upload",
+                "Upload local files",
             ],
         )
     if retreive_data(data_retreive_method):
@@ -100,7 +100,7 @@ def retreive_data(data_retreive):
     """pipeline to retrieve data from user input to output"""
     global preprocessed_df
     global main_df
-    if data_retreive == "Local file system":
+    if data_retreive == "Path input":
         input_assignments = st.sidebar.text_input(
                 "Enter path(s) to markdown documents (seperate by comma)"
         )
@@ -113,13 +113,13 @@ documents(seperate by comma)"
             "You will need to store keys and endpoints in the \
 environment variables")
     else:
-        input_assignments = st.file_uploader("Choose a Markdown file",
+        input_assignments = st.sidebar.file_uploader("Choose a Markdown file",
                                              type=['md'],
                                              accept_multiple_files=True)
     if not input_assignments:
         landing_pg()
     else:
-        if data_retreive == "AWS" or data_retreive == "Local file system":
+        if data_retreive == "AWS" or data_retreive == "Path input":
             input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
             main_df, preprocessed_df = import_data(
@@ -158,7 +158,7 @@ def load_model(name):
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
     json_lst = []
-    if data_retreive_method == "Local file system":
+    if data_retreive_method == "Path input":
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
