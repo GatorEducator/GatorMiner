@@ -113,7 +113,7 @@ with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb).
 Once the documents are successfully imported, you can then navigate through
 the select box in the sidebar to view the text analysis:
 
-<img src="resources/images/select_box.png" alt="select box" style="width:100%"/>
+! [second image] (resources/images/select_box.png)
 
 ##### Reflection Documents
 
@@ -132,10 +132,10 @@ format of json reports GatorMiner gathers from AWS.
 
 ### Analysis
 
-<img src="resources/images/frequency.png" alt="frequency" style="width:100%"/>
-<img src="resources/images/sentiment.png" alt="sentiment" style="width:100%"/>
-<img src="resources/images/similarity.png" alt="similarity" style="width:100%"/>
-<img src="resources/images/topic.png" alt="topic" style="width:100%"/>
+! [third image} (resources/images/frequency.png)
+! [fourth image] (resources/images/sentiment.png)
+! [fifth image] (resources/images/similarity.png)
+! [sixth image] (resources/images/topic.png)
 
 ### Contribution
 
