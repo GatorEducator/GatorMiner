@@ -49,8 +49,6 @@ with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb).
 Once the documents are successfully imported, you can then navigate through
 the select box in the sidebar to view the text analysis:
 
-<img src="resources/images/select_box.png" alt="browser" style="width:100%"/>
-
 ## Analysis
 
 ### Frequency Analysis
