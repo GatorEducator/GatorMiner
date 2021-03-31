@@ -1,3 +1,2 @@
-Frequency analysis is the process of finding the frequency of letters, words, or groups of letters in a text.
-Frequency analysis can be useful to discover what words are being used a lot more then other words.
-Conclusions can be drawn from frequency analysis like a group's sentiment and themes within a text.
+
+Frequency analysis, which is also known as counting letters, is a useful study within the field of computer science. This is due to its function being capable of outputting the frequency of letters or groups of letters in a ciphertext. 

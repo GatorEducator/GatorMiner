@@ -18,12 +18,11 @@ pytest = "*"
 requests = "*"
 commonmark = "*"
 codecov = "*"
-streamlit = "*"
+streamlit = "~=0.78.0"
 altair = "*"
 textblob = "*"
 scipy = "*"
 pylint = "*"
-importlib-metadata = "*"
 
 [pipenv]
 allow_prereleases = true
