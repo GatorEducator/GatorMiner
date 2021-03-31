@@ -50,7 +50,8 @@ ENV USER student
 CMD pipenv run streamlit run streamlit_web.py
 
 
-#BUILD WITH: docker build -t gatorminerv1.0 Documents/COMPSCI203/Labs/GatorMiner && docker container run --name myminer -d -p 8501:8501 gatorminerv0.1 && echo "Please open 'localhost:80' on your browser of choice"
+#BUILD WITH: docker build -t gatorminerv1.0 Documents/COMPSCI203/Labs/GatorMiner
+#RUN WITH: docker container run --name myminer -d -p 8501:8501 gatorminerv0.1 && echo "Please open 'localhost:80' on your browser of choice"
 
 
 #TODO: 
