@@ -1,3 +1,4 @@
+
 # Contributing Guidelines
 
 Thank you for taking the time to contribute to GatorMiner! This guide will help you
@@ -5,17 +6,17 @@ to effectively get started and contribute to the project.
 
 ## Table of Contents
 
-- [Code of Conduct](#code-of-conduct)
-- [Raise an Issue](#raise-an-issue)
-- [Make a Pull Request](#make-a-pull-request)
-- [Project Overview](#project-overview)
-  - [Development Environment](#development-environment)
-    - [Test GatorMiner with Sample Data](#test-gatorminer-with-sample-data) 
-  - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
-    - [Commits](#commits)
-    - [Branches](#branches)
-  - [Automated Testing](#automated-testing)
-  - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
+  - [Code of Conduct](#code-of-conduct)
+  - [Raise an Issue](#raise-an-issue)
+  - [Make a Pull Request](#make-a-pull-request)
+  - [Project Overview](#project-overview)
+    - [Development Environment](#development-environment)
+      - [Test GatorMiner with Sample Data](#test-gatorminer-with-sample-data)
+    - [Contribute with Github Flow Model](#contribute-with-github-flow-model)
+      - [Commits](#commits)
+      - [Branches](#branches)
+    - [Automated Testing](#automated-testing)
+    - [Code Linting and Continuous Integration](#code-linting-and-continuous-integration)
 
 ## Code of Conduct
 
@@ -50,25 +51,45 @@ code contribution.
 ### Development Environment
 
 In order to contribute code or documentation to the project, the project
-maintainers suggest installing the release of Python versions above 3.6. In
-addition to installing `Git` to access the project's GitHub repository, you
-should also install `Pipenv` for its support of package and virtual environment
-management. Once you have installed `Git` and `Pipenv`, you can type the
-following command in your terminal window to clone the GitHub repository:
+maintainers suggest installing the release of Python versions above 3.7. You can
+learn more about installing and managing python versions with `pyenv` from
+[here](https://realpython.com/intro-to-pyenv/). In addition to installing `Git` to
+access the project's GitHub repository, you should also install `Pipenv` for its
+support of package and virtual environment management.
+
+Once you have installed `Git` and `Pipenv`, you can type the following command
+in your terminal window to clone the GitHub repository:
 
 ```sh
 git clone git@github.com:Allegheny-Ethical-CS/GatorMiner.git
 ```
 
-You can install and set up the development dependencies with `Pipenv` as follows:
+If needed, install and upgrade the `Pipenv` with `pip`:
+
+```sh
+pip install pipenv -U
+```
+
+You can install and set up the **development** dependencies with `Pipenv` using
+one of the following commands:
+
+```sh
+pipenv install --dev
+```
+
+or
 
 ```sh
 pipenv install --dev --skip-lock
 ```
 
-GatorMiner relies on `en_core_web_sm` and/or `en_core_web_md`, English models trained on
-written web text (blogs, news, comments) that includes vocabulary, vectors,
-syntax and entities.
+The second command would ignore the `Pipfile.lock` and instead install the
+dependencies from the `Pipfile`. This would not write out an updated
+`Pipfile.lock` reflecting the changes to the `Pipfile`.
+
+GatorMiner relies on `en_core_web_sm` and/or `en_core_web_md`, English models
+trained on written web text (blogs, news, comments) that includes vocabulary,
+vectors, syntax and entities.
 
 To install the pre-trained model, you can run the following command:
 
@@ -77,17 +98,37 @@ pipenv run python -m spacy download en_core_web_sm
 pipenv run python -m spacy download en_core_web_md
 ```
 
-In order to run the `Streamlit` interface, type and execute the following command
-in your terminal:
+In order to start up the `Streamlit` interface, type and execute the following
+command in your terminal:
 
 ```bash
 pipenv run streamlit run streamlit_web.py
 ```
 
+#### Develop GatorMiner on Windows
+
+GatorMiner depends on gensim, and gensim requires Microsoft Visual C++ 14.0+. You can check the version you have from
+`Control Panel -> Programs and Features`. To download or update this, go to the
+[Visual Studio 2019 Downloads](https://visualstudio.microsoft.com/downloads/), scroll down and
+expand the `Tools for Visual Studio 2019` and click the download link for `Build tools for Visual Studio 2019`.
+
+Once the installer is downloaded, launch it and select the `C++ build tools` option under `Desktop and Mobile`.
+After that select install at the bottom and wait.
+Note that it is a ~6GB download and may take some time. Once the C++ build tools are finished
+installing, the installer will ask to restart the computer to finish the installation.
+
+After your computer has finished installing the C++ build tools, you may need to reinstall the dependencies. To do this,
+just run the `pipenv install --dev` command as previously instructed.
+
+If you still receive the error, delete the `Pipfile.lock` file in the root of the GatorMiner directory and reinstall
+using the previous command.
+
 #### Test GatorMiner with Sample Data
 
 When working on GatorMiner, you are welcome to test the tool with the sample markdown
-documents and JSON reports we have provided in [resources](resources), for example:
+documents and JSON reports we have provided in [resources](resources). For
+example, you can enter the following path(s) to the `Streamlit` interface to test
+the project with Local File System input.
 
 ```shell
 resources/sample_md_reflections/lab1, resources/sample_md_reflections/lab2, resources/sample_md_reflections/lab3
@@ -137,12 +178,12 @@ of a project. We encourage you to follow the recommend rules listed below:
 
 - Use hyphen and/or slash as separators: `prefix`/`branch`-`name`-`issue-id`.
 - Use the types of the branch as prefixes to the branch name.
-  - feat: implement or expand a feature.
-  - bug: bug fix.
-  - doc: documentation-related contribution.
-  - test: test-related contribution.
-  - refact: code refactoring.
-  - expr: experiment.
+  - `feat`: implement or expand a feature.
+  - `bug`: bug fix.
+  - `doc`: documentation-related contribution.
+  - `test`: test-related contribution.
+  - `refact`: code refactoring.
+  - `expr`: experiment.
 
 ### Automated Testing
 
