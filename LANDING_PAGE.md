@@ -49,6 +49,8 @@ with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb).
 Once the documents are successfully imported, you can then navigate through
 the select box in the sidebar to view the text analysis:
 
+<img src="resources/images/select_box.png" alt="browser" style="width:100%"/>
+
 ## Analysis
 
 ### Frequency Analysis
@@ -92,11 +94,13 @@ observe. When chosen it shows the sentiment shown by the chosen user with a mini
 
 Finally, when `Question` is selected, it allows the user to choose a certain question in the drop down menu. When chosen, it shows the user the sentiment the question was given.
 
+<img src="resources/images/sentiment.png" alt="browser" style="width:100%"/>
+
 ### Document Similarity
 
 Document similarity analyzes documents and compares text to determine frequency of words between documents.
 
-Within the GatorMiner tool, you have the ability to choose `Document similarity` as an analysis option after the path to the desired reflection documents is submitted.
+Within the GatorMiner tool, you have the ability to choose `Document Similarity` as an analysis option after the path to the desired reflection documents is submitted.
 
 In the `Document Similarity` section, you are able to select the type of similarity analysis `TF-IDF` and `Spacy`.
 
@@ -111,4 +115,18 @@ When `Spacy` is selected, the application will display a drop down named 'Model 
 
 <img src="resources/images/similarity.png" alt="browser" style="width:100%"/>
 
-## Topic Modeling
+### Topic Modeling
+
+Topic modeling analyzes documents to find keywords in order to determine the documents' dominant topics.
+
+Within the GatorMiner tool, you have the ability to choose `Topic Modeling` as an analysis option after the path to the desired reflection documents is submitted.
+
+In the `Topic Modeling` section, you are able to select the type of topic modeling analysis `Histogram` and `Scatter`.
+
+When `Histogram` is selected, the application will display a histogram in which the dominant topic is on the x-axis and the count of records is on the y-axis. A legend in the top right corner will display the names of the reflection files new to the color that corresponds with them.
+
+When `Scatter` is selected, the application will display a scatter plot. The legend on the right side will display the colors that correspond to topic numbers and the shapes that correspond with topics.
+
+Sliders are also provided that can adjust the amount of topics or adjust the amount of words per topic.
+
+<img src="resources/images/topic.png" alt="browser" style="width:100%"/>
