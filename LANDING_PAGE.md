@@ -1,4 +1,4 @@
-## Welcome to GatorMiner!
+# Welcome to GatorMiner!
 GatorMiner is an automated text-mining tool written in Python to measure the technical
 responsibility of students in computer science courses. It is being used to analyze
 students' markdown reflection documents and five questions survey based on
@@ -9,7 +9,7 @@ College.
 
 There are currently two ways to import text data for analysis: through local file system or AWS DynamoDB.
 
-#### Local File System
+### Local File System
 What is a local file system?
   - A controlled place where data can be stored and received. In this case, this
 is where GatorMiner keeps data isolated so it can be easily identified.
@@ -23,11 +23,11 @@ in the 'resources', for example:
 resources/sample_md_reflections/lab1, resources/sample_md_reflections/lab2, resources/sample_md_reflections/lab3
 ```
 
-#### AWS
+### AWS
 
 ### Analysis
 
-#### Frequency Analysis
+### Frequency Analysis
 
 Frequency analysis is the quantification and analysis of word usage in text (how often a word appears within a certain text). Overall, frequency analysis can provide amazing insight into the many aspects of assignments that instructors may not always be able to observe so it can be extremely valuable to make this information available in a user-friendly and intuitive fashion. This can be achieved using GatorMiner frequency analysis.
 
@@ -45,7 +45,7 @@ When `Student` is selected, a dropdown menu is provided allowing you to pick whi
 
 Finally, when `Question` is selected, the option to pick one or more specific questions appears. The tool then produces and displays a vertical bar chart which contains frequency information for each of the selected questions in the assignment. This is helpful for comparing the ways in which different terms are utilized within different questions in an assignment.
 
-#### Sentiment Analysis
+### Sentiment Analysis
 
 Sentiment analysis (or opinion mining) is the use of natural language processing, text analysis, computational linguistics, and biometrics to systematically identify, extract, quantify, and study affective states and subjective information. Overall,
 this is a technique to determine whether data is positive, negative, or neutral.
@@ -66,6 +66,20 @@ observe. When chosen it shows the sentiment shown by the chosen user with a mini
 
 Finally, when `Question` is selected, it allows the user to choose a certain question in the drop down menu. When chosen, it shows the user the sentiment the question was given.
 
-#### Document Similarity
+### Document Similarity
 
-#### Topic Modeling
+Document similarity analyzes documents and compares text to determine frequency of words between documents.
+
+Within the GatorMiner tool, you have the ability to choose `Document similarity` as an analysis option after the path to the desired reflection documents is submitted.
+
+In the `Document Similarity` section, you are able to select the type of similarity analysis `TF-IDF` and `Spacy`.
+
+When `TF-IDF` is selected, the application will display a frequency matrix showing the correlation between documents.  It does this buy dividing the frequency of the word by the total number of terms in a document.
+
+When `Spacy` is selected, the application will display a drop down named 'Model name' with two options:
+- `en_core_web_sm` which is used to produce a correlation matrix for **SMALLER** files. (10mb)
+- `en_core_web_md` which is used to produce a correlation matrix for **LARGER** files. (>10mb)
+
+**Warning exceeding these limits could cause the program to crash.**
+
+### Topic Modeling
