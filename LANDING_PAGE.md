@@ -47,6 +47,25 @@ Finally, when `Question` is selected, the option to pick one or more specific qu
 
 #### Sentiment Analysis
 
+Sentiment analysis (or opinion mining) is the use of natural language processing, text analysis, computational linguistics, and biometrics to systematically identify, extract, quantify, and study affective states and subjective information. Overall,
+this is a technique to determine whether data is positive, negative, or neutral.
+
+Within the GatorMiner tool, you have the ability to choose `Sentiment Analysis` as an analysis option after the path to the desired reflection documents is submitted.
+
+When the tool runs a Sentiment analysis, on any number of assignments, it provides 3 different options to choose from:
+
+- Overall
+- Student
+- Question
+
+When `Overall` is selected, a scatter plot and a bar chart appear on the screen
+displaying the overall sentiment polarity in, for example, assignment-01 given by the  users.
+
+When `Student` is selected, it allows the user to choose a specific student to
+observe. When chosen it shows the sentiment shown by the chosen user with a mini bar graph and a bigger version of that using a histogram. Inside this feature, you can also change the number of plots per row.
+
+Finally, when `Question` is selected, it allows the user to choose a certain question in the drop down menu. When chosen, it shows the user the sentiment the question was given.
+
 #### Document Similarity
 
 #### Topic Modeling
