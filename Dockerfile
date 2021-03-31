@@ -43,11 +43,10 @@ RUN python3 -m pip install pipenv
 #==========This is where the issues start===========
 RUN rm Pipfile.lock 
 RUN pipenv lock
-#^^^Last Build Time > 1003.9s before crash
 RUN pipenv install --dev
+#^^^Last Build Time > 1003.9s before crash
 RUN pipenv run python -m pip --no-cache-dir install streamlit
 RUN pipenv run spacy download en_core_web_sm
-
 USER student
 ENV USER student
 RUN pipenv run streamlit run streamlit_web.py
