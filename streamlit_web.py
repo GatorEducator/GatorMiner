@@ -648,7 +648,7 @@ def interactive():
 
 def entities():
     """Page to display entity analysis"""
-    st.header("Hello world!")
+    st.header("Entity analysis inspects the given text for known entities and returns information about those entities. It is a way to extract information that seeks to locate and classify named entities in text into pre-defined categories such as the names of persons, organizations, locations, expressions of times, quantities, monetary values, and percentages.")
     st.sidebar.success("Hello sidebar!")
 
     input_df = main_df.copy(deep=True)
