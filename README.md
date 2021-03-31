@@ -73,7 +73,7 @@ Network URL: http://xxx.xxx.x.x:8501
 
 The web interface will be automatically opened in your browser:
 
-[browser](resources/images/landing_page.png)
+![browser](resources/images/landing_page.png)
 
 ### Data Retreiving
 
