@@ -71,6 +71,8 @@ When `Student` is selected, a dropdown menu is provided allowing you to pick whi
 
 Finally, when `Question` is selected, the option to pick one or more specific questions appears. The tool then produces and displays a vertical bar chart which contains frequency information for each of the selected questions in the assignment. This is helpful for comparing the ways in which different terms are utilized within different questions in an assignment.
 
+<img src="resources/images/frequency.png" alt="browser" style="width:100%"/>
+
 ### Sentiment Analysis
 
 Sentiment analysis (or opinion mining) is the use of natural language processing, text analysis, computational linguistics, and biometrics to systematically identify, extract, quantify, and study affective states and subjective information. Overall,
