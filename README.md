@@ -71,7 +71,7 @@ Local URL: http://localhost:8501
 Network URL: http://xxx.xxx.x.x:8501
 ```
 
-The web interface will be automatically opened in your browser:	
+The web interface will be automatically opened in your browser:
 
 <img src="https://github.com/Allegheny-Ethical-CS/GatorMiner/blob/f953736caa0b03325ec9c09dbcc6dc790681cd22/resources/images/landing_page.png?raw=true"  width="120" height="120">
 
