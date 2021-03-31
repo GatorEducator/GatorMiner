@@ -6,11 +6,11 @@ students' markdown reflection documents and five questions survey based on
 Natural Language Processing in the Department of Computer Science at Allegheny
 College.
 
-### Data Retrieving
+## Data Retrieving
 
 There are currently two ways to import text data for analysis: through local file system or AWS DynamoDB.
 
-### Local File System
+## Local File System
 
 What is a local file system?
 
@@ -26,7 +26,7 @@ in the 'resources', for example:
 resources/sample_md_reflections/lab1, resources/sample_md_reflections/lab2, resources/sample_md_reflections/lab3
 ```
 
-### AWS
+## AWS
 
 Retrieving reflection documents from AWS is a feature integrated with the use
 of [GatorGrader](https://github.com/GatorEducator/gatorgrader) where students'
@@ -51,9 +51,9 @@ the select box in the sidebar to view the text analysis:
 
 <img src="resources/images/select_box.png" alt="browser" style="width:100%"/>
 
-### Analysis
+## Analysis
 
-### Frequency Analysis
+## Frequency Analysis
 
 Frequency analysis is the quantification and analysis of word usage in text (how often a word appears within a certain text). Overall, frequency analysis can provide amazing insight into the many aspects of assignments that instructors may not always be able to observe so it can be extremely valuable to make this information available in a user-friendly and intuitive fashion. This can be achieved using GatorMiner frequency analysis.
 
@@ -73,7 +73,7 @@ Finally, when `Question` is selected, the option to pick one or more specific qu
 
 <img src="resources/images/frequency.png" alt="browser" style="width:100%"/>
 
-### Sentiment Analysis
+## Sentiment Analysis
 
 Sentiment analysis (or opinion mining) is the use of natural language processing, text analysis, computational linguistics, and biometrics to systematically identify, extract, quantify, and study affective states and subjective information. Overall,
 this is a technique to determine whether data is positive, negative, or neutral.
@@ -94,7 +94,7 @@ observe. When chosen it shows the sentiment shown by the chosen user with a mini
 
 Finally, when `Question` is selected, it allows the user to choose a certain question in the drop down menu. When chosen, it shows the user the sentiment the question was given.
 
-### Document Similarity
+## Document Similarity
 
 Document similarity analyzes documents and compares text to determine frequency of words between documents.
 
@@ -109,6 +109,8 @@ When `Spacy` is selected, the application will display a drop down named 'Model 
 - `en_core_web_sm` which is used to produce a correlation matrix for **SMALLER** files. (10mb)
 - `en_core_web_md` which is used to produce a correlation matrix for **LARGER** files. (>10mb)
 
-**Warning exceeding these limits could cause the program to crash.**
+**Warning exceeding these file limits could cause the program to crash.**
 
-### Topic Modeling
+<img src="resources/images/similarity.png" alt="browser" style="width:100%"/>
+
+## Topic Modeling
