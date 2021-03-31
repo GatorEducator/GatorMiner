@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from sklearn.manifold import TSNE
 import spacy
+from spacy import displacy
 import streamlit as st
 from textblob import TextBlob
 
@@ -650,6 +651,17 @@ def entities():
     st.header("Hello world!")
     st.sidebar.success("Hello sidebar!")
 
+    input_df = main_df.copy(deep=True)
+    students = st.multiselect(
+        label="Select specific students below:",
+        options=input_df[stu_id].unique(),
+    )
+    df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
+
+    if len(students) != 0:
+        nlpff = spacy.load("en_core_web_sm")
+        docff = nlpff(df_selected_stu)
+        displacy.serve(docff, style="ent")
 
 if __name__ == "__main__":
     main()
