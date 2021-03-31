@@ -253,7 +253,7 @@ def overall_freq(freq_range):
         )
     )
     print(freq_df)
-    freq_df.to_csv('frequency_archives/frequencies.csv', mode='a')
+    freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
