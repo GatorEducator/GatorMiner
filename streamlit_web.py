@@ -32,6 +32,7 @@ assign_text = None
 stu_id = None
 success_msg = None
 debug_mode = False
+main_md_dict = None
 
 
 def main():
@@ -158,6 +159,7 @@ def load_model(name):
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
     json_lst = []
+    global main_md_dict
     if data_retreive_method == "Path input":
         try:
             for path in paths:
@@ -180,7 +182,6 @@ def import_data(data_retreive_method, paths):
                 st.markdown(readme_file.read())
     else:
         try:
-            main_md_dict = None
             if len(paths) < 2:
                 st.sidebar.warning("Please select more than one file!")
             else:
