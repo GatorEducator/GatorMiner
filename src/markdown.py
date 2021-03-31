@@ -42,13 +42,18 @@ def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
         dict_1 = {k: [] for k in dict_2.keys()}
     elif isinstance(list(dict_1.values())[0], list) is False:
         dict_1 = {k: [v] for k, v in dict_1.items()}
+    for key in dict_2.keys():
+        if key not in dict_1:
+            dict_1[key] = []
+            for f in range(0, len(list(dict_1.values())[0])):
+                dict_1[key].append("")
+
     for key in dict_1.keys():
         try:
             dict_1[key].append(dict_2[key])
         except KeyError as err:
             dict_1[key].append("")
             logging.warning(f"Key does not exist: {err}")
-
     return dict_1
 
 
@@ -95,7 +100,6 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
             md_dict[cur_heading] += subnode.literal + " "
         else:
             continue
-    print(md_dict)
     return md_dict
 
 
