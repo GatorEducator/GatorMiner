@@ -14,14 +14,14 @@ scope = ['https://spreadsheets.google.com/feeds', \
 # The credentials created for the service account in your Google project
 # is stored in a .json file after you click 'Create Key'
 # I renamed this file to sheetstodb.json.
-creds = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('data-rookery-309413-5578c70a0a89.json', scope)
 client = gspread.authorize(creds)
 
 # Now that that's done, pull data from the Google sheet.
 # 'sheetName' describes the Google sheet's name,
 # 'worksheetIndex' describes the index of the worksheet at the bottom.
 def GetSpreadsheetData(sheetName, worksheetIndex):
-   sheet = client.open_by_url(sheetName).get_worksheet(worksheetIndex)
+   sheet = client.open_by_url(GatorMinerTesting).get_worksheet(0)
    return sheet.get_all_values()[1:]
 
 # Finally, write this data to MySQL:
@@ -35,32 +35,23 @@ def WriteToMySQLTable(sql_data, tableName):
        database = mc.database
        )
        sql_drop = " DROP TABLE IF EXISTS {} ".format(tableName)
-               sql_create_table = """CREATE TABLE {}(
-           Username VARCHAR(255),
-           Date_Taken VARCHAR(16),
+
+       sql_create_table = """CREATE TABLE {}(
            Time_Started VARCHAR(16),
-           Time_Finished VARCHAR(16),
+           Email_Address VARCHAR(16),
            Answer_Question_1 VARCHAR(100),
            Answer_Question_2 VARCHAR(100),
            Answer_Question_3 VARCHAR(100),
-           Answer_Question_4 VARCHAR(100),
-           Answer_Question_5 VARCHAR(100),
-           Answer_Question_6 VARCHAR(10),
            PRIMARY KEY (Username)
            )""".format(tableName)
 
        sql_insert_statement = """INSERT INTO {}(
-           Username,
-           Date_Taken,
            Time_Started,
-           Time_Finished,
+           Email_Address,
            Answer_Question_1,
            Answer_Question_2,
            Answer_Question_3,
-           Answer_Question_4,
-           Answer_Question_5,
-           Answer_Question_6 )
-           VALUES ( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s )""".format(tableName)
+           VALUES ( %s,%s,%s,%s,%s )""".format(tableName)
 # Here we create a cursor, which we will use to execute
 # the MySQL statements above. After each statement is executed,
 # a message will be printed to the console if the execution was successful.
@@ -70,7 +61,7 @@ def WriteToMySQLTable(sql_data, tableName):
        cursor.execute(sql_create_table)
 
 
-           print('Table {} has been created'.format(tableName))
+       print('Table {} has been created'.format(tableName))
 # We need to write each row of data to the table, so we use a for loop
 # that will insert each row of data one at a time
        print(sql_data)
