@@ -182,7 +182,6 @@ def import_data(data_retreive_method, paths):
             with open("README.md") as readme_file:
                 st.markdown(readme_file.read())
     elif data_retreive_method == "AWS":
-    else:
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
         try:
