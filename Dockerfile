@@ -20,7 +20,7 @@ COPY . /home/student/GATORMINER/
 
 USER root
 RUN apt-get -y -qq update 
-RUN apt-get install -y make build-essential python3-distutils libssl-dev zlib1g-dev \
+RUN apt-get install -y make build-essential python3-distutils python3-dev libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
     libncursesw5-dev xz-utils libffi-dev liblzma-dev python-openssl git
 
@@ -31,6 +31,7 @@ WORKDIR /home/student/GATORMINER
 VOLUME ["/home/student/GATORMINER"]
 RUN curl https://pyenv.run | bash
 ENV PATH="$HOME/.pyenv/bin:${PATH}"
+RUN echo 'alias python="python3"' >>~/.bashrc
 RUN echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bashrc
 RUN echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 RUN echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
@@ -38,8 +39,8 @@ SHELL ["/bin/bash", "--login", "-c"]
 RUN pyenv install 3.9.2
 RUN pyenv global 3.9.2
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN python3 get-pip.py
-RUN python3 -m pip install pipenv
+RUN python get-pip.py
+RUN python -m pip install pipenv
 RUN pipenv run python -m pip install Cython wheel setuptools
 #==========This is where the issues start===========
 RUN pipenv install --dev
@@ -50,8 +51,8 @@ ENV USER student
 CMD pipenv run streamlit run streamlit_web.py
 
 
-#BUILD WITH: docker build -t gatorminerv1.0 Documents/COMPSCI203/Labs/GatorMiner
-#RUN WITH: docker container run --name myminer -d -p 8501:8501 gatorminerv0.1 && echo "Please open 'localhost:80' on your browser of choice"
+#BUILD WITH: docker build -t gatorminer .
+#RUN WITH: docker container run --name myminer -d -p 8501:8501 benwest66/gatorminer:latest && echo "Please open 'localhost:80' on your browser of choice"
 
 
 #TODO: 

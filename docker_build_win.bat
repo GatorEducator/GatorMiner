@@ -1,2 +1,2 @@
 @echo [+] (Win_OS) Building Docker Container.
-docker build  -t devi .
+docker build  -t gatorminer .
