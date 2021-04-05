@@ -5,7 +5,7 @@
 [![Built with spaCy](https://img.shields.io/badge/built%20with-spaCy-09a3d5.svg)](https://spacy.io)
 [![Built with Streamlit](https://img.shields.io/badge/built%20with-Streamlit-09a3d5.svg)](https://www.streamlit.io/)
 [![Docker Build](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/dockerbuild.yml/badge.svg)](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/dockerbuild.yml)
-![Docker Image Version (latest by date)](https://img.shields.io/docker/v/bennywestsyde/gatorminer?label=Last%20Pushed)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/bennywestsyde/gatorminer?label=Last%20Built%20and%20Pushed)
 
 An automated text-mining tool written in Python to measure the technical
 responsibility of students in computer science courses, being used to analyze
