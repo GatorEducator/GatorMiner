@@ -34,23 +34,11 @@ RUN /bin/bash -c "source ~/.bashrc"
 RUN /bin/bash -c "source ~/.profile"
 RUN pyenv install 3.9.2
 RUN pyenv global 3.9.2
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-SHELL ["/bin/bash", "--login", "-c"]
-LABEL version="0.1"
-LABEL description="An automated text-mining tool written in Python to measure \
-    the technical responsibility of students in computer science courses, being \
-    used to analyze students' markdown reflection documents and five questions \
-    survey based on Natural Language Processing in the Department of Computer \
-    Science at Allegheny College."
-LABEL maintainer="Group 5"
-RUN /bin/bash --login
 RUN pyenv local 3.9.2
-RUN pyenv exec python get-pip.py
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && pyenv exec python get-pip.py
 RUN pyenv exec python -m pip install pipenv
 RUN pyenv exec pipenv run python -m pip install Cython wheel setuptools
-#==========This is where the issues start===========
 RUN pyenv exec pipenv install --skip-lock --dev
-#^^^Last Build Time > 1003.9s before crash
 RUN pyenv exec pipenv run spacy download en_core_web_sm
 USER student
 ENV USER student
