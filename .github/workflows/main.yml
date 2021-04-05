@@ -15,6 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
+        name: Establish date
+        id: mdy
+        with:
+          
+      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       -
@@ -32,8 +37,9 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          
           push: true
-          tags: bennywestsyde/gatorminer:$(date %Y%m%d%H%M%S).git.$GIT_REVISION
+          tags: bennywestsyde/gatorminer:$(date +"%m-%d-%Y")
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
