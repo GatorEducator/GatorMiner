@@ -660,12 +660,23 @@ def entities():
         label="Select specific students below:",
         options=input_df[stu_id].unique(),
     )
+
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
     student_string = df_selected_stu.to_string()
-
+    # st.write(student_string)
     if len(students) != 0:
         docff = az.get_nlp(student_string)
-        displacy.serve(docff, style="ent")
+        named_entities = az.named_entity_recognization(student_string)
+        if len(named_entities) > 0:
+            html = spacy.displacy.render(docff, style="ent")
+            # Newlines seem to mess with the rendering
+            html = html.replace("\n", " ")
+            HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
+        #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
+        {}</div>"""
+            st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
+        else:
+            st.info("No named entity recognized")
 
 if __name__ == "__main__":
     main()
