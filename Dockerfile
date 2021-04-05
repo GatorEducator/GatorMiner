@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 
+FROM ubuntu:latest 
 SHELL ["/bin/bash", "--login", "-c"]
 LABEL version="0.1"
 LABEL description="An automated text-mining tool written in Python to measure \
