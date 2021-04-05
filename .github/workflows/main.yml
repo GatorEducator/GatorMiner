@@ -5,7 +5,7 @@ on:
       - cron: "*/38 * * * *"
   push:
     branches:
-      - 'docker-image-updated-38-'
+      - 'main'
 
 jobs:
   docker:
