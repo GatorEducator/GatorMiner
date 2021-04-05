@@ -29,9 +29,9 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          version: ${{steps.date.outputs.date}}
+          version: latest
           push: true
-          tags: bennywestsyde/gatorminer:${{steps.date.outputs.date}} bennywestsyde/gatorminer:latest
+          tags: bennywestsyde/gatorminer:${{steps.date.outputs.date}}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
