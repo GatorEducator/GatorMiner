@@ -15,11 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Establish date
-        id: mdy
-        with:
-          
-      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       -
