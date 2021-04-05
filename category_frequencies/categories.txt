@@ -1,8 +1,7 @@
 Bioinformatics 
-Python 
 Java 
-C 
-R 
-Ruby 
-Github Actions CI 
-Pyenv 
+DNA 
+Ethics 
+Genomics 
+Robotics 
+Automation 
