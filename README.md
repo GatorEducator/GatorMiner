@@ -118,9 +118,9 @@ the select box in the sidebar to view the text analysis:
 ##### Reflection Documents
 
 We are using markdown format for the student reflection documents.
-Its organized structure allows us to parse and perform text analysis easily. With that
-said, there are few requirements for the reflection document before it could be
-seamlessly processed and analyzed with GatorMiner. A
+Its organized structure allows us to parse and perform text analysis easily.
+With that said, there are few requirements for the reflection document before it
+could be seamlessly processed and analyzed with GatorMiner. A
 [template](resources/reflection_template.md) is provided within the repo. Note
 that the headers with the assignment's and student's ID/name are required.
 GatorMiner is set in default to take the first header as assignment name and the
