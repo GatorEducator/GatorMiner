@@ -648,7 +648,11 @@ def interactive():
 
 def entities():
     """Page to display entity analysis"""
-    st.header("Entity analysis inspects the given text for known entities and returns information about those entities. It is a way to extract information that seeks to locate and classify named entities in text into pre-defined categories such as the names of persons, organizations, locations, expressions of times, quantities, monetary values, and percentages.")
+    st.header("Entity analysis inspects the given text for known entities \
+    and returns information about those entities. It is a way to extract \
+    information that seeks to locate and classify named entities in text \
+    into pre-defined categories such as the names of persons, organizations, \
+    locations, expressions of times, quantities, monetary values, and percentages.")
     st.sidebar.success("Hello sidebar!")
 
     input_df = main_df.copy(deep=True)
@@ -657,10 +661,10 @@ def entities():
         options=input_df[stu_id].unique(),
     )
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
+    student_string = df_selected_stu.to_string()
 
     if len(students) != 0:
-        nlpff = spacy.load("en_core_web_sm")
-        docff = nlpff(df_selected_stu)
+        docff = az.get_nlp(student_string)
         displacy.serve(docff, style="ent")
 
 if __name__ == "__main__":
