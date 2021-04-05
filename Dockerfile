@@ -35,7 +35,8 @@ RUN /bin/bash -c "source ~/.profile"
 RUN pyenv install 3.9.2
 RUN pyenv global 3.9.2
 RUN pyenv local 3.9.2
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && /bin/bash --login && pyenv exec python get-pip.py
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN /bin/bash --login && pyenv exec python get-pip.py
 RUN pyenv exec python -m pip install pipenv
 RUN pyenv exec pipenv run python -m pip install Cython wheel setuptools
 RUN pyenv exec pipenv install --skip-lock --dev
