@@ -379,7 +379,30 @@ def sentiment():
             f"View sentiment by individual questions in **{assign_text}**"
         )
         question_senti(senti_df)
+        write_senti(senti_df)
 
+def write_senti(senti_df):
+    """Function to organize and write information related to the sentiment analysis to the streamlit"""
+        # List objects to compile and organize tokens into lists and then readable textblobs
+        text_blobs = []
+        tokens = []
+        # Counter objects to check the amount of positive/negative words
+        positive_count = Counter()
+        negative_count = Counter()
+
+        for token_list in senti_df["tokens"]:
+            tokens.extend(token_list)
+        for word in tokens:
+            text_blobs.append(TextBlob(az.lemmatized_text(word)))
+        for blob in text_blobs:
+            if blob.sentiment.polarity >= 0:
+                positive_count[str(blob)]+=1
+            elif blob.sentiment.polarity < 0:
+                negative_count[str(blob)]+=1
+        st.write("Most common positive words:")
+        st.write(positive_count.most_common() [0:10])
+        st.write("Most common negative words:")
+        st.write(negative_count.most_common() [0:10])
 
 def overall_senti(senti_df):
     """page for overall senti"""
