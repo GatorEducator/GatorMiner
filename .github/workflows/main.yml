@@ -1,18 +1,8 @@
-
-
-
-
-
-
-
-
-
-
-
-
 name: ci
 
 on:
+  schedule: 
+      - cron: "*/60 * * * *"
   push:
     branches:
       - 'docker-image-updated-38-'
