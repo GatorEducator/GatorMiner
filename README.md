@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner/branch/master/graph/badge.svg)](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner)
 [![Built with spaCy](https://img.shields.io/badge/built%20with-spaCy-09a3d5.svg)](https://spacy.io)
 [![Built with Streamlit](https://img.shields.io/badge/built%20with-Streamlit-09a3d5.svg)](https://www.streamlit.io/)
-[![ci](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/main.yml/badge.svg)](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/main.yml)
+[![Docker Build](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/dockerbuild.yml/badge.svg)](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/dockerbuild.yml)
 ![Docker Image Version (latest by date)](https://img.shields.io/docker/v/bennywestsyde/gatorminer?label=Last%20Pushed)
 
 An automated text-mining tool written in Python to measure the technical
