@@ -30,7 +30,7 @@ jobs:
         with:
           version: '`r format(Sys.Date(), "%B %d, %Y")`'
           push: true
-          tags: bennywestsyde/gatorminer:$VERSION
+          tags: bennywestsyde/gatorminer:env.VERSION
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
