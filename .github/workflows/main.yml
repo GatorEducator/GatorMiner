@@ -2,10 +2,13 @@ name: Docker Build
 
 on:
   schedule: 
-      - cron: "*/60 * * * *"
+      - cron: "* */24 * * *"
   push:
     branches:
       - 'master'
+  pull_request:
+    branches:
+      - master
 
 jobs:
   docker:
