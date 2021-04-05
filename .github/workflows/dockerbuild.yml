@@ -31,7 +31,7 @@ jobs:
         with:
           version: ${{steps.date.outputs.date}}
           push: true
-          tags: bennywestsyde/gatorminer:${{steps.date.outputs.date}}
+          tags: bennywestsyde/gatorminer:${{steps.date.outputs.date}} bennywestsyde/gatorminer:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
