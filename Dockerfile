@@ -39,7 +39,7 @@ RUN /bin/bash --login
 RUN curl https://bootstrap.pypa.io/get-pip.py -o ~/get-pip.py
 RUN pyenv exec python ~/get-pip.py
 RUN pyenv exec python -m pip install pipenv
-RUN pyenv exec pipenv run python -m pip install Cython wheel setuptools
+RUN pyenv exec pipenv run python -m pip install Cython wheel setuptools watchdog
 RUN pyenv exec pipenv install --skip-lock --dev
 RUN pyenv exec pipenv run spacy download en_core_web_sm
 USER student
