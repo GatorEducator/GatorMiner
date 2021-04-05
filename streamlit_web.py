@@ -9,6 +9,7 @@ import pandas as pd
 from sklearn.manifold import TSNE
 import spacy
 import streamlit as st
+from collections import Counter
 from textblob import TextBlob
 
 import src.analyzer as az
@@ -379,7 +380,7 @@ def sentiment():
             f"View sentiment by individual questions in **{assign_text}**"
         )
         question_senti(senti_df)
-        write_senti(senti_df)
+    write_senti(senti_df)
 
 def write_senti(senti_df):
     """Function to organize and write information related to the sentiment analysis to the streamlit"""
