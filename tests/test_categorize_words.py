@@ -15,4 +15,4 @@ def test_string_splits_correctly():
     """Checks that the string can be split correctly"""
     assert len(categorize_words.categories) == 2
     categorize_words.input_file()
-    assert len(categorize_words.categories) != 0
+    assert len(categorize_words.categories) != 12

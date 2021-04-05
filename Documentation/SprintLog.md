@@ -6,9 +6,15 @@ When any assignment is put into GatorMiner, the words are automatically grouped 
 
 # Team Members and their Positions:
 
+Working on Issue#51:
 "Scrum Leader" = Favour Ojo
 "Product Owner" = Kyrie Doniz
 "Development Team" = Adriana Solis, William Hayden, Kiley Hewitt, Kyrie Doniz
+
+Working on Issue#51:
+"Scrum Leader" =
+"Product Owner" =
+"Development Team" =
 
 # Sprint 1 Log:
 
@@ -19,3 +25,9 @@ When any assignment is put into GatorMiner, the words are automatically grouped 
 `Current Phase:` We are currently still in Phase 1 of the development phase.
 
 # Sprint 2 Log:
+
+`Tasks Completed:` Kiley finished the first part of the categories code, where our code can use user input to read where the file is and what categories the file should be split into. Kylie will work to finish the category mining for the program. Will has continued to work on data mining and will help Kylie with word category mining. Kyrie has started on the interface for the code and will work to finish the interface. Adriana has kept up with the documentation for the code, added test cases for methods in the categorize_words.py, and will work on finishing the interface with Kyrie and Kylie. Favour has continuously kept our tasks up to date and has written the explanations in our pull requests. (Command to test the test case for our code is: pipenv run pytest tests/test_categorize_words.py -s)
+
+`Tasks for Next Sprint:` The next sprint should focus on writing more methods in the categorize_words.py file and the subsequent test cases in order to allow more coverage for the program as it will relate to GatorMiner.
+
+`Current Phase:` We are finishing Phase 1 of the development phase.
