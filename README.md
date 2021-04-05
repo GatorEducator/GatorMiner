@@ -1,10 +1,11 @@
 # GatorMiner
 
 [![Build Status](https://travis-ci.com/Allegheny-Ethical-CS/GatorMiner.svg?branch=master)](https://travis-ci.com/Allegheny-Ethical-CS/GatorMiner)
-
 [![codecov](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner/branch/master/graph/badge.svg)](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner)
 [![Built with spaCy](https://img.shields.io/badge/built%20with-spaCy-09a3d5.svg)](https://spacy.io)
 [![Built with Streamlit](https://img.shields.io/badge/built%20with-Streamlit-09a3d5.svg)](https://www.streamlit.io/)
+[![Docker Build](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/dockerbuild.yml/badge.svg)](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/dockerbuild.yml)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/bennywestsyde/gatorminer?label=Last%20Built%20and%20Pushed)
 
 An automated text-mining tool written in Python to measure the technical
 responsibility of students in computer science courses, being used to analyze
@@ -74,7 +75,7 @@ Network URL: http://xxx.xxx.x.x:8501
 
 The web interface will be automatically opened in your browser:
 
-![browser](resources/images/landing_page.png)
+<img src="resources/images/landing_page.png" alt="browser" style="width:100%"/>
 
 ### Data Retreiving
 
@@ -114,14 +115,14 @@ with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb).
 Once the documents are successfully imported, you can then navigate through
 the select box in the sidebar to view the text analysis:
 
-![select box](resources/images/select_box.png)
+<img src="resources/images/select_box.png" alt="select box" style="width:100%"/>
 
 ##### Reflection Documents
 
 We are using markdown format for the student reflection documents.
-Its organized structure allows us to parse and perform text analysis easily. With that
-said, there are few requirements for the reflection document before it could be
-seamlessly processed and analyzed with GatorMiner. A
+Its organized structure allows us to parse and perform text analysis easily.
+With that said, there are few requirements for the reflection document before it
+could be seamlessly processed and analyzed with GatorMiner. A
 [template](resources/reflection_template.md) is provided within the repo. Note
 that the headers with the assignment's and student's ID/name are required.
 GatorMiner is set in default to take the first header as assignment name and the
@@ -133,10 +134,10 @@ format of json reports GatorMiner gathers from AWS.
 
 ### Analysis
 
-![frequency](resources/images/frequency.png)
-![sentiment](resources/images/sentiment.png)
-![similarity](resources/images/similarity.png)
-![topic](resources/images/topic.png)
+<img src="resources/images/frequency.png" alt="frequency" style="width:100%"/>
+<img src="resources/images/sentiment.png" alt="sentiment" style="width:100%"/>
+<img src="resources/images/similarity.png" alt="similarity" style="width:100%"/>
+<img src="resources/images/topic.png" alt="topic" style="width:100%"/>
 
 ### Contribution
 
