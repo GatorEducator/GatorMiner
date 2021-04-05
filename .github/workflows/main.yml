@@ -14,22 +14,6 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Docker Meta
-        id: image_info
-        # You may pin to the exact commit or the version.
-        # uses: crazy-max/ghaction-docker-meta@9da1e66de9cdbc2849b3ac93a0b982ea63e06007
-        uses: crazy-max/ghaction-docker-meta@v2.2.0
-        with:
-          # List of Docker images to use as base name for tags
-          images: bennywestsyde/gatorminer
-          # List of custom labels
-          labels: VERSION=$(date +"%m-%d-%Y")
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
       -
         name: Login to DockerHub
         if: github.ref == 'refs/heads/master'
@@ -42,9 +26,9 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          
+          version: 4/5/21
           push: true
-          tags: bennywestsyde/gatorminer:${{ steps.image_info.VERSION }}
+          tags: bennywestsyde/gatorminer:version
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
