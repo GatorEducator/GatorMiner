@@ -12,6 +12,8 @@ on:
 
 jobs:
   docker:
+    env:
+      VERSION: 4/5/21
     runs-on: ubuntu-latest
     steps:
       -
@@ -28,7 +30,7 @@ jobs:
         with:
           version: '`r format(Sys.Date(), "%B %d, %Y")`'
           push: true
-          tags: bennywestsyde/gatorminer:version
+          tags: bennywestsyde/gatorminer:VERSION
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
