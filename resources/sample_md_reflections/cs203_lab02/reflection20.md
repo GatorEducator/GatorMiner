@@ -37,7 +37,7 @@ During the completion of this assignment, I haven't seen anyone violate the Code
 
 ### Scrum Meeting Three (Tuesday, 23rd March)
 
-- What did you since last meeting: We finally decided that we will put the error that Adam was having when running GatorMiner, which is the problem with Microsoft C++ as the issue that we will put into ZenHub.
+- What did you since last meeting: We finally decided that we will put the error that someone was having when running GatorMiner, which is the problem with Microsoft C++ as the issue that we will put into ZenHub.
 
 - What will you do before the next meeting: We still have to try to break down our selected user stories into a collection of tasks.
 
