@@ -23,7 +23,7 @@ No.
 
 - What did you since last meeting?
 
-This was the day that we were assigned the project and were put into our groups. During this meeting we downloaded the repository and worked out way to open the website through GatorMiner. Two teammates were able to do this without any errors while two other teammates had many problems. Additionally, we assigned Adam to be our Scrum leader.
+This was the day that we were assigned the project and were put into our groups. During this meeting we downloaded the repository and worked out way to open the website through GatorMiner. Two teammates were able to do this without any errors while two other teammates had many problems. Additionally, we assigned our Scrum leader.
 
 - What will you do before the next meeting?
 
