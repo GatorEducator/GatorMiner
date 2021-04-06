@@ -31,7 +31,7 @@ No.
 ### Scrum Meeting Two (03/23/2021)
 
 - What did you since last meeting?
-  - We continued working on building and using the current version of GatorMiner. Abby was able to successfully get it to work.
+  - We continued working on building and using the current version of GatorMiner. We were able to successfully get it to work.
 - What will you do before the next meeting?
   - We will continue working diligently to get the current version of GatorMiner to work.
 - Are there any obstacles in your way?
