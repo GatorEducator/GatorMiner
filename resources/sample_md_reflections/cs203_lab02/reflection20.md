@@ -23,13 +23,13 @@ During the completion of this assignment, I haven't seen anyone violate the Code
 
 - What did you since last meeting: Since this is our first meeting, the last time we gathered together was not a scrum meeting. But we did met and talk to each other prior to forming the group in order to fully understand the strength and weaknesses of each individual.
 
-- What will you do before the next meeting: We need to figure out how to get the GatorMinor on the end of Adam and Batmukth have. Adam was encounters an error with C++ configuration while Batmukth couldn't run `pipenv` or locate `pipenv` on his computer.
+- What will you do before the next meeting: We need to figure out how to get the GatorMinor on the end of some of our teammates. One person encounters an error with C++ configuration while another couldn't run `pipenv` or locate `pipenv` on his computer.
 
 - Are there any obstacles in your way: Since half of the team couldn't run the program so the whole team were not at the same page. And since this is the first time we see the code and experience this kind of issue, we have to rely a lot on TL to solve this complication.
 
 ### Scrum Meeting Two (Sunday, 21st March)
 
-- What did you since last meeting: We were trying to get GatorMiner run on Adam and Batmukth computer and we finally get it run thanks to Noor. In this meeting, we were discuss what other potential features should be added to GatorMiner and practice creating user stories according to the features.
+- What did you since last meeting: We were trying to get GatorMiner run on two people's computers and we finally get it run thanks to a TL. In this meeting, we were discuss what other potential features should be added to GatorMiner and practice creating user stories according to the features.
 
 - What will you do before the next meeting: Try to break down the user stories into a collection of tasks and pick one issue/user story to add into ZenHub Board. This issue should be clear and feasible so the team will be able to tackle.
 
