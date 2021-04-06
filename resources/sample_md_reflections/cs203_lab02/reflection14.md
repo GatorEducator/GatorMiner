@@ -35,7 +35,7 @@ No.
 
 - My team continued to work on installing, getting oriented to, and looking for issues on GatorMiner. I tested the various features of GatorMiner and also ran the suggested ``pytest`` and found the markdown linting error that was referenced in an existing issue.
 - Before the next meeting, I will continue to get familiar with GatorMiner and work towards identifying an issue to work on and tasks for that issue. I will also help my teammates that haven't been able to install and properly use GatorMiner with their installation as I am able.
-- There are some obstacles currently in our way. First, I am the only one on my team that has been able to properly install GatorMiner and also the only one with a Linux operating system, which may have been why I was able to properly install it. Second, our team still isn't entirely clear on how we break down the issues into tasks using the Zenhub board, which Favour slack messaged the professor about, and only three of us are able to access Zenhub board.
+- There are some obstacles currently in our way. First, I am the only one on my team that has been able to properly install GatorMiner and also the only one with a Linux operating system, which may have been why I was able to properly install it. Second, our team still isn't entirely clear on how we break down the issues into tasks using the Zenhub board, which our team scrum lead slack messaged the professor about, and only three of us are able to access Zenhub board.
 
 ## At a high level, what were the most important professional tasks that you completed?
 
