@@ -359,8 +359,8 @@ def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
     # Initializing the new columns with a numpy array, so the entire series is returned
-    senti_df["Positive words"] = az.senti_pos(senti_df["tokens"].values)
-    senti_df["Negative words"] = az.senti_neg(senti_df["tokens"].values)
+    senti_df[cts.POSITIVE] = az.senti_pos(senti_df[cts.TOKEN].values)
+    senti_df[cts.NEGATIVE] = az.senti_neg(senti_df[cts.TOKEN].values)
 
     # calculate overall sentiment from the combined text
     senti_df[cts.SENTI] = senti_df["combined"].apply(
