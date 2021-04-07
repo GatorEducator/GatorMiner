@@ -141,6 +141,8 @@ def senti_circleplot(senti_df, student_id):
             tooltip=[
                 alt.Tooltip(cts.SENTI, title="polarity"),
                 alt.Tooltip(student_id, title="author"),
+                alt.Tooltip("Top 3 positive words", title="Top 3 positive words"),
+                alt.Tooltip("Top 3 negative words", title="Top 3 negative words"),
             ],
         )
     ).interactive()

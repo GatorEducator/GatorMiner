@@ -358,6 +358,35 @@ def question_freq(freq_range):
 def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
+    senti_df["Top 3 positive words"] = str(np.nan)
+    senti_df["Top 3 negative words"] = str(np.nan)
+    st.write(senti_df)
+
+    for index, series in senti_df.iterrows():
+        text_blobs = []
+        top_positive_words = []
+        top_negative_words = []
+        # Counter objects to check the amount of positive/negative words
+        positive_count = Counter()
+        negative_count = Counter()
+
+        for word_list in senti_df.loc[index, "tokens"]:
+            for word in word_list:
+                text_blobs.append(TextBlob(az.lemmatized_text(word)))
+        for blob in text_blobs:
+            if blob.sentiment.polarity >= 0:
+                positive_count[str(blob)]+=1
+            elif blob.sentiment.polarity < 0:
+                negative_count[str(blob)]+=1
+        for word in positive_count.most_common(3):
+            top_positive_words.append(word[0])
+        for word in negative_count.most_common(3):
+            top_negative_words.append(word[0])
+        positive_display = " ,".join(top_positive_words)
+        negative_display = " ,".join(top_negative_words)
+        senti_df.loc[index, "Top 3 positive words"] = positive_display
+        senti_df.loc[index, "Top 3 negative words"] = negative_display
+
     # calculate overall sentiment from the combined text
     senti_df[cts.SENTI] = senti_df["combined"].apply(
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
@@ -380,38 +409,12 @@ def sentiment():
             f"View sentiment by individual questions in **{assign_text}**"
         )
         question_senti(senti_df)
-    write_senti(senti_df)
-
-def write_senti(senti_df):
-    """Function to organize and write information related to the sentiment analysis to the streamlit"""
-        # List objects to compile and organize tokens into lists and then readable textblobs
-    text_blobs = []
-    tokens = []
-        # Counter objects to check the amount of positive/negative words
-    positive_count = Counter()
-    negative_count = Counter()
-
-    for token_list in senti_df["tokens"]:
-        tokens.extend(token_list)
-    for word in tokens:
-        text_blobs.append(TextBlob(az.lemmatized_text(word)))
-    for blob in text_blobs:
-        if blob.sentiment.polarity >= 0:
-                positive_count[str(blob)]+=1
-        elif blob.sentiment.polarity < 0:
-                negative_count[str(blob)]+=1
-    st.write("Most common positive words:")
-    st.write(positive_count.most_common() [0:10])
-    st.write("Most common negative words:")
-    st.write(negative_count.most_common() [0:10])
 
 def overall_senti(senti_df):
-    """page for overall senti"""
     # display line plot when there are multiple assingments
     if len(assignments) > 1:
         st.altair_chart(vis.stu_senti_lineplot(senti_df, stu_id))
     st.altair_chart((vis.senti_combinedplot(senti_df, stu_id)))
-
 
 def student_senti(input_df):
     """page for display individual student's sentiment"""
