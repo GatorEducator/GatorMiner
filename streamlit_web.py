@@ -657,8 +657,7 @@ def interactive():
         st.write(summaries)
 
 def grammar_analyzer():
-    input_df = md.read_file("text/test_grammar.md")
-    ga.grammar_analyzer(input_df)
+    '''Display grammar checker'''
 
 if __name__ == "__main__":
     main()

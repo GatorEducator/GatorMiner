@@ -4,6 +4,7 @@ from typing import Dict, List
 
 # Mention the language keyword
 
+
 def grammar_analyzer(directory: str) -> Dict[str, List[int][str]]:
     '''A tool to check grammar error in reflection'''
     tool = language_check.LanguageTool('en-US')
@@ -18,6 +19,6 @@ def grammar_analyzer(directory: str) -> Dict[str, List[int][str]]:
                 matches = tool.check(line)
                 i = i + len(matches)
                 grammar_checker[key].append(i)
-                for mistake in matches
+                for mistake in matches:
                     grammar_checker[key][i].append(mistake)
     return grammar_checker
