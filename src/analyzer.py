@@ -1,5 +1,7 @@
 """Text Proprocessing"""
 from collections import Counter
+from textblob import TextBlob
+import pandas as pd
 import re
 import string
 from typing import List, Tuple
