@@ -6,6 +6,7 @@ EXPOSE 8501
 SHELL ["/bin/bash", "--login", "-c"]
 
 LABEL version="0.1.0"
+
 LABEL description="An automated text-mining tool written in Python to measure \
     the technical responsibility of students in computer science courses, being \
     used to analyze students' markdown reflection documents and five questions \
