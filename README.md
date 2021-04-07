@@ -62,8 +62,8 @@ sh docker_run_mac.sh
 
 Run the Docker container for Windows:
 
-```bash
-sh docker_run_win.sh
+```
+docker_run_win.bat
 ```
 
 ## Web Interface
