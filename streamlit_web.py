@@ -20,6 +20,7 @@ import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
 import src.visualization as vis
+import src.grammar_analyzer as ga
 
 
 # resources/sample_reflections/lab1, resources/sample_reflections/lab2
@@ -57,6 +58,7 @@ def main():
                 "Summary",
                 "Topic Modeling",
                 "Interactive",
+                "Grammar Checker"
             ],
         )
         if debug_mode:
@@ -82,6 +84,9 @@ def main():
             elif analysis_mode == "Interactive":
                 st.title(analysis_mode)
                 interactive()
+            elif analysis_mode == "Grammar Checker":
+                st.title(analysis_mode)
+                grammar_analyzer()
             success_msg.empty()
 
 def readme():
@@ -651,6 +656,9 @@ def interactive():
         summaries = sz.summarize_text(input_text)
         st.write(summaries)
 
+def grammar_analyzer():
+    input_df = md.read_file("text/test_grammar.md")
+    ga.grammar_analyzer(input_df)
 
 if __name__ == "__main__":
     main()
