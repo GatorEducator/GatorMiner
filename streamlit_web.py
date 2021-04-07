@@ -656,8 +656,10 @@ def interactive():
         summaries = sz.summarize_text(input_text)
         st.write(summaries)
 
+
 def grammar_analyzer():
     '''Display grammar checker'''
+   #TODO: add code to display the grammar error.
 
 if __name__ == "__main__":
     main()
