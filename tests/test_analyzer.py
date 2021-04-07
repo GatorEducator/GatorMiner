@@ -1,6 +1,8 @@
 """Test module for analyzer.py"""
 import pytest
 import src.analyzer as az
+import pandas as pd
+import src.constants as cts
 
 
 def test_tokenize():
@@ -157,3 +159,29 @@ def test_tfidf():
     term_frequency, vector = az.compute_tfidf(input_tokens)
     assert term_frequency is not None
     assert vector is not None
+
+
+def test_senti_pos():
+    """Tests if the positive words column is created and supplied with words"""
+    df = pd.DataFrame(columns=[cts.TOKEN, cts.POSITIVE, cts.NEGATIVE])
+    input_tokens = [
+        ["incredible", "horrible", "terrific", "terrible"],
+        ["amazing", "devastating", "boring", "cool"],
+        ["alarming", "awesome", "beautiful", "ugly"],
+    ]
+    df[cts.TOKEN] = pd.Series(input_tokens)
+    df[cts.POSITIVE] = az.senti_pos(df[cts.TOKEN].values)
+    assert df[cts.POSITIVE] is not None
+
+
+def test_senti_neg():
+    """Tests if the negative words column is created and supplied with words"""
+    df = pd.DataFrame(columns=[cts.TOKEN, cts.POSITIVE, cts.NEGATIVE])
+    input_tokens = [
+        ["incredible", "horrible", "terrific", "terrible"],
+        ["amazing", "devastating", "boring", "cool"],
+        ["alarming", "awesome", "beautiful", "ugly"],
+    ]
+    df[cts.TOKEN] = pd.Series(input_tokens)
+    df[cts.NEGATIVE] = az.senti_neg(df[cts.TOKEN].values)
+    assert df[cts.NEGATIVE] is not None
