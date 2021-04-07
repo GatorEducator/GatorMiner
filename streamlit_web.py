@@ -386,6 +386,7 @@ def sentiment():
         question_senti(senti_df)
 
 def senti_pos_iter(tokens_column):
+    """Creates a new column that has the top 3 positive words"""
     # Start off with an empty list
     display_series = []
     # For each item in the already existing tokens column in the data frame,
@@ -410,7 +411,8 @@ def senti_pos_iter(tokens_column):
     return pd.Series(display_series)
 
 def senti_neg_iter(tokens_column):
-    #Same as senti_pos_iter
+    """Creates a new column that has the top 3 negative words"""
+    # Same as senti_pos_iter
     display_series = []
     for token_element in tokens_column:
         words = []
