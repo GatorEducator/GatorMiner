@@ -252,8 +252,21 @@ def overall_freq(freq_range):
             freq_df, assignments, "assignments", plots_per_row=plots_range
         )
     )
-    print(freq_df)
+    # print(freq_df)
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
+
+def category_freq(freq_range):
+    """page for word category frequency"""
+    for item in assignments:
+        # combined text of the whole assignment
+        combined_text = " ".join(
+            main_df[main_df[assign_id] == item][cts.NORMAL]
+        )
+        # break down text by sentence
+        x = combined_text.split(".")
+        print("X:\n" + x)
+        # put each sentence through category frequency analysis in az
+        # record accuracy of each sentence in dataframe
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""

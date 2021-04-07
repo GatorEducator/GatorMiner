@@ -9,6 +9,7 @@ from nltk.corpus import stopwords
 
 movie_data = load_files(r"categories_training_data")
 X, y = movie_data.data, movie_data.target
+print(type(X))
 
 documents = []
 
