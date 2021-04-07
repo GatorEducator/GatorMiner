@@ -1,9 +1,10 @@
+# pylint: disable=missing-docstring
 import language_check
 from . import markdown as md
 from typing import Dict, List
 
 # Mention the language keyword
-# pylint: disable=missing-docstring
+
 
 def grammar_analyzer(directory: str) -> Dict[str, List[int][str]]:
     '''A tool to check grammar error in reflection'''
