@@ -358,8 +358,8 @@ def question_freq(freq_range):
 def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
-    senti_df["Positive words"] = senti_df.apply(lambda row: senti_pos_iter(row["tokens"]), axis=1)
-    senti_df["Negative words"] = senti_df.apply(lambda row: senti_neg_iter(row["tokens"]), axis=1)
+    senti_df["Positive words"] = senti_pos_iter(senti_df["tokens"].values)
+    senti_df["Negative words"] = senti_neg_iter(senti_df["tokens"].values)
 
     # calculate overall sentiment from the combined text
     senti_df[cts.SENTI] = senti_df["combined"].apply(
@@ -384,43 +384,49 @@ def sentiment():
         )
         question_senti(senti_df)
 
-def senti_pos_iter(tokens):
-    words = []
-    display = []
-    for word in tokens:
-        if word not in words:
-            words.append(word)
-    for i in range(len(words)):
-        key = words[i]
-        j = i - 1
-        while j >= 0 and TextBlob(az.lemmatized_text(words[j])).sentiment.polarity > TextBlob(az.lemmatized_text(key)).sentiment.polarity:
-            words[j + 1] = words[j]
-            j -= 1
-        words[j + 1] = key
+def senti_pos_iter(tokens_column):
+    display_series = []
+    for token_element in tokens_column:
+        display = []
+        words = []
+        for word in token_element:
+            if word not in words:
+                words.append(word)
+        for i in range(len(words)):
+            key = words[i]
+            j = i - 1
+            while j >= 0 and TextBlob(words[j]).sentiment.polarity > TextBlob(key).sentiment.polarity:
+                words[j + 1] = words[j]
+                j -= 1
+            words[j + 1] = key
 
-    for word in words:
-        display.append(word)
+        for word in words:
+            display.append(word)
+        display_series.append(", ".join(display[len(display) - 3: len(display)]))
 
-    return ", ".join(display[len(display) - 3: len(display) - 1])
+    return pd.Series(display_series)
 
-def senti_neg_iter(tokens):
-    words = []
-    display = []
-    for word in tokens:
-        if word not in words:
-            words.append(word)
-    for i in range(len(words)):
-        key = words[i]
-        j = i - 1
-        while j >= 0 and TextBlob(az.lemmatized_text(words[j])).sentiment.polarity > TextBlob(az.lemmatized_text(key)).sentiment.polarity:
-            words[j + 1] = words[j]
-            j -= 1
-        words[j + 1] = key
+def senti_neg_iter(tokens_column):
+    display_series = []
+    for token_element in tokens_column:
+        display = []
+        words = []
+        for word in token_element:
+            if word not in words:
+                words.append(word)
+        for i in range(len(words)):
+            key = words[i]
+            j = i - 1
+            while j >= 0 and TextBlob(words[j]).sentiment.polarity > TextBlob(key).sentiment.polarity:
+                words[j + 1] = words[j]
+                j -= 1
+            words[j + 1] = key
 
-    for word in words:
-        display.append(word)
+        for word in words:
+            display.append(word)
+        display_series.append(", ".join(display[0:3]))
 
-    return ", ".join(display[0:2])
+    return pd.Series(display_series)
 
 
 def overall_senti(senti_df):
