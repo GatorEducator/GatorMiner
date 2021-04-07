@@ -141,14 +141,17 @@ def noun_phrase(input_text):
         n_phrase_lst.append(str(chunk))
     return n_phrase_lst
 
+
 def senti_pos_iter(tokens_column):
+    """Create column for positive words"""
     # Start off with an empty list
     display_series = []
     # For each item in the already existing tokens column in the data frame,
     for token_element in tokens_column:
         # Start off with an empty words list to add to over time
         words = []
-        # If the word isn't in the words list already, then it's added to the words list
+        # If the word isn't in the words list already, then
+        # it's added to the words list
         for word in token_element:
             if word not in words:
                 words.append(word)
@@ -156,17 +159,21 @@ def senti_pos_iter(tokens_column):
         for i in range(len(words)):
             key = words[i]
             j = i - 1
-            while j >= 0 and TextBlob(words[j]).sentiment.polarity > TextBlob(key).sentiment.polarity:
+            while j >= 0 and TextBlob(words[j]).sentiment.polarity \
+                    > TextBlob(key).sentiment.polarity:
                 words[j + 1] = words[j]
                 j -= 1
             words[j + 1] = key
-        # Add the words at the end of the list to the display series since they have the most positive sentiment value
+        # Add the words at the end of the list to the display series since
+        # they have the most positive sentiment value
         display_series.append(", ".join(words[len(words) - 3: len(words)]))
     # Return an entire series based on the display_series list
     return pd.Series(display_series)
 
+
 def senti_neg_iter(tokens_column):
-    #Same as senti_pos_iter
+    """Create column for negative words"""
+    # Same as senti_pos_iter
     display_series = []
     for token_element in tokens_column:
         words = []
@@ -176,11 +183,13 @@ def senti_neg_iter(tokens_column):
         for i in range(len(words)):
             key = words[i]
             j = i - 1
-            while j >= 0 and TextBlob(words[j]).sentiment.polarity > TextBlob(key).sentiment.polarity:
+            while j >= 0 and TextBlob(words[j]).sentiment.polarity > \
+                    TextBlob(key).sentiment.polarity:
                 words[j + 1] = words[j]
                 j -= 1
             words[j + 1] = key
-        # Add the words at the beginning of the list to the display series since they have the most negative sentiment value
+        # Add the words at the beginning of the list to the display series
+        # since they have the most negative sentiment value
         display_series.append(", ".join(words[0:3]))
 
     return pd.Series(display_series)
