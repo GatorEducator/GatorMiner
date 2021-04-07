@@ -69,7 +69,7 @@ def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
 def category_frequency(text: str):
     """A pipeline to normalize, tokenize, and
     find category frequency of raw text"""
-    return word_freq.most_common(amount) # holder
+    normalized_str = normalize(text)
 
 
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:

@@ -199,7 +199,7 @@ def df_preprocess(df):
 def frequency():
     """main function for frequency analysis"""
     freq_type = st.sidebar.selectbox(
-        "Type of frequency analysis", ["Overall", "Student", "Question"]
+        "Type of frequency analysis", ["Overall", "Student", "Question", "Category"]
     )
     if freq_type == "Overall":
         freq_range = st.sidebar.slider(
@@ -226,6 +226,11 @@ def frequency():
             f"Most frequent words in individual questions in **{assign_text}**"
         )
         question_freq(freq_range)
+    elif freq_type == "Category":
+        st.header(
+            f"Most frequent categories in **{assign_text}**"
+        )
+        category_freq()
 
 
 def overall_freq(freq_range):
@@ -255,18 +260,17 @@ def overall_freq(freq_range):
     # print(freq_df)
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
-def category_freq(freq_range):
+def category_freq():
     """page for word category frequency"""
     for item in assignments:
         # combined text of the whole assignment
         combined_text = " ".join(
             main_df[main_df[assign_id] == item][cts.NORMAL]
         )
-        # break down text by sentence
-        x = combined_text.split(".")
-        print("X:\n" + x)
-        # put each sentence through category frequency analysis in az
-        # record accuracy of each sentence in dataframe
+        item_df = pd.DataFrame(
+            az.category_frequency(combined_text),
+            columns=["category", "freq"],
+        )
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
