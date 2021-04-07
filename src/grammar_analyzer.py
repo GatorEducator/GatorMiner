@@ -3,6 +3,7 @@ from . import markdown as md
 from typing import Dict, List
 
 # Mention the language keyword
+
 def grammar_analyzer(directory: str) -> Dict[str, List[int][str]]:
     '''A tool to check grammar error in reflection'''
     tool = language_check.LanguageTool('en-US')
@@ -14,9 +15,9 @@ def grammar_analyzer(directory: str) -> Dict[str, List[int][str]]:
     for key, values in main_md_dict.items():
         for item in values:
             for line in item:
-                    matches = tool.check(line)
-                    i = i + len(matches)
-                    grammar_checker[key].append(i)
-                    for mistake in matches
-                        grammar_checker[key][i].append(mistake)
+                matches = tool.check(line)
+                i = i + len(matches)
+                grammar_checker[key].append(i)
+                for mistake in matches
+                    grammar_checker[key][i].append(mistake)
     return grammar_checker
