@@ -655,30 +655,29 @@ def entities():
     locations, expressions of times, quantities, monetary values, and percentages.")
     st.sidebar.success("Hello sidebar!")
 
+    # make a copy of the main dataframe
     input_df = main_df.copy(deep=True)
-    # make a single select, filter by question, differntiate by parts, define more entities
+
+    # list out possible user documents to choose from and select one
     students = st.multiselect(
         label="Select specific students below:",
         options=input_df[stu_id].unique(),
     )
 
+    # create a dataframe with the selected user and convert it to a string
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
     student_string = df_selected_stu.to_string()
 
-    # st.write(student_string)
+    # run the spacy entity recogonizer on the selected user document and display it
     if len(students) != 0:
         docff = az.get_nlp(student_string)
-        # named_entities = az.named_entity_recognization(student_string)
-        # if len(named_entities) > 0:
         html = spacy.displacy.render(docff, style="ent")
-        # Newlines seem to mess with the rendering
         html = html.replace("\n", " ")
         HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
     #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
     {}</div>"""
         st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
-        # else:
-        #     st.info("No named entity recognized")
+
 
 if __name__ == "__main__":
     main()
