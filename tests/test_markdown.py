@@ -22,8 +22,7 @@ def test_get_file_names(tmp_path):
     para_2.write_text("text")
     output = md.get_file_names(directory)
     expected = [f"{directory}/hello.md", f"{directory}/world.md"]
-    assert expected[0] in output
-    assert expected[1] in output
+    assert expected == output
 
 
 def test_md_parser():

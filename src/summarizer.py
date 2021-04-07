@@ -1,7 +1,7 @@
 """Text summary"""
 import logging
 from typing import Dict, List
-from gensim.summarization.summarizer import summarize
+from gensim.summarization import summarize
 from . import markdown as md
 
 # pylint: disable=logging-fstring-interpolation
