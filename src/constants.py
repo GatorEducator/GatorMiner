@@ -18,3 +18,7 @@ TOKEN = "tokens"
 NORMAL = "normalized"
 ASSIGNMENT = "assignment"
 SENTI = "sentiment"
+
+# Columns
+POSITIVE = "Positive words"
+NEGATIVE = "Negative words"
