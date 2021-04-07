@@ -108,10 +108,12 @@ When `TF-IDF` is selected, the application will display a frequency matrix showi
 
 When `Spacy` is selected, the application will display a drop down named 'Model name' with two options:
 
-- `en_core_web_sm` which is used to produce a correlation matrix for **SMALLER** files. (10mb)
-- `en_core_web_md` which is used to produce a correlation matrix for **LARGER** files. (>10mb)
+- `en_core_web_sm` which is used to produce a correlation matrix for **SMALLER** files. (<13mb)
+- `en_core_web_md` which is used to produce a correlation matrix for **LARGER** files. (>13mb)
 
 **Warning exceeding these file limits could cause the program to crash.**
+
+**See [Spacy.io](https://spacy.io/models/en) for more details of file limits.**
 
 <img src="resources/images/similarity.png" alt="browser" style="width:100%"/>
 
