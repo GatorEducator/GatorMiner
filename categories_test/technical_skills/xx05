@@ -1,0 +1,9 @@
+## What was the greatest technical challenge that your team faced and how did you overcome it?
+Coming up with the strategy that avoid the problem generating when converting A to T, T to A or C to G, G to C.
+If the converting command order is wrong, then the actual DNA sequence will be in a disorder. Then my soulution is
+make the origianl DNA sequence order into lower case and then during the converting process, directly convcrt the
+lower case to upper case, so all the four convering command line will not interference each other. It is a little
+bit frustrating when the checkstyle thing does not allow the name of sting or data in the format of dna_origianl
+while the input file is written as dna_input. I thought naming in this way will make it much clearer about the
+actual meaning of different variables.and which number represents which position also confuesd me for a while.
+

@@ -1,0 +1,6 @@
+## For each String and Random method used, add an explanation in the list format (as shown in an example below).
+
+- `nextInt`: Returns the next pseudorandom, uniformly distributed int value from this random number generator's sequence.
+- `toUpperCase`: changes input to all characters to upper case
+- `charAt`: Returns the char value at the specified index.
+

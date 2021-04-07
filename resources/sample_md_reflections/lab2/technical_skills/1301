@@ -1,0 +1,35 @@
+## Using a fenced code block, please display the output from running your program
+
+```
+
+  String dna = scanner.nextLine();
+  System.out.println(dna.toUpperCase());
+
+
+  // : Compute the complement of the DNA String
+  String dna2 = "";
+  dna2 = dna.replace("A", "t");
+  System.out.println(dna2);
+  dna2 = dna.replace("T", "a");
+  System.out.println(dna2);
+  dna2 = dna.replace("G", "c");
+  System.out.println(dna2);
+  dna2 = dna.replace("C", "g");
+  System.out.println(dna2);
+
+  // : Insert a randomly chosen DNA letter into the DNA String at a random position
+  Random rand = new Random();
+  int num1 = rand.nextInt(dna2.length());
+
+
+  // : Delete a DNA letter from a randomly chosen position in the DNA string
+  dna2 = dna2.replace(dna2.substring(num1, num1 + 1), "");
+  dna2 = dna2.replace(dna2.substring(num1, num1 + 1), "");
+  int pos = rand.nextInt(dna2.length());
+  // : Change a random position in the DNA String to a randomly chosen DNA letter
+  dna2 = dna2.replace(dna2.charAt(pos), "ACGT".charAt(rand.nextInt(4)));
+  // : Display a final thank you message
+  System.out.println("Thanks for using DNA Program");
+
+```
+

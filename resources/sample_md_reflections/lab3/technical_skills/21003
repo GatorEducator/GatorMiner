@@ -1,0 +1,24 @@
+## Text Analysis
+<!-- Describe the techniques used for an automated text analysis of your automated script synopsis. Cite (provide a link to) any sources you have used. Include a graph or textual output of your analysis. -->
+
+We use SentimentIntensityAnalyzer to analyze the NCIS dialog in order to get a negative
+or positive emotion. We included a for loop with a nested if-else that measures the
+polarity list and prints out a sentence of whether it is positive or negative and
+also prints the polarity number. The sentiment is on a scale from -1 to 1 and thus,
+any value below zero results in a negative polarity and any value above zero is
+a positive polarity. We have this sentiment analyzing the text that is generated
+from our `generator.py` file. We have it read through that file and measure
+the sentiment polarity. It reads through the file by opening the the text file,
+splitting it into strings, and measuring the polarity and saving it into a list.
+Along with our sentiment analysis, our generator outputs a temperature with each
+paragraph it displays. These temperature range from 0 to 1. The higher the temperature
+the more positive the paragraph will be. By doing both analyzers, we are able to
+get a cohesive sentiment on the paragraph as a whole and then individual ones for
+each separate group. To see the textual output that is analyzed, go to `generated_text.txt`.
+The sentiment that was produced when we ran it was
+
+```
+-- This episode contains positive emotions.
+-- The sentiment rating: 0.982.
+```
+

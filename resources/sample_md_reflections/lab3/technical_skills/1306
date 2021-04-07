@@ -1,0 +1,40 @@
+## After completing this assignment, what is one learning experience you have valued the most?
+the learning experience that i value the most is probably the TODO of compute the  complement of the DNA String i valued this because i did it by myself and i think it shows that i am starting to learn and remember how to do some parts of the coding we use. i also think that it gives me confidence that i will be able to use all the codes we use and memorize and use them correctly. each Lab and practicals we do i think i get closer and closer to using  all of our codes correctly.
+
+
+
+
+✔  The reflection.md in writing has at least 300 word(s) in total
+✔  The ManipulateDna.java in src/main/java/labfive has at least 8 single-line Java comment(s)
+✔  The reflection.md in writing has exactly 2 of the 'list' tag
+✔  The ManipulateDna.java in src/main/java/labfive has at least 5 of the 'String' fragment
+✔  The file ManipulateDna.java exists in the src/main/java/labfive directory
+✔  The ManipulateDna.java in src/main/java/labfive has exactly 0 of the 'Add Your Name Here' fragment
+✔  The ManipulateDna.java in src/main/java/labfive has at least 3 of the '.nextInt' fragment
+✔  The ManipulateDna.java in src/main/java/labfive has at least 2 of the '.substring' fragment
+✔  The ManipulateDna.java in src/main/java/labfive has at least 2 of the '.charAt' fragment
+✔  The ManipulateDna.java in src/main/java/labfive has at least 4 of the '.replace' fragment
+✔  The command 'gradle -q --console plain run' executes correctly
+✔  The reflection.md in writing has exactly 0 of the 'Add Your Name Here' fragment
+✔  The ManipulateDna.java in src/main/java/labfive has exactly 1 of the 'import java.util.Date' fragment
+✔  The ManipulateDna.java in src/main/java/labfive has at least 2 multiple-line Java comment(s)
+✔  The ManipulateDna.java in src/main/java/labfive has exactly 1 of the 'new Date()' fragment
+✔  The reflection.md in writing has exactly 3 of the 'code' tag
+✔  The command 'gradle build' executes correctly
+✔  The reflection.md in writing has exactly 7 of the 'heading' tag
+✔  The reflection.md in writing has exactly 1 of the 'code_block' tag
+✔  The ManipulateDna.java in src/main/java/labfive has at least 8 of the 'System.out.println' fragment
+✔  Repository has at least 8 commit(s)
+✔  The file reflection.md exists in the writing directory
+✔  The ManipulateDna.java in src/main/java/labfive has at least 1 of the '.toUpperCase' fragment
+✔  The ManipulateDna.java in src/main/java/labfive has exactly 0 of the 'TODO' fragment
+
+
+	┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+	┃ Passed 24/24 (100%) of checks for cs100-01-lab05-solution! ┃
+	┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+BUILD SUCCESSFUL in 1m 17s
+1 actionable task: 1 executed
+bash-5.0#

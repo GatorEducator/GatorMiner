@@ -1,0 +1,7 @@
+## For each String and Random method used, add an explanation in the list format (as shown in an example below).
+
+- `nextInt`: returns a random number that ranges over all possible int values (positive and negative)
+- `replace`: replaces each substring of this string that matches the literal target substring.
+The substring matching process start from beginning of the string.
+- `charAt`:  returns the character at the specified index
+

@@ -1,0 +1,3 @@
+## Text Analysis
+We used textgen to train the model and generate a text from the synopsis it came up with. Then we used the VADER senitment analyzer to score these texts for their sentiment. We were already familiar with VADER because one of our team members references them in their comp.
+

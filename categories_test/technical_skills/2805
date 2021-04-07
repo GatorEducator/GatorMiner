@@ -1,0 +1,13 @@
+## Challenges and Learning Experiences
+
+The largest challenge I faced at first was setting up `tensorflow` and `textgenrnn` locally
+on my device. After stuggling with that for awhile, I was able to get both working in a
+Google colab notebook. However, `textgenrnn` would not produce coherent words with the
+training model I had choosen and the amount of data I had. So, I chose to use a different
+tool tot generate my text, which worked well. I feel that through this challenge I
+further understand the importance of choosing the corrent training model for the data
+you are using. I also stuggled with knowing how long I should train my model. It took about
+an hour to get to round 43 and I was unsure as to when the training was going to stop on
+its own or if I was supposed to stop it myself. This I hope will come with more practice
+and with more knowledge of the tools I am using.
+

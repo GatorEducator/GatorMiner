@@ -1,0 +1,14 @@
+## Using a fenced code block, please display the output from running your program
+
+```Thu Oct 10 04:13:22 GMT 2019
+I am going to manipulate the DNA String: AAGTCTGGGCCTTAATCCAGATCAGGA
+The complement of AAGTCTGGGCCTTAATCCAGATCAGGA is TTCAGACCCGGAATTAGGTCTAGTCCT
+Inserting a letter at 24
+AAGTCTGGGCCTTAATCCAGATCACGGA
+Deletion of DNA at 20
+AAGTCTGGGCCTTAATCCAGTCAGGA
+Changing positions at 11
+AAGTCTGGGCCATAATCCAGATCAGGA
+Thank you for using Manipulate DNA. Have a great day!
+```
+

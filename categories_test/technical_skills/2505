@@ -1,0 +1,5 @@
+## Challenges and Learning Experiences
+
+Discuss any challenges you have encountered during the work on this lab and  describe what have you learned.
+While working on this lab we encountered many different challenges, however we were able to overcome them. One of the main challenges we faced was finding a way to randomly generate a synopsis from our input data. We struggled with this because it was very difficult for us to generate a synopsis that actually created sentences that were comprehendible. After reviewing our options we were able to overcome this challenge by using the GPT-2 model to generate a synopsis from our input data.
+

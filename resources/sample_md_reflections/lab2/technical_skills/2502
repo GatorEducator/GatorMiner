@@ -1,0 +1,85 @@
+## Text Generation
+
+Describe the techniques used for an automated generation of your script synopsis. Cite (provide a link to) any sources you have used. Include your generated text (or its snippet) below.
+For the part of text generation we utilized the `GPT-2` model that is based upon TensorFlow. This technique is based upon training large amounts of text that is either on the internet or you could enter your own input which we did in our case. Since, we used this model for generating text we were able to fine tune our training because it is a very complex model that is easily adjustable to suit our needs. This model also utilized the Google Colaboratory Notebook platform which made it rather simple to train our input data as well as generate text that we could use for our analysis. The link for GPT-2 on the Colaboratory Notebook can be found here; [Train a GPT-2 Text-Generating Model w/ GPU For Free](https://colab.research.google.com/drive/1VLG8e7YSEwypxU-noRNhsv5dW4NfTGce#scrollTo=H7LoMj4GA4n_).
+
+Snippet of Generated Text:
+```
+This is a message for Nathan.
+
+Nathan Hale.
+
+My son.
+
+570
+00:50:46,450 --> 00:50:49,543
+I haven't always been there for you.
+
+571
+00:51:55,881 --> 00:51:58,467
+There's so many things I need to say.
+
+572
+00:53:03,444 --> 00:53:05,427
+This might be the last time
+that Mommy gets to talk to you.
+
+573
+00:53:07,444 --> 00:53:09,437
+I love you so much, buddy.
+
+574
+00:53:10,444 --> 00:53:11,637
+I'm so proud of you.
+
+575
+00:53:13,308 --> 00:53:15,873
+I'm sorry.
+
+576
+00:53:17,592 --> 00:53:19,945
+I am so sorry
+
+577
+00:53:22,608 --> 00:53:24,128
+if I ever made you feel
+
+578
+00:53:24,212 --> 00:53:26,236
+like you weren't
+the most important thing.
+
+579
+00:53:26,298 --> 00:53:28,540
+I was trying to build a life for us.
+
+580
+00:53:30,788 --> 00:53:32,017
+I, uh...
+
+581
+00:53:33,001 --> 00:53:35,109
+And now, I realize
+that none of it even matters.
+
+582
+00:53:37,441 --> 00:53:38,478
+The night that I left,
+you wanted me to tuck you in.
+
+583
+00:53:39,565 --> 00:53:41,473
+To sing you a song, our song.
+
+584
+00:53:42,625 --> 00:53:43,471
+But I didn't have time, so...
+
+585
+00:53:47,659 --> 00:53:48,499
+So I'm gonna sing it to you now. Okay?
+
+586
+00:53:51
+```
+

@@ -1,0 +1,23 @@
+## Text Analysis
+
+Reference: https://towardsdatascience.com/identifying-hate-speech-with-bert-and-cnn-b7aa2cddd60d
+For text analysis, I used BERT's pretrained data to apply NLP as a pre-training transformer. I first randomized the input data and chose first 25000 of random data as training dataset, 25000 to 26000 as validation set, and 26000 to 30414 as testing set. After using BERT tokenized and fitted the pretrained model, I started training KCNN with creativity score where all Black Mirror scripts have the creativity score of 1 and all Green Arrow script have the creativity score of 0. After the training KCNN, I applied cross validation with the the cv dataset. Since there is only one label, creativity score, the plot of training loss based on Epoch is meaningless. After the cross validation, I checked the accuracy rate with the testing set.
+
+Sample one:
+
+```
+Epoch 10 Train loss: 0.53. Validation loss: 0.54. Elapsed time: 13.18s.
+cross validation of the given dataset:
+   label  auc
+0  Score  0.786407
+```
+
+Sample two:
+
+```
+Epoch 10 Train loss: 0.53. Validation loss: 0.54. Elapsed time: 13.17s.
+cross validation of the given dataset:
+  label       auc
+0  Score  0.786287  
+```
+

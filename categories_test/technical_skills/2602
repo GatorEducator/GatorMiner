@@ -1,0 +1,9 @@
+## Text Generation
+
+Describe the techniques used for an automated generation of your script synopsis. Cite (provide a link to) any sources you have used. Include your generated text (or its snippet) below.
+
+The default configuration using textgenrnn was employed. With the subtitles being provided in very short fragments, a total of 50 epochs were used in order to generate moderately cohesive dialogue that retains the stylistic properties of the source material. In terms of the input material, a file containing the collation of dialogue from every episode (without foreign and non-Unicode symbols) was used. As per the default configuration, snippets as concise as the original input lines were displayed at various different "temperatures" in order to cover a diverse range of possible generated snippets.
+
+```
+1834/1834 [==============================] - 280s 153ms/step - loss: 0.7286
+Epoch 41/50
