@@ -52,6 +52,20 @@ pipenv run python -m spacy download en_core_web_sm
 pipenv run python -m spacy download en_core_web_md
 ```
 
+Alternatively, run a Docker container with all necessary dependencies and Spacy models installed.
+
+Run the Docker container for Mac:
+
+```bash
+sh docker_run_mac.sh
+```
+
+Run the Docker container for Windows:
+
+```bash
+sh docker_run_win.sh
+```
+
 ## Web Interface
 
 GatorMiner is mainly developed on its web interface with [Streamlit](https://www.streamlit.io)
