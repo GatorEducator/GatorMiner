@@ -12,7 +12,7 @@ def grammar_analyzer(directory: str) -> Dict[str, List[int][str]]:
     # Parse the file which needs to be checked
     main_md_dict = md.collect_md(directory, is_clean=False)
     # initialize summarized dict with keys in sources
-    grammar_checker = {k: [][] for k in main_md_dict.keys()}
+    grammar_checker = {k: [] for k in main_md_dict.keys()}
     for key, values in main_md_dict.items():
         for item in values:
             for line in item:
