@@ -358,34 +358,8 @@ def question_freq(freq_range):
 def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
-    senti_df["Top 3 positive words"] = str(np.nan)
-    senti_df["Top 3 negative words"] = str(np.nan)
-    st.write(senti_df)
-
-    for index, series in senti_df.iterrows():
-        text_blobs = []
-        top_positive_words = []
-        top_negative_words = []
-        # Counter objects to check the amount of positive/negative words
-        positive_count = Counter()
-        negative_count = Counter()
-
-        for word_list in senti_df.loc[index, "tokens"]:
-            for word in word_list:
-                text_blobs.append(TextBlob(az.lemmatized_text(word)))
-        for blob in text_blobs:
-            if blob.sentiment.polarity >= 0:
-                positive_count[str(blob)]+=1
-            elif blob.sentiment.polarity < 0:
-                negative_count[str(blob)]+=1
-        for word in positive_count.most_common(3):
-            top_positive_words.append(word[0])
-        for word in negative_count.most_common(3):
-            top_negative_words.append(word[0])
-        positive_display = " ,".join(top_positive_words)
-        negative_display = " ,".join(top_negative_words)
-        senti_df.loc[index, "Top 3 positive words"] = positive_display
-        senti_df.loc[index, "Top 3 negative words"] = negative_display
+    senti_df["Positive words"] = senti_df.apply(lambda row: senti_pos_iter(row["tokens"]), axis=1)
+    senti_df["Negative words"] = senti_df.apply(lambda row: senti_neg_iter(row["tokens"]), axis=1)
 
     # calculate overall sentiment from the combined text
     senti_df[cts.SENTI] = senti_df["combined"].apply(
@@ -409,6 +383,45 @@ def sentiment():
             f"View sentiment by individual questions in **{assign_text}**"
         )
         question_senti(senti_df)
+
+def senti_pos_iter(tokens):
+    words = []
+    display = []
+    for word in tokens:
+        if word not in words:
+            words.append(word)
+    for i in range(len(words)):
+        key = words[i]
+        j = i - 1
+        while j >= 0 and TextBlob(az.lemmatized_text(words[j])).sentiment.polarity > TextBlob(az.lemmatized_text(key)).sentiment.polarity:
+            words[j + 1] = words[j]
+            j -= 1
+        words[j + 1] = key
+
+    for word in words:
+        display.append(word)
+
+    return ", ".join(display[len(display) - 3: len(display) - 1])
+
+def senti_neg_iter(tokens):
+    words = []
+    display = []
+    for word in tokens:
+        if word not in words:
+            words.append(word)
+    for i in range(len(words)):
+        key = words[i]
+        j = i - 1
+        while j >= 0 and TextBlob(az.lemmatized_text(words[j])).sentiment.polarity > TextBlob(az.lemmatized_text(key)).sentiment.polarity:
+            words[j + 1] = words[j]
+            j -= 1
+        words[j + 1] = key
+
+    for word in words:
+        display.append(word)
+
+    return ", ".join(display[0:2])
+
 
 def overall_senti(senti_df):
     # display line plot when there are multiple assingments
