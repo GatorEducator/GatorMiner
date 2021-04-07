@@ -211,11 +211,9 @@ def frequency():
     """main function for frequency analysis"""
 
     #Create button to return the description for frequency analyzer
-    freq_des = md.read_file('doc/FrequencyAnalysis.md')
+    freq_des = md.read_file('doc/frequency-analysis.md')
     if(st.button("Frequency Analysis Description", key = 1)):
         st.write(freq_des)
-    else:
-        pass
 
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
@@ -366,11 +364,9 @@ def sentiment():
     """main function for sentiment analysis"""
 
     #Create button return description for sentiment analysis
-    sent_des = md.read_file('doc/SentimentAnalysis.md')
+    sent_des = md.read_file('doc/sentiment-analysis.md')
     if(st.button("Sentiment Analysis Description", key = 2)):
         st.write(sent_des)
-    else:
-        pass
 
     senti_df = main_df.copy(deep=True)
     # calculate overall sentiment from the combined text
@@ -454,11 +450,9 @@ def summary():
     """Display summarization"""
 
     #Create button return description for summary feature
-    summ_des = md.read_file('doc/Summary.md')
+    summ_des = md.read_file('doc/summary.md')
     if(st.button("Summary Description", key = 3)):
         st.write(summ_des)
-    else:
-        pass
 
     sum_df = preprocessed_df[
         preprocessed_df[assign_id].isin(assignments)
@@ -473,11 +467,9 @@ def summary():
 def tpmodel():
     """Display topic modeling"""
     #Create button return description for summary feature
-    topic_des = md.read_file('doc/TopicModelling.md')
+    topic_des = md.read_file('doc/topic-modelling.md')
     if(st.button("Topic Modelling Description", key = 4)):
         st.write(topic_des)
-    else:
-        pass
 
     topic_df = main_df.copy(deep=True)
     topic_df = topic_df[topic_df[assign_id].isin(assignments)]
@@ -580,11 +572,9 @@ def scatter_tm(lda_model, corpus, overall_topic_df):
 def doc_sim():
     """Display document similarity"""
     #Create button return description for document similarity analyzer
-    docs_des = md.read_file('doc/DocumentSimilarity.md')
+    docs_des = md.read_file('doc/document-similarity.md')
     if(st.button("Document Similarity Description", key = 5)):
         st.write(docs_des)
-    else:
-        pass
 
     doc_df = main_df.copy(deep=True)
     doc_sim_type = st.sidebar.selectbox(
@@ -660,11 +650,9 @@ def interactive():
     """Page to allow nlp analysis from user input"""
 
     #Create button return description for interactive feature
-    inter_des = md.read_file('doc/Interactive.md')
+    inter_des = md.read_file('doc/interactive.md')
     if(st.button("Interactive Description", key = 6)):
         st.write(inter_des)
-    else:
-        pass
 
     input_text = st.text_area("Enter text", "Type here")
     token_cb = st.checkbox("Show tokens")
