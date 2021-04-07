@@ -170,6 +170,7 @@ def senti_neg(tokens_column):
 
 
 def create_word_list(token_element):
+    """Creates and sorts a word list from a list of tokens"""
     # Start off with an empty words list to add to over time
     words = []
     # If the word isn't in the words list already, then
