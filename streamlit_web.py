@@ -211,8 +211,8 @@ def frequency():
     """main function for frequency analysis"""
 
     #Create button to return the description for frequency analyzer
-    freq_des = md.read_file('doc/frequency-analysis.md')
-    if(st.button("Frequency Analysis Description", key = 1)):
+    freq_des = md.read_file('docs/frequency-analysis.md')
+    with st.beta_expander("Frequency Analysis Description"):
         st.write(freq_des)
 
     freq_type = st.sidebar.selectbox(
@@ -364,8 +364,8 @@ def sentiment():
     """main function for sentiment analysis"""
 
     #Create button return description for sentiment analysis
-    sent_des = md.read_file('doc/sentiment-analysis.md')
-    if(st.button("Sentiment Analysis Description", key = 2)):
+    sent_des = md.read_file('docs/sentiment-analysis.md')
+    with st.beta_expander("Sentiment Analysis Description"):
         st.write(sent_des)
 
     senti_df = main_df.copy(deep=True)
@@ -450,8 +450,8 @@ def summary():
     """Display summarization"""
 
     #Create button return description for summary feature
-    summ_des = md.read_file('doc/summary.md')
-    if(st.button("Summary Description", key = 3)):
+    summ_des = md.read_file('docs/summary.md')
+    with st.beta_expander("Summary Description"):
         st.write(summ_des)
 
     sum_df = preprocessed_df[
@@ -467,8 +467,8 @@ def summary():
 def tpmodel():
     """Display topic modeling"""
     #Create button return description for summary feature
-    topic_des = md.read_file('doc/topic-modelling.md')
-    if(st.button("Topic Modelling Description", key = 4)):
+    topic_des = md.read_file('docs/topic-modelling.md')
+    with st.beta_expander("Topic Modelling Description"):
         st.write(topic_des)
 
     topic_df = main_df.copy(deep=True)
@@ -572,8 +572,8 @@ def scatter_tm(lda_model, corpus, overall_topic_df):
 def doc_sim():
     """Display document similarity"""
     #Create button return description for document similarity analyzer
-    docs_des = md.read_file('doc/document-similarity.md')
-    if(st.button("Document Similarity Description", key = 5)):
+    docs_des = md.read_file('docs/document-similarity.md')
+    with st.beta_expander("Document Similarity Description"):
         st.write(docs_des)
 
     doc_df = main_df.copy(deep=True)
@@ -650,8 +650,8 @@ def interactive():
     """Page to allow nlp analysis from user input"""
 
     #Create button return description for interactive feature
-    inter_des = md.read_file('doc/interactive.md')
-    if(st.button("Interactive Description", key = 6)):
+    inter_des = md.read_file('docs/interactive.md')
+    with st.beta_expander("Interactive Description"):
         st.write(inter_des)
 
     input_text = st.text_area("Enter text", "Type here")
