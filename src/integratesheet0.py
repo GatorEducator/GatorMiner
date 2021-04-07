@@ -4,7 +4,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 # This is the mysqlcredentials.py file containing your credentials.
 #import mysqlcredentials as mc
-# https://betterprogramming.pub/automating-data-extractions-from-google-sheets-with-python-666a692d8ac2 try a different approach
+# https://betterprogramming.pub/automating-data-extractions-from-google-sheets-with-python-666a692d8ac2
 
 # The required variables for gspread:
 scope = ['https://spreadsheets.google.com/feeds', \
