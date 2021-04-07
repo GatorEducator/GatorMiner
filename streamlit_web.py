@@ -87,7 +87,7 @@ def main():
 def landing_src():
     """function to load and configurate readme source"""
 
-    with open("LANDING_PAGE.md") as landing_file:
+    with open("docs/LANDING_PAGE.md") as landing_file:
         landing_src = landing_file.read()
         for file in os.listdir("resources/images"):
             if file.endswith(".png"):
