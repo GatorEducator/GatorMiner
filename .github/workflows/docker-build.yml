@@ -1,14 +1,15 @@
 name: Docker Build
 
 on:
-  schedule: 
-      - cron: "*/60 */24 * * 0"
   push:
     branches:
-      - 'master'
+      - master
   pull_request:
     branches:
       - master
+
+env:
+  IMAGE_NAME: gatorminer-docker
 
 jobs:
   docker:
@@ -20,7 +21,7 @@ jobs:
       -
         name: Login to DockerHub
         if: github.ref == 'refs/heads/master'
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -29,9 +30,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          version: latest
           push: true
-          tags: bennywestsyde/gatorminer:${{steps.date.outputs.date}}
+          tags: $IMAGE_NAME:${{steps.date.outputs.date}}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
