@@ -23,12 +23,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Convert Github Organization to Lowercase
+        run: echo ::set-env name=IMAGE_REPOSITORY::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
+
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{github.repository_owner}}/gatorminer:${{steps.date.outputs.date}}
+          tags: ${{ env.IMAGE_REPOSITORY }}/gatorminer:${{steps.date.outputs.date}}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
