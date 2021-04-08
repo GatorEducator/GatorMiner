@@ -1,9 +1,9 @@
 # Python 3.8
-FROM python:3.8
+FROM python:3.9
 
 EXPOSE 8501
 
-SHELL ["/bin/bash", "--login", "-c"]
+# SHELL ["/bin/bash", "--login", "-c"]
 
 LABEL version="0.1.0"
 
