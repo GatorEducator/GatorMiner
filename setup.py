@@ -1,8 +1,8 @@
 import pathlib
-from setuptools import setuptools
+from setuptools import setuptools, find_packages, setup, Command
 
 # The directory containing this File
-Here = pathlib.Path(__file__).parent
+HERE = pathlib.Path(__file__).parent
 
 # The test of the README file
 README = (HERE /"README.md").read_text()
@@ -19,6 +19,4 @@ setup(
     author_email="n/a",
     packages=find_packages(exclude=("tests",)),
     install_requires=["Git", "Pipenv", "en_core_web_sm/en_core_web_md"],
-    
-    }
 )
