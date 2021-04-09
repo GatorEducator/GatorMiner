@@ -18,5 +18,5 @@ setup(
     author="Enpu You",
     author_email="n/a",
     packages=find_packages(exclude=("tests",)),
-    install_requires=["Git", "Pipenv", "en_core_web_sm/en_core_web_md"],
+    install_requires=["Git", "Pipenv", "en_core_web_sm", "en_core_web_md"],
 )
