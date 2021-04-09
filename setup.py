@@ -16,7 +16,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/Allegheny-Ethical-CS/GatorMiner",
     author="Enpu You",
-    author_email="n/a",
+    author_email="",
     packages=find_packages(exclude=("tests",)),
     install_requires=["Git", "Pipenv", "en_core_web_sm", "en_core_web_md"],
 )
