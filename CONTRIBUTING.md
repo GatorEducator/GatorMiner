@@ -51,7 +51,7 @@ code contribution.
 ### Development Environment
 
 In order to contribute code or documentation to the project, the project
-maintainers suggest installing the release of Python versions above 3.6. You can
+maintainers suggest installing the release of Python versions above 3.7. You can
 learn more about installing and managing python versions with `pyenv` from
 [here](https://realpython.com/intro-to-pyenv/). In addition to installing `Git` to
 access the project's GitHub repository, you should also install `Pipenv` for its
@@ -108,9 +108,9 @@ pipenv run streamlit run streamlit_web.py
 #### Develop GatorMiner on Windows
 
 GatorMiner depends on gensim, and gensim requires Microsoft Visual C++ 14.0+. You can check the version you have from
-`Control Panel -> Programs and Features`. To download or update this, go to the 
-[Visual Studio 2019 Downloads](https://visualstudio.microsoft.com/downloads/), scroll down and 
-expand the `Tools for Visual Studio 2019` and click the download link for `Build tools for Visual Studio 2019`. 
+`Control Panel -> Programs and Features`. To download or update this, go to the
+[Visual Studio 2019 Downloads](https://visualstudio.microsoft.com/downloads/), scroll down and
+expand the `Tools for Visual Studio 2019` and click the download link for `Build tools for Visual Studio 2019`.
 
 Once the installer is downloaded, launch it and select the `C++ build tools` option under `Desktop and Mobile`.
 After that select install at the bottom and wait.
@@ -120,7 +120,7 @@ installing, the installer will ask to restart the computer to finish the install
 After your computer has finished installing the C++ build tools, you may need to reinstall the dependencies. To do this,
 just run the `pipenv install --dev` command as previously instructed.
 
-If you still receive the error, delete the `Pipfile.lock` file in the root of the GatorMiner directory and reinstall 
+If you still receive the error, delete the `Pipfile.lock` file in the root of the GatorMiner directory and reinstall
 using the previous command.
 
 #### Test GatorMiner with Sample Data
