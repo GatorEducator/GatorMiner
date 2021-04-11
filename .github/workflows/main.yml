@@ -17,21 +17,22 @@ jobs:
       id: setup-python
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Setup Pipenv
-      uses: dschep/install-pipenv-action@v1
+    - name: Setup Poetry
+      run: |
+      	python -m pip install --upgrade pip
+      	pip install poetry
     - name: Install dependencies
       run: |
         # install dependencies according to the lock file
-        pipenv install --dev --ignore-pipfile --python ${{ steps.setup-python.outputs.python-version }}
-        pipenv run python -m spacy download en_core_web_sm
+        poetry install
     - name: Run test with pytest
       run: |
-        pipenv run pytest tests --cov-config pytest.cov --cov
+        poetry run pytest tests --cov-config pytest.cov --cov
     - name: Lint with flake8
       run: |
-        pipenv run flake8 src
-        pipenv run flake8 tests
+        poetry run flake8 src
+        poetry run flake8 tests
     - name: Lint with pylint
       run: |
-        pipenv run pylint src
-        pipenv run pylint tests
+        poetry run pylint src
+        poetry run pylint tests

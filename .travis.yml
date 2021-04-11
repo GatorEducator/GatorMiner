@@ -30,7 +30,6 @@ notifications:
 install:
   - pip install --upgrade pip
   - pip install poetry
-  - poetry self update
   - poetry install
   - poetry run spacy download en_core_web_sm
   - pip install coverage
