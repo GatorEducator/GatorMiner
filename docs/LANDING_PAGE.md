@@ -22,7 +22,7 @@ reflection markdown documents. You are welcome to try the tool with the sample
 documents. You are welcome to try the tool with the sample documents we provided
 in the 'resources', for example:
 
-```shell
+```
 resources/sample_md_reflections/lab1, resources/sample_md_reflections/lab2, resources/sample_md_reflections/lab3
 ```
 
@@ -34,7 +34,7 @@ markdown reflection documents are being collected and stored inside the a
 pre-configured DynamoDB database. In order to use this feature, you will need
 to have some credential tokens (listed below) stored as environment variables:
 
-```bash
+```
 export GATOR_ENDPOINT=<Your Endpoint>
 export GATOR_API_KEY=<Your API Key>
 export AWS_ACCESS_KEY_ID=<Your Access Key ID>
@@ -55,7 +55,7 @@ the select box in the sidebar to view the text analysis:
 
 ### Frequency Analysis
 
-Frequency analysis is the quantification and analysis of word usage in text (how often a word appears within a certain text). Overall, frequency analysis can provide amazing insight into the many aspects of assignments that instructors may not always be able to observe so it can be extremely valuable to make this information available in a user-friendly and intuitive fashion. This can be achieved using GatorMiner frequency analysis.
+Frequency analysis is the quantification and analysis of word usage in text (how often a word appears within a certain text). Overall, frequency analysis can provide amazing insight into the many aspects of assignments that instructors may not always be able to observe. There is a lot of value in making this information available in a user-friendly and intuitive fashion. This can be achieved using GatorMiner frequency analysis.
 
 Within the GatorMiner tool, you have the ability to choose `Frequency Analysis` as an analysis option after the path to the desired reflection documents is submitted.
 
