@@ -17,14 +17,14 @@ jobs:
       id: setup-python
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Setup Poetry
+    - name: Setup poetry
       run: |
-      	python -m pip install --upgrade pip
-      	pip install poetry
+        python -m pip install --upgrade pip
+        pip install poetry
     - name: Install dependencies
       run: |
-        # install dependencies according to the lock file
         poetry install
+        poetry run spacy download en_core_web_sm
     - name: Run test with pytest
       run: |
         poetry run pytest tests --cov-config pytest.cov --cov
