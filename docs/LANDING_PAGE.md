@@ -18,8 +18,7 @@ What is a local file system?
   is where GatorMiner keeps data isolated so it can be easily identified.
 
 In GatorMiner, you can type in the path(s) to the directories(s) that hold
-reflection markdown documents. You are welcome to try the tool with the sample
-documents. You are welcome to try the tool with the sample documents we provided
+reflection markdown documents. You are welcome to try the tool with the sample documents we provided
 in the 'resources', for example:
 
 ```
