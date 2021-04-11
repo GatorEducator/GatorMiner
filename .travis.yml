@@ -29,15 +29,16 @@ notifications:
   email: never
 install:
   - pip install --upgrade pip
-  - pip install pipenv --upgrade
-  - pipenv install --dev --skip-lock --python "$PYENV_VERSION"
-  - pipenv run python -m spacy download en_core_web_sm
+  - pip install poetry
+  - poetry self update
+  - poetry install
+  - poetry run spacy download en_core_web_sm
   - pip install coverage
 
 script:
-  - pipenv run pytest tests --cov-config pytest.cov --cov
-  - pipenv run flake8 src
-  - pipenv run flake8 tests
+  - poetry run pytest tests --cov-config pytest.cov --cov
+  - poetry run flake8 src
+  - poetry run flake8 tests
   - mdl README.md
 after_success:
   - pipenv run codecov
