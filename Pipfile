@@ -11,18 +11,19 @@ pytest-cov = "*"
 
 [packages]
 matplotlib = "*"
-gensim = '*'
+gensim = "~=3.8.3"
 spacy = "~=2.3"
 sklearn = "*"
 pytest = "*"
 requests = "*"
 commonmark = "*"
 codecov = "*"
-streamlit = "==0.78.0"
+streamlit = "~=0.78.0"
 altair = "*"
 textblob = "*"
 scipy = "*"
 pylint = "*"
+importlib-metadata = "*"
 
 [pipenv]
 allow_prereleases = true

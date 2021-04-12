@@ -2,7 +2,9 @@
 
 import re
 
+import base64
 import numpy as np
+import os
 import pandas as pd
 from sklearn.manifold import TSNE
 import spacy
@@ -63,8 +65,7 @@ def main():
         if debug_mode:
             st.write(main_df)
         if analysis_mode == "Home":
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            readme()
         else:
             if analysis_mode == "Frequency Analysis":
                 st.title(analysis_mode)
@@ -89,13 +90,26 @@ def main():
                 entities()
             success_msg.empty()
 
+def readme():
+    """function to load and configurate readme source"""
+
+    with open("README.md") as readme_file:
+        readme_src = readme_file.read()
+        for file in os.listdir("resources/images"):
+            if file.endswith(".png"):
+                img_path = f"resources/images/{file}"
+                with open(img_path, "rb") as f:
+                    img_bin = base64.b64encode(f.read()).decode()
+                readme_src = readme_src.replace(img_path, f"data:image/png;base64,{img_bin}")
+
+        st.markdown(readme_src, unsafe_allow_html=True)
 
 def landing_pg():
     """landing page"""
     landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
+
     if landing == "Home":
-        with open("README.md") as readme_file:
-            st.markdown(readme_file.read())
+        readme()
     else:
         interactive()
 
@@ -126,8 +140,7 @@ environment variables")
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input")
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            readme()
         else:
             global success_msg
             success_msg = None
@@ -163,8 +176,7 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(md.collect_md(path))
         except FileNotFoundError as err:
             st.sidebar.text(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            readme()
     else:
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
@@ -175,8 +187,7 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(ju.clean_report(response))
         except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            readme()
     # when data is retreived
     if json_lst:
         pan.importpanda(json_lst)
@@ -657,30 +668,29 @@ def entities():
     locations, expressions of times, quantities, monetary values, and percentages.")
     st.sidebar.success("Hello sidebar!")
 
+    # make a copy of the main dataframe
     input_df = main_df.copy(deep=True)
-    # make a single select, filter by question, differntiate by parts, define more entities
+
+    # list out possible user documents to choose from and select one
     students = st.multiselect(
         label="Select specific students below:",
         options=input_df[stu_id].unique(),
     )
 
+    # create a dataframe with the selected user and convert it to a string
     df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
     student_string = df_selected_stu.to_string()
 
-    # st.write(student_string)
+    # run the spacy entity recogonizer on the selected user document and display it
     if len(students) != 0:
         docff = az.get_nlp(student_string)
-        # named_entities = az.named_entity_recognization(student_string)
-        # if len(named_entities) > 0:
         html = spacy.displacy.render(docff, style="ent")
-        # Newlines seem to mess with the rendering
         html = html.replace("\n", " ")
         HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
     #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
     {}</div>"""
         st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
-        # else:
-        #     st.info("No named entity recognized")
+
 
 if __name__ == "__main__":
     main()
