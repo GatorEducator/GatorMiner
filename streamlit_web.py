@@ -19,6 +19,7 @@ import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
 import src.visualization as vis
+import src.pandas as pan
 
 
 # resources/sample_reflections/lab1, resources/sample_reflections/lab2
@@ -178,12 +179,13 @@ def import_data(data_retreive_method, paths):
                 st.markdown(readme_file.read())
     # when data is retreived
     if json_lst:
-        raw_df = pd.DataFrame()
-        for item in json_lst:
-            single_df = pd.DataFrame(item)
-            raw_df = pd.concat([raw_df, single_df]).fillna("")
-        tidy_df = df_preprocess(raw_df)
-        return tidy_df, raw_df
+        pan.importpanda(json_lst)
+        # raw_df = pd.DataFrame()
+        # for item in json_lst:
+        #     single_df = pd.DataFrame(item)
+        #     raw_df = pd.concat([raw_df, single_df]).fillna("")
+        # tidy_df = df_preprocess(raw_df)
+        # return tidy_df, raw_df
 
 
 def df_preprocess(df):
@@ -648,7 +650,7 @@ def interactive():
 
 def entities():
     """Page to display entity analysis"""
-    st.header("Entity analysis inspects the given text for known entities \
+    st.write("Entity analysis inspects the given text for known entities \
     and returns information about those entities. It is a way to extract \
     information that seeks to locate and classify named entities in text \
     into pre-defined categories such as the names of persons, organizations, \
