@@ -13,15 +13,6 @@ College.
 
 ## Installation
 
-Required Commands
-1. git clone git@github.com:Allegheny-Ethical-CS/GatorMiner.git
-2. cd GatorMiner
-3. pip install pipenv -U
-4. pipenv install
-5. pipenv run python -m spacy download en_core_web_sm
-6. pipenv run python -m spacy download en_core_web_md
-
-
 You can clone the repository by running the following command:
 
 ```bash
