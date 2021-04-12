@@ -1,6 +1,6 @@
 from __future__ import print_function
 import gspread
-from oauth2client.client import SignedJwtAssertionCredentials
+from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import json
 
@@ -10,8 +10,7 @@ SPREADSHEET = "PBPython User Survey (Responses)"
 
 json_key = json.load(open(SECRETS_FILE))
 # Authenticate using the signed key
-credentials = SignedJwtAssertionCredentials(json_key['client_email'],
-                                            json_key['private_key'], SCOPE)
+credentials = ServiceAccountCredentials.from_json_keyfile_name("Pbpython-9c80d2999710.json", SCOPE)
 
 gc = gspread.authorize(credentials)
 workbook = gc.open(SPREADSHEET)
