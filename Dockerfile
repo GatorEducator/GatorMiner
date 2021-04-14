@@ -1,8 +1,6 @@
 # Python Version 3.9
 FROM python:3.9
 
-EXPOSE 8501
-
 LABEL version="0.1.0"
 
 LABEL description="An automated text-mining tool written in Python to measure \
@@ -26,3 +24,5 @@ RUN set -e && echo "Installing Pipenv..." \
     && pipenv run python -m spacy download en_core_web_md
 
 CMD ["pipenv", "run", "streamlit", "run", "streamlit_web.py"]
+
+EXPOSE 8501
