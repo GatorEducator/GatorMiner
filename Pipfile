@@ -10,7 +10,6 @@ pytest = "*"
 pytest-cov = "*"
 
 [packages]
-numpy = "~=1.20.2"
 matplotlib = "*"
 gensim = "~=3.8.3"
 spacy = "~=2.3"
