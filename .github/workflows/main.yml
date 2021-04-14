@@ -24,8 +24,6 @@ jobs:
         # install dependencies according to the lock file
         pipenv install --dev --ignore-pipfile --python ${{ steps.setup-python.outputs.python-version }}
         pipenv run python -m spacy download en_core_web_sm
-        wget https://github.com/praekeltfoundation/travis-pyenv/releases/latest/download/setup-pyenv.sh
-        source setup-pyenv.sh
         gem install mdl
     - name: Run test with pytest
       run: |
