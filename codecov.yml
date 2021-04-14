@@ -2,7 +2,12 @@ codecov:
   token: 59a0baf8-461c-4d50-b6d3-ad40bed4ae21
   max_report_age: off
 
-comment: false
+comment:                  # this is a top-level key
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false  # if true: only post the comment if coverage changes
+  require_base: no        # [yes :: must have a base report to post]
+  require_head: yes       # [yes :: must have a head report to post]
 
 coverage:
   precision: 2
