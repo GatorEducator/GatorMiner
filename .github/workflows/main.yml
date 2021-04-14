@@ -37,5 +37,5 @@ jobs:
         pipenv run pylint tests
     -name: Lint the markdown
       run: |
-        gem install mdl
+        pipenv install mdl
         mdl README.md
