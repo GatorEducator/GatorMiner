@@ -65,7 +65,7 @@ def main():
         if debug_mode:
             st.write(main_df)
         if analysis_mode == "Home":
-            readme()
+            landing_src()
         else:
             if analysis_mode == "Frequency Analysis":
                 st.title(analysis_mode)
@@ -87,26 +87,26 @@ def main():
                 interactive()
             success_msg.empty()
 
-def readme():
+def landing_src():
     """function to load and configurate readme source"""
 
-    with open("README.md") as readme_file:
-        readme_src = readme_file.read()
+    with open("docs/LANDING_PAGE.md") as landing_file:
+        landing_src = landing_file.read()
         for file in os.listdir("resources/images"):
             if file.endswith(".png"):
                 img_path = f"resources/images/{file}"
                 with open(img_path, "rb") as f:
                     img_bin = base64.b64encode(f.read()).decode()
-                readme_src = readme_src.replace(img_path, f"data:image/png;base64,{img_bin}")
+                landing_src = landing_src.replace(img_path, f"data:image/png;base64,{img_bin}")
 
-        st.markdown(readme_src, unsafe_allow_html=True)
+        st.markdown(landing_src, unsafe_allow_html=True)
 
 def landing_pg():
     """landing page"""
     landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
 
     if landing == "Home":
-        readme()
+        landing_src()
     else:
         interactive()
 
@@ -142,7 +142,7 @@ environment variables")
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input")
-            readme()
+            landing_src()
         else:
             global success_msg
             success_msg = None
