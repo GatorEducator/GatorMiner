@@ -57,13 +57,13 @@ Alternatively, run a Docker container with all necessary dependencies and Spacy 
 Run the Docker container for Mac:
 
 ```bash
-sh docker_run_mac.sh
+sh scripts/docker_run.sh
 ```
 
 Run the Docker container for Windows:
 
-```
-docker_run_win.bat
+```bash
+sh scripts/docker_run.bat
 ```
 
 ## Web Interface
