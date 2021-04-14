@@ -38,9 +38,6 @@ jobs:
         pipenv run pylint tests
     -name: Lint the markdown
       run: |
-        wget https://github.com/praekeltfoundation/travis-pyenv/releases/latest/download/setup-pyenv.sh
-        source setup-pyenv.sh
-        gem install mdl
         mdl README.md
     -name: Run Codecov
       run: |
