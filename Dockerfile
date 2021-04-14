@@ -11,7 +11,7 @@ LABEL description="An automated text-mining tool written in Python to measure \
     survey based on Natural Language Processing in the Department of Computer \
     Science at Allegheny College."
 
-LABEL maintainer="Group 5"
+LABEL maintainer="Bennett Westfall, Andre Hance, Thomas Antle, Bailey Mastrascia"
 
 # ENV LANG C.UTF-8
 # ENV LANGUAGE C.UTF-8
