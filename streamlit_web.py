@@ -658,9 +658,10 @@ def interactive():
 
 def grammar_analyzer():
     '''Display grammar checker'''
+    
 
     #TODO: for visualization team, Adam + Kevin,
     # to add the code to display the result of Grammar checker
-    # Can look at how summary is displaying as a suggestion. 
+    # Can look at how summary is displaying as a suggestion.
 if __name__ == "__main__":
     main()
