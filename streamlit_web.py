@@ -26,11 +26,13 @@ import src.visualization as vis
 SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
 preprocessed_df = pd.DataFrame()
 main_df = pd.DataFrame()
+sample = []
 assignments = None
 assign_text = None
 stu_id = None
 success_msg = None
 debug_mode = False
+json_lst = []
 
 
 def main():
@@ -150,11 +152,15 @@ def load_model(name):
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
-    json_lst = []
+    global sample
+    global json_lst
     if data_retreive_method == "Local file system":
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
+                # sample.append(md.collect_md(path))
+                # for element in sample:
+                    # print("element: " + element)
         except FileNotFoundError as err:
             st.sidebar.text(err)
             with open("README.md") as readme_file:
@@ -230,6 +236,8 @@ def frequency():
         st.header(
             f"Most frequent categories in **{assign_text}**"
         )
+        global json_lst
+        json_lst.append("Test")
         category_freq()
 
 
@@ -261,16 +269,24 @@ def overall_freq(freq_range):
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
 def category_freq():
+    # make input_assignments global and redo md_parser locally?
     """page for word category frequency"""
-    for item in assignments:
-        # combined text of the whole assignment
-        combined_text = " ".join(
-            main_df[main_df[assign_id] == item][cts.NORMAL]
-        )
-        item_df = pd.DataFrame(
-            az.category_frequency(combined_text),
-            columns=["category", "freq"],
-        )
+    # st.write(main_df)
+    questions_end = len(main_df.columns) - 3
+    question_df = main_df[main_df.columns[2:questions_end]]
+    # st.write(question_df)
+    # for row in dataframe
+    user_responses = []
+    for i, row in question_df.iterrows():
+        # add each user's responses to a list to pass in
+        for col in range(len(question_df.columns)):
+            response = row[col]
+            user_responses.append(response)
+        print(user_responses)            
+        user_responses.clear()
+        # az.category_frequency(response)
+        # store overall responses
+
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
@@ -287,6 +303,7 @@ def student_freq(freq_range):
         (main_df[stu_id].isin(students))
         & main_df[assign_id].isin(assignments)
     ]
+    print(stu_assignment)
     if len(students) != 0:
         for student in students:
             for item in assignments:

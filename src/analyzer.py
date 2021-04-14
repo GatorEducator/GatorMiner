@@ -4,9 +4,18 @@ import re
 import string
 from typing import List, Tuple
 import spacy
+from . import categorization as ct
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+import numpy as np
+import nltk
+nltk.download('wordnet')
+from sklearn.datasets import load_files
+nltk.download('stopwords')
+import pickle
+from nltk.corpus import stopwords
 
-from . import markdown as md
+# from . import markdown as md
+# print(md.md_dict)
 
 PARSER = spacy.load("en_core_web_sm")
 
@@ -66,10 +75,28 @@ def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
     return compute_frequency(tokenize(normalize(text)), amount)
 
 
-def category_frequency(text: str):
+def category_frequency(response: str):
     """A pipeline to normalize, tokenize, and
     find category frequency of raw text"""
-    normalized_str = normalize(text)
+    label = ""
+    normalized_str = normalize(response)
+    print("OG normalized string" + normalized_str)
+
+    if(normalized_str):
+        ct.predict([normalized_str])
+    # idea: modify to send list of frequencies for a given question through category frequency so that program has multiple 'documents' to work with, treat each individual response as a document
+    """
+    if normalized_str:
+        from sklearn.feature_extraction.text import CountVectorizer
+        # use tokenize feature instead?
+        transformed_str = vectorizer.fit_transform([normalized_str]).toarray()
+
+        from sklearn.feature_extraction.text import TfidfTransformer
+        tfidfconverter = TfidfTransformer()
+        transformed_str = tfidfconverter.fit_transform(transformed_str).toarray()
+        label = classifier.predict(transformed_str)[0]
+    print(label)
+    """
 
 
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:

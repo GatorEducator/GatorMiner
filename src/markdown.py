@@ -79,6 +79,7 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
     types = {}
     if is_clean:
         types = {"code_block", "link", "image", "code", "block_quote"}
+    global md_dict
     md_dict = {}
     cur_heading = ""
     for subnode, enter in ast.walker():
