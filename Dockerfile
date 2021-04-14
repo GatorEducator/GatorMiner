@@ -3,8 +3,6 @@ FROM python:3.9
 
 EXPOSE 8501
 
-# SHELL ["/bin/bash", "--login", "-c"]
-
 LABEL version="0.1.0"
 
 LABEL description="An automated text-mining tool written in Python to measure \
