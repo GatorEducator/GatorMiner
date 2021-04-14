@@ -13,6 +13,15 @@ def test_merge_dict():
     assert expected == output
 
 
+def test_merge_dict_keys():
+    """Test that merge_dict adds empty string for unique keys."""
+    test_dict_1 = {"key1": "value1"}
+    test_dict_2 = {"key1": "value2", "key2": "value3"}
+    output = md.merge_dict(test_dict_1, test_dict_2)
+    expected = {"key1": ["value1", "value2"], "key2": ["", "value3"]}
+    assert expected == output
+
+
 def test_get_file_names(tmp_path):
     """Test that get file names return a list of paths"""
     directory = tmp_path / "sub"
