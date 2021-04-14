@@ -35,7 +35,6 @@ stu_id = None
 success_msg = None
 debug_mode = False
 
-
 def main():
     """main streamlit function"""
     # Title
@@ -659,7 +658,9 @@ def interactive():
 
 def grammar_analyzer():
     '''Display grammar checker'''
-   #TODO: add code to display the grammar error.
 
+    #TODO: for visualization team, Adam + Kevin,
+    # to add the code to display the result of Grammar checker
+    # Can look at how summary is displaying as a suggestion. 
 if __name__ == "__main__":
     main()
