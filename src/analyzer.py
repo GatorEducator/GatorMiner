@@ -151,7 +151,7 @@ def senti(tokens_column, sign):
         words = create_word_list(token_element)
         # Add the words at the end of the list to the display series since
         # they have the most positive sentiment value
-        if sign is 1:
+        if sign == 1:
             display_series.append(", ".join(words[len(words) - 3: len(words)]))
         else:
             display_series.append(", ".join(words[0:3]))
@@ -161,13 +161,17 @@ def senti(tokens_column, sign):
 
 def create_word_list(token_element):
     """Creates and sorts a word list from a list of tokens"""
+    # Convert the token list into a set so that it only has the unique words
+    words = set(token_element)
+    # Convert back into list to iterate through
+    unique_words = list(words)
     # Insertion sort algorithm using the polarity to compare the words
-    for i in range(len(set(token_element))):
-        key = token_element[i]
+    for i in range(len(unique_words)):
+        key = unique_words[i]
         j = i - 1
-        while j >= 0 and TextBlob(token_element[j]).sentiment.polarity \
+        while j >= 0 and TextBlob(unique_words[j]).sentiment.polarity \
                 > TextBlob(key).sentiment.polarity:
-            token_element[j + 1] = token_element[j]
+            unique_words[j + 1] = unique_words[j]
             j -= 1
-        token_element[j + 1] = key
-    return list(token_element)
+        unique_words[j + 1] = key
+    return unique_words
