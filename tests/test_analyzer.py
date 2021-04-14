@@ -163,7 +163,7 @@ def test_tfidf():
 
 def test_senti_pos():
     """Tests if the positive words column is created and supplied with words"""
-    df = pd.DataFrame(columns=[cts.TOKEN, cts.POSITIVE, cts.NEGATIVE])
+    df = pd.DataFrame(columns=[cts.TOKEN, cts.POSITIVE])
     input_tokens = [
         ["incredible", "horrible", "terrific", "terrible"],
         ["amazing", "devastating", "boring", "cool"],
@@ -172,11 +172,12 @@ def test_senti_pos():
     df[cts.TOKEN] = pd.Series(input_tokens)
     df[cts.POSITIVE] = az.senti_pos(df[cts.TOKEN].values)
     assert df[cts.POSITIVE] is not None
+    assert df[cts.POSITIVE].size is df[cts.TOKEN].size
 
 
 def test_senti_neg():
     """Tests if the negative words column is created and supplied with words"""
-    df = pd.DataFrame(columns=[cts.TOKEN, cts.POSITIVE, cts.NEGATIVE])
+    df = pd.DataFrame(columns=[cts.TOKEN, cts.NEGATIVE])
     input_tokens = [
         ["incredible", "horrible", "terrific", "terrible"],
         ["amazing", "devastating", "boring", "cool"],
@@ -185,3 +186,4 @@ def test_senti_neg():
     df[cts.TOKEN] = pd.Series(input_tokens)
     df[cts.NEGATIVE] = az.senti_neg(df[cts.TOKEN].values)
     assert df[cts.NEGATIVE] is not None
+    assert df[cts.NEGATIVE].size is df[cts.TOKEN].size
