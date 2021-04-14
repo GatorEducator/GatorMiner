@@ -8,8 +8,12 @@ Run the code below to utilize the Docker Container
 ### Mac:
 
 ##### Building:
-Run ```sh docker_build_mac.sh``` for mac
+
+Run ```sh scripts/docker_build.sh``` for mac
+
 ##### Running:
+
+Run ```sh scripts/docker_run.sh``` for mac
 
 ##### Development command
 
@@ -20,5 +24,9 @@ docker run -it -v "$(pwd):/gatorminer" -d -p 8080:8501 gatorminer
 ### Windows:
 
 ##### Building:
-Run ``` sh docker_run_win.sh ``` for windows
+
+Run ``` sh scripts/docker_build.bat``` for windows
+
 ##### Running:
+
+Run ``` sh scripts/docker_run.bat``` for windows
