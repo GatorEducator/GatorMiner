@@ -142,8 +142,8 @@ def noun_phrase(input_text):
     return n_phrase_lst
 
 
-def senti_pos(tokens_column):
-    """Create column for positive words"""
+def senti(tokens_column, sign):
+    """Create columns for positive and negative words"""
     # Start off with an empty list
     display_series = []
     # For each item in the already existing tokens column in the data frame,
@@ -151,40 +151,23 @@ def senti_pos(tokens_column):
         words = create_word_list(token_element)
         # Add the words at the end of the list to the display series since
         # they have the most positive sentiment value
-        display_series.append(", ".join(words[len(words) - 3: len(words)]))
+        if sign is 1:
+            display_series.append(", ".join(words[len(words) - 3: len(words)]))
+        else:
+            display_series.append(", ".join(words[0:3]))
     # Return an entire series based on the display_series list
-    return pd.Series(display_series)
-
-
-def senti_neg(tokens_column):
-    """Create column for negative words"""
-    # Same as senti_pos_iter
-    display_series = []
-    for token_element in tokens_column:
-        words = create_word_list(token_element)
-        # Add the words at the beginning of the list to the display series
-        # since they have the most negative sentiment value
-        display_series.append(", ".join(words[0:3]))
-
     return pd.Series(display_series)
 
 
 def create_word_list(token_element):
     """Creates and sorts a word list from a list of tokens"""
-    # Start off with an empty words list to add to over time
-    words = []
-    # If the word isn't in the words list already, then
-    # it's added to the words list
-    for word in token_element:
-        if word not in words:
-            words.append(word)
     # Insertion sort algorithm using the polarity to compare the words
-    for i in range(len(words)):
-        key = words[i]
+    for i in range(len(set(token_element))):
+        key = token_element[i]
         j = i - 1
-        while j >= 0 and TextBlob(words[j]).sentiment.polarity \
+        while j >= 0 and TextBlob(token_element[j]).sentiment.polarity \
                 > TextBlob(key).sentiment.polarity:
-            words[j + 1] = words[j]
+            token_element[j + 1] = token_element[j]
             j -= 1
-        words[j + 1] = key
-    return words
+        token_element[j + 1] = key
+    return list(token_element)
