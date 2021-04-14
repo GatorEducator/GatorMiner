@@ -152,7 +152,7 @@ def senti(tokens_column, sign):
         # Add the words at the end of the list to the display series since
         # they have the most positive sentiment value
         if sign == 1:
-            display_series.append(", ".join(words[len(words) - 3: len(words)]))
+            display_series.append(", ".join(words[::-1][0:3]))
         else:
             display_series.append(", ".join(words[0:3]))
     # Return an entire series based on the display_series list
