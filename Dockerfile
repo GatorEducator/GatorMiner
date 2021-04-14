@@ -13,15 +13,6 @@ LABEL description="An automated text-mining tool written in Python to measure \
 
 LABEL maintainer="Bennett Westfall, Andre Hance, Thomas Antle, Bailey Mastrascia"
 
-# ENV LANG C.UTF-8
-# ENV LANGUAGE C.UTF-8
-# # ENV LC_ALL C.UTF-8
-# RUN groupadd -r student && \
-#     useradd -m -r -g student -d /home/student -s /usr/sbin/nologin -c "student User" student && \
-#     mkdir -p /home/student/workdir && \
-#     chown -R student:student /home/student
-# COPY . /home/student/GATORMINER/
-
 COPY . /gatorminer
 
 WORKDIR /gatorminer
