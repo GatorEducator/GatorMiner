@@ -1,7 +1,0 @@
-## For each String and Random method used, add an explanation in the list format (as shown in an example below).
-
-- `.nextInt`: uses a scanner to read in a string of characters and converts them into an int
-- `.charAt`: identify a certain character in a string
-- `.substring`: to declare the range of letter characters wanted
-
-

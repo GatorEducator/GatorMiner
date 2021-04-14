@@ -75,15 +75,17 @@ def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
     return compute_frequency(tokenize(normalize(text)), amount)
 
 
-def category_frequency(response: str):
+def category_frequency(response: List[str]):
     """A pipeline to normalize, tokenize, and
     find category frequency of raw text"""
-    label = ""
-    normalized_str = normalize(response)
-    print("OG normalized string" + normalized_str)
+    # label = ""
+    # normalized_str = normalize(response)
+    # print("OG normalized string" + normalized_str)
 
-    if(normalized_str):
-        ct.predict([normalized_str])
+    # if(normalized_str):
+        # ct.predict([normalized_str])
+    print("Analyzer user responses: " + str(response))
+    ct.predict_user_responses(response)
     # idea: modify to send list of frequencies for a given question through category frequency so that program has multiple 'documents' to work with, treat each individual response as a document
     """
     if normalized_str:

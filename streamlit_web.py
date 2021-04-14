@@ -293,7 +293,8 @@ def category_freq():
         for col in range(len(question_df.columns)):
             response = row[col]
             user_responses.append(response)
-        print(user_responses)            
+        print("streamlit web user responses: " + str(user_responses))
+        az.category_frequency(user_responses)
         user_responses.clear()
         # az.category_frequency(response)
         # store overall responses

@@ -45,7 +45,7 @@ def normalize(input):
 
 def transform(normalized_input):
     from sklearn.feature_extraction.text import CountVectorizer
-    vectorizer = CountVectorizer(max_features=1500, min_df=5, max_df=0.7, stop_words=stopwords.words('english'))
+    vectorizer = CountVectorizer(max_features=1500, min_df=0.2, max_df=0.7, stop_words=stopwords.words('english'))
     normalized_input = vectorizer.fit_transform(normalized_input).toarray()
 
     from sklearn.feature_extraction.text import TfidfTransformer
@@ -85,3 +85,17 @@ def predict(input_doc):
     # finish program
     # y_pred = classifier.predict(X_test) # this line actually predicts
     # print(y_pred)
+
+def predict_user_responses(input_list):
+    normalized_input_list = []
+    for response in input_list:
+        normalized_response = normalize([response])
+        normalized_input_list.append(normalized_response)
+    # remove any empty normalized inputs from list
+    while("" in normalized_input_list):
+        normalized_input_list.remove("")
+    print("Normalized input list: ")
+    print(normalized_input_list)
+    print("Documents: " + str(documents))
+    for response in normalized_input_list:
+        transform([response])
