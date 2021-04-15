@@ -161,7 +161,7 @@ def test_tfidf():
     assert vector is not None
 
 
-def test_senti():
+def test_top_polarized_word():
     """Tests if the positive/negative words columns are created"""
     df = pd.DataFrame(columns=[cts.TOKEN, cts.POSITIVE, cts.NEGATIVE])
     input_tokens = [
@@ -170,8 +170,8 @@ def test_senti():
         ["alarming", "awesome", "beautiful", "ugly"],
     ]
     df[cts.TOKEN] = pd.Series(input_tokens)
-    df[cts.POSITIVE] = az.senti(df[cts.TOKEN].values, 1)
-    df[cts.NEGATIVE] = az.senti(df[cts.TOKEN].values, -1)
+    df[cts.POSITIVE] = az.top_polarized_word(df[cts.TOKEN].values, True, False)
+    df[cts.NEGATIVE] = az.top_polarized_word(df[cts.TOKEN].values, False, True)
     assert df[cts.POSITIVE] is not None
     assert df[cts.NEGATIVE] is not None
     assert df[cts.POSITIVE].size is df[cts.TOKEN].size

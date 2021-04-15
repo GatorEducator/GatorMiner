@@ -148,7 +148,7 @@ def top_polarized_word(tokens_column, pos, neg):
     display_series = []
     # For each item in the already existing tokens column in the data frame,
     for token_element in tokens_column:
-        words = create_word_list(token_element)
+        words = sorted_sentiment_word_list(token_element)
         # Add the words at the end of the list to the display series since
         # they have the most positive sentiment value
         if pos:
@@ -159,7 +159,7 @@ def top_polarized_word(tokens_column, pos, neg):
     return pd.Series(display_series)
 
 
-def create_word_list(token_element):
+def sorted_sentiment_word_list(token_element):
     """Creates and sorts a word list from a list of tokens"""
     # Convert the token list into a set so that it only has the unique words
     words = set(token_element)
