@@ -1,22 +1,37 @@
 # pylint: disable=missing-docstring
 import language_tool_python
+import re
 from typing import Dict, List
 
 # Mention the language keyword
 
 
-def grammar_analyzer(text: str) -> List[str]:
-    '''A tool to check grammar error in reflection'''
+def grammar_analyzer(text: str) -> Dict[int, int]:
+    '''A tool to check grammar error and grade it in the reflection'''
     tool = language_tool_python.LanguageTool('en-US')
-    i = 0
-    # store the number of errors as keys and errors as items of a dictionary
-    grammar_err = []
-    # initialize key and item into grammar_err dictionary
+
+    # Variable represent number of grammar errors in the text
+    err_num = 0
+
+    # count for grammar errors
     for line in text:
         matches = tool.check(line)
-        i = i + len(matches)
+        err_num = err_num + len(matches)
         pass
 
-    for mistake in matches:
-        grammar_err.append([i, mistake])
+    # Store all alphanumeric characters in the reflection in a list
+    data = text
+    pattern = re.compile(r'[\W_]+')
+    data = pattern.sub(' ', data).lower()
+    words = data.split()
+
+    #Calculate the error percentage of grammar error per number of words in a text
+    err_percentage = int(100*err_num/(len(words)))
+
+    #Store number of errors and grade in a dictionary
+
+    grammar_err = {'err_num':[],'err_percentage':[]};
+    grammar_err['err_num'].append(err_num)
+    grammar_err['err_percentage'].append(err_percentage)
+
     return grammar_err
