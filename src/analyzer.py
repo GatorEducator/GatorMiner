@@ -142,7 +142,7 @@ def noun_phrase(input_text):
     return n_phrase_lst
 
 
-def senti(tokens_column, sign):
+def top_polarized_word(tokens_column, pos, neg):
     """Create columns for positive and negative words"""
     # Start off with an empty list
     display_series = []
@@ -151,9 +151,9 @@ def senti(tokens_column, sign):
         words = create_word_list(token_element)
         # Add the words at the end of the list to the display series since
         # they have the most positive sentiment value
-        if sign == 1:
+        if pos:
             display_series.append(", ".join(words[::-1][0:3]))
-        else:
+        if neg:
             display_series.append(", ".join(words[0:3]))
     # Return an entire series based on the display_series list
     return pd.Series(display_series)
@@ -165,13 +165,5 @@ def create_word_list(token_element):
     words = set(token_element)
     # Convert back into list to iterate through
     unique_words = list(words)
-    # Insertion sort algorithm using the polarity to compare the words
-    for i in range(len(unique_words)):
-        key = unique_words[i]
-        j = i - 1
-        while j >= 0 and TextBlob(unique_words[j]).sentiment.polarity \
-                > TextBlob(key).sentiment.polarity:
-            unique_words[j + 1] = unique_words[j]
-            j -= 1
-        unique_words[j + 1] = key
-    return unique_words
+    # Returning the sorted list
+    return sorted(unique_words, key=lambda x: TextBlob(x).sentiment.polarity)
