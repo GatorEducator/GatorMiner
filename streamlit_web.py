@@ -211,7 +211,7 @@ def frequency():
     """main function for frequency analysis"""
 
     #Create button to return the description for frequency analyzer
-    freq_des = md.read_file('docs/frequency-analysis.md')
+    freq_des = md.read_file('docs/frequency-analysis/frequency-analysis.md')
     with st.beta_expander("Frequency Analysis Description"):
         st.write(freq_des)
 
@@ -270,6 +270,10 @@ def overall_freq(freq_range):
         )
     )
 
+    freq_overall_des = md.read_file('docs/frequency-analysis/frequency-analysis-overall.md')
+    with st.beta_expander("Overall Frequency Analysis Description"):
+        st.write(freq_overall_des)
+
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
@@ -312,6 +316,9 @@ def student_freq(freq_range):
             )
         )
 
+        freq_student_des = md.read_file('docs/frequency-analysis/frequency-analysis-student.md')
+        with st.beta_expander("Frequency Analysis for Student Description"):
+            st.write(freq_student_des)
 
 def question_freq(freq_range):
     """page for individual question's word frequency"""
@@ -358,6 +365,10 @@ def question_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
+
+        freq_question_des = md.read_file('docs/frequency-analysis/frequency-analysis-question.md')
+        with st.beta_expander("Frequency Analysis for Question Description"):
+            st.write(freq_question_des)
 
 
 def sentiment():
