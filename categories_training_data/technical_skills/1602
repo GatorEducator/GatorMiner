@@ -1,8 +1,0 @@
-## For each String and Random method used, add an explanation in the list format (as shown in an example below).
-
-- `nextInt`: takes the next integer until the first white space
-- `charAt`: takes a character at a given location as an object
-- `substring`: takes a section of a string at given character locations
-- 'length' : counts how many characters are in a string
-- 'replace' : for every given character a new character supplants it
-

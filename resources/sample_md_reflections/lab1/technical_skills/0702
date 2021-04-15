@@ -1,6 +1,0 @@
-## For each String and Random method used, add an explanation in the list format (as shown in an example below).
-
-- `nextInt`: Gets the next value integer.
-- `new Random()`: preceded by the name of the object, new Random() generates a new random value to store as an object.
-- `new Ray()`:
-

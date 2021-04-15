@@ -2,7 +2,9 @@
 
 import re
 
+import base64
 import numpy as np
+import os
 import pandas as pd
 from sklearn.manifold import TSNE
 import spacy
@@ -26,11 +28,13 @@ import src.visualization as vis
 SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
 preprocessed_df = pd.DataFrame()
 main_df = pd.DataFrame()
+sample = []
 assignments = None
 assign_text = None
 stu_id = None
 success_msg = None
 debug_mode = False
+json_lst = []
 
 
 def main():
@@ -60,8 +64,7 @@ def main():
         if debug_mode:
             st.write(main_df)
         if analysis_mode == "Home":
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            readme()
         else:
             if analysis_mode == "Frequency Analysis":
                 st.title(analysis_mode)
@@ -83,13 +86,26 @@ def main():
                 interactive()
             success_msg.empty()
 
+def readme():
+    """function to load and configurate readme source"""
+
+    with open("README.md") as readme_file:
+        readme_src = readme_file.read()
+        for file in os.listdir("resources/images"):
+            if file.endswith(".png"):
+                img_path = f"resources/images/{file}"
+                with open(img_path, "rb") as f:
+                    img_bin = base64.b64encode(f.read()).decode()
+                readme_src = readme_src.replace(img_path, f"data:image/png;base64,{img_bin}")
+
+        st.markdown(readme_src, unsafe_allow_html=True)
 
 def landing_pg():
     """landing page"""
     landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
+
     if landing == "Home":
-        with open("README.md") as readme_file:
-            st.markdown(readme_file.read())
+        readme()
     else:
         interactive()
 
@@ -120,8 +136,7 @@ environment variables")
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input")
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            readme()
         else:
             global success_msg
             success_msg = None
@@ -150,15 +165,18 @@ def load_model(name):
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
-    json_lst = []
+    global sample
+    global json_lst
     if data_retreive_method == "Local file system":
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
+                # sample.append(md.collect_md(path))
+                # for element in sample:
+                    # print("element: " + element)
         except FileNotFoundError as err:
             st.sidebar.text(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            readme()
     else:
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
@@ -169,8 +187,7 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(ju.clean_report(response))
         except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+            readme()
     # when data is retreived
     if json_lst:
         raw_df = pd.DataFrame()
@@ -230,6 +247,8 @@ def frequency():
         st.header(
             f"Most frequent categories in **{assign_text}**"
         )
+        global json_lst
+        json_lst.append("Test")
         category_freq()
 
 
@@ -261,16 +280,25 @@ def overall_freq(freq_range):
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
 def category_freq():
+    # make input_assignments global and redo md_parser locally?
     """page for word category frequency"""
-    for item in assignments:
-        # combined text of the whole assignment
-        combined_text = " ".join(
-            main_df[main_df[assign_id] == item][cts.NORMAL]
-        )
-        item_df = pd.DataFrame(
-            az.category_frequency(combined_text),
-            columns=["category", "freq"],
-        )
+    # st.write(main_df)
+    questions_end = len(main_df.columns) - 3
+    question_df = main_df[main_df.columns[2:questions_end]]
+    # st.write(question_df)
+    # for row in dataframe
+    user_responses = []
+    for i, row in question_df.iterrows():
+        # add each user's responses to a list to pass in
+        for col in range(len(question_df.columns)):
+            response = row[col]
+            user_responses.append(response)
+        print("streamlit web user responses: " + str(user_responses))
+        az.category_frequency(user_responses)
+        user_responses.clear()
+        # az.category_frequency(response)
+        # store overall responses
+
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
@@ -287,6 +315,7 @@ def student_freq(freq_range):
         (main_df[stu_id].isin(students))
         & main_df[assign_id].isin(assignments)
     ]
+    print(stu_assignment)
     if len(students) != 0:
         for student in students:
             for item in assignments:

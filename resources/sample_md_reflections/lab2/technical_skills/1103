@@ -1,4 +1,0 @@
-## What was the greatest technical challenge that your team faced and how did you overcome it?
-
-The greatest technical difficulty that I faced while making this program is when inserting and deleting the nucleotides from the DNA sequence that was given to us. I did not know how to insert a specific character into a string and delete a character from a string because we did not learn how to do something like that specifically. At the end, I figured out that we can use the .substring command to break up the string however we want and put it back by either adding something in the middle of the breaks or removing something by skipping a character when reattaching the string.
-

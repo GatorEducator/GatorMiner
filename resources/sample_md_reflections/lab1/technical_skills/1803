@@ -1,4 +1,0 @@
-## What was the greatest technical challenge that your team faced and how did you overcome it?
-The greatest technical challenge that I faced was having my code select only one value. For example, after I did my code to change  random value, I was successful but every character after that one was changed. I overcame this by changing my line to a string and using a substring command. I wrote <.substring> in order to only select one character in my string to change. In addition, I used <.length> when I was creating my code for deleting a character, this substring allowed me to only delete one character. There were multiple technical challenges that I faced in this lab, but I was able to overcome them by being patient and trying my best to get the code to execute correctly.
-
-

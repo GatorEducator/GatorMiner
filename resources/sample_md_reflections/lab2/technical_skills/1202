@@ -1,6 +1,0 @@
-## For each String and Random method used, add an explanation in the list format (as shown in an example below).
-
-- `nextInt`: generates random integer
-- `substring`: returns a string between two positions
-- `charAt`: returns a character from a position
-

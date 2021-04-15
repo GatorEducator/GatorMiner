@@ -1,7 +1,0 @@
-## For each String and Random method used, add an explanation in the list format (as shown in an example below).
-
-- `nextInt`: will display the next integer that will is implemented or inserted
-- `println`: displays string and code in terminal
-- `int position`: does an action to a specific character in a particular position of a string
-
-
