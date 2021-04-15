@@ -1,11 +1,7 @@
 {
     "_meta": {
         "hash": {
-<<<<<<< HEAD
             "sha256": "ba813dca31322b6f70fa3a9cd0e7508e0bf23190dc5fe0cb78c83a9fd4de06ec"
-=======
-            "sha256": "789c09afdf33e00d8e16fe6d623c8f52136034d7234f35dd57aa58f92a2e4694"
->>>>>>> 598e3c10317ee836bace24b40c2f823924e1f4d1
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -446,19 +442,11 @@
         },
         "importlib-metadata": {
             "hashes": [
-<<<<<<< HEAD
                 "sha256:742add720a20d0467df2f444ae41704000f50e1234f46174b51f9c6031a1bd71",
                 "sha256:b74159469b464a99cb8cc3e21973e4d96e05d3024d337313fedb618a6e86e6f4"
             ],
             "markers": "python_version < '3.8'",
             "version": "==3.7.3"
-=======
-                "sha256:c9db46394197244adf2f0b08ec5bc3cf16757e9590b02af1fca085c16c0d600a",
-                "sha256:d2d46ef77ffc85cbf7dac7e81dd663fde71c45326131bea8033b9bad42268ebe"
-            ],
-            "index": "pypi",
-            "version": "==3.10.0"
->>>>>>> 598e3c10317ee836bace24b40c2f823924e1f4d1
         },
         "iniconfig": {
             "hashes": [
@@ -502,11 +490,7 @@
                 "sha256:0a943902919f65c5684ac4e0154b1ad4fac6dcaa5d9f3426b732f1c8b5419be6",
                 "sha256:2bb1680aad211e3c9944dbce1d4ba09a989f04e238296c87fe2139faa26d655d"
             ],
-<<<<<<< HEAD
             "markers": "python_version >= '3.6' and python_version < '4'",
-=======
-            "markers": "python_version >= '3.6' and python_version < '4.0'",
->>>>>>> 598e3c10317ee836bace24b40c2f823924e1f4d1
             "version": "==5.8.0"
         },
         "jedi": {
