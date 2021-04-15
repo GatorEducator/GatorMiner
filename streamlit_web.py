@@ -359,8 +359,8 @@ def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
     # Initializing the new columns with a numpy array, so the entire series is returned
-    senti_df[cts.POSITIVE] = az.senti(senti_df[cts.TOKEN].values, 1)
-    senti_df[cts.NEGATIVE] = az.senti(senti_df[cts.TOKEN].values, -1)
+    senti_df[cts.POSITIVE] = az.top_polarized_word(senti_df[cts.TOKEN].values, True, False)
+    senti_df[cts.NEGATIVE] = az.top_polarized_word(senti_df[cts.TOKEN].values, False, True)
 
     # calculate overall sentiment from the combined text
     senti_df[cts.SENTI] = senti_df["combined"].apply(
@@ -387,6 +387,7 @@ def sentiment():
 
 
 def overall_senti(senti_df):
+    """page for overall senti"""
     # display line plot when there are multiple assingments
     if len(assignments) > 1:
         st.altair_chart(vis.stu_senti_lineplot(senti_df, stu_id))
