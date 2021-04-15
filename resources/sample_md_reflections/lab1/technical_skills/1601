@@ -1,0 +1,13 @@
+## Using a fenced code block, please display the output from running your program
+
+```
+> Task :run
+Thu Oct 10 00:00:01 EDT 2019
+The DNA sequence is: AAGTCTGGGCCTTAATCCAGATCAGGA
+The complement sequence is: TTCAGACCCGGAATTAGGTCTAGTCCT
+A random insert is: AAGTCTGGTGCCTTAATCCAGATCAGGA
+A random deletion is: AAGTCTGGCCTTAATCCAGATCAGGA
+A random replacement is: AAGTCTGGGCCATAATCCAGATCAGGA
+Thank you!
+```
+

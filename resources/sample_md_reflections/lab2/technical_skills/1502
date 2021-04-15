@@ -1,0 +1,6 @@
+## For each String and Random method used, add an explanation in the list format (as shown in an example below).
+
+- `nextInt`: consetetur sadipscing elitr
+
+  String str1 = dna.replace('A' , 't'); this replaces the A's to lowercase t's
+

@@ -1,0 +1,11 @@
+## What was the greatest technical challenge that your team faced and how did you overcome it?
+The greatest difficulty I experienced was organizing the commands to insert, delete,
+and substitute nucleotides into the sequence. This trouble came from determining
+what commands to use and how to use them. To overcome this, I did a general search
+of the web for how it can be done. This helped me organize the order of my commands
+and what commands to use. Also, it took a lot of trial and error to get everything
+correct so it would give me the correct output. Another challenge I had was with
+spacing. I kept having build errors that had something to do with spacing and going
+past so many characters on a single line. Again, this was just trial and error to
+overcome, along with looking at what lines were causing the build error.
+

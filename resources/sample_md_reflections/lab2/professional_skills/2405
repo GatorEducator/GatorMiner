@@ -1,0 +1,4 @@
+## Challenges and Learning Experiences
+
+One major challenge that we faced happens to be related to our team name. Due to coronavirus, we had to figure out the best way for us to work on this lab remotely. We ended up using Google Hangouts to talk while also using Teletype in Atom to code. Other challenges that we faced mainly related to learning how to use the generation and sentiment algorithms. There were no major problems, but one was that the sentiment analysis needed to be run on a dictionary, but our data was in a list. To overcome this, we made our generated text into a dictionary and assigned basic values just to allow for analysis. Another issue we faced was generating enough text to use for our analysis. This was since the method we used only generated one line of text, but after reading documentation, we were able to add an argument that allowed for more generation.
+

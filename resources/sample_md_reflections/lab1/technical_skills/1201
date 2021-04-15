@@ -1,0 +1,14 @@
+## Using a fenced code block, please display the output from running your program
+
+```
+Thu Oct 03 20:32:42 GMT 2019
+
+I am going to manipulate the DNA: AAGTCTGGGCCTTAATCCAGATCAGGA
+The complement of "AAGTCTGGGCCTTAATCCAGATCAGGA" is: TTCAGACCCGGAATTAGGTCTAGTCCT
+Inserting A at position 21: AAGTCTGGGCCTTAATCCAGA|A|TCAGGA
+Deleting at position 23 gives: AAGTCTGGGCCTTAATCCAGATCGGA
+Changing at position 11 gives: AAGTCTGGGCC|A|TAATCCAGATCAGGA
+
+Thanks for using the ManipulateDNA program!
+```
+

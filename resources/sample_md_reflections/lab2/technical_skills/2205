@@ -1,0 +1,5 @@
+## Challenges and Learning Experiences
+Discuss any challenges you have encountered during the work on this lab and  describe what have you learned.
+
+I have used both NLTK and textgenrnn before so neither of those packages posed many issues, tensorflow on the other hand did. It kept throwing errors for missing DLLs and such while trying to get it to run on my RTX2070 GPU. That took 2 days of troubleshooting to get working but once it did my code ran without a hitch!
+

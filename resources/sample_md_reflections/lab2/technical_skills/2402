@@ -1,0 +1,14 @@
+## Text Generation
+
+To generate this text, we utilized textgenrnn. We trained it with the subtitles that we had downloaded. We generated text directly to a text file. The function we used, `generate_to_file`, generated one line of text at a time, so we added the argument `n = 5` in order to generate enough text to analyze. The result of one run is below.
+
+
+```
+will the promise. I always had to be here. Im not stuffy them, thats the terting this cool. Theyvele of complication. I need to do them. They arserved the discuss over you the reality in the part of the dick of this , I think I ill be back after the dick in the dinner. I didnt want to be worried a
+my decision because I dont know me traffic. Im no me. I think I have a guy the decision. I dont get a discussion. I mean<iiff me? - - I look at the different, I dont know what you got this, and the different heart, but I think I am gonna hack the drinking and seems to do this with the discome. Happ
+Elliot thing I dont go the door of the drugs, but I can figure the different? I am not going to tell me they. I would be dictance to. I dont know why I for a message of my worked of the monst. I dont know, I mean, I mean. I dont be saying the right now. I didnt have all the data protocolical place.
+Are my dat of the discom playing the new terry of this current thing now. I think this is alone. I dont let them. I am not glosing and the data office oh this time. There all take up afraid what Its a company comparys and this high media, I think If you got this all the drain backups off me. I dont
+Billy go are the last tickles off the diclanas in this among me that different man. They be in the transition off this diffecility. I dont go this working the data like for the backups off me.</> They gotta didnt have a word. I would be handle out for him. We have to your realical melt to the dicti
+
+```
+

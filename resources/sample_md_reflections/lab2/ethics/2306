@@ -1,0 +1,33 @@
+## Ethical Benefits and Implications
+
+This program is a naïve version of recognizing creativity within the text. The ethical benefits are obvious, that quantitative creativity can help people easier monetize it, and thereby consider it more important than before.
+
+Synopsis:
+
+```
+Creativity
+```
+
+1. What future technology is featured in your synopsis?
+
+The idea can be used in a tool to compare and rate creative shows based on their scripts.
+
+2. What are the potential social implications and/or ethical issues and/or regulatory challenges with this technology?
+
+People would be more easier identifying creative show to watch, this can be imbedded by show recommendation system, but since it hurts some shows' benefits, there may be some suggestion against it. Additionally, as we are using deep learning, we don't have 100% of confident that the creativity measurement is correct.
+
+3. What do you think might be a cautionary tale related to this technology?
+
+When the technology gives wrong prediction about creativity since it is based on the data and may be biased. For example, in this lab, Black Mirror is the positive data and Green Arrow is the negative data. This may lead to a model which always recognize super hero shows are bad and unit shows are good in terns of creativity.
+
+4. What fictional person in the future could best illustrate this caution?
+
+A person who believes Immanuel Kant that humanity is a means and an end would argue relying on quantitative data is meaningless.
+
+5. What is their story?
+
+Argued against the happenings in the society but failed to make any impact due to the trend in the society is too strong no matter if it is the right direction of moving forward.
+
+6. Now, consider what a Light Mirror scenario would be for this story. That is, what benefit can come out of the  technology featured in the story and how can we work towards preventing the negative consequences of the future they envision?
+
+Regulation can prevent the worst case happening. As long as the human society still allows different voices from high intelligent and moral people, such tool can only be used on its benefits.

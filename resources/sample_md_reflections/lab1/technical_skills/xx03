@@ -1,0 +1,14 @@
+## Using a fenced code block, please display the output from running your program
+```
+Sun Oct 06 00:18:07 EDT 2019
+
+Manipulate the DNA string: 'ATCG '
+
+Complement of ATCG is TAGC
+Inserting G at position 3 gives ATCGG
+Deleting from position 3 gives ATC
+Changing position 3 gives ATCA
+Thank you for using the Manipulation program.
+
+```
+

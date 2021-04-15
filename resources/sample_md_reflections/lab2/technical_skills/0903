@@ -1,0 +1,4 @@
+## What was the greatest technical challenge that your team faced and how did you overcome it?
+I think that the hardest thing was declaring variables then keeping track of them. Since there were so many changes made to the original it was hard to keep changing the variable names and with each change you have to change the name of the variable. I kept getting confused and not making a new variable but then my build failed. However, sometimes I declared variables that didn't need to be declared. It took a lot of gradle builds/runs to make sure I was on the right track.
+
+

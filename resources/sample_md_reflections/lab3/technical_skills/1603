@@ -1,0 +1,3 @@
+## What was the greatest technical challenge that your team faced and how did you overcome it?
+I had the most trouble with the replacement. I tried to use the .replace method. However, I could only get the program to run if I used only characters. That would mean I had to replace every single A, T, G or C in the string rather than one individual. To fix this I broke my dna string in to sub strings and compiled in random letters. For deletions I did a similar process accept I made the sub string smaller.
+

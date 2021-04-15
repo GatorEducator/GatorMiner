@@ -1,0 +1,3 @@
+## Text Analysis
+To get the Text Analysis I first read the text file into a string and then clean the text, removing any unwanted characters like stop characters. Then using the nltk API I assigned values to each word and counted the frequency. After getting the frequency of all of the words I plotted the top 35 words to show how many times they occurred.
+

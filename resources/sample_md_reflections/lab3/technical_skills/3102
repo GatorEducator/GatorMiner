@@ -1,0 +1,12 @@
+###Aggressive behavior for robot:
+When we were first designing our robot, we really were not sure what kind of
+aggressive behavior we could add. After testing our programs for the first few times
+we started to get some ideas. For our robot specifically, we decided to make our
+robot do an aggressive behavior in the sprinting race. When our robot is done racing,
+it will spin and do a 360. To us this was an aggressive behavior because the goal
+of the sprint race is to just go in a straight line as fast as possible. Nothing else
+is suppose to happen after that. All robots are designed to perform and complete a certain task.
+When something random happens that wasn't accounted for, the behavior of the machine
+or robot will certainly change. The change may be very small, but it could be the
+cause to a bigger problem.
+

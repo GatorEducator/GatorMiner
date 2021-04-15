@@ -1,0 +1,18 @@
+## Challenges and Learning Experiences
+
+I first faced difficulties with gathering data. The scripts I got are not in text, therefore we have to read in and encoding. However, some special characters can not be easily recognized by `srt.parse()`. I did some research and found out that I can fully avoid these errors by using both `utf-8` and `ISO-8859-1` to encode.
+
+I also had some troubles associated with memory allocation since I have a very large input dataset. I have received the following runtime error when I am trying to fit BERT pretrained model to my dataset:
+
+```
+RuntimeError: [enforce fail at ..\c10\core\CPUAllocator.cpp:72] data. DefaultCPUAllocator: not enough memory: you tried to allocate 12000000000 bytes. Buy new RAM!
+```
+
+I then changed the default of PyTorch from using CPU to GPU, but I am still receiving runtime error:
+
+```
+RuntimeError: CUDA out of memory. Tried to allocate 7.15 GiB (GPU 0; 11.00 GiB total capacity; 7.65 GiB already allocated; 1.14 GiB free; 64.07 MiB cached)
+```
+
+I was able to solve this issue by changing `max_seq` from 100 to 5, which is the batch size for applying BERT model.
+
