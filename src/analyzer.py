@@ -142,21 +142,20 @@ def noun_phrase(input_text):
     return n_phrase_lst
 
 
-def top_polarized_word(tokens_column, pos, neg):
+def top_polarized_word(tokens_column):
     """Create columns for positive and negative words"""
-    # Start off with an empty list
-    display_series = []
+    # Start off with empty lists
+    pos_series = []
+    neg_series = []
     # For each item in the already existing tokens column in the data frame,
     for token_element in tokens_column:
         words = sorted_sentiment_word_list(token_element)
         # Add the words at the end of the list to the display series since
         # they have the most positive sentiment value
-        if pos:
-            display_series.append(", ".join(words[::-1][0:3]))
-        if neg:
-            display_series.append(", ".join(words[0:3]))
+        pos_series.append(", ".join(words[::-1][0:3]))
+        neg_series.append(", ".join(words[0:3]))
     # Return an entire series based on the display_series list
-    return pd.Series(display_series)
+    return pd.Series(pos_series), pd.Series(neg_series)
 
 
 def sorted_sentiment_word_list(token_element):
