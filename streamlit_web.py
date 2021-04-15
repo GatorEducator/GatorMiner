@@ -658,6 +658,11 @@ def interactive():
 
 def grammar_analyzer():
     '''Display grammar checker'''
+    """page for individual student's word frequency"""
+    students = st.multiselect(
+        label="Select specific students below:",
+        options=main_df[stu_id].unique(),
+    )
     
 
     #TODO: for visualization team, Adam + Kevin,
