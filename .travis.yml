@@ -16,6 +16,7 @@ env:
   - LANG=en_US.UTF-8
   - LC_ALL=en_US.UTF-8
   - CODECOV_TOKEN="59a0baf8-461c-4d50-b6d3-ad40bed4ae21"
+  - $GITHUB_OAUTH_TOKEN="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"
 
 before_install:
   # install pyenv with travis-pyenv
@@ -41,3 +42,12 @@ script:
   - mdl README.md
 after_success:
   - pipenv run codecov
+  - wget https://github.com/Michionlion/pr-tag-release/releases/latest/download/pr_tag_release.sh
+  - source pr_tag_release.sh
+deploy:
+  provider: releases
+  api_key: "$GITHUB_OAUTH_TOKEN"
+  skip_cleanup: true
+  on:
+    branch: master
+    condition: $DO_GITHUB_RELEASE = true
