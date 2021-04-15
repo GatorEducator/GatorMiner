@@ -9,7 +9,6 @@ import pandas as pd
 from sklearn.manifold import TSNE
 import spacy
 import streamlit as st
-from collections import Counter
 from textblob import TextBlob
 
 import src.analyzer as az
