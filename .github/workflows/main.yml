@@ -40,9 +40,6 @@ jobs:
       run: |
         pipenv run pylint src
         pipenv run pylint tests
-    -name: Lint the markdown
-      run: |
-        mdl README.md
     - name: Generate coverage report
       run: |
         pip install pytest
