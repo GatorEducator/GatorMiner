@@ -24,6 +24,7 @@ jobs:
         # install dependencies according to the lock file
         pipenv install --dev --ignore-pipfile --python ${{ steps.setup-python.outputs.python-version }}
         pipenv run python -m spacy download en_core_web_sm
+        gem install mdl
     - name: Run test with pytest
       run: |
         pipenv run pytest tests --cov-config pytest.cov --cov
@@ -35,3 +36,9 @@ jobs:
       run: |
         pipenv run pylint src
         pipenv run pylint tests
+    -name: Lint the markdown
+      run: |
+        mdl README.md
+    -name: Run Codecov
+      run: |
+        pipenv run codecov
