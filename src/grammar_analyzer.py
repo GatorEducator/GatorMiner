@@ -1,7 +1,7 @@
 # pylint: disable=missing-docstring
 import language_tool_python
 import re
-from typing import Dict, List
+from typing import Dict
 
 # Mention the language keyword
 
@@ -25,12 +25,12 @@ def grammar_analyzer(text: str) -> Dict[int, int]:
     data = pattern.sub(' ', data).lower()
     words = data.split()
 
-    #Calculate the error percentage of grammar error per number of words in a text
+    # Calculate the error percentage of grammar error per number of words
     err_percentage = int(100*err_num/(len(words)))
 
-    #Store number of errors and grade in a dictionary
+    # Store number of errors and grade in a dictionary
 
-    grammar_err = {'err_num':[],'err_percentage':[]};
+    grammar_err = {'err_num': [], 'err_percentage': []}
     grammar_err['err_num'].append(err_num)
     grammar_err['err_percentage'].append(err_percentage)
 
