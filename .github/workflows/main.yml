@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}-latest
     strategy:
       matrix:
-        os: [Ubuntu, MacOS]
+        os: [Ubuntu, MacOS, Windows-latest]
         python-version: [3.7, 3.8]
     steps:
     - uses: actions/checkout@v2
@@ -25,6 +25,10 @@ jobs:
         pipenv install --dev --ignore-pipfile --python ${{ steps.setup-python.outputs.python-version }}
         pipenv run python -m spacy download en_core_web_sm
         gem install mdl
+        pip install --upgrade pip
+        pip install pipenv --upgrade
+        pipenv install --dev --skip-lock --python "$PYENV_VERSION"
+        pip install coverage
     - name: Run test with pytest
       run: |
         pipenv run pytest tests --cov-config pytest.cov --cov
@@ -39,6 +43,20 @@ jobs:
     -name: Lint the markdown
       run: |
         mdl README.md
-    -name: Run Codecov
+    - name: Generate coverage report
       run: |
-        pipenv run codecov
+        pip install pytest
+        pip install pytest-cov
+        pytest --cov=./ --cov-report=xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage1.xml,./coverage2.xml
+        directory: ./coverage/reports/
+        flags: unittests
+        env_vars: OS,PYTHON
+        name: codecov-umbrella
+        fail_ci_if_error: true
+        path_to_write_report: ./coverage/codecov_report.txt
+        verbose: true
