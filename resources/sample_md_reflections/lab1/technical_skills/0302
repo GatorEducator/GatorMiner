@@ -1,9 +1,0 @@
-## For each String and Random method used, add an explanation in the list format (as shown in an example below).
-
-- `Random`: Declares a random variable
-- `replace`: replaces a certain variable, or certain spot in a word with another
-character.
-- `String`: A type of variable/expression used to display characters.
-
-
-

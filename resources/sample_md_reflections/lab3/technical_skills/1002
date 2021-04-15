@@ -1,7 +1,0 @@
-## For each String and Random method used, add an explanation in the list format (as shown in an example below).
-
-- `.substring` Returns a substring with given position or index
-- `Random rand` Create a new set of values within the randomizing
-- `length` Returns the length of the string
-
-

@@ -1,4 +1,0 @@
-## Challenges and Learning Experiences
-
-There were several challenges that we had during the completion of the third lab. The first problem that we had during the completion of this lab was that we didn't know what tools that we wanted to use to accomplish the guidelines set from the lab. After investigating the multiple tools suggested to us in the assignment sheet we were then able to decide what we wanted to use. We ended up using `stanfordnlp` and `textgenrnn`. We also had a problem where we didn't have an idea about what source text we wanted to use for the project. But after talking among ourselves in the group we decided on using an online script of a movie related to the genre of `Black Mirror`. As a group we didn't have many problems working remotely since the semester was moved to online. We learned how to use NLP tools based on the chosen sample text and how to work remotely in an effective manner.
-

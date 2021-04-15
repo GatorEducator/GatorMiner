@@ -1,9 +1,0 @@
-## Data
-
-The data is going to be subtitles of a TV show "Black Mirror". I downloaded the
-subtitles from [link](https://www.tv-subs.net/), the stored the file `sample.txt`in `src`.
-To generate a single string out of the subtitles I used `return_dialog` method
-from [link](https://github.com/piocalderon/black-mirror-sentiment-analysis).
-This method takes file name as an input and it returns a single string
-that contains subtitles as a paragraph.
-
