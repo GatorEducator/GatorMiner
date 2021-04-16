@@ -666,7 +666,7 @@ def grammar_analyzer():
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
-    gram_df = pd.DataFrame(columns=["assignments", "word", "err_percentage"])
+    gram_df = pd.DataFrame(columns=["assignments", "word", "err_num"])
     # calculate word frequency of each assignments
     for item in assignments:
         # combined text of the whole assignment
@@ -675,7 +675,7 @@ def grammar_analyzer():
         )
         item_df = pd.DataFrame(
             az.word_frequency(combined_text, freq_range),
-            columns=["word", "err"],
+            columns=["word", "err_num"],
         )
         item_df["assignments"] = item
         freq_df = freq_df.append(item_df)
