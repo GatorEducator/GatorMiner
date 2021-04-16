@@ -663,7 +663,28 @@ def grammar_analyzer():
         label="Select specific students below:",
         options=main_df[stu_id].unique(),
     )
-    
+    plots_range = st.sidebar.slider(
+        "Select the number of plots per row", 1, 5, value=3
+    )
+    gram_df = pd.DataFrame(columns=["assignments", "word", "err_percentage"])
+    # calculate word frequency of each assignments
+    for item in assignments:
+        # combined text of the whole assignment
+        combined_text = " ".join(
+            main_df[main_df[assign_id] == item][cts.NORMAL]
+        )
+        item_df = pd.DataFrame(
+            az.word_frequency(combined_text, freq_range),
+            columns=["word", "err"],
+        )
+        item_df["assignments"] = item
+        freq_df = freq_df.append(item_df)
+    # plot all the subplots of different assignments
+    st.altair_chart(
+        vis.facet_freq_barplot(
+            freq_df, assignments, "assignments", plots_per_row=plots_range
+        )
+    )
 
     #TODO: for visualization team, Adam + Kevin,
     # to add the code to display the result of Grammar checker
