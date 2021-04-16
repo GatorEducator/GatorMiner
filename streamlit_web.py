@@ -674,11 +674,11 @@ def grammar_analyzer():
             main_df[main_df[assign_id] == item][cts.NORMAL]
         )
         item_df = pd.DataFrame(
-            az.word_frequency(combined_text, freq_range),
+            az.word_frequency(combined_text),
             columns=["word", "err_num"],
         )
         item_df["assignments"] = item
-        freq_df = freq_df.append(item_df)
+        err_df = err_df.append(item_df)
     # plot all the subplots of different assignments
     st.altair_chart(
         vis.facet_freq_barplot(
