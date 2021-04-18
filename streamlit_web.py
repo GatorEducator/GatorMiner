@@ -55,11 +55,11 @@ def main():
                 "Home",
                 "Frequency Analysis",
                 "Sentiment Analysis",
+                "Entity Analysis",
                 "Document Similarity",
                 "Summary",
                 "Topic Modeling",
                 "Interactive",
-                "Entity Analysis",
             ],
         )
         if debug_mode:
@@ -190,13 +190,13 @@ def import_data(data_retreive_method, paths):
             readme()
     # when data is retreived
     if json_lst:
-        pan.importpanda(json_lst)
-        # raw_df = pd.DataFrame()
-        # for item in json_lst:
-        #     single_df = pd.DataFrame(item)
-        #     raw_df = pd.concat([raw_df, single_df]).fillna("")
-        # tidy_df = df_preprocess(raw_df)
-        # return tidy_df, raw_df
+        # pan.importpanda(json_lst)
+        raw_df = pd.DataFrame()
+        for item in json_lst:
+            single_df = pd.DataFrame(item)
+            raw_df = pd.concat([raw_df, single_df]).fillna("")
+        tidy_df = df_preprocess(raw_df)
+        return tidy_df, raw_df
 
 
 def df_preprocess(df):
