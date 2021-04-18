@@ -641,16 +641,7 @@ def interactive():
     if ner_cb:
         doc = az.get_nlp(input_text)
         named_entities = az.named_entity_recognization(input_text)
-        if len(named_entities) > 0:
-            html = spacy.displacy.render(doc, style="ent")
-            # Newlines seem to mess with the rendering
-            html = html.replace("\n", " ")
-            HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
-        #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
-        {}</div>"""
-            st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
-        else:
-            st.info("No named entity recognized")
+        az.displacy_renderer(named_entities)
     if sentiment_cb:
         sentiments = TextBlob(az.lemmatized_text(input_text))
         st.write(sentiments.sentiment)
@@ -681,14 +672,8 @@ def entities():
     student_string = df_selected_stu.to_string()
 
     # run the spacy entity recogonizer on the selected user document and display it
-    if len(students) != 0:
-        docff = az.get_nlp(student_string)
-        html = spacy.displacy.render(docff, style="ent")
-        html = html.replace("\n", " ")
-        HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
-    #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
-    {}</div>"""
-        st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
+    docff = az.get_nlp(student_string)
+    az.displacy_renderer(docff)
 
 
 if __name__ == "__main__":
