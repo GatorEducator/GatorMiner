@@ -666,7 +666,6 @@ def entities():
     information that seeks to locate and classify named entities in text \
     into pre-defined categories such as the names of persons, organizations, \
     locations, expressions of times, quantities, monetary values, and percentages.")
-    st.sidebar.success("Hello sidebar!")
 
     # make a copy of the main dataframe
     input_df = main_df.copy(deep=True)
