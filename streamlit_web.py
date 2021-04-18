@@ -383,6 +383,9 @@ def question_freq(freq_range):
 def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
+    # Initializing the new columns with a numpy array, so the entire series is returned
+    senti_df[cts.POSITIVE], senti_df[cts.NEGATIVE] = az.top_polarized_word(senti_df[cts.TOKEN].values)
+
     # calculate overall sentiment from the combined text
     senti_df[cts.SENTI] = senti_df["combined"].apply(
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
@@ -414,7 +417,6 @@ def overall_senti(senti_df):
     if len(assignments) > 1:
         st.altair_chart(vis.stu_senti_lineplot(senti_df, stu_id))
     st.altair_chart((vis.senti_combinedplot(senti_df, stu_id)))
-
 
 def student_senti(input_df):
     """page for display individual student's sentiment"""
@@ -678,7 +680,6 @@ def interactive():
     if summary_cb:
         summaries = sz.summarize_text(input_text)
         st.write(summaries)
-
 
 if __name__ == "__main__":
     main()
