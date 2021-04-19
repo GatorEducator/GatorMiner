@@ -131,6 +131,7 @@ def get_nlp(input_text):
     doc = PARSER(input_text)
     return doc
 
+
 def displacy_renderer(doc):
     if len(doc) > 0:
         html = spacy.displacy.render(doc, style="ent")
@@ -142,6 +143,7 @@ def displacy_renderer(doc):
         st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
     else:
         st.info("No named entity recognized")
+
 
 def noun_phrase(input_text):
     """Extract noun phrases of the document in a list"""
