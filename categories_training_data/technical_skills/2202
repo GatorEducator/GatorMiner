@@ -1,0 +1,21 @@
+## Text Generation
+Describe the techniques used for an automated generation of your script synopsis. Cite (provide a link to) any sources you have used. Include your generated text (or its snippet) below.
+
+All I did was write a regex statement to strip out all the formatting information in the SRT file and isolate just the lines of dialogue.
+
+```
+I'm gonna have to ask you to switch that off for now.
+Okay, thanks.
+You know what it's kinda like?
+It's kinda like a rollercoaster.
+You know what I mean?
+It's like a roller coaster.
+Try it, try it with me.
+How tall... How tall is the Eye?
+How tall... How tall is Big Ben?
+Since then, I've been working as a technology correspondent for about two years now. It's been great.
+Cool, that's awesome. So you do, like,
+TV reports and, like, you're like...
+No, just the website.
+```
+

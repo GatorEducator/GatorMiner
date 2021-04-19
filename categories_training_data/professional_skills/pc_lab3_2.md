@@ -1,0 +1,3 @@
+## After completing this assignment, what is your biggest concern about team-based software engineering?
+
+After completing this assignment, my biggest concern about team-based software engineering is communicating and successfully delegating different tasks to people to make satisfactory progress in time. It has been difficult to have all team members make substantial contributions during this first phase in which we are just figuring out how to contribute and building a foundation of what we want to do. I think that in the future we need to be a bit more formal in our organization of and delegation of tasks, and I think that now having a more substantial foundation on this project to work off of will also help us.

@@ -4,7 +4,6 @@ import re
 import string
 from typing import List, Tuple
 import spacy
-from . import categorization as ct
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import numpy as np
 import nltk
@@ -75,30 +74,38 @@ def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
     return compute_frequency(tokenize(normalize(text)), amount)
 
 
-def category_frequency(response: List[str]):
+def category_frequency(responses: List[str]) -> dict:
     """A pipeline to normalize, tokenize, and
     find category frequency of raw text"""
-    # label = ""
-    # normalized_str = normalize(response)
-    # print("OG normalized string" + normalized_str)
 
-    # if(normalized_str):
-        # ct.predict([normalized_str])
-    print("Analyzer user responses: " + str(response))
-    ct.predict_user_responses(response)
-    # idea: modify to send list of frequencies for a given question through category frequency so that program has multiple 'documents' to work with, treat each individual response as a document
-    """
-    if normalized_str:
-        from sklearn.feature_extraction.text import CountVectorizer
-        # use tokenize feature instead?
-        transformed_str = vectorizer.fit_transform([normalized_str]).toarray()
+    # normalize responses
+    for i in range(len(responses)):
+        responses[i] = normalize(responses[i])
+    if "" in responses:
+        responses.remove("")
+    print("Responses: " + str(responses))
 
-        from sklearn.feature_extraction.text import TfidfTransformer
-        tfidfconverter = TfidfTransformer()
-        transformed_str = tfidfconverter.fit_transform(transformed_str).toarray()
-        label = classifier.predict(transformed_str)[0]
-    print(label)
-    """
+    with open('text_classifier', 'rb') as training_model:
+        model = pickle.load(training_model)
+
+    text = "Hello world!"
+    with open('vectorizer', 'rb') as training_vectorizer:
+        vectorizer = pickle.load(training_vectorizer)
+
+    category_dict = {"Ethics": 0, "Professional Skills": 0, "Technical Skills": 0}
+
+    for element in responses:
+        element = vectorizer.transform([element]).toarray()
+        label = model.predict(element)[0]
+        print(label)
+        if (label == 0):
+            category_dict["Ethics"] += 1
+        if (label == 1):
+            category_dict["Professional Skills"] += 1
+        if (label == 2):
+            category_dict["Technical Skills"] += 1
+
+    return category_dict
 
 
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:

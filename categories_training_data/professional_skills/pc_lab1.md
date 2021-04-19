@@ -1,0 +1,3 @@
+## What was the greatest professional challenge that you faced and how did you overcome it?
+
+The greatest professional challenge that I faced was distributing work and resolving challenges with a group of people that had varying skill levels. Most of us hadn't used Github flow much and a few of us still had little experience with Github in general at the beginning of the project. We overcame this challenge by being open about asking questions and learning together from the TLs as needed, and also pausing the project to nonjudgementally problem solve issues that came up with the use of our repository as needed.

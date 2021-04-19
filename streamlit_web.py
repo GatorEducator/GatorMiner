@@ -253,7 +253,7 @@ def frequency():
 
 
 def overall_freq(freq_range):
-    """page fore overall word frequency"""
+    """page for overall word frequency"""
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
@@ -280,25 +280,30 @@ def overall_freq(freq_range):
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
 def category_freq():
-    # make input_assignments global and redo md_parser locally?
     """page for word category frequency"""
-    # st.write(main_df)
     questions_end = len(main_df.columns) - 3
-    question_df = main_df[main_df.columns[2:questions_end]]
-    # st.write(question_df)
-    # for row in dataframe
+    question_df = main_df[main_df.columns[1:questions_end]]
+    st.write(main_df)
+    st.write(question_df)
+    category_df = pd.DataFrame(columns=["Ethics", "Professional Skills", "Technical Skills"])
     user_responses = []
+    categories = {}
+    row_number = 0
+    
     for i, row in question_df.iterrows():
         # add each user's responses to a list to pass in
         for col in range(len(question_df.columns)):
-            response = row[col]
-            user_responses.append(response)
+            if col == 0: # append student ID
+                id = (str(main_df.iloc[row_number]["reflection by"]))
+            else: # append categories of response
+                response = row[col]
+                user_responses.append(response)
+        row_number += 1
         print("streamlit web user responses: " + str(user_responses))
-        az.category_frequency(user_responses)
+        categories = az.category_frequency(user_responses)
+        categories["Student"] = id
+        print(categories)
         user_responses.clear()
-        # az.category_frequency(response)
-        # store overall responses
-
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""

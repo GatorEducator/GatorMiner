@@ -1,0 +1,19 @@
+## Challenges and Learning Experiences
+<!-- Discuss any challenges you have encountered during the work on this lab and  describe what have you learned. -->
+Our biggest challenge was understanding the code we were using and knowing how
+to properly run a sentiment analysis on it. Initially when we saw the code from
+the given websites (on the assignment sheet), we were unsure of how it was actually
+working. We knew we need to find a file of subscripts but how it was suppose to
+work, we were unsure. After reading through and breaking up the code line by line,
+we were able to understand what was happening. We then went and added our own
+process of sentiment analysis. The only problem with this was that it was on the
+whole text file/dialogue rather than our generated text. It seemed easy to transfer
+our thought process but in reality, it gave us some problems. We struggled with it
+actually being able to grab the code and read it from the command line interface.
+Consequently, after some research we found that we were able to generate straight
+into a file. WE then just needed to open that file, which allowed for the sentiment
+analysis to occur on the generated data. From our first issue with our analyzer,
+we learned that if you take the time and break apart the code found, it can be useful
+and you can add valuable functions. Our second challenge, allowed us to learn how
+to run an analysis on generated text that was within our command line interface.
+
