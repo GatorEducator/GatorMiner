@@ -1,12 +1,12 @@
 # pylint: disable=missing-docstring
 import language_tool_python
 import re
-from typing import Dict
+from typing import List, Tuple
 
 # Mention the language keyword
 
 
-def grammar_analyzer(text: str) -> Dict[int, int]:
+def grammar_analyzer(text: str) -> List[Tuple[int, int]]:
     '''A tool to check grammar error and grade it in the reflection'''
     tool = language_tool_python.LanguageTool('en-US')
 
@@ -29,9 +29,6 @@ def grammar_analyzer(text: str) -> Dict[int, int]:
     err_percentage = int(100*err_num/(len(words)))
 
     # Store number of errors and grade in a dictionary
-
-    grammar_err = {'err_num': [], 'err_percentage': []}
-    grammar_err['err_num'].append(err_num)
-    grammar_err['err_percentage'].append(err_percentage)
-
+    grammar_err = []
+    grammar_err.append((err_num, err_percentage))
     return grammar_err

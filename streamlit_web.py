@@ -658,7 +658,9 @@ def interactive():
 
 def grammar_analyzer():
     '''Display grammar checker'''
-    """page for individual student's word frequency"""
+    """page for individual student's grammar error checker"""
+    # Mai's note: We want a report for the whole class instead of student's report
+    # Try looking at overall frequency.
     students = st.multiselect(
         label="Select specific students below:",
         options=main_df[stu_id].unique(),
@@ -666,7 +668,7 @@ def grammar_analyzer():
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
-    err_df = pd.DataFrame(columns=["assignments", "word", "err_num"])
+    err_df = pd.DataFrame(columns=["assignments", "err_num", "err_percentage"])
     # calculate word frequency of each assignments
     for item in assignments:
         # combined text of the whole assignment
@@ -674,8 +676,8 @@ def grammar_analyzer():
             main_df[main_df[assign_id] == item][cts.NORMAL]
         )
         item_df = pd.DataFrame(
-            az.word_frequency(combined_text),
-            columns=["word", "err_num"],
+            ga.grammar_analyzer(combined_text),
+            columns=["err_num", "err_frequency"],
         )
         item_df["assignments"] = item
         err_df.append(item_df)
