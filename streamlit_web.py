@@ -190,28 +190,28 @@ def import_data(data_retreive_method, paths):
             readme()
     # when data is retreived
     if json_lst:
-        pan.importpanda(json_lst)
+        tidy_df, raw_df = pan.importdf(json_lst)
         # raw_df = pd.DataFrame()
         # for item in json_lst:
         #     single_df = pd.DataFrame(item)
         #     raw_df = pd.concat([raw_df, single_df]).fillna("")
         # tidy_df = df_preprocess(raw_df)
-        # return tidy_df, raw_df
+        return tidy_df, raw_df
 
 
-def df_preprocess(df):
-    """build and preprocess (combine, normalize, tokenize) text"""
-    # filter out first two columns -- non-report content
-    cols = df.columns[2:]
-    # combining text into combined column
-    df["combined"] = df[cols].apply(
-        lambda row: "\n".join(row.values.astype(str)), axis=1
-    )
-    # normalize
-    df[cts.NORMAL] = df["combined"].apply(lambda row: az.normalize(row))
-    # tokenize
-    df[cts.TOKEN] = df[cts.NORMAL].apply(lambda row: az.tokenize(row))
-    return df
+# def df_preprocess(df):
+#     """build and preprocess (combine, normalize, tokenize) text"""
+#     # filter out first two columns -- non-report content
+#     cols = df.columns[2:]
+#     # combining text into combined column
+#     df["combined"] = df[cols].apply(
+#         lambda row: "\n".join(row.values.astype(str)), axis=1
+#     )
+#     # normalize
+#     df[cts.NORMAL] = df["combined"].apply(lambda row: az.normalize(row))
+#     # tokenize
+#     df[cts.TOKEN] = df[cts.NORMAL].apply(lambda row: az.tokenize(row))
+#     return df
 
 
 def frequency():
@@ -251,19 +251,20 @@ def overall_freq(freq_range):
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
-    freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
-    # calculate word frequency of each assignments
-    for item in assignments:
-        # combined text of the whole assignment
-        combined_text = " ".join(
-            main_df[main_df[assign_id] == item][cts.NORMAL]
-        )
-        item_df = pd.DataFrame(
-            az.word_frequency(combined_text, freq_range),
-            columns=["word", "freq"],
-        )
-        item_df["assignments"] = item
-        freq_df = freq_df.append(item_df)
+    freq_df = pan.freq_df_process(freq_range)
+    # freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
+    # # calculate word frequency of each assignments
+    # for item in assignments:
+    #     # combined text of the whole assignment
+    #     combined_text = " ".join(
+    #         main_df[main_df[assign_id] == item][cts.NORMAL]
+    #     )
+    #     item_df = pd.DataFrame(
+    #         az.word_frequency(combined_text, freq_range),
+    #         columns=["word", "freq"],
+    #     )
+    #     item_df["assignments"] = item
+    #     freq_df = freq_df.append(item_df)
     # plot all the subplots of different assignments
     st.altair_chart(
         vis.facet_freq_barplot(
