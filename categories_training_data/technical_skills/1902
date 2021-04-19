@@ -1,7 +1,0 @@
-## For each String and Random method used, add an explanation in the list format (as shown in an example below).
-
-- `nextInt`: scans the next token of input as an int
-- `substring`: returns a new string that is a sub string of the given string
-- `charAt`: returns the character at the specified index of the string
-
-
