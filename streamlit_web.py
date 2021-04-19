@@ -659,16 +659,16 @@ def entities():
     locations, expressions of times, quantities, monetary values, and percentages.")
 
     # make a copy of the main dataframe
-    input_df = main_df.copy(deep=True)
+    input_df = preprocessed_df.copy(deep=True)
 
     # list out possible user documents to choose from and select one
-    students = st.multiselect(
+    students = st.selectbox(
         label="Select specific students below:",
         options=input_df[stu_id].unique(),
     )
 
     # create a dataframe with the selected user and convert it to a string
-    df_selected_stu = input_df.loc[input_df[stu_id].isin(students)]
+    df_selected_stu = input_df.loc[input_df[stu_id].isin([students])]
     student_string = df_selected_stu.to_string()
 
     # run the spacy entity recogonizer on the selected user document and display it
