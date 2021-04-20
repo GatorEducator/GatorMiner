@@ -40,8 +40,6 @@ jobs:
         pipenv run pylint src
         pipenv run pylint tests
     - name: Lint the markdown
-    - name: Check out code
-      uses: actions/checkout@v2
     - name: Get mdl style file from dotfiles
       env:
         # yamllint disable-line rule:line-length
