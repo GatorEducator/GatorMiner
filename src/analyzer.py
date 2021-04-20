@@ -97,7 +97,6 @@ def category_frequency(responses: List[str]) -> dict:
     for element in responses:
         element = vectorizer.transform([element]).toarray()
         label = model.predict(element)[0]
-        print(label)
         if (label == 0):
             category_dict["Ethics"] += 1
         if (label == 1):

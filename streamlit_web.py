@@ -171,9 +171,6 @@ def import_data(data_retreive_method, paths):
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
-                # sample.append(md.collect_md(path))
-                # for element in sample:
-                    # print("element: " + element)
         except FileNotFoundError as err:
             st.sidebar.text(err)
             readme()
@@ -245,7 +242,7 @@ def frequency():
         question_freq(freq_range)
     elif freq_type == "Category":
         st.header(
-            f"Most frequent categories in **{assign_text}**"
+            f"Frequency of responses focused on ethics, technical skills, and professional skills in **{assign_text}**"
         )
         global json_lst
         json_lst.append("Test")
@@ -276,7 +273,6 @@ def overall_freq(freq_range):
             freq_df, assignments, "assignments", plots_per_row=plots_range
         )
     )
-    # print(freq_df)
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
 def student_freq(freq_range):
@@ -294,7 +290,6 @@ def student_freq(freq_range):
         (main_df[stu_id].isin(students))
         & main_df[assign_id].isin(assignments)
     ]
-    print(stu_assignment)
     if len(students) != 0:
         for student in students:
             for item in assignments:
@@ -369,17 +364,24 @@ def question_freq(freq_range):
 
 def category_freq():
     """page for word category frequency"""
+
+    plots_range = st.sidebar.slider(
+        "Select the number of plots per row", 1, 5, value=3
+    )
+
     questions_end = len(main_df.columns) - 3
     question_df = main_df[main_df.columns[1:questions_end]]
-    st.write(main_df)
-    st.write(question_df)
     category_df = pd.DataFrame(columns=["Ethics", "Professional Skills", "Technical Skills", "Student"])
+    new_category_df = pd.DataFrame(columns=["Student", "Category", "Frequency"])
     user_responses = []
     categories = {}
+    ethics = {}
+    professional_skills = {}
+    technical_skills = {}
     row_number = 0
 
     for i, row in question_df.iterrows():
-        # add each user's responses to a list to pass in
+        # add each user's responses to a list to pass in to dataframe
         for col in range(len(question_df.columns)):
             if col == 0: # append student ID
                 id = (str(main_df.iloc[row_number]["reflection by"]))
@@ -387,13 +389,31 @@ def category_freq():
                 response = row[col]
                 user_responses.append(response)
         row_number += 1
-        print("streamlit web user responses: " + str(user_responses))
         categories = az.category_frequency(user_responses)
         categories["Student"] = id
-        print(categories)
         category_df = category_df.append(categories, ignore_index=True)
         user_responses.clear()
-    st.write(category_df)
+
+    # format dataframe of total to chart
+    category_freq_df = pd.DataFrame(columns=["Category", "Frequency"])
+    ethics_total = category_df['Ethics'].sum()
+    ethics_row = {"Category": "Ethics", "Frequency": ethics_total}
+    category_freq_df = category_freq_df.append(ethics_row, ignore_index=True)
+
+    professional_skills_total = category_df['Professional Skills'].sum()
+    professional_skills_row = {"Category": "Professional Skills", "Frequency": professional_skills_total}
+    category_freq_df = category_freq_df.append(professional_skills_row, ignore_index=True)
+
+    technical_skills_total = category_df['Technical Skills'].sum()
+    technical_skills_row = {"Category": "Technical Skills", "Frequency": technical_skills_total}
+    category_freq_df = category_freq_df.append(technical_skills_row, ignore_index=True)
+
+    st.altair_chart(
+        vis.facet_category_barplot(
+            category_freq_df,
+            plots_per_row=plots_range,
+        )
+    )
 
 
 def sentiment():

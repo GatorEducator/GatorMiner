@@ -62,30 +62,20 @@ def facet_freq_barplot(
     return grid
 
 def facet_category_barplot(
-    category_df, options, subplot_column, color_column=None, plots_per_row=3):
+    category_df, plots_per_row=3):
     """facet bar plot for category frequencies"""
-    # Don't display legend if color for subplots
-        if color_column is None:
-            color_column = subplot_column
-            legend = None
-        else:
-            legend = alt.Legend(title=f"{color_column} by color")
 
     base = (
-        alt.Chart(freq_df)
+        alt.Chart(category_df)
         .mark_bar()
         .encode(
-            alt.X("freq", title=None),
-            alt.Y("category", title=None, sort="-x"),
-            tooltip=[
-                alt.Tooltip("freq", title="frequency"),
-                alt.Tooltip("category", title="word"),
-            ],
-            opacity=alt.value(0.7),
-            color=alt.Color(color_column, legend=legend),
+            x = "Category",
+            y = "Frequency"
         )
-        .properties(width=190,)
+        .properties(width=570,)
     ).interactive()
+
+    return base
 
 
 
