@@ -24,11 +24,6 @@ jobs:
         # install dependencies according to the lock file
         pipenv install --dev --ignore-pipfile --python ${{ steps.setup-python.outputs.python-version }}
         pipenv run python -m spacy download en_core_web_sm
-        gem install mdl
-        pip install --upgrade pip
-        pip install pipenv --upgrade
-        pipenv install --dev --skip-lock --python "$PYENV_VERSION"
-        pip install coverage
     - name: Run test with pytest
       run: |
         pipenv run pytest tests --cov-config pytest.cov --cov
@@ -40,33 +35,16 @@ jobs:
       run: |
         pipenv run pylint src
         pipenv run pylint tests
-        markdownlint:
-    runs-on: ubuntu-latest
     - name: Check out code
       uses: actions/checkout@v2
+
     - name: Get mdl style file from dotfiles
       env:
         # yamllint disable-line rule:line-length
         STYLE_FILE: https://raw.githubusercontent.com/bewuethr/dotfiles/master/.config/mdl/style.rb
       run: curl "$STYLE_FILE" > .github/workflows/style.rb
+
     - name: Run the Markdown linter
       uses: bewuethr/mdl-action@v1
       with:
         style-file: .github/workflows/style.rb
-    - name: Generate coverage report
-      run: |
-        pip install pytest
-        pip install pytest-cov
-        pytest --cov=./ --cov-report=xml
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./coverage1.xml,./coverage2.xml
-        directory: ./coverage/reports/
-        flags: unittests
-        env_vars: OS,PYTHON
-        name: codecov-umbrella
-        fail_ci_if_error: true
-        path_to_write_report: ./coverage/codecov_report.txt
-        verbose: true
