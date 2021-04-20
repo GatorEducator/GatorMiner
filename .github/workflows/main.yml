@@ -2,7 +2,7 @@ name: Tests
 on: [push, pull_request]
   push:
     branches:
-      - '**'
+      - issue#28
     tags-ignore:
       - '**'
 
