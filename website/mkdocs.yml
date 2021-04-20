@@ -1,0 +1,30 @@
+site_name: GatorMiner
+repo_url: https://github.com/Allegheny-Ethical-CS/GatorMiner
+repo_name: Allegheny-Ethical-CS/GatorMiner
+
+theme:
+    name: material
+
+markdown_extensions:
+  - toc:
+      permalink: "#"
+  - smarty
+  - admonition
+  - footnotes
+  - codehilite
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde

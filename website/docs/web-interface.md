@@ -42,3 +42,31 @@ export GATOR_API_KEY=<Your API Key>
 export AWS_ACCESS_KEY_ID=<Your Access Key ID>
 export AWS_SECRET_ACCESS_KEY=<Your Secret Access Key>
 ```
+
+It is likely that you already have these prepared when using GatorMiner in conjunction with GatorGrader, since these would already be exported when setting up the AWS services. You can read more about setting up an AWS service with GatorGrader [here](https://github.com/enpuyou/script-api-lambda-dynamodb).
+
+Once the documents are successfully imported, you can then navigate through the select box in the sidebar to view the text analysis:
+
+<img src="resources/images/select_box.png" alt="select box" style="width:100%"/>
+
+##### Reflection Documents
+
+We are using markdown format for the student reflection documents.
+Its organized structure allows us to parse and perform text analysis easily.
+With that said, there are few requirements for the reflection document before it
+could be seamlessly processed and analyzed with GatorMiner. A
+[template](resources/reflection_template.md) is provided within the repo. Note
+that the headers with the assignment's and student's ID/name are required.
+GatorMiner is set in default to take the first header as assignment name and the
+second header as student name.
+
+You can also check out the
+[sample json report](resources/sample_json_report/report%201.json) to see the
+format of json reports GatorMiner gathers from AWS.
+
+### Analysis
+
+<img src="resources/images/frequency.png" alt="frequency" style="width:100%"/>
+<img src="resources/images/sentiment.png" alt="sentiment" style="width:100%"/>
+<img src="resources/images/similarity.png" alt="similarity" style="width:100%"/>
+<img src="resources/images/topic.png" alt="topic" style="width:100%"/>

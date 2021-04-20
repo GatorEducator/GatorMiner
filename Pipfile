@@ -25,6 +25,7 @@ scipy = "*"
 pylint = "*"
 importlib-metadata = "*"
 atomicwrites = "*"
+poetry = "*"
 
 [pipenv]
 allow_prereleases = true
