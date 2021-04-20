@@ -1,23 +1,41 @@
-name: Test
+name: Tests
 on: [push, pull_request]
 
+
 jobs:
- lint:
-   name: Lint
-   runs-on: ubuntu-latest
-   steps:
-     - name: Checkout repository
-       uses: actions/checkout@v2
-     - name: Setup Python 3.8
-       uses: actions/setup-python@v2
-       id: setup-python
-       with:
-         python-version: 3.8
-     - name: Setup Pipenv
-       uses: dschep/install-pipenv-action@v1
-     - name: Install dependencies
-       # --skip-lock is used here to speed up installation -- note, however,
-       # that `Pipfile.lock` is ignored!
-       run: pipenv install --dev --skip-lock --python ${{ steps.setup-python.outputs.python-version }}
-     - name: Lint writing
-       uses: actionshub/markdownlint@main
+  build:
+    name: ${{ matrix.os }} / ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        os: [Ubuntu, MacOS, Windows]
+        python-version: [3.7, 3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      id: setup-python
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Setup Pipenv
+      uses: dschep/install-pipenv-action@v1
+    - name: Install dependencies
+      run: |
+        # install dependencies according to the lock file
+        pipenv install --dev --skip-lock --python ${{ steps.setup-python.outputs.python-version }}
+        pipenv run python -m spacy download en_core_web_sm
+    - name: Run test with pytest
+      run: |
+        pipenv run pytest tests --cov-config pytest.cov --cov
+    - name: Lint with flake8
+      run: |
+        pipenv run flake8 src
+        pipenv run flake8 tests
+    - name: Lint with pylint
+      run: |
+        pipenv run pylint src
+        pipenv run pylint tests
+    - name: Check out code
+      uses: actions/checkout@main
+    - name: Run mdl
+      uses: actionshub/markdownlint@main
