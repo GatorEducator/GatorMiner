@@ -279,32 +279,6 @@ def overall_freq(freq_range):
     # print(freq_df)
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
-def category_freq():
-    """page for word category frequency"""
-    questions_end = len(main_df.columns) - 3
-    question_df = main_df[main_df.columns[1:questions_end]]
-    st.write(main_df)
-    st.write(question_df)
-    category_df = pd.DataFrame(columns=["Ethics", "Professional Skills", "Technical Skills"])
-    user_responses = []
-    categories = {}
-    row_number = 0
-    
-    for i, row in question_df.iterrows():
-        # add each user's responses to a list to pass in
-        for col in range(len(question_df.columns)):
-            if col == 0: # append student ID
-                id = (str(main_df.iloc[row_number]["reflection by"]))
-            else: # append categories of response
-                response = row[col]
-                user_responses.append(response)
-        row_number += 1
-        print("streamlit web user responses: " + str(user_responses))
-        categories = az.category_frequency(user_responses)
-        categories["Student"] = id
-        print(categories)
-        user_responses.clear()
-
 def student_freq(freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
@@ -346,7 +320,6 @@ def student_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
-
 
 def question_freq(freq_range):
     """page for individual question's word frequency"""
@@ -393,6 +366,34 @@ def question_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
+
+def category_freq():
+    """page for word category frequency"""
+    questions_end = len(main_df.columns) - 3
+    question_df = main_df[main_df.columns[1:questions_end]]
+    st.write(main_df)
+    st.write(question_df)
+    category_df = pd.DataFrame(columns=["Ethics", "Professional Skills", "Technical Skills", "Student"])
+    user_responses = []
+    categories = {}
+    row_number = 0
+
+    for i, row in question_df.iterrows():
+        # add each user's responses to a list to pass in
+        for col in range(len(question_df.columns)):
+            if col == 0: # append student ID
+                id = (str(main_df.iloc[row_number]["reflection by"]))
+            else: # append categories of response
+                response = row[col]
+                user_responses.append(response)
+        row_number += 1
+        print("streamlit web user responses: " + str(user_responses))
+        categories = az.category_frequency(user_responses)
+        categories["Student"] = id
+        print(categories)
+        category_df = category_df.append(categories, ignore_index=True)
+        user_responses.clear()
+    st.write(category_df)
 
 
 def sentiment():
