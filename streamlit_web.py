@@ -666,7 +666,7 @@ def grammar_analyzer():
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
-    err_df = pd.DataFrame(columns=["assignments", "word", "err_num"])
+    err_df = pd.DataFrame(columns=["assignments", "word", "err_percentage"])
     # calculate word frequency of each assignments
     for item in assignments:
         # combined text of the whole assignment
@@ -675,13 +675,14 @@ def grammar_analyzer():
         )
         item_df = pd.DataFrame(
             az.word_frequency(combined_text),
-            columns=["word", "err_num"],
+            columns=["word", "err_percentage"],
         )
         item_df["assignments"] = item
         err_df.append(item_df)
     # plot all the subplots of different assignments
+    st.write(err_df)
     st.altair_chart(
-        vis.facet_freq_barplot(
+        vis.facet_gram_barplot(
             err_df, assignments, "assignments", plots_per_row=plots_range
         )
     )
