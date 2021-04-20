@@ -3,8 +3,6 @@ on: [push, pull_request]
   push:
     branches:
       - issue#28
-    tags-ignore:
-      - '**'
 
 jobs:
   build:
@@ -28,6 +26,11 @@ jobs:
         # install dependencies according to the lock file
         pipenv install --dev --ignore-pipfile --python ${{ steps.setup-python.outputs.python-version }}
         pipenv run python -m spacy download en_core_web_sm
+        gem install mdl
+        pip install --upgrade pip
+        pip install pipenv --upgrade
+        pipenv install --dev --skip-lock --python "$PYENV_VERSION"
+        pip install coverage
     - name: Run test with pytest
       run: |
         pipenv run pytest tests --cov-config pytest.cov --cov
