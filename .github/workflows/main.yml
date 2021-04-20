@@ -37,13 +37,11 @@ jobs:
         pipenv run pylint tests
     - name: Check out code
       uses: actions/checkout@v2
-
     - name: Get mdl style file from dotfiles
       env:
         # yamllint disable-line rule:line-length
         STYLE_FILE: https://raw.githubusercontent.com/bewuethr/dotfiles/master/.config/mdl/style.rb
       run: curl "$STYLE_FILE" > .github/workflows/style.rb
-
     - name: Run the Markdown linter
       uses: bewuethr/mdl-action@v1
       with:
