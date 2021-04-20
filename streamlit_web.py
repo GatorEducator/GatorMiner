@@ -665,29 +665,15 @@ def grammar_analyzer():
         label="Select specific students below:",
         options=main_df[stu_id].unique(),
     )
-    plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3
-    )
-    err_df = pd.DataFrame(columns=["assignments", "err_num", "err_percentage"])
-    # calculate word frequency of each assignments
-    for item in assignments:
-        # combined text of the whole assignment
-        combined_text = " ".join(
-            main_df[main_df[assign_id] == item][cts.NORMAL]
-        )
-        item_df = pd.DataFrame(
-            ga.grammar_analyzer(combined_text),
-            columns=["err_num", "err_frequency"],
-        )
-        item_df["assignments"] = item
-        err_df.append(item_df)
+    sum_df = preprocessed_df[
+        preprocessed_df[assign_id].isin(assignments)
+    ].dropna(axis=1, how="all")
     # plot all the subplots of different assignments
-    st.write(err_df)
-    st.altair_chart(
-        vis.facet_gram_barplot(
-            err_df, assignments, "assignments", plots_per_row=plots_range
+    for column in preprocessed_df.columns[2:]:
+        sum_df[column] = preprocessed_df[column].apply(
+            lambda x: ga.grammar_analyzer(x)
         )
-    )
+    st.write(sum_df)
 
     #TODO: for visualization team, Adam + Kevin,
     # to add the code to display the result of Grammar checker
