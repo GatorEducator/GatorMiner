@@ -1,5 +1,5 @@
 [build]
-publish = "GatorMiner"
-command = """
-bash scripts/netlify-build.sh
-"""
+  publish = "GatorMiner"
+  command = """
+  bash scripts/netlify-build.sh
+  """
