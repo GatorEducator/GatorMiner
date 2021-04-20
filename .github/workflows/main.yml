@@ -1,5 +1,8 @@
 name: Tests
 on: [push, pull_request]
+  pull:
+    branch:
+      - issue#28
 
 
 jobs:
