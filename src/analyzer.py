@@ -78,12 +78,10 @@ def category_frequency(responses: List[str]) -> dict:
     """A pipeline to normalize, tokenize, and
     find category frequency of raw text"""
 
-    # normalize responses
     for i in range(len(responses)):
         responses[i] = normalize(responses[i])
     if "" in responses:
         responses.remove("")
-    print("Responses: " + str(responses))
 
     with open('text_classifier', 'rb') as training_model:
         model = pickle.load(training_model)
