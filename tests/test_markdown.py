@@ -4,15 +4,6 @@ import src.markdown as md
 import os
 
 
-def test_merge_dict():
-    """Test that merge_dict returns a dict of key and value lists"""
-    test_dict_1 = {"key1": "value1"}
-    test_dict_2 = {"key1": "value2"}
-    output = md.merge_dict(test_dict_1, test_dict_2)
-    expected = {"key1": ["value1", "value2"]}
-    assert expected == output
-
-
 def test_merge_dict_keys():
     """Test that merge_dict adds empty string for unique keys."""
     test_dict_1 = {"key1": "value1"}
