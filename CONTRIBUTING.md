@@ -1,6 +1,8 @@
 
 # Contributing Guidelines
 
+
+
 Thank you for taking the time to contribute to GatorMiner! This guide will help you
 to effectively get started and contribute to the project.
 
