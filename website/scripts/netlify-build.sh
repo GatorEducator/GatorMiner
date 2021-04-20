@@ -1,6 +1,3 @@
-restore_home_cache ".cache" "pip cache" &&
-restore_cwd_cache '.venv' 'python virtualenv' &&
-pip3 install -q poetry &&
-poetry config virtualenvs.in-project true &&
-poetry install -v &&
-mkdocs build -d site
+pip install poetry
+poetry install
+mkdocs build
