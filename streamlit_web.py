@@ -657,13 +657,7 @@ def interactive():
 
 
 def grammar_analyzer():
-    '''Display grammar checker'''
-    """page for grammar error checker"""\
-    students = st.multiselect(
-        label="Select specific students below:",
-        options=input_df[stu_id].unique(),
-    )
-
+    """page for grammar error checker"""
     students = st.multiselect(
         label="Select specific students below:",
         options=main_df[stu_id].unique(),

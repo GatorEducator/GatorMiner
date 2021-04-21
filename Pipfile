@@ -25,8 +25,6 @@ scipy = "*"
 pylint = "*"
 importlib-metadata = "*"
 language_tool_python = "*"
-language = "*"
-tool = "*"
 
 [pipenv]
 allow_prereleases = true
