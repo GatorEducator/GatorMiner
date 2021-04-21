@@ -14,16 +14,17 @@ if __name__ == "__main__":
     directory = tm_arguments.directory
     function = tm_arguments.function
     record = tm_arguments.record
-    if function == "frequency":
+    if function == "summary":
+        # Determine if user wants to keep a record of the result.
         if record:
-            #save documents
             #print("saving")
+            # Write the summary into a json file.
             data = sz.summarizer(directory)
             file = open(record + ".json", "w")
             json.dump(data, file, indent=4)
             file.close()
         else:
-            print("printing")
-    elif function == "summary":
+            print(sz.summarizer(directory))
+    elif function == "frequency":
         print("here")
         #print(sz.summarizer(directory))
