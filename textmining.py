@@ -26,5 +26,10 @@ if __name__ == "__main__":
         else:
             print(sz.summarizer(directory))
     elif function == "frequency":
-        print("here")
-        #print(sz.summarizer(directory))
+        if record:
+            data = az.dir_frequency(directory)
+            file = open(record + ".json", "w")
+            json.dump(data, file, indent=4)
+            file.close()
+        else:
+            print(az.dir_frequency(directory))
