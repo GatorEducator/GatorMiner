@@ -210,7 +210,7 @@ def df_preprocess(df):
 def frequency():
     """main function for frequency analysis"""
 
-    #Create button to return the description for frequency analyzer
+    # Create expandable container to show the description for frequency analyzer
     freq_des = md.read_file('docs/frequency-analysis/frequency-analysis.md')
     with st.beta_expander("Frequency Analysis Description"):
         st.write(freq_des)
