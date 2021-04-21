@@ -2,14 +2,12 @@ import numpy as np
 import pandas as pd
 from os import path
 from PIL import Image
-from wordcloud import WordCloud
-from wordcloud import STOPWORDS
-from wordcloud import ImageColorGenerator
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 
 import matplotlib.pylot as plt
 
 
-df = pd.read_csv("resources/lab1/reflection1.md")
+df = pd.read_csv("resources/lab1")
 
 # Star with one review
 text = df.description[0]
