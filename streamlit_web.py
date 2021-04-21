@@ -21,7 +21,6 @@ import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
 import src.visualization as vis
-import src.pandas as pan
 
 
 # resources/sample_reflections/lab1, resources/sample_reflections/lab2
@@ -668,8 +667,13 @@ def entities():
     )
 
     # create a dataframe with the selected user and convert it to a string
-    df_selected_stu = input_df.loc[input_df[stu_id].isin([students])]
-    student_string = df_selected_stu.to_string()
+    df_selected_stu = input_df.loc[
+        input_df[stu_id].isin([students])
+        & input_df[assign_id].isin(assignments)
+    ]
+
+    student_string = df_selected_stu.to_string(header=False, index=False, na_rep="")
+    student_string = student_string.replace("\\n","")
 
     # run the spacy entity recogonizer on the selected user document and display it
     docff = az.get_nlp(student_string)

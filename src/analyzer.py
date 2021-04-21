@@ -133,7 +133,8 @@ def get_nlp(input_text):
 
 
 def displacy_renderer(doc):
-    """runs the spacy displacy function on the given string and renders the output"""
+    """runs the spacy displacy function on the given string and
+    renders the output"""
     if len(doc) > 0:
         html = spacy.displacy.render(doc, style="ent")
         # Newlines seem to mess with the rendering
