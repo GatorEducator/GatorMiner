@@ -24,6 +24,7 @@ textblob = "*"
 scipy = "*"
 pylint = "*"
 importlib-metadata = "*"
+atomicwrites = "*"
 language_tool_python = "*"
 
 [pipenv]
