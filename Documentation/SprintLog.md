@@ -19,3 +19,7 @@ When any assignment is put into GatorMiner, the words are automatically grouped 
 `Current Phase:` We are currently still in Phase 1 of the development phase.
 
 # Sprint 2 Log:
+
+`Tasks Completed:` Kylie has been able to come with a more sufficient way to implement the frequency of categories of words and has found a way to implement the interface. Kyrie has been helping with completing the interface aspect of the program. Adriana has been able to still keep a log of all the completed tasks during the Scrum Meetings for the documentation and also has worked on test cases. William has completed the data mining and also created the test cases needed for the said issue. Favour has organized the dates and times of the Scrum meetings and continued to delegate the necessary task for this said Sprint.
+
+`Current Phase:`
