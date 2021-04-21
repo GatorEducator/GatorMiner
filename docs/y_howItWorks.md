@@ -20,7 +20,7 @@ CountVectorizer from the sklearn.feature_extraction.text class is used to create
 
 ## Document similarity
 
-TfidfVectorizer from the sklearn.feature_extraction.text class is used to convert raw documents to a matrix of TF-IDF features. TF-IDF evaluates how relevant a word is in a document in relation to a variety of documents. This is calculated by multipliying the number of times a word appears in a document with the inverse document frequency.
+TfidfVectorizer from the sklearn.feature_extraction.text class is used to convert raw documents to a matrix of TF-IDF features. TF-IDF evaluates how relevant a word is in a document in relation to a variety of documents. This is calculated by multpliying the number of times a word appears in a document with the inverse document frequency.
 
 Numpy.dot is used to find the dot product of two arrays. NumPy is a library that is helpful when analyzing large and complex arrays and matrices. It can also perform mathematical functions on these arrays.
 
@@ -32,6 +32,6 @@ Summerize from the gensim.summarization.summarizer class is used to summarize al
 
 ## Topic Modeling
 
-Gensim is used to create a dictionary from a list by adding a key to each word. It is also used to create and LDA model. The LDA model tries to determine topics based on the text in the documents. The Gensim library is used for topic modelling, document indexing and similarity retrieval with large collections of data.
+Gensim is used to create a dictionary from a list by adding a key to each word. It is also used to create and LDA model. The LDA model tries to determine topics based on the text in the documents. The Gensim library is used for topic modeling, document indexing and similarity retrieval with large collections of data.
 
 The Pandas DataFrame is used to create a two dimensional table like structure with labeled axises.  
