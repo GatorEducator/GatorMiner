@@ -157,3 +157,23 @@ def test_tfidf():
     term_frequency, vector = az.compute_tfidf(input_tokens)
     assert term_frequency is not None
     assert vector is not None
+
+    def test_categorization_professionalskills():
+        "test for categorizing test cases "
+        text = [ " Some professional skills that were used during this lab \
+            was a communating with my teammates over slack to organize \
+                a proper meeting time  " ]
+        output = az.catergorization_professionalskills(text)
+        assert output == professionalskills
+
+     def test_categorization_techincalskills():
+        "test for categorizing test cases "
+        text = [ "At a high level, what were the most important technical tasks that you completed?\
+             First task\
+                 Creation of text mining \
+                 Second task\
+                     Make test cases  \
+                         Third task \
+                             Check for bugs and implimantation " ]
+        output = az.catergorization_techincalskills(text)
+        assert output == technicalskills    
