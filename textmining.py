@@ -1,15 +1,29 @@
 """CLI Entry point"""
+import json
 import sys
 
-from src import analyzer as az
-from src import summarizer as sz
-from src import arguments
+import src.analyzer as az
+import src.summarizer as sz
+import src.arguments as arg
+
+#def save_data(data, directory):
+    # do stuff here
 
 if __name__ == "__main__":
-    tm_arguments = arguments.parse(sys.argv[1:])
+    tm_arguments = arg.parse(sys.argv[1:])
     directory = tm_arguments.directory
     function = tm_arguments.function
+    record = tm_arguments.record
     if function == "frequency":
-        print(az.dir_frequency(directory))
+        if record:
+            #save documents
+            #print("saving")
+            data = sz.summarizer(directory)
+            file = open(record + ".json", "w")
+            json.dump(data, file, indent=4)
+            file.close()
+        else:
+            print("printing")
     elif function == "summary":
-        print(sz.summarizer(directory))
+        print("here")
+        #print(sz.summarizer(directory))
