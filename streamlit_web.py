@@ -210,7 +210,7 @@ def df_preprocess(df):
 def frequency():
     """main function for frequency analysis"""
 
-    #Create button to return the description for frequency analyzer
+    # Create expandable container to show the description for frequency analyzer
     freq_des = md.read_file('docs/frequency-analysis/frequency-analysis.md')
     with st.beta_expander("Frequency Analysis Description"):
         st.write(freq_des)
@@ -374,7 +374,7 @@ def question_freq(freq_range):
 def sentiment():
     """main function for sentiment analysis"""
 
-    #Create button return description for sentiment analysis
+    # Create expandable container to show description for sentiment analysis
     sent_des = md.read_file('docs/sentiment-analysis.md')
     with st.beta_expander("Sentiment Analysis Description"):
         st.write(sent_des)
@@ -460,7 +460,7 @@ def question_senti(input_df):
 def summary():
     """Display summarization"""
 
-    #Create button return description for summary feature
+    # Create expandable container to show description for summary feature
     summ_des = md.read_file('docs/summary.md')
     with st.beta_expander("Summary Description"):
         st.write(summ_des)
@@ -477,7 +477,7 @@ def summary():
 
 def tpmodel():
     """Display topic modeling"""
-    #Create button return description for summary feature
+    # Create expandable container to show description for summary feature
     topic_des = md.read_file('docs/topic-modelling.md')
     with st.beta_expander("Topic Modelling Description"):
         st.write(topic_des)
@@ -582,7 +582,7 @@ def scatter_tm(lda_model, corpus, overall_topic_df):
 
 def doc_sim():
     """Display document similarity"""
-    #Create button return description for document similarity analyzer
+    # Create expandable container to show description for document similarity analyzer
     docs_des = md.read_file('docs/document-similarity.md')
     with st.beta_expander("Document Similarity Description"):
         st.write(docs_des)
@@ -660,7 +660,7 @@ def spacy_sim(doc_df):
 def interactive():
     """Page to allow nlp analysis from user input"""
 
-    #Create button return description for interactive feature
+    # Create expandable container to show description for interactive feature
     inter_des = md.read_file('docs/interactive.md')
     with st.beta_expander("Interactive Description"):
         st.write(inter_des)
