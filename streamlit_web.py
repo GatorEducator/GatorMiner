@@ -660,18 +660,22 @@ def grammar_analyzer():
     '''Display grammar checker'''
     """page for grammar error checker"""
 
-    ga_df = preprocessed_df[
-        preprocessed_df[assign_id].isin(assignments)
+    students = st.multiselect(
+        label="Select specific students below:",
+        options=main_df[stu_id].unique(),
+    )
+
+    ga_df = main_df[
+        (main_df[stu_id].isin(students))
+        & main_df[assign_id].isin(assignments)
     ].dropna(axis=1, how="all")
+
     # plot all the subplots of different assignments
-    for column in preprocessed_df.columns[2:]:
-        ga_df[column] = preprocessed_df[column].apply(
+    for column in main_df.columns[2:]:
+        ga_df[column] = main_df[column].apply(
             lambda x: ga.grammar_analyzer(x)
         )
     st.write(ga_df)
 
-    #TODO: for visualization team, Adam + Kevin,
-    # to add the code to display the result of Grammar checker
-    # Can look at how summary is displaying as a suggestion.
 if __name__ == "__main__":
     main()

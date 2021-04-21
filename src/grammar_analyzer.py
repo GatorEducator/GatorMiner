@@ -17,11 +17,9 @@ def grammar_analyzer(text: str) -> List[Tuple[int, int]]:
     for line in text:
         matches = tool.check(line)
         err_num = err_num + len(matches)
-        pass
 
     # Store all alphanumeric characters in the reflection in a list
     words = re.sub('[^0-9a-zA-Z]+', ' ', str(text)).lower().split()
-
 
     # Calculate the error percentage of grammar error per number of words
     err_percentage = 0
@@ -30,7 +28,7 @@ def grammar_analyzer(text: str) -> List[Tuple[int, int]]:
     else:
         pass
 
-    # Store number of errors and grade in a dictionary
+    # Store number of errors and grade in a list
     grammar_err = []
     grammar_err.append((err_num, err_percentage))
     return grammar_err
