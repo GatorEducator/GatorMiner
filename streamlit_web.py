@@ -201,7 +201,7 @@ def import_data(data_retreive_method, paths):
                 for path in paths:
                     stringio = StringIO(path.getvalue().decode("utf-8"))
                     individual_dict = md.md_parser(stringio.read(), True)
-                    main_md_dict = md.merge_dict(main_md_dict, individual_dict)
+                    main_md_dict = md.merge_dict(main_md_dict, individual_dict, True)
                 json_lst.append(main_md_dict)
         except FileNotFoundError as err:
             st.sidebar.text(err)

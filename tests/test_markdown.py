@@ -8,18 +8,23 @@ def test_merge_dict():
     """Test that merge_dict returns a dict of key and value lists"""
     test_dict_1 = {"key1": "value1"}
     test_dict_2 = {"key1": "value2"}
-    output = md.merge_dict(test_dict_1, test_dict_2)
+    output_preserved = md.merge_dict(test_dict_1, test_dict_2, True)
+    output_not_preserved = md.merge_dict(test_dict_1, test_dict_2, False)
     expected = {"key1": ["value1", "value2"]}
-    assert expected == output
+    assert expected == output_preserved
+    assert expected == output_not_preserved
 
 
 def test_merge_dict_keys():
     """Test that merge_dict adds empty string for unique keys."""
     test_dict_1 = {"key1": "value1"}
     test_dict_2 = {"key1": "value2", "key2": "value3"}
-    output = md.merge_dict(test_dict_1, test_dict_2)
-    expected = {"key1": ["value1", "value2"], "key2": ["", "value3"]}
-    assert expected == output
+    output_preserved = md.merge_dict(test_dict_1, test_dict_2, True)
+    output_not_preserved = md.merge_dict(test_dict_1, test_dict_2, False)
+    expected_preserved = {"key1": ["value1", "value2"], "key2": ["", "value3"]}
+    expected_not_preserved = {"key1": ["value1", "value2"]}
+    assert expected_preserved == output_preserved
+    assert expected_not_preserved == output_not_preserved
 
 
 def test_get_file_names(tmp_path):

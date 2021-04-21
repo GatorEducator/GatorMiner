@@ -36,18 +36,18 @@ def get_file_names(directory_name: str) -> List[str]:
     return file_list
 
 
-def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
+def merge_dict(dict_1, dict_2: Dict[str, str], preserve: bool) -> Dict[str, List[str]]:
     """Merge two dictionaries and store values of common keys in list"""
     if dict_1 is None:
         dict_1 = {k: [] for k in dict_2.keys()}
     elif isinstance(list(dict_1.values())[0], list) is False:
         dict_1 = {k: [v] for k, v in dict_1.items()}
-    for key in dict_2.keys():
-        if key not in dict_1:
-            dict_1[key] = []
-            for f in range(0, len(list(dict_1.values())[0])):
-                dict_1[key].append("")
-
+    if(preserve):
+        for key in dict_2.keys():
+            if key not in dict_1:
+                dict_1[key] = []
+                for f in range(0, len(list(dict_1.values())[0])):
+                    dict_1[key].append("")
     for key in dict_1.keys():
         try:
             dict_1[key].append(dict_2[key])
@@ -63,7 +63,7 @@ def collect_md(directory: str, is_clean=True) -> Dict[str, List[str]]:
     main_md_dict = None
     for file in file_names:
         individual_dict = md_parser(read_file(file), is_clean)
-        main_md_dict = merge_dict(main_md_dict, individual_dict)
+        main_md_dict = merge_dict(main_md_dict, individual_dict, False)
     return main_md_dict
 
 
