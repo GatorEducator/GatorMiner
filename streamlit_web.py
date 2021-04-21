@@ -250,19 +250,20 @@ def overall_freq(freq_range):
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
-    freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
-    # calculate word frequency of each assignments
-    for item in assignments:
-        # combined text of the whole assignment
-        combined_text = " ".join(
-            main_df[main_df[assign_id] == item][cts.NORMAL]
-        )
-        item_df = pd.DataFrame(
-            az.word_frequency(combined_text, freq_range),
-            columns=["word", "freq"],
-        )
-        item_df["assignments"] = item
-        freq_df = freq_df.append(item_df)
+    freq_df = dfr.freq_df_process(freq_range)
+    # freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
+    # # calculate word frequency of each assignments
+    # for item in assignments:
+    #     # combined text of the whole assignment
+    #     combined_text = " ".join(
+    #         main_df[main_df[assign_id] == item][cts.NORMAL]
+    #     )
+    #     item_df = pd.DataFrame(
+    #         az.word_frequency(combined_text, freq_range),
+    #         columns=["word", "freq"],
+    #     )
+    #     item_df["assignments"] = item
+    #     freq_df = freq_df.append(item_df)
     # plot all the subplots of different assignments
     st.altair_chart(
         vis.facet_freq_barplot(
