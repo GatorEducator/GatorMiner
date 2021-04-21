@@ -1,6 +1,7 @@
 """Markdown parser"""
 import os
 import logging
+from io import StringIO
 from typing import Dict, List
 import commonmark
 import pandas as pd
@@ -101,6 +102,16 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
         else:
             continue
     return md_dict
+
+
+def import_uploaded_files(paths: List) -> Dict[str, List[str]]:
+    """Importing the individual files"""
+    main_md_dict = None
+    for path in paths:
+        stringio = StringIO(path.getvalue().decode("utf-8"))
+        individual_dict = md_parser(stringio.read(), True)
+        main_md_dict = merge_dict(main_md_dict, individual_dict, True)
+    return main_md_dict
 
 
 def build_pd(md_dict):

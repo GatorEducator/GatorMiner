@@ -1,6 +1,7 @@
 """Test module for markdown.py"""
 import pytest
 import src.markdown as md
+import streamlit as st
 import os
 
 
@@ -133,3 +134,13 @@ def test_md_parser_clean(input_text, expected):
     """Test if md parser cleans the markdown documents"""
     output = md.md_parser(input_text)
     assert output == expected
+
+def test_import_uploaded_files():
+    """Test if the uploaded files are actually imported"""
+    uploaded_files = st.sidebar.file_uploader("Choose a Markdown file",
+                                              type=['md'],
+                                              accept_multiple_files=True)
+    json_lst = []
+    json_lst.append(md.import_uploaded_files(uploaded_files))
+    assert json_lst is not None
+
