@@ -1,4 +1,4 @@
-# pylint: disable=missing-docstring
+"""Compute and return number of grammar error in text"""
 import language_tool_python
 import re
 from typing import List, Tuple
