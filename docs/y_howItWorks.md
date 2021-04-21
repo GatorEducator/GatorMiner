@@ -14,7 +14,7 @@ Regular Expressions are provided through the re module. Regular Expressions are 
 
 Counter from the collections class and the dict subclass counts hashable objects. The total counts are stored in a dictionary as the values in the objects are stored as the keys.  
 
-TfidfVectorizer from the sklearn.feature_extraction.text class is used to convert raw documents to a matrix of TF-IDF features. TF-IDF evaluates how relevant a word is in a document in relation to a variety of documents. This is calculated by multipliying the number of times a word appears in a document with the inverse document frequency.
+TfidfVectorizer from the sklearn.feature_extraction.text class is used to convert raw documents to a matrix of TF-IDF features. TF-IDF evaluates how relevant a word is in a document in relation to a variety of documents. This is calculated by multiplying the number of times a word appears in a document with the inverse document frequency.
 
 CountVectorizer from the sklearn.feature_extraction.text class is used to create a vector of term counts from the words in the documents. The differences between TfidfVectorizer and CountVectorizer is TfidfVectorizer returns a float while the CountVectorizer returns integers.
 
