@@ -13,6 +13,8 @@ nltk.download('stopwords')
 import pickle
 from nltk.corpus import stopwords
 
+from . import markdown as md
+
 PARSER = spacy.load("en_core_web_sm")
 
 

@@ -158,22 +158,14 @@ def test_tfidf():
     assert term_frequency is not None
     assert vector is not None
 
-    def test_categorization_professionalskills():
-        "test for categorizing test cases "
-        text = [ " Some professional skills that were used during this lab \
-            was a communating with my teammates over slack to organize \
-                a proper meeting time  " ]
-        output = az.catergorization_professionalskills(text)
-        assert output == professionalskills
+def test_category_frequency():
+    "test that professional skills, technical skills, and ethics are properly classified "
+    text = [ " One professional skill that I practiced was communicating  independently with a team. I did this by atttending all meetings, using  Zenhub, and including everyone in the major decision making process. I  also practiced the professional skill of resolving conflicts by talking  through the conflict with my group members, coming to a resolution, and  apologizing for the mishap that I caused." ]
+    output = az.category_frequency(text)
+    print(output)
+    assert output["Professional Skills"] == 1
 
-     def test_categorization_techincalskills():
-        "test for categorizing test cases "
-        text = [ "At a high level, what were the most important technical tasks that you completed?\
-             First task\
-                 Creation of text mining \
-                 Second task\
-                     Make test cases  \
-                         Third task \
-                             Check for bugs and implimantation " ]
-        output = az.catergorization_techincalskills(text)
-        assert output == technicalskills    
+    text = [ "One technical skill that I practiced was installing Python  packages and integrating these packages with my code." ]
+    output = az.category_frequency(text)
+    print(output)
+    assert output["Technical Skills"] == 1
