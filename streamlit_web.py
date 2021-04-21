@@ -659,16 +659,16 @@ def interactive():
 def grammar_analyzer():
     '''Display grammar checker'''
     """page for grammar error checker"""
-    
-    sum_df = preprocessed_df[
+
+    ga_df = preprocessed_df[
         preprocessed_df[assign_id].isin(assignments)
     ].dropna(axis=1, how="all")
     # plot all the subplots of different assignments
     for column in preprocessed_df.columns[2:]:
-        sum_df[column] = preprocessed_df[column].apply(
+        ga_df[column] = preprocessed_df[column].apply(
             lambda x: ga.grammar_analyzer(x)
         )
-    st.write(sum_df)
+    st.write(ga_df)
 
     #TODO: for visualization team, Adam + Kevin,
     # to add the code to display the result of Grammar checker
