@@ -658,13 +658,8 @@ def interactive():
 
 def grammar_analyzer():
     '''Display grammar checker'''
-    """page for individual student's grammar error checker"""
-    # Mai's note: We want a report for the whole class instead of student's report
-    # Try looking at overall frequency.
-    students = st.multiselect(
-        label="Select specific students below:",
-        options=main_df[stu_id].unique(),
-    )
+    """page for grammar error checker"""
+    
     sum_df = preprocessed_df[
         preprocessed_df[assign_id].isin(assignments)
     ].dropna(axis=1, how="all")

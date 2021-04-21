@@ -26,7 +26,11 @@ def grammar_analyzer(text: str) -> List[Tuple[int, int]]:
     words = data.split()
 
     # Calculate the error percentage of grammar error per number of words
-    err_percentage = int(100*err_num/(len(words)))
+    err_percentage = 0
+    if len(words) != 0:
+        err_percentage = int(100*err_num/(len(words)))
+    else:
+        pass
 
     # Store number of errors and grade in a dictionary
     grammar_err = []
