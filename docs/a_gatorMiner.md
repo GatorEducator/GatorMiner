@@ -1,3 +1,0 @@
-# GatorMiner
-
-GatorMiner is 
