@@ -83,7 +83,6 @@ def category_frequency(responses: List[str]) -> dict:
     with open('text_classifier', 'rb') as training_model:
         model = pickle.load(training_model)
 
-    text = "Hello world!"
     with open('vectorizer', 'rb') as training_vectorizer:
         vectorizer = pickle.load(training_vectorizer)
 
