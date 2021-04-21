@@ -37,7 +37,8 @@ def get_file_names(directory_name: str) -> List[str]:
     return file_list
 
 
-def merge_dict(dict_1, dict_2: Dict[str, str], preserve: bool) -> Dict[str, List[str]]:
+def merge_dict(dict_1, dict_2: Dict[str, str], preserve: bool) -> \
+        Dict[str, List[str]]:
     """Merge two dictionaries and store values of common keys in list"""
     if dict_1 is None:
         dict_1 = {k: [] for k in dict_2.keys()}
