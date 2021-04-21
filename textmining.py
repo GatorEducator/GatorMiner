@@ -6,8 +6,6 @@ import src.analyzer as az
 import src.summarizer as sz
 import src.arguments as arg
 
-#def save_data(data, directory):
-    # do stuff here
 
 if __name__ == "__main__":
     tm_arguments = arg.parse(sys.argv[1:])
