@@ -28,13 +28,11 @@ import src.visualization as vis
 SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
 preprocessed_df = pd.DataFrame()
 main_df = pd.DataFrame()
-sample = []
 assignments = None
 assign_text = None
 stu_id = None
 success_msg = None
 debug_mode = False
-json_lst = []
 
 
 def main():
@@ -165,9 +163,8 @@ def load_model(name):
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
-    global sample
-    global json_lst
     if data_retreive_method == "Local file system":
+        json_lst = []
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
@@ -244,8 +241,6 @@ def frequency():
         st.header(
             f"Frequency of responses focused on ethics, technical skills, and professional skills in **{assign_text}**"
         )
-        global json_lst
-        json_lst.append("Test")
         category_freq()
 
 
