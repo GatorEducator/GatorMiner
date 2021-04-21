@@ -1,5 +1,7 @@
 import pandas as pd
 import src.visualization as vis
+import src.analyzer as az
+import src.constants as cts
 
 
 def basic_frame():
@@ -27,3 +29,20 @@ def df_preprocess(df):
     # tokenize
     df[cts.TOKEN] = df[cts.NORMAL].apply(lambda row: az.tokenize(row))
     return df
+
+def freq_df_process(freq_range):
+    freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
+    # calculate word frequency of each assignments
+    for item in assignments:
+        # combined text of the whole assignment
+        combined_text = " ".join(
+            main_df[main_df[assign_id] == item][cts.NORMAL]
+        )
+        item_df = pd.DataFrame(
+            az.word_frequency(combined_text, freq_range),
+            columns=["word", "freq"],
+        )
+        item_df["assignments"] = item
+        freq_df = freq_df.append(item_df)
+
+    return freq_df

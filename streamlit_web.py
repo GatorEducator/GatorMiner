@@ -12,7 +12,6 @@ from spacy import displacy
 import streamlit as st
 from textblob import TextBlob
 
-import src.analyzer as az
 import src.constants as cts
 import src.doc_similarity as ds
 import src.get_handler as gh
@@ -21,15 +20,15 @@ import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
 import src.visualization as vis
-import src.pandas as pan
+import src.dataframer as dfr
 
 
 # resources/sample_reflections/lab1, resources/sample_reflections/lab2
 
 # initialize main_df and preprocessed_Df
 SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
-preprocessed_df = pd.DataFrame()
-main_df = pd.DataFrame()
+preprocessed_df = dfr.basic_frame()
+main_df = dfr.basic_frame()
 assignments = None
 assign_text = None
 stu_id = None
@@ -190,7 +189,7 @@ def import_data(data_retreive_method, paths):
             readme()
     # when data is retreived
     if json_lst:
-        pan.importpanda(json_lst)
+        dfr.importpanda(json_lst)
         # raw_df = pd.DataFrame()
         # for item in json_lst:
         #     single_df = pd.DataFrame(item)
@@ -199,19 +198,19 @@ def import_data(data_retreive_method, paths):
         # return tidy_df, raw_df
 
 
-def df_preprocess(df):
-    """build and preprocess (combine, normalize, tokenize) text"""
-    # filter out first two columns -- non-report content
-    cols = df.columns[2:]
-    # combining text into combined column
-    df["combined"] = df[cols].apply(
-        lambda row: "\n".join(row.values.astype(str)), axis=1
-    )
-    # normalize
-    df[cts.NORMAL] = df["combined"].apply(lambda row: az.normalize(row))
-    # tokenize
-    df[cts.TOKEN] = df[cts.NORMAL].apply(lambda row: az.tokenize(row))
-    return df
+# def df_preprocess(df):
+#     """build and preprocess (combine, normalize, tokenize) text"""
+#     # filter out first two columns -- non-report content
+#     cols = df.columns[2:]
+#     # combining text into combined column
+#     df["combined"] = df[cols].apply(
+#         lambda row: "\n".join(row.values.astype(str)), axis=1
+#     )
+#     # normalize
+#     df[cts.NORMAL] = df["combined"].apply(lambda row: az.normalize(row))
+#     # tokenize
+#     df[cts.TOKEN] = df[cts.NORMAL].apply(lambda row: az.tokenize(row))
+#     return df
 
 
 def frequency():

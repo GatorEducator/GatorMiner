@@ -1,12 +1,12 @@
-"""Text Proprocessing"""
-from collections import Counter
+# """Text Proprocessing"""
+# from collections import Counter
 import re
 import string
 from typing import List, Tuple
 import spacy
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+# from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
-from . import markdown as md
+# from . import markdown as md
 
 PARSER = spacy.load("en_core_web_sm")
 
@@ -50,6 +50,7 @@ def tokenize(normalized_text: str) -> List[str]:
         and len(word.lemma_.strip()) > 1
     ]
     return tokens
+    return [""]
 
 
 def compute_frequency(
