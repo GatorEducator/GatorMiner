@@ -136,7 +136,7 @@ environment variables")
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input")
-            landing_src()
+            readme()
         else:
             global success_msg
             success_msg = None
@@ -154,6 +154,7 @@ environment variables")
             global stu_id
             stu_id = preprocessed_df.columns[1]
             return True
+
 
 
 @st.cache(allow_output_mutation=True)
@@ -253,11 +254,13 @@ def frequency():
 
 
 def overall_freq(freq_range):
-    """page fore overall word frequency"""
+    """page for overall word frequency"""
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
     freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
+    questions_end = len(main_df.columns) - 3
+    question_df = main_df[main_df.columns[1:questions_end]]
     # calculate word frequency of each assignments
     for item in assignments:
         # combined text of the whole assignment
@@ -276,29 +279,9 @@ def overall_freq(freq_range):
             freq_df, assignments, "assignments", plots_per_row=plots_range
         )
     )
-    # print(freq_df)
+    az.word_cloud_list(question_df)
+    # build word cloud by passing in main dataframe
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
-
-def category_freq():
-    # make input_assignments global and redo md_parser locally?
-    """page for word category frequency"""
-    # st.write(main_df)
-    questions_end = len(main_df.columns) - 3
-    question_df = main_df[main_df.columns[2:questions_end]]
-    # st.write(question_df)
-    # for row in dataframe
-    user_responses = []
-    for i, row in question_df.iterrows():
-        # add each user's responses to a list to pass in
-        for col in range(len(question_df.columns)):
-            response = row[col]
-            user_responses.append(response)
-        print("streamlit web user responses: " + str(user_responses))
-        az.category_frequency(user_responses)
-        user_responses.clear()
-        # az.category_frequency(response)
-        # store overall responses
-
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
@@ -388,6 +371,26 @@ def question_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
+
+def category_freq():
+    # make input_assignments global and redo md_parser locally?
+    """page for word category frequency"""
+    # st.write(main_df)
+    questions_end = len(main_df.columns) - 3
+    question_df = main_df[main_df.columns[2:questions_end]]
+    # st.write(question_df)
+    # for row in dataframe
+    user_responses = []
+    for i, row in question_df.iterrows():
+        # add each user's responses to a list to pass in
+        for col in range(len(question_df.columns)):
+            response = row[col]
+            user_responses.append(response)
+        print("streamlit web user responses: " + str(user_responses))
+        az.category_frequency(user_responses)
+        user_responses.clear()
+        # az.category_frequency(response)
+        # store overall responses
 
 
 def sentiment():

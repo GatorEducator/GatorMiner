@@ -13,6 +13,8 @@ from sklearn.datasets import load_files
 nltk.download('stopwords')
 import pickle
 from nltk.corpus import stopwords
+from wordcloud import WordCloud, STOPWORDS
+import pandas as pd
 
 # from . import markdown as md
 # print(md.md_dict)
@@ -86,20 +88,6 @@ def category_frequency(response: List[str]):
         # ct.predict([normalized_str])
     print("Analyzer user responses: " + str(response))
     ct.predict_user_responses(response)
-    # idea: modify to send list of frequencies for a given question through category frequency so that program has multiple 'documents' to work with, treat each individual response as a document
-    """
-    if normalized_str:
-        from sklearn.feature_extraction.text import CountVectorizer
-        # use tokenize feature instead?
-        transformed_str = vectorizer.fit_transform([normalized_str]).toarray()
-
-        from sklearn.feature_extraction.text import TfidfTransformer
-        tfidfconverter = TfidfTransformer()
-        transformed_str = tfidfconverter.fit_transform(transformed_str).toarray()
-        label = classifier.predict(transformed_str)[0]
-    print(label)
-    """
-
 
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:
     """A pipeline to normalize, tokenize, and
@@ -173,3 +161,22 @@ def noun_phrase(input_text):
     for chunk in doc.noun_chunks:
         n_phrase_lst.append(str(chunk))
     return n_phrase_lst
+
+def word_cloud_list(responses_df):
+    comment_words = ''
+    stopwords = set(STOPWORDS)
+
+    # iterate through responses
+    for val in responses_df:
+
+        # typecaste each response to string
+        val = str(val)
+
+        # split the value
+        tokens = val.split()
+
+        # convert each token into lowercase
+        for i in range(len(tokens)):
+            tokens[i] = tokens[i].lower()
+
+        comment_words += " ".join(tokens)+" "
