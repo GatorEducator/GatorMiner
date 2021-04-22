@@ -19,6 +19,7 @@ import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
 import src.visualization as vis
+import src.grammar_analyzer as ga
 
 
 # resources/sample_reflections/lab1, resources/sample_reflections/lab2
@@ -33,7 +34,6 @@ stu_id = None
 success_msg = None
 debug_mode = False
 main_md_dict = None
-
 
 def main():
     """main streamlit function"""
@@ -58,6 +58,7 @@ def main():
                 "Summary",
                 "Topic Modeling",
                 "Interactive",
+                "Grammar Checker"
             ],
         )
         if debug_mode:
@@ -83,6 +84,9 @@ def main():
             elif analysis_mode == "Interactive":
                 st.title(analysis_mode)
                 interactive()
+            elif analysis_mode == "Grammar Checker":
+                st.title(analysis_mode)
+                grammar_analyzer()
             success_msg.empty()
 
 def landing_src():
@@ -674,6 +678,27 @@ def interactive():
     if summary_cb:
         summaries = sz.summarize_text(input_text)
         st.write(summaries)
+
+
+def grammar_analyzer():
+    """page for grammar error checker"""
+    students = st.multiselect(
+        label="Select specific students below:",
+        options=main_df[stu_id].unique(),
+    )
+
+    ga_df = main_df[
+        (main_df[stu_id].isin(students))
+        & main_df[assign_id].isin(assignments)
+    ].dropna(axis=1, how="all")
+
+    # plot all the subplots of different assignments
+    for column in main_df.columns[2:]:
+        ga_df[column] = main_df[column].apply(
+            lambda x: ga.grammar_analyzer(x)
+        )
+    st.write(ga_df)
+
 
 if __name__ == "__main__":
     main()
