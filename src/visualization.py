@@ -4,6 +4,9 @@ from altair.expr import datum
 
 import src.constants as cts
 
+import streamlit as st
+
+from wordcloud import WordCloud, STOPWORDS
 
 def freq_barplot(freq_df):
     """barplot for word frequency"""
@@ -239,13 +242,3 @@ def tp_scatter_plot(df_lda):
         color='topic_num:N',
     ).interactive()
     return lda
-
-def word(cloud):
-    """word cloud of most frequent words"""
-    wordcloud = WordCloud(width = 800, height = 800,
-                    background_color = 'white',
-                    stopwords = cloud_stopwords,
-                    min_font_size = 10).generate(words)
-    # plot the WordCloud image
-    plt.figure(figsize = (8, 8), facecolor = 'white')
-    plt.imshow(wordcloud)

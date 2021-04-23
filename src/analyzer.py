@@ -13,11 +13,7 @@ from sklearn.datasets import load_files
 nltk.download('stopwords')
 import pickle
 from nltk.corpus import stopwords
-from wordcloud import WordCloud, STOPWORDS
 import pandas as pd
-
-# from . import markdown as md
-# print(md.md_dict)
 
 PARSER = spacy.load("en_core_web_sm")
 
@@ -164,7 +160,7 @@ def noun_phrase(input_text):
 
 def concatenate(responses_df):
     """Remove stop words from and return contcatenated string of all words"""
-    words_str = '' # string of all words
+    words_str = ''
     for i, row in responses_df.iterrows():
         for col in range(len(responses_df.columns)):
             val = row[col]

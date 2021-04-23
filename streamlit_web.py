@@ -20,9 +20,6 @@ import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
 import src.visualization as vis
-import matplotlib
-matplotlib.use('tkagg')
-import matplotlib.pyplot as plt
 
 from wordcloud import WordCloud, STOPWORDS
 
@@ -285,20 +282,18 @@ def overall_freq(freq_range):
             freq_df, assignments, "assignments", plots_per_row=plots_range
         )
     )
+    # concatenate all words into normalized string and make into wordcloud
     words = az.concatenate(question_df)
     cloud_stopwords = set(STOPWORDS)
-    wordcloud = WordCloud(width = 800, height = 800,
+    wordcloud = (WordCloud(width = 800, height = 800,
                     background_color = 'white',
                     stopwords = cloud_stopwords,
-                    min_font_size = 10).generate(words)
-    # plot the WordCloud image
-    plt.figure(figsize = (8, 8), facecolor = 'white')
-    plt.imshow(wordcloud)    
-    # plt.axis("off")
-    # plt.tight_layout(pad = 0)
+                    min_font_size = 10).generate(words))
+    # plot wordcloud by temporarily savings as a file and displaying
+    wordcloud.to_file("resources/images/word_cloud.png")
+    st.image("resources/images/word_cloud.png")
+    os.remove("resources/images/word_cloud.png")
 
-    plt.show()
-    # build word cloud by passing in main dataframe
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
 def student_freq(freq_range):
