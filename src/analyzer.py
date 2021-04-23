@@ -162,21 +162,14 @@ def noun_phrase(input_text):
         n_phrase_lst.append(str(chunk))
     return n_phrase_lst
 
-def word_cloud_list(responses_df):
-    comment_words = ''
-    stopwords = set(STOPWORDS)
-
-    # iterate through responses
-    for val in responses_df:
-
-        # typecaste each response to string
-        val = str(val)
-
-        # split the value
-        tokens = val.split()
-
-        # convert each token into lowercase
-        for i in range(len(tokens)):
-            tokens[i] = tokens[i].lower()
-
-        comment_words += " ".join(tokens)+" "
+def concatenate(responses_df):
+    """Remove stop words from and return contcatenated string of all words"""
+    words_str = '' # string of all words
+    for i, row in responses_df.iterrows():
+        for col in range(len(responses_df.columns)):
+            val = row[col]
+            tokens = val.split()
+            for i in range(len(tokens)):
+                tokens[i] = tokens[i].lower()
+            words_str += " ".join(tokens)+" "
+    return words_str

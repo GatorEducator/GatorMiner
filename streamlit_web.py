@@ -20,7 +20,11 @@ import src.markdown as md
 import src.summarizer as sz
 import src.topic_modeling as tm
 import src.visualization as vis
+import matplotlib
+matplotlib.use('tkagg')
+import matplotlib.pyplot as plt
 
+from wordcloud import WordCloud, STOPWORDS
 
 # resources/sample_reflections/lab1, resources/sample_reflections/lab2
 
@@ -261,6 +265,8 @@ def overall_freq(freq_range):
     freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
     questions_end = len(main_df.columns) - 3
     question_df = main_df[main_df.columns[1:questions_end]]
+    question_df.replace("", "NA")
+
     # calculate word frequency of each assignments
     for item in assignments:
         # combined text of the whole assignment
@@ -279,7 +285,19 @@ def overall_freq(freq_range):
             freq_df, assignments, "assignments", plots_per_row=plots_range
         )
     )
-    az.word_cloud_list(question_df)
+    words = az.concatenate(question_df)
+    cloud_stopwords = set(STOPWORDS)
+    wordcloud = WordCloud(width = 800, height = 800,
+                    background_color = 'white',
+                    stopwords = cloud_stopwords,
+                    min_font_size = 10).generate(words)
+    # plot the WordCloud image
+    plt.figure(figsize = (8, 8), facecolor = 'white')
+    plt.imshow(wordcloud)    
+    # plt.axis("off")
+    # plt.tight_layout(pad = 0)
+
+    plt.show()
     # build word cloud by passing in main dataframe
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 

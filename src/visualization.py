@@ -239,3 +239,13 @@ def tp_scatter_plot(df_lda):
         color='topic_num:N',
     ).interactive()
     return lda
+
+def word(cloud):
+    """word cloud of most frequent words"""
+    wordcloud = WordCloud(width = 800, height = 800,
+                    background_color = 'white',
+                    stopwords = cloud_stopwords,
+                    min_font_size = 10).generate(words)
+    # plot the WordCloud image
+    plt.figure(figsize = (8, 8), facecolor = 'white')
+    plt.imshow(wordcloud)
