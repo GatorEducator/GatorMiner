@@ -63,7 +63,7 @@ def facet_freq_barplot(
 
 
 def facet_category_barplot(category_df, plots_per_row=3):
-    """facet bar plot for category frequencies"""
+    """facet colored bar plot for category frequencies"""
 
     base = (
         alt.Chart(category_df)
