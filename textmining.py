@@ -1,6 +1,7 @@
 """CLI Entry point"""
 import json
 import sys
+import os
 
 import src.analyzer as az
 import src.summarizer as sz
@@ -8,6 +9,14 @@ import src.arguments as arg
 
 
 if __name__ == "__main__":
+
+    directory = "records"
+    path = os.path.join(directory)
+    try:
+        os.mkdir(path)
+    except OSError as error:
+        print(error)
+
     tm_arguments = arg.parse(sys.argv[1:])
     directory = tm_arguments.directory
     function = tm_arguments.function
@@ -18,7 +27,7 @@ if __name__ == "__main__":
             #print("saving")
             # Write the summary into a json file.
             data = sz.summarizer(directory)
-            file = open(record + ".json", "w")
+            file = open(path + "/" + record + ".json", "w")
             json.dump(data, file, indent=4)
             file.close()
         else:
@@ -26,7 +35,7 @@ if __name__ == "__main__":
     elif function == "frequency":
         if record:
             data = az.dir_frequency(directory)
-            file = open(record + ".json", "w")
+            file = open(path + "/" + record + ".json", "w")
             json.dump(data, file, indent=4)
             file.close()
         else:
