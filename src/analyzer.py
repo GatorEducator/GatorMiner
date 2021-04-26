@@ -8,8 +8,9 @@ from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import nltk
-nltk.download('wordnet')
-nltk.download('stopwords')
+
+nltk.download("wordnet")
+nltk.download("stopwords")
 
 PARSER = spacy.load("en_core_web_sm")
 
@@ -29,10 +30,7 @@ def normalize(data: str) -> str:
 def lemmatized_text(text):
     """Return lemmatized text"""
     tokens = PARSER(text)
-    tokens = [
-        word.lemma_.strip()
-        for word in tokens if word.lemma_ != "-PRON-"
-    ]
+    tokens = [word.lemma_.strip() for word in tokens if word.lemma_ != "-PRON-"]
     lem_text = " ".join(tokens)
     return lem_text
 
@@ -40,9 +38,7 @@ def lemmatized_text(text):
 def tokenize(normalized_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
     # remove punctuation
-    normal_text = "".join(
-        c for c in normalized_text if c not in string.punctuation
-    )
+    normal_text = "".join(c for c in normalized_text if c not in string.punctuation)
     tokens = PARSER(normal_text)
     # lemmatize tokens, remove pronoun and stop words
     tokens = [
@@ -56,7 +52,7 @@ def tokenize(normalized_text: str) -> List[str]:
 
 
 def compute_frequency(
-        token_lst: List[str], amount=50
+    token_lst: List[str], amount=50
 ) -> List[Tuple[str, int]]:  # noqa: E501
     """Compute word frequency from a list of tokens"""
     word_freq = Counter(token_lst)
@@ -78,10 +74,10 @@ def category_frequency(responses: List[str]) -> dict:
     if "" in responses:
         responses.remove("")
 
-    with open('text_classifier', 'rb') as training_model:
+    with open("text_classifier", "rb") as training_model:
         model = pickle.load(training_model)
 
-    with open('vectorizer', 'rb') as training_vectorizer:
+    with open("vectorizer", "rb") as training_vectorizer:
         vectorizer = pickle.load(training_vectorizer)
 
     category_dict = {
@@ -93,11 +89,11 @@ def category_frequency(responses: List[str]) -> dict:
     for element in responses:
         element = vectorizer.transform([element]).toarray()
         label = model.predict(element)[0]
-        if (label == 0):
+        if label == 0:
             category_dict["Ethics"] += 1
-        if (label == 1):
+        if label == 1:
             category_dict["Professional Skills"] += 1
-        if (label == 2):
+        if label == 2:
             category_dict["Technical Skills"] += 1
 
     return category_dict
