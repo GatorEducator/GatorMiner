@@ -24,7 +24,7 @@ textblob = "*"
 scipy = "*"
 pylint = "*"
 importlib-metadata = "*"
-"importlib.metadata" = "*"
+atomicwrites = "*"
 
 [pipenv]
 allow_prereleases = true
