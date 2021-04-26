@@ -84,6 +84,7 @@ def main():
                 interactive()
             success_msg.empty()
 
+
 def readme():
     """function to load and configurate readme source"""
 
@@ -97,6 +98,7 @@ def readme():
                 readme_src = readme_src.replace(img_path, f"data:image/png;base64,{img_bin}")
 
         st.markdown(readme_src, unsafe_allow_html=True)
+
 
 def landing_pg():
     """landing page"""

@@ -1,19 +1,15 @@
 """Text Proprocessing"""
 from collections import Counter
+import pickle
+from . import markdown as md
 import re
 import string
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-import numpy as np
 import nltk
 nltk.download('wordnet')
-from sklearn.datasets import load_files
 nltk.download('stopwords')
-import pickle
-from nltk.corpus import stopwords
-
-from . import markdown as md
 
 PARSER = spacy.load("en_core_web_sm")
 
@@ -88,7 +84,11 @@ def category_frequency(responses: List[str]) -> dict:
     with open('vectorizer', 'rb') as training_vectorizer:
         vectorizer = pickle.load(training_vectorizer)
 
-    category_dict = {"Ethics": 0, "Professional Skills": 0, "Technical Skills": 0}
+    category_dict = {
+        "Ethics": 0,
+        "Professional Skills": 0,
+        "Technical Skills": 0
+    }
 
     for element in responses:
         element = vectorizer.transform([element]).toarray()
