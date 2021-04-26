@@ -367,13 +367,17 @@ def category_freq():
     questions_end = len(main_df.columns) - 3
     question_df = main_df[main_df.columns[1:questions_end]]
     category_df = pd.DataFrame(columns=["Ethics", "Professional Skills", "Technical Skills", "Student"])
-    new_category_df = pd.DataFrame(columns=["Student", "Category", "Frequency"])
+    simple_df = pd.DataFrame(columns=["Student", "Category"])
     user_responses = []
     categories = {}
     ethics = {}
     professional_skills = {}
     technical_skills = {}
     row_number = 0
+    id = 0
+    ordered_student_ids = []
+    ordered_categories = []
+    ordered_frequencies = []
 
     for i, row in question_df.iterrows():
         # add each user's responses to a list to pass in to dataframe
@@ -385,27 +389,21 @@ def category_freq():
                 user_responses.append(response)
         row_number += 1
         categories = az.category_frequency(user_responses)
+        for element in categories:
+            ordered_student_ids.append(id)
+            ordered_categories.append(element)
+            ordered_frequencies.append(categories[element])
         categories["Student"] = id
         category_df = category_df.append(categories, ignore_index=True)
         user_responses.clear()
-
-    # format dataframe of total to chart
-    category_freq_df = pd.DataFrame(columns=["Category", "Frequency"])
-    ethics_total = category_df['Ethics'].sum()
-    ethics_row = {"Category": "Ethics", "Frequency": ethics_total}
-    category_freq_df = category_freq_df.append(ethics_row, ignore_index=True)
-
-    professional_skills_total = category_df['Professional Skills'].sum()
-    professional_skills_row = {"Category": "Professional Skills", "Frequency": professional_skills_total}
-    category_freq_df = category_freq_df.append(professional_skills_row, ignore_index=True)
-
-    technical_skills_total = category_df['Technical Skills'].sum()
-    technical_skills_row = {"Category": "Technical Skills", "Frequency": technical_skills_total}
-    category_freq_df = category_freq_df.append(technical_skills_row, ignore_index=True)
+    simple_df["Student"] = ordered_student_ids
+    simple_df["Category"] = ordered_categories
+    simple_df["Frequency"] = ordered_frequencies
+    st.write(simple_df)
 
     st.altair_chart(
         vis.facet_category_barplot(
-            category_freq_df,
+            simple_df,
             plots_per_row=plots_range,
         )
     )
