@@ -95,7 +95,6 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
             md_dict[cur_heading] += subnode.literal + " "
         else:
             continue
-            
     return md_dict
 
 
