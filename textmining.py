@@ -10,6 +10,7 @@ import src.arguments as arg
 
 if __name__ == "__main__":
 
+    # Making a new directory to store the files.
     directory = "records"
     path = os.path.join(directory)
     try:
@@ -24,7 +25,6 @@ if __name__ == "__main__":
     if function == "summary":
         # Determine if user wants to keep a record of the result.
         if record:
-            #print("saving")
             # Write the summary into a json file.
             data = sz.summarizer(directory)
             file = open(path + "/" + record + ".json", "w")
