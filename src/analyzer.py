@@ -15,6 +15,8 @@ import pickle
 from nltk.corpus import stopwords
 import pandas as pd
 
+from . import markdown as md
+
 PARSER = spacy.load("en_core_web_sm")
 
 
