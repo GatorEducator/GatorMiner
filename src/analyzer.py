@@ -30,7 +30,10 @@ def normalize(data: str) -> str:
 def lemmatized_text(text):
     """Return lemmatized text"""
     tokens = PARSER(text)
-    tokens = [word.lemma_.strip() for word in tokens if word.lemma_ != "-PRON-"]
+    tokens = [
+        word.lemma_.strip()
+        for word in tokens if word.lemma_ != "-PRON-"
+    ]
     lem_text = " ".join(tokens)
     return lem_text
 
@@ -38,7 +41,9 @@ def lemmatized_text(text):
 def tokenize(normalized_text: str) -> List[str]:
     """break down text into a list of lemmatized tokens"""
     # remove punctuation
-    normal_text = "".join(c for c in normalized_text if c not in string.punctuation)
+    normal_text = "".join(
+        c for c in normalized_text if c not in string.punctuation
+    )
     tokens = PARSER(normal_text)
     # lemmatize tokens, remove pronoun and stop words
     tokens = [
