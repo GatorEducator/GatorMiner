@@ -1,7 +1,6 @@
 """Web interface"""
 
 import re
-
 import base64
 import numpy as np
 import os
@@ -33,6 +32,7 @@ assign_text = None
 stu_id = None
 success_msg = None
 debug_mode = False
+main_md_dict = None
 
 
 def main():
@@ -42,8 +42,9 @@ def main():
     data_retreive_method = st.sidebar.selectbox(
             "Choose the data retrieving method",
             [
-                "Local file system",
+                "Path input",
                 "AWS",
+                "Upload local files",
             ],
         )
     if retreive_data(data_retreive_method):
@@ -112,11 +113,11 @@ def retreive_data(data_retreive):
     """pipeline to retrieve data from user input to output"""
     global preprocessed_df
     global main_df
-    if data_retreive == "Local file system":
+    if data_retreive == "Path input":
         input_assignments = st.sidebar.text_input(
                 "Enter path(s) to markdown documents (seperate by comma)"
         )
-    else:
+    elif data_retreive == "AWS":
         input_assignments = st.sidebar.text_input(
                 "Enter assignment names of the markdown \
 documents(seperate by comma)"
@@ -124,10 +125,15 @@ documents(seperate by comma)"
         st.sidebar.info(
             "You will need to store keys and endpoints in the \
 environment variables")
+    else:
+        input_assignments = st.sidebar.file_uploader("Choose a Markdown file",
+                                             type=['md'],
+                                             accept_multiple_files=True)
     if not input_assignments:
         landing_pg()
     else:
-        input_assignments = re.split(r"[;,\s]\s*", input_assignments)
+        if data_retreive == "AWS" or data_retreive == "Path input":
+            input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
             main_df, preprocessed_df = import_data(
                 data_retreive, input_assignments)
@@ -164,14 +170,16 @@ def load_model(name):
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
     json_lst = []
-    if data_retreive_method == "Local file system":
+    global main_md_dict
+    if data_retreive_method == "Path input":
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
         except FileNotFoundError as err:
             st.sidebar.text(err)
-            landing_src()
-    else:
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+    elif data_retreive_method == "AWS":
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
         try:
@@ -181,7 +189,18 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(ju.clean_report(response))
         except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
-            landing_src()
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+    else:
+        try:
+            if len(paths) < 2:
+                st.sidebar.warning("Please select more than one file!")
+            else:
+                json_lst.append(md.import_uploaded_files(paths))
+        except FileNotFoundError as err:
+            st.sidebar.text(err)
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
     # when data is retreived
     if json_lst:
         raw_df = pd.DataFrame()
@@ -247,6 +266,10 @@ def frequency():
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
+    freq_overall_des = md.read_file('docs/frequency-analysis/frequency-analysis-overall.md')
+    with st.beta_expander("Overall Frequency Analysis Description"):
+        st.write(freq_overall_des)
+
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
@@ -270,13 +293,13 @@ def overall_freq(freq_range):
         )
     )
 
-    freq_overall_des = md.read_file('docs/frequency-analysis/frequency-analysis-overall.md')
-    with st.beta_expander("Overall Frequency Analysis Description"):
-        st.write(freq_overall_des)
-
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
+    freq_student_des = md.read_file('docs/frequency-analysis/frequency-analysis-student.md')
+    with st.beta_expander("Frequency Analysis for Student Description"):
+        st.write(freq_student_des)
+
     students = st.multiselect(
         label="Select specific students below:",
         options=main_df[stu_id].unique(),
@@ -302,7 +325,8 @@ def student_freq(freq_range):
                     .to_string(),
                     freq_range,
                 )
-                ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
+                ind_df = pd.DataFrame(individual_freq,
+                                      columns=["word", "freq"])
                 ind_df["assignments"] = item
                 ind_df["student"] = student
                 freq_df = freq_df.append(ind_df)
@@ -316,12 +340,13 @@ def student_freq(freq_range):
             )
         )
 
-        freq_student_des = md.read_file('docs/frequency-analysis/frequency-analysis-student.md')
-        with st.beta_expander("Frequency Analysis for Student Description"):
-            st.write(freq_student_des)
 
 def question_freq(freq_range):
     """page for individual question's word frequency"""
+    freq_question_des = md.read_file('docs/frequency-analysis/frequency-analysis-question.md')
+    with st.beta_expander("Frequency Analysis for Question Description"):
+        st.write(freq_question_des)
+        
     # drop columns with all na
     select_preprocess = preprocessed_df[
         preprocessed_df[assign_id].isin(assignments)
@@ -366,9 +391,6 @@ def question_freq(freq_range):
             )
         )
 
-        freq_question_des = md.read_file('docs/frequency-analysis/frequency-analysis-question.md')
-        with st.beta_expander("Frequency Analysis for Question Description"):
-            st.write(freq_question_des)
 
 
 def sentiment():
@@ -398,7 +420,8 @@ def sentiment():
         st.header(f"Overall sentiment polarity in **{assign_text}**")
         overall_senti(senti_df)
     elif senti_type == "Student":
-        st.header(f"View sentiment by individual students in **{assign_text}**")
+        st.header(f"View sentiment by individual students in "
+                  f"**{assign_text}**")
         student_senti(senti_df)
     elif senti_type == "Question":
         st.header(
@@ -686,7 +709,8 @@ def interactive():
             # Newlines seem to mess with the rendering
             html = html.replace("\n", " ")
             HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
-        #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
+        #e6e9ef; border-radius: 0.25rem; padding: 1rem;
+        margin-bottom: 2.5rem">\
         {}</div>"""
             st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
         else:
