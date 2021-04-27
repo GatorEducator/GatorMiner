@@ -337,10 +337,12 @@ def student_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
+        st.write(stu_assignment)
 
-        questions_end = len(ind_df.columns) - 3
-        question_df = ind_df[ind_df.columns[1:questions_end]]
+        questions_end = len(stu_assignment.columns) - 3
+        question_df = stu_assignment[stu_assignment.columns[1:questions_end]]
         question_df.replace("", "NA")
+        st.write(question_df)
 
         words = az.concatenate(question_df)
         cloud_stopwords = set(STOPWORDS)
