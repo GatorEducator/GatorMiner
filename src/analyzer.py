@@ -5,7 +5,6 @@ import string
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-import streamlit as st
 
 from . import markdown as md
 
@@ -130,21 +129,6 @@ def get_nlp(input_text):
     """return the spacy nlp object"""
     doc = PARSER(input_text)
     return doc
-
-
-def displacy_renderer(doc):
-    """runs the spacy displacy function on the given string and
-    renders the output"""
-    if len(doc) > 0:
-        html = spacy.displacy.render(doc, style="ent")
-        # Newlines seem to mess with the rendering
-        html = html.replace("\n", " ")
-        HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
-    #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
-    {}</div>"""
-        st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
-    else:
-        st.info("No named entity recognized")
 
 
 def noun_phrase(input_text):

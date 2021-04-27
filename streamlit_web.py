@@ -189,7 +189,6 @@ def import_data(data_retreive_method, paths):
             readme()
     # when data is retreived
     if json_lst:
-        # pan.importpanda(json_lst)
         raw_df = pd.DataFrame()
         for item in json_lst:
             single_df = pd.DataFrame(item)
@@ -677,7 +676,22 @@ def entities():
 
     # run the spacy entity recogonizer on the selected user document and display it
     docff = az.get_nlp(student_string)
-    az.displacy_renderer(docff)
+    displacy_renderer(docff)
+
+
+def displacy_renderer(doc):
+    """runs the spacy displacy function on the given string and
+    renders the output"""
+    if len(doc) > 0:
+        html = spacy.displacy.render(doc, style="ent")
+        # Newlines seem to mess with the rendering
+        html = html.replace("\n", " ")
+        HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
+    #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
+    {}</div>"""
+        st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
+    else:
+        st.info("No named entity recognized")
 
 
 if __name__ == "__main__":
