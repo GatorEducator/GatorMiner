@@ -62,7 +62,7 @@ def facet_freq_barplot(
     return grid
 
 
-def facet_category_barplot(category_df, plots_per_row=3):
+def facet_category_barplot(category_df):
     """facet colored bar plot for category frequencies"""
 
     base = (

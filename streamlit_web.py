@@ -362,10 +362,6 @@ def question_freq(freq_range):
 def category_freq():
     """page for word category frequency"""
 
-    plots_range = st.sidebar.slider(
-        "Select the number of plots per row", 1, 5, value=3
-    )
-
     questions_end = len(main_df.columns) - 3
     question_df = main_df[main_df.columns[1:questions_end]]
     category_df = pd.DataFrame(columns=["Ethics", "Professional Skills", "Technical Skills", "Student"])
@@ -401,12 +397,10 @@ def category_freq():
     simple_df["Student"] = ordered_student_ids
     simple_df["Category"] = ordered_categories
     simple_df["Frequency"] = ordered_frequencies
-    st.write(simple_df)
 
     st.altair_chart(
         vis.facet_category_barplot(
             simple_df,
-            plots_per_row=plots_range,
         )
     )
 
