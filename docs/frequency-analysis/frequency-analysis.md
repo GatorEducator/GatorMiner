@@ -1,10 +1,8 @@
-Frequency analysis can be used to count letters, but in our case,
+Frequency analysis is used, in our case, within GatorMiner because
 we are counting the frequency of meaningful words and phrases and filtering out stopwords.
-It is a useful study within the field of computer science.
-This is due to its function because it is being capable of outputting
+It is a useful study within the field of computer science due to its capability in outputting
 the frequency of letters or groups of letters in a ciphertext.
 
-Frequency analysis is a study that can be found within our GatorMinor.
-A GatorMinor user can use frequency analysis by inputting the path_to_file
-for each markdown assignment he/she would like to run studies on.
-Then an user can run a a frequency analysis study on chose markdown assignments.
+GatorMiner uses frequency analysis by taking in the directory path
+of a collection of markdown files. The user can then run
+a frequency analysis study on the chosen markdown assignments.
