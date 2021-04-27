@@ -260,9 +260,6 @@ def overall_freq(freq_range):
         "Select the number of plots per row", 1, 5, value=3
     )
     freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
-    questions_end = len(main_df.columns) - 3
-    question_df = main_df[main_df.columns[1:questions_end]]
-    question_df.replace("", "NA")
 
     # calculate word frequency of each assignments
     for item in assignments:
@@ -282,6 +279,11 @@ def overall_freq(freq_range):
             freq_df, assignments, "assignments", plots_per_row=plots_range
         )
     )
+
+    questions_end = len(main_df.columns) - 3
+    question_df = main_df[main_df.columns[1:questions_end]]
+    question_df.replace("", "NA")
+
     # concatenate all words into normalized string and make into wordcloud
     words = az.concatenate(question_df)
     cloud_stopwords = set(STOPWORDS)
@@ -289,6 +291,7 @@ def overall_freq(freq_range):
                     background_color = 'white',
                     stopwords = cloud_stopwords,
                     min_font_size = 10).generate(words))
+
     # plot wordcloud by temporarily savings as a file and displaying
     wordcloud.to_file("resources/images/word_cloud.png")
     st.image("resources/images/word_cloud.png")
