@@ -368,9 +368,6 @@ def category_freq():
     simple_df = pd.DataFrame(columns=["Student", "Category"])
     user_responses = []
     categories = {}
-    ethics = {}
-    professional_skills = {}
-    technical_skills = {}
     row_number = 0
     id = 0
     ordered_student_ids = []
