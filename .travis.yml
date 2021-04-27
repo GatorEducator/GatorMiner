@@ -39,5 +39,6 @@ script:
   - pipenv run flake8 src
   - pipenv run flake8 tests
   - mdl README.md
+  - mdl docs
 after_success:
   - pipenv run codecov
