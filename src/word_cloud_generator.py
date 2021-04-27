@@ -9,7 +9,7 @@ import pandas as pd
 
 
 #Reads
-df = pd.read_csv("resources/lab1")
+df = pd.read_csv()
 
 comment_words = ''
 stopwords = set(STOPWORDS)

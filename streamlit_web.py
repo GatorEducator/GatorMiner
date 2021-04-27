@@ -338,6 +338,21 @@ def student_freq(freq_range):
             )
         )
 
+        questions_end = len(ind_df.columns) - 3
+        question_df = ind_df[ind_df.columns[1:questions_end]]
+        question_df.replace("", "NA")
+
+        words = az.concatenate(question_df)
+        cloud_stopwords = set(STOPWORDS)
+        wordcloud = (WordCloud(width = 800, height = 800,
+                        background_color = 'white',
+                        stopwords = cloud_stopwords,
+                        min_font_size = 10).generate(words))
+        # plot wordcloud by temporarily savings as a file and displaying
+        wordcloud.to_file("resources/images/word_cloud.png")
+        st.image("resources/images/word_cloud.png")
+        os.remove("resources/images/word_cloud.png")
+
 
 def question_freq(freq_range):
     """page for individual question's word frequency"""
@@ -384,6 +399,16 @@ def question_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
+        words = az.concatenate(question_df)
+        cloud_stopwords = set(STOPWORDS)
+        wordcloud = (WordCloud(width = 800, height = 800,
+                        background_color = 'white',
+                        stopwords = cloud_stopwords,
+                        min_font_size = 10).generate(words))
+        # plot wordcloud by temporarily savings as a file and displaying
+        wordcloud.to_file("resources/images/word_cloud.png")
+        st.image("resources/images/word_cloud.png")
+        os.remove("resources/images/word_cloud.png")
 
 def category_freq():
     # make input_assignments global and redo md_parser locally?
