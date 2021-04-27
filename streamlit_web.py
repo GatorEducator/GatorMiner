@@ -266,6 +266,10 @@ def frequency():
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
+    freq_overall_des = md.read_file('docs/frequency-analysis/frequency-analysis-overall.md')
+    with st.beta_expander("Overall Frequency Analysis Description"):
+        st.write(freq_overall_des)
+
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
@@ -289,13 +293,13 @@ def overall_freq(freq_range):
         )
     )
 
-    freq_overall_des = md.read_file('docs/frequency-analysis/frequency-analysis-overall.md')
-    with st.beta_expander("Overall Frequency Analysis Description"):
-        st.write(freq_overall_des)
-
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
+    freq_student_des = md.read_file('docs/frequency-analysis/frequency-analysis-student.md')
+    with st.beta_expander("Frequency Analysis for Student Description"):
+        st.write(freq_student_des)
+
     students = st.multiselect(
         label="Select specific students below:",
         options=main_df[stu_id].unique(),
@@ -336,12 +340,13 @@ def student_freq(freq_range):
             )
         )
 
-        freq_student_des = md.read_file('docs/frequency-analysis/frequency-analysis-student.md')
-        with st.beta_expander("Frequency Analysis for Student Description"):
-            st.write(freq_student_des)
 
 def question_freq(freq_range):
     """page for individual question's word frequency"""
+    freq_question_des = md.read_file('docs/frequency-analysis/frequency-analysis-question.md')
+    with st.beta_expander("Frequency Analysis for Question Description"):
+        st.write(freq_question_des)
+        
     # drop columns with all na
     select_preprocess = preprocessed_df[
         preprocessed_df[assign_id].isin(assignments)
@@ -386,9 +391,6 @@ def question_freq(freq_range):
             )
         )
 
-        freq_question_des = md.read_file('docs/frequency-analysis/frequency-analysis-question.md')
-        with st.beta_expander("Frequency Analysis for Question Description"):
-            st.write(freq_question_des)
 
 
 def sentiment():
