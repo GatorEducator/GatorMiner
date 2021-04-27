@@ -25,7 +25,6 @@ scipy = "*"
 pylint = "*"
 importlib-metadata = "*"
 atomicwrites = "*"
-wordcloud = "*"
 
 [pipenv]
 allow_prereleases = true
