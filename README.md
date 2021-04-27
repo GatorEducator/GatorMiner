@@ -25,7 +25,8 @@ git clone git@github.com:Allegheny-Ethical-CS/GatorMiner.git
 cd GatorMiner
 ```
 
-This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency management. You can install these dependencies through running the provided scripts or by manually entering the commands.
+This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency management. 
+You can install these dependencies through running the provided scripts or by manually entering the commands.
 
 ### Using Scripts
 
