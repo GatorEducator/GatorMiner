@@ -280,12 +280,12 @@ def overall_freq(freq_range):
         )
     )
 
-    questions_end = len(main_df.columns) - 3
-    question_df = main_df[main_df.columns[1:questions_end]]
-    question_df.replace("", "NA")
+    responses_end = len(main_df.columns) - 3
+    responses_df = main_df[main_df.columns[1:responses_end]]
+    responses_df.replace("", "NA")
 
     # concatenate all words into normalized string and make into wordcloud
-    words = az.concatenate(question_df)
+    words = az.concatenate(responses_df)
     cloud_stopwords = set(STOPWORDS)
     wordcloud = (WordCloud(width = 800, height = 800,
                     background_color = 'white',
@@ -342,12 +342,11 @@ def student_freq(freq_range):
         )
         st.write(stu_assignment)
 
-        questions_end = len(stu_assignment.columns) - 3
-        question_df = stu_assignment[stu_assignment.columns[1:questions_end]]
-        question_df.replace("", "NA")
-        st.write(question_df)
+        responses_end = len(stu_assignment.columns) - 3
+        responses_df = stu_assignment[stu_assignment.columns[1:responses_end]]
+        responses_df.replace("", "NA")
 
-        words = az.concatenate(question_df)
+        words = az.concatenate(responses_df)
         cloud_stopwords = set(STOPWORDS)
         wordcloud = (WordCloud(width = 800, height = 800,
                         background_color = 'white',
@@ -419,8 +418,8 @@ def category_freq():
     # make input_assignments global and redo md_parser locally?
     """page for word category frequency"""
     # st.write(main_df)
-    questions_end = len(main_df.columns) - 3
-    question_df = main_df[main_df.columns[2:questions_end]]
+    responses_end = len(main_df.columns) - 3
+    question_df = main_df[main_df.columns[2:responses_end]]
     # st.write(question_df)
     # for row in dataframe
     user_responses = []
