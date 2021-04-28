@@ -1,4 +1,5 @@
 """Test module for analyzer.py"""
+
 import pytest
 import src.analyzer as az
 import pandas as pd
@@ -162,7 +163,7 @@ def test_tfidf():
 
 
 def test_concatenate():
-    """test for contcatenated string of all words""" 
+    """test for contcatenated string of all words"""
     text = [" The communication skills bewteen the group was outstanding, they all  \
         talked well with each other  "]
     output = az.concatenate(text)
@@ -193,4 +194,3 @@ def test_top_polarized_word():
     assert df[cts.NEGATIVE] is not None
     assert df[cts.POSITIVE].size is df[cts.TOKEN].size
     assert df[cts.NEGATIVE].size is df[cts.TOKEN].size
-
