@@ -167,4 +167,10 @@ def test_concatenate():
     assert output == "communication skills between group outstanding  , all talked \
         well each other"
 
-    
+def test_named_entity_recognization():
+    """test for named enitity reconigtion"""
+    text = ["This code is writtn in pyton "]
+    output = az.named_entity_recognization(text)
+    expected = "python"
+    print (output)
+    assert output == expected
