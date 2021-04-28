@@ -164,17 +164,19 @@ def test_tfidf():
 
 def test_concatenate():
     """test for contcatenated string of all words"""
-    text = [" The communication skills bewteen the group was outstanding, they all  \
-        talked well with each other  "]
     input_dict = {
-        "What was the most important technical skill that you practiced?": ["Using pipenv and pytest", "Naming variables in Python"],
-        "What was the most important professional skill that you practiced?": ["Communicating with a team remotely", "Resolving issues by talking to teammates"]
+        "What was the most important technical skill that you practiced?":
+        ["Using pipenv and pytest", "Naming variables in Python"],
+        "What was the most important professional skill that you practiced?":
+        ["Communicating with a team remotely", "Resolving issues by talking \
+        to teammates"]
     }
     input_df = pd.DataFrame(input_dict)
     output = az.concatenate(input_df)
     expected = "using pipenv and pytest communicating with a team remotely \
 naming variables in python resolving issues by talking to teammates "
     assert output == expected
+
 
 def test_top_polarized_word():
     """Tests if the positive/negative words columns are created"""
