@@ -1,7 +1,6 @@
 """Web interface"""
 
 import re
-
 import base64
 import numpy as np
 import os
@@ -34,6 +33,7 @@ assign_text = None
 stu_id = None
 success_msg = None
 debug_mode = False
+main_md_dict = None
 
 
 def main():
@@ -43,8 +43,9 @@ def main():
     data_retreive_method = st.sidebar.selectbox(
             "Choose the data retrieving method",
             [
-                "Local file system",
+                "Path input",
                 "AWS",
+                "Upload local files",
             ],
         )
     if retreive_data(data_retreive_method):
@@ -117,11 +118,11 @@ def retreive_data(data_retreive):
     """pipeline to retrieve data from user input to output"""
     global preprocessed_df
     global main_df
-    if data_retreive == "Local file system":
+    if data_retreive == "Path input":
         input_assignments = st.sidebar.text_input(
                 "Enter path(s) to markdown documents (seperate by comma)"
         )
-    else:
+    elif data_retreive == "AWS":
         input_assignments = st.sidebar.text_input(
                 "Enter assignment names of the markdown \
 documents(seperate by comma)"
@@ -129,10 +130,15 @@ documents(seperate by comma)"
         st.sidebar.info(
             "You will need to store keys and endpoints in the \
 environment variables")
+    else:
+        input_assignments = st.sidebar.file_uploader("Choose a Markdown file",
+                                             type=['md'],
+                                             accept_multiple_files=True)
     if not input_assignments:
         landing_pg()
     else:
-        input_assignments = re.split(r"[;,\s]\s*", input_assignments)
+        if data_retreive == "AWS" or data_retreive == "Path input":
+            input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
             main_df, preprocessed_df = import_data(
                 data_retreive, input_assignments)
@@ -169,14 +175,16 @@ def load_model(name):
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
     json_lst = []
-    if data_retreive_method == "Local file system":
+    global main_md_dict
+    if data_retreive_method == "Path input":
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
         except FileNotFoundError as err:
             st.sidebar.text(err)
-            landing_src()
-    else:
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+    elif data_retreive_method == "AWS":
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
         try:
@@ -186,7 +194,18 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(ju.clean_report(response))
         except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
-            landing_src()
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+    else:
+        try:
+            if len(paths) < 2:
+                st.sidebar.warning("Please select more than one file!")
+            else:
+                json_lst.append(md.import_uploaded_files(paths))
+        except FileNotFoundError as err:
+            st.sidebar.text(err)
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
     # when data is retreived
     if json_lst:
         raw_df = pd.DataFrame()
@@ -297,7 +316,8 @@ def student_freq(freq_range):
                     .to_string(),
                     freq_range,
                 )
-                ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
+                ind_df = pd.DataFrame(individual_freq,
+                                      columns=["word", "freq"])
                 ind_df["assignments"] = item
                 ind_df["student"] = student
                 freq_df = freq_df.append(ind_df)
@@ -380,7 +400,8 @@ def sentiment():
         st.header(f"Overall sentiment polarity in **{assign_text}**")
         overall_senti(senti_df)
     elif senti_type == "Student":
-        st.header(f"View sentiment by individual students in **{assign_text}**")
+        st.header(f"View sentiment by individual students in "
+                  f"**{assign_text}**")
         student_senti(senti_df)
     elif senti_type == "Question":
         st.header(
@@ -641,7 +662,7 @@ def interactive():
     if ner_cb:
         doc = az.get_nlp(input_text)
         named_entities = az.named_entity_recognization(input_text)
-        az.displacy_renderer(named_entities)
+        displacy_renderer(named_entities)
     if sentiment_cb:
         sentiments = TextBlob(az.lemmatized_text(input_text))
         st.write(sentiments.sentiment)
