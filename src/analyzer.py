@@ -1,20 +1,12 @@
 """Text Proprocessing"""
 from collections import Counter
+from . import markdown as md
 import re
 import string
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-import numpy as np
-import nltk
-nltk.download('wordnet')
-from sklearn.datasets import load_files
-nltk.download('stopwords')
-import pickle
-from nltk.corpus import stopwords
-import pandas as pd
 
-from . import markdown as md
 
 PARSER = spacy.load("en_core_web_sm")
 
@@ -146,6 +138,7 @@ def noun_phrase(input_text):
     for chunk in doc.noun_chunks:
         n_phrase_lst.append(str(chunk))
     return n_phrase_lst
+
 
 def concatenate(responses_df):
     """Remove stop words from and return contcatenated string of all words"""
