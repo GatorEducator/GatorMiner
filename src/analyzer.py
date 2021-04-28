@@ -149,7 +149,7 @@ def noun_phrase(input_text):
 def concatenate(responses_df):
     """Remove stop words from and return contcatenated string of all words"""
     words_str = ''
-    for row in responses_df.iterrows():
+    for i, row in responses_df.iterrows():
         for col in range(len(responses_df.columns)):
             val = row[col]
             tokens = val.split()
