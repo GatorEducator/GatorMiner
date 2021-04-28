@@ -157,3 +157,14 @@ def test_tfidf():
     term_frequency, vector = az.compute_tfidf(input_tokens)
     assert term_frequency is not None
     assert vector is not None
+
+def test_concatenate():
+    """test for contcatenated string of all words""" 
+    text = [" The communication skills bewteen the group was outstanding, they all  \
+        talked well with each other  "]
+    output = az.concatenate(text)
+    print(output)
+    assert output == "communication skills between group outstanding  , all talked \
+        well each other"
+
+    
