@@ -1,7 +1,12 @@
 """Text Proprocessing"""
 from collections import Counter
+
 import pickle
 from . import markdown as md
+
+from textblob import TextBlob
+import pandas as pd
+
 import re
 import string
 from typing import List, Tuple
@@ -176,3 +181,29 @@ def noun_phrase(input_text):
     for chunk in doc.noun_chunks:
         n_phrase_lst.append(str(chunk))
     return n_phrase_lst
+
+
+def top_polarized_word(tokens_column):
+    """Create columns for positive and negative words"""
+    # Start off with empty lists
+    pos_series = []
+    neg_series = []
+    # For each item in the already existing tokens column in the data frame,
+    for token_element in tokens_column:
+        words = sorted_sentiment_word_list(token_element)
+        # Add the words at the end of the list to the display series since
+        # they have the most positive sentiment value
+        pos_series.append(", ".join(words[::-1][0:3]))
+        neg_series.append(", ".join(words[0:3]))
+    # Return an entire series based on the display_series list
+    return pd.Series(pos_series), pd.Series(neg_series)
+
+
+def sorted_sentiment_word_list(token_element):
+    """Creates and sorts a word list from a list of tokens"""
+    # Convert the token list into a set so that it only has the unique words
+    words = set(token_element)
+    # Convert back into list to iterate through
+    unique_words = list(words)
+    # Returning the sorted list
+    return sorted(unique_words, key=lambda x: TextBlob(x).sentiment.polarity)

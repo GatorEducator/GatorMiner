@@ -1,7 +1,6 @@
 """Web interface"""
 
 import re
-
 import base64
 import numpy as np
 import os
@@ -33,6 +32,7 @@ assign_text = None
 stu_id = None
 success_msg = None
 debug_mode = False
+main_md_dict = None
 
 
 def main():
@@ -42,8 +42,9 @@ def main():
     data_retreive_method = st.sidebar.selectbox(
             "Choose the data retrieving method",
             [
-                "Local file system",
+                "Path input",
                 "AWS",
+                "Upload local files",
             ],
         )
     if retreive_data(data_retreive_method):
@@ -62,7 +63,7 @@ def main():
         if debug_mode:
             st.write(main_df)
         if analysis_mode == "Home":
-            readme()
+            landing_src()
         else:
             if analysis_mode == "Frequency Analysis":
                 st.title(analysis_mode)
@@ -85,19 +86,23 @@ def main():
             success_msg.empty()
 
 
+
 def readme():
+
+def landing_src():
+
     """function to load and configurate readme source"""
 
-    with open("README.md") as readme_file:
-        readme_src = readme_file.read()
+    with open("docs/LANDING_PAGE.md") as landing_file:
+        landing_src = landing_file.read()
         for file in os.listdir("resources/images"):
             if file.endswith(".png"):
                 img_path = f"resources/images/{file}"
                 with open(img_path, "rb") as f:
                     img_bin = base64.b64encode(f.read()).decode()
-                readme_src = readme_src.replace(img_path, f"data:image/png;base64,{img_bin}")
+                landing_src = landing_src.replace(img_path, f"data:image/png;base64,{img_bin}")
 
-        st.markdown(readme_src, unsafe_allow_html=True)
+        st.markdown(landing_src, unsafe_allow_html=True)
 
 
 def landing_pg():
@@ -105,7 +110,7 @@ def landing_pg():
     landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
 
     if landing == "Home":
-        readme()
+        landing_src()
     else:
         interactive()
 
@@ -114,11 +119,11 @@ def retreive_data(data_retreive):
     """pipeline to retrieve data from user input to output"""
     global preprocessed_df
     global main_df
-    if data_retreive == "Local file system":
+    if data_retreive == "Path input":
         input_assignments = st.sidebar.text_input(
                 "Enter path(s) to markdown documents (seperate by comma)"
         )
-    else:
+    elif data_retreive == "AWS":
         input_assignments = st.sidebar.text_input(
                 "Enter assignment names of the markdown \
 documents(seperate by comma)"
@@ -126,17 +131,22 @@ documents(seperate by comma)"
         st.sidebar.info(
             "You will need to store keys and endpoints in the \
 environment variables")
+    else:
+        input_assignments = st.sidebar.file_uploader("Choose a Markdown file",
+                                             type=['md'],
+                                             accept_multiple_files=True)
     if not input_assignments:
         landing_pg()
     else:
-        input_assignments = re.split(r"[;,\s]\s*", input_assignments)
+        if data_retreive == "AWS" or data_retreive == "Path input":
+            input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
             main_df, preprocessed_df = import_data(
                 data_retreive, input_assignments)
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input")
-            readme()
+            landing_src()
         else:
             global success_msg
             success_msg = None
@@ -165,15 +175,22 @@ def load_model(name):
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
+
     if data_retreive_method == "Local file system":
         json_lst = []
+
+    json_lst = []
+    global main_md_dict
+    if data_retreive_method == "Path input":
+
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
         except FileNotFoundError as err:
             st.sidebar.text(err)
-            readme()
-    else:
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+    elif data_retreive_method == "AWS":
         passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True)
         try:
@@ -183,7 +200,18 @@ def import_data(data_retreive_method, paths):
                 json_lst.append(ju.clean_report(response))
         except (EnvironmentError, Exception) as err:
             st.sidebar.error(err)
-            readme()
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
+    else:
+        try:
+            if len(paths) < 2:
+                st.sidebar.warning("Please select more than one file!")
+            else:
+                json_lst.append(md.import_uploaded_files(paths))
+        except FileNotFoundError as err:
+            st.sidebar.text(err)
+            with open("README.md") as readme_file:
+                st.markdown(readme_file.read())
     # when data is retreived
     if json_lst:
         raw_df = pd.DataFrame()
@@ -299,7 +327,8 @@ def student_freq(freq_range):
                     .to_string(),
                     freq_range,
                 )
-                ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
+                ind_df = pd.DataFrame(individual_freq,
+                                      columns=["word", "freq"])
                 ind_df["assignments"] = item
                 ind_df["student"] = student
                 freq_df = freq_df.append(ind_df)
@@ -405,6 +434,9 @@ def category_freq():
 def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
+    # Initializing the new columns with a numpy array, so the entire series is returned
+    senti_df[cts.POSITIVE], senti_df[cts.NEGATIVE] = az.top_polarized_word(senti_df[cts.TOKEN].values)
+
     # calculate overall sentiment from the combined text
     senti_df[cts.SENTI] = senti_df["combined"].apply(
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
@@ -420,7 +452,8 @@ def sentiment():
         st.header(f"Overall sentiment polarity in **{assign_text}**")
         overall_senti(senti_df)
     elif senti_type == "Student":
-        st.header(f"View sentiment by individual students in **{assign_text}**")
+        st.header(f"View sentiment by individual students in "
+                  f"**{assign_text}**")
         student_senti(senti_df)
     elif senti_type == "Question":
         st.header(
@@ -435,7 +468,6 @@ def overall_senti(senti_df):
     if len(assignments) > 1:
         st.altair_chart(vis.stu_senti_lineplot(senti_df, stu_id))
     st.altair_chart((vis.senti_combinedplot(senti_df, stu_id)))
-
 
 def student_senti(input_df):
     """page for display individual student's sentiment"""
@@ -687,7 +719,8 @@ def interactive():
             # Newlines seem to mess with the rendering
             html = html.replace("\n", " ")
             HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
-        #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
+        #e6e9ef; border-radius: 0.25rem; padding: 1rem;
+        margin-bottom: 2.5rem">\
         {}</div>"""
             st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
         else:
@@ -698,7 +731,6 @@ def interactive():
     if summary_cb:
         summaries = sz.summarize_text(input_text)
         st.write(summaries)
-
 
 if __name__ == "__main__":
     main()
