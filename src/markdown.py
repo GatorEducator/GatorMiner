@@ -1,6 +1,7 @@
 """Markdown parser"""
 import os
 import logging
+from io import StringIO
 from typing import Dict, List
 import commonmark
 import pandas as pd
@@ -36,19 +37,25 @@ def get_file_names(directory_name: str) -> List[str]:
     return file_list
 
 
-def merge_dict(dict_1, dict_2: Dict[str, str]) -> Dict[str, List[str]]:
+def merge_dict(dict_1, dict_2: Dict[str, str], preserve: bool) -> \
+        Dict[str, List[str]]:
     """Merge two dictionaries and store values of common keys in list"""
     if dict_1 is None:
         dict_1 = {k: [] for k in dict_2.keys()}
     elif isinstance(list(dict_1.values())[0], list) is False:
         dict_1 = {k: [v] for k, v in dict_1.items()}
+    if(preserve):
+        for key in dict_2.keys():
+            if key not in dict_1:
+                dict_1[key] = []
+                for f in range(0, len(list(dict_1.values())[0])):
+                    dict_1[key].append("")
     for key in dict_1.keys():
         try:
             dict_1[key].append(dict_2[key])
         except KeyError as err:
             dict_1[key].append("")
             logging.warning(f"Key does not exist: {err}")
-
     return dict_1
 
 
@@ -58,7 +65,7 @@ def collect_md(directory: str, is_clean=True) -> Dict[str, List[str]]:
     main_md_dict = None
     for file in file_names:
         individual_dict = md_parser(read_file(file), is_clean)
-        main_md_dict = merge_dict(main_md_dict, individual_dict)
+        main_md_dict = merge_dict(main_md_dict, individual_dict, False)
     return main_md_dict
 
 
@@ -96,6 +103,16 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
         else:
             continue
     return md_dict
+
+
+def import_uploaded_files(paths: List) -> Dict[str, List[str]]:
+    """Importing the individual files"""
+    main_md_dict = None
+    for path in paths:
+        stringio = StringIO(path.getvalue().decode("utf-8"))
+        individual_dict = md_parser(stringio.read(), True)
+        main_md_dict = merge_dict(main_md_dict, individual_dict, True)
+    return main_md_dict
 
 
 def build_pd(md_dict):
