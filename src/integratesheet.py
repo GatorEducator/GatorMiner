@@ -26,6 +26,7 @@ column_names = {'Timestamp': 'timestamp',
                 'What are the potential social implications and/or ethical issues and/or regulatory challenges with this technology?': 'ethical-issues',
                 'What do you think might be a cautionary tale related to this technology?': 'cautionary'
                 }
+
 data.rename(columns=column_names, inplace=True)
 data.timestamp = pd.to_datetime(data.timestamp)
 print(data.head())
