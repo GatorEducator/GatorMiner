@@ -672,6 +672,7 @@ def entities():
 
 
 def entity_analysis(assignment, student):
+    """function that selects, modifies and runs the entity analysis on a document"""
     # make a copy of the main dataframe
     input_df = preprocessed_df.copy(deep=True)
 
