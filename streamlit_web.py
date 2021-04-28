@@ -333,7 +333,6 @@ def student_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
-        st.write(stu_assignment)
 
         responses_end = len(stu_assignment.columns) - 3
         responses_df = stu_assignment[stu_assignment.columns[1:responses_end]]
