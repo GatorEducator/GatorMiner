@@ -145,7 +145,6 @@ def noun_phrase(input_text):
     return n_phrase_lst
 
 
-
 def concatenate(responses_df):
     """Remove stop words from and return contcatenated string of all words"""
     words_str = ''
@@ -157,6 +156,7 @@ def concatenate(responses_df):
                 tokens[i] = tokens[i].lower()
             words_str += " ".join(tokens)+" "
     return words_str
+
 
 def top_polarized_word(tokens_column):
     """Create columns for positive and negative words"""
