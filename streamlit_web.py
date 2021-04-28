@@ -673,7 +673,8 @@ def entities():
         & input_df[assign_id].isin(assignments)
     ]
 
-    student_string = df_selected_stu.to_string(header=False, index=False, na_rep="")
+    df_selected_stu_combined = df_selected_stu.iloc[:, 15:16]
+    student_string = df_selected_stu_combined.to_string(header=False, index=False, na_rep="")
     student_string = student_string.replace("\\n","")
 
     # run the spacy entity recogonizer on the selected user document and display it
