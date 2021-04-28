@@ -4,7 +4,6 @@ import re
 import string
 from typing import List, Tuple
 import spacy
-from . import categorization as ct
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import numpy as np
 import nltk
@@ -74,18 +73,6 @@ def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
     find word frequency of raw text"""
     return compute_frequency(tokenize(normalize(text)), amount)
 
-
-def category_frequency(response: List[str]):
-    """A pipeline to normalize, tokenize, and
-    find category frequency of raw text"""
-    # label = ""
-    # normalized_str = normalize(response)
-    # print("OG normalized string" + normalized_str)
-
-    # if(normalized_str):
-        # ct.predict([normalized_str])
-    print("Analyzer user responses: " + str(response))
-    ct.predict_user_responses(response)
 
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:
     """A pipeline to normalize, tokenize, and

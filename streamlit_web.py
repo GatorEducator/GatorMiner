@@ -218,7 +218,7 @@ def df_preprocess(df):
 def frequency():
     """main function for frequency analysis"""
     freq_type = st.sidebar.selectbox(
-        "Type of frequency analysis", ["Overall", "Student", "Question", "Category"]
+        "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
     if freq_type == "Overall":
         freq_range = st.sidebar.slider(
@@ -245,13 +245,6 @@ def frequency():
             f"Most frequent words in individual questions in **{assign_text}**"
         )
         question_freq(freq_range)
-    elif freq_type == "Category":
-        st.header(
-            f"Most frequent categories in **{assign_text}**"
-        )
-        global json_lst
-        json_lst.append("Test")
-        category_freq()
 
 
 def overall_freq(freq_range):
@@ -413,26 +406,6 @@ def question_freq(freq_range):
         wordcloud.to_file("resources/images/word_cloud.png")
         st.image("resources/images/word_cloud.png")
         os.remove("resources/images/word_cloud.png")
-
-def category_freq():
-    # make input_assignments global and redo md_parser locally?
-    """page for word category frequency"""
-    # st.write(main_df)
-    responses_end = len(main_df.columns) - 3
-    question_df = main_df[main_df.columns[2:responses_end]]
-    # st.write(question_df)
-    # for row in dataframe
-    user_responses = []
-    for i, row in question_df.iterrows():
-        # add each user's responses to a list to pass in
-        for col in range(len(question_df.columns)):
-            response = row[col]
-            user_responses.append(response)
-        print("streamlit web user responses: " + str(user_responses))
-        az.category_frequency(user_responses)
-        user_responses.clear()
-        # az.category_frequency(response)
-        # store overall responses
 
 
 def sentiment():
