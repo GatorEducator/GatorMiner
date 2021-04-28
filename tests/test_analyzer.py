@@ -176,14 +176,6 @@ def test_concatenate():
 naming variables in python resolving issues by talking to teammates "
     assert output == expected
 
-def test_named_entity_recognization():
-    """test for named enitity recognization"""
-    text = "This code is contained on Github"
-    output = az.named_entity_recognization(text)
-    expected = "Github"
-    print (output)
-    assert output == expected
-
 def test_top_polarized_word():
     """Tests if the positive/negative words columns are created"""
     df = pd.DataFrame(columns=[cts.TOKEN, cts.POSITIVE, cts.NEGATIVE])
