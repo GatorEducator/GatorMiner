@@ -686,16 +686,14 @@ def entities():
     # makes a drop down list to select users classified by assignments
     for assignment in input_df[assign_id].unique():
         st.write("")
-        st.write(assignment)
+        st.subheader(assignment)
         for student in input_df[stu_id].unique():
             with st.beta_expander(student):
-                st.write(entity_analysis(assignment, student))
+                entity_analysis(assignment, student, input_df)
 
 
-def entity_analysis(assignment, student):
+def entity_analysis(assignment, student, input_df):
     """function that selects, modifies and runs the entity analysis on a document"""
-    # make a copy of the main dataframe
-    input_df = preprocessed_df.copy(deep=True)
 
     # makes a dataframe with the selected user's information
     df_selected_stu = input_df.loc[
@@ -703,8 +701,11 @@ def entity_analysis(assignment, student):
         & input_df[assign_id].isin([assignment])
     ]
 
-    # selects the combined column from the dataframe and converts to string
-    df_selected_stu_combined = df_selected_stu.iloc[:, 15:16]
+    # selects the combined column from the dataframe and extracts it
+    combine_start = df_selected_stu.columns.get_loc("combined")
+    combine_end = df_selected_stu.columns.get_loc("combined") + 2
+    df_selected_stu_combined = df_selected_stu.iloc[:,combine_start:combine_end]
+    # convert the combined dataframe into a string
     student_string = df_selected_stu_combined.to_string(header=False, index=False)
     student_string = student_string.replace("\\n","")
 
