@@ -4,9 +4,6 @@ from altair.expr import datum
 
 import src.constants as cts
 
-import streamlit as st
-
-from wordcloud import WordCloud, STOPWORDS
 
 def freq_barplot(freq_df):
     """barplot for word frequency"""
