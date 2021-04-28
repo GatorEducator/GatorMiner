@@ -1,6 +1,7 @@
 """Test module for markdown.py"""
 import pytest
 import src.markdown as md
+import io
 import os
 
 
@@ -8,9 +9,23 @@ def test_merge_dict():
     """Test that merge_dict returns a dict of key and value lists"""
     test_dict_1 = {"key1": "value1"}
     test_dict_2 = {"key1": "value2"}
-    output = md.merge_dict(test_dict_1, test_dict_2)
+    output_preserved = md.merge_dict(test_dict_1, test_dict_2, True)
+    output_not_preserved = md.merge_dict(test_dict_1, test_dict_2, False)
     expected = {"key1": ["value1", "value2"]}
-    assert expected == output
+    assert expected == output_preserved
+    assert expected == output_not_preserved
+
+
+def test_merge_dict_keys():
+    """Test that merge_dict adds empty string for unique keys."""
+    test_dict_1 = {"key1": "value1"}
+    test_dict_2 = {"key1": "value2", "key2": "value3"}
+    output_preserved = md.merge_dict(test_dict_1, test_dict_2, True)
+    output_not_preserved = md.merge_dict(test_dict_1, test_dict_2, False)
+    expected_preserved = {"key1": ["value1", "value2"], "key2": ["", "value3"]}
+    expected_not_preserved = {"key1": ["value1", "value2"]}
+    assert expected_preserved == output_preserved
+    assert expected_not_preserved == output_not_preserved
 
 
 def test_get_file_names(tmp_path):
@@ -119,3 +134,17 @@ def test_md_parser_clean(input_text, expected):
     """Test if md parser cleans the markdown documents"""
     output = md.md_parser(input_text)
     assert output == expected
+
+
+def test_import_uploaded_files():
+    """Test if the uploaded files are actually imported"""
+    uploaded_files = []
+    uploaded_files.append(io.BytesIO(
+        open("resources/sample_md_reflections/lab1/reflection1.md", "rb")
+        .read()))
+    uploaded_files.append(io.BytesIO(
+        open("resources/sample_md_reflections/lab1/reflection2.md", "rb")
+        .read()))
+    json_lst = []
+    json_lst.append(md.import_uploaded_files(uploaded_files))
+    assert json_lst is not []
