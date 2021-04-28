@@ -166,16 +166,21 @@ def test_concatenate():
     """test for contcatenated string of all words"""
     text = [" The communication skills bewteen the group was outstanding, they all  \
         talked well with each other  "]
-    output = az.concatenate(text)
-    print(output)
-    assert output == "communication skills between group outstanding  , all talked \
-        well each other"
+    input_dict = {
+        "What was the most important technical skill that you practiced?": ["Using pipenv and pytest", "Naming variables in Python"],
+        "What was the most important professional skill that you practiced?": ["Communicating with a team remotely", "Resolving issues by talking to teammates"]
+    }
+    input_df = pd.DataFrame(input_dict)
+    output = az.concatenate(input_df)
+    expected = "using pipenv and pytest communicating with a team remotely \
+naming variables in python resolving issues by talking to teammates "
+    assert output == expected
 
 def test_named_entity_recognization():
-    """test for named enitity reconigtion"""
-    text = ["This code is writtn in pyton "]
+    """test for named enitity recognization"""
+    text = "This code is contained on Github"
     output = az.named_entity_recognization(text)
-    expected = "python"
+    expected = "Github"
     print (output)
     assert output == expected
 
