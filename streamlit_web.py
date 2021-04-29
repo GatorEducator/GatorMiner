@@ -7,6 +7,7 @@ import os
 import pandas as pd
 from sklearn.manifold import TSNE
 import spacy
+from spacy import displacy
 import streamlit as st
 from textblob import TextBlob
 
@@ -54,6 +55,7 @@ def main():
                 "Home",
                 "Frequency Analysis",
                 "Sentiment Analysis",
+                "Entity Analysis",
                 "Document Similarity",
                 "Summary",
                 "Topic Modeling",
@@ -83,6 +85,9 @@ def main():
             elif analysis_mode == "Interactive":
                 st.title(analysis_mode)
                 interactive()
+            elif analysis_mode == "Entity Analysis":
+                st.title(analysis_mode)
+                entities()
             success_msg.empty()
 
 
@@ -714,23 +719,73 @@ def interactive():
     if ner_cb:
         doc = az.get_nlp(input_text)
         named_entities = az.named_entity_recognization(input_text)
-        if len(named_entities) > 0:
-            html = spacy.displacy.render(doc, style="ent")
-            # Newlines seem to mess with the rendering
-            html = html.replace("\n", " ")
-            HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
-        #e6e9ef; border-radius: 0.25rem; padding: 1rem;
-        margin-bottom: 2.5rem">\
-        {}</div>"""
-            st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
-        else:
-            st.info("No named entity recognized")
+        displacy_renderer(named_entities)
     if sentiment_cb:
         sentiments = TextBlob(az.lemmatized_text(input_text))
         st.write(sentiments.sentiment)
     if summary_cb:
         summaries = sz.summarize_text(input_text)
         st.write(summaries)
+
+
+def entities():
+    """Page to display entity analysis"""
+    st.write("Entity analysis inspects the given text for known entities \
+    and returns information about those entities. It is a way to extract \
+    information that seeks to locate and classify named entities in text \
+    into pre-defined categories such as the names of persons, organizations, \
+    locations, expressions of times, quantities, monetary values, and percentages.")
+
+    # make a copy of the main dataframe
+    input_df = main_df.copy(deep=True)
+    input_df = input_df[input_df[assign_id].isin(assignments)]
+
+    # makes a drop down list to select users classified by assignments
+    for assignment in input_df[assign_id].unique():
+        st.write("")
+        st.subheader(assignment)
+        df_selected_assign = input_df.loc[input_df[assign_id].isin([assignment])]
+        for student in df_selected_assign[stu_id].unique():
+            with st.beta_expander(student):
+                entity_analysis(assignment, student, input_df)
+
+
+def entity_analysis(assignment, student, input_df):
+    """function that selects, modifies and runs the entity analysis on a document"""
+
+    # makes a dataframe with the selected user's information
+    df_selected_stu = input_df.loc[
+        input_df[stu_id].isin([student])
+        & input_df[assign_id].isin([assignment])
+    ]
+
+    # selects the combined column from the dataframe and extracts it
+    combine_start = df_selected_stu.columns.get_loc("combined")
+    combine_end = df_selected_stu.columns.get_loc("combined") + 1
+    df_selected_stu_combined = df_selected_stu.iloc[:,combine_start:combine_end]
+    # convert the combined dataframe into a string
+    student_string = df_selected_stu_combined.to_string(header=False, index=False)
+    student_string = student_string.replace("\\n","")
+
+    # run the spacy entity recogonizer on the selected user document and display it
+    doc = az.get_nlp(student_string)
+    displacy_renderer(doc)
+
+
+def displacy_renderer(doc):
+    """runs the spacy displacy function on the given string and
+    renders the output"""
+    if len(doc) > 0:
+        html = spacy.displacy.render(doc, style="ent")
+        # Newlines seem to mess with the rendering
+        html = html.replace("\n", " ")
+        HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
+    #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
+    {}</div>"""
+        st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
+    else:
+        st.info("No named entity recognized")
+
 
 if __name__ == "__main__":
     main()
