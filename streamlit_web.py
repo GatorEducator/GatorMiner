@@ -233,6 +233,12 @@ def df_preprocess(df):
 
 def frequency():
     """main function for frequency analysis"""
+
+    # Create expandable container to show the description for frequency analyzer
+    freq_des = md.read_file('docs/frequency-analysis/frequency-analysis.md')
+    with st.beta_expander("Frequency Analysis Description"):
+        st.write(freq_des)
+
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
@@ -265,6 +271,10 @@ def frequency():
 
 def overall_freq(freq_range):
     """page fore overall word frequency"""
+    freq_overall_des = md.read_file('docs/frequency-analysis/frequency-analysis-overall.md')
+    with st.beta_expander("Overall Frequency Analysis Description"):
+        st.write(freq_overall_des)
+
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
@@ -291,6 +301,10 @@ def overall_freq(freq_range):
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
+    freq_student_des = md.read_file('docs/frequency-analysis/frequency-analysis-student.md')
+    with st.beta_expander("Frequency Analysis for Student Description"):
+        st.write(freq_student_des)
+
     students = st.multiselect(
         label="Select specific students below:",
         options=main_df[stu_id].unique(),
@@ -334,6 +348,10 @@ def student_freq(freq_range):
 
 def question_freq(freq_range):
     """page for individual question's word frequency"""
+    freq_question_des = md.read_file('docs/frequency-analysis/frequency-analysis-question.md')
+    with st.beta_expander("Frequency Analysis for Question Description"):
+        st.write(freq_question_des)
+        
     # drop columns with all na
     select_preprocess = preprocessed_df[
         preprocessed_df[assign_id].isin(assignments)
@@ -379,8 +397,15 @@ def question_freq(freq_range):
         )
 
 
+
 def sentiment():
     """main function for sentiment analysis"""
+
+    # Create expandable container to show description for sentiment analysis
+    sent_des = md.read_file('docs/sentiment-analysis.md')
+    with st.beta_expander("Sentiment Analysis Description"):
+        st.write(sent_des)
+
     senti_df = main_df.copy(deep=True)
     # Initializing the new columns with a numpy array, so the entire series is returned
     senti_df[cts.POSITIVE], senti_df[cts.NEGATIVE] = az.top_polarized_word(senti_df[cts.TOKEN].values)
@@ -464,6 +489,12 @@ def question_senti(input_df):
 
 def summary():
     """Display summarization"""
+
+    # Create expandable container to show description for summary feature
+    summ_des = md.read_file('docs/summary.md')
+    with st.beta_expander("Summary Description"):
+        st.write(summ_des)
+
     sum_df = preprocessed_df[
         preprocessed_df[assign_id].isin(assignments)
     ].dropna(axis=1, how="all")
@@ -476,6 +507,11 @@ def summary():
 
 def tpmodel():
     """Display topic modeling"""
+    # Create expandable container to show description for summary feature
+    topic_des = md.read_file('docs/topic-modelling.md')
+    with st.beta_expander("Topic Modelling Description"):
+        st.write(topic_des)
+
     topic_df = main_df.copy(deep=True)
     topic_df = topic_df[topic_df[assign_id].isin(assignments)]
     # st.write(topic_df)
@@ -576,6 +612,11 @@ def scatter_tm(lda_model, corpus, overall_topic_df):
 
 def doc_sim():
     """Display document similarity"""
+    # Create expandable container to show description for document similarity analyzer
+    docs_des = md.read_file('docs/document-similarity.md')
+    with st.beta_expander("Document Similarity Description"):
+        st.write(docs_des)
+
     doc_df = main_df.copy(deep=True)
     doc_sim_type = st.sidebar.selectbox(
         "Type of similarity analysis", ["TF-IDF", "Spacy"]
@@ -648,6 +689,12 @@ def spacy_sim(doc_df):
 
 def interactive():
     """Page to allow nlp analysis from user input"""
+
+    # Create expandable container to show description for interactive feature
+    inter_des = md.read_file('docs/interactive.md')
+    with st.beta_expander("Interactive Description"):
+        st.write(inter_des)
+
     input_text = st.text_area("Enter text", "Type here")
     token_cb = st.checkbox("Show tokens")
     ner_cb = st.checkbox("Show named entities")
