@@ -687,7 +687,8 @@ def entities():
     for assignment in input_df[assign_id].unique():
         st.write("")
         st.subheader(assignment)
-        for student in input_df[stu_id].unique():
+        df_selected_assign = input_df.loc[input_df[assign_id].isin([assignment])]
+        for student in df_selected_assign[stu_id].unique():
             with st.beta_expander(student):
                 entity_analysis(assignment, student, input_df)
 
@@ -703,15 +704,15 @@ def entity_analysis(assignment, student, input_df):
 
     # selects the combined column from the dataframe and extracts it
     combine_start = df_selected_stu.columns.get_loc("combined")
-    combine_end = df_selected_stu.columns.get_loc("combined") + 2
+    combine_end = df_selected_stu.columns.get_loc("combined") + 1
     df_selected_stu_combined = df_selected_stu.iloc[:,combine_start:combine_end]
     # convert the combined dataframe into a string
     student_string = df_selected_stu_combined.to_string(header=False, index=False)
     student_string = student_string.replace("\\n","")
 
     # run the spacy entity recogonizer on the selected user document and display it
-    docff = az.get_nlp(student_string)
-    displacy_renderer(docff)
+    doc = az.get_nlp(student_string)
+    displacy_renderer(doc)
 
 
 def displacy_renderer(doc):
