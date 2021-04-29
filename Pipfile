@@ -25,6 +25,9 @@ scipy = "*"
 pylint = "*"
 importlib-metadata = "*"
 atomicwrites = "*"
+poetry = "*"
+mkdocs = "*"
+mkdocs-material = "*"
 
 [pipenv]
 allow_prereleases = true

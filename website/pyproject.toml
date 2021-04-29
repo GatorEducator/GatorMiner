@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "GatorMiner"
+version = "0.1.0"
+description = "A documentation website for the interactive text analysis tool, GatorMiner."
+authors = ["kailaniwoodard <woodardk@allegheny.edu>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+mkdocs = "^1.1.2"
+
+[tool.poetry.dev-dependencies]
+mkdocs-material = "^7.1.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
