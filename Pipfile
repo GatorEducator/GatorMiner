@@ -1,4 +1,4 @@
-[[source]]
+ [[source]]
 name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
@@ -25,7 +25,7 @@ scipy = "*"
 pylint = "*"
 importlib-metadata = "*"
 atomicwrites = "*"
-wordcloud = "*"
 
 [pipenv]
 allow_prereleases = true
+
