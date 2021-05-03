@@ -302,7 +302,7 @@ def overall_freq(freq_range):
 
     frequency_word_cloud(responses_df)
 
-    freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
+    freq_df.to_csv('frequency_archives' + os.path.sep + str(item) + '.csv')
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
