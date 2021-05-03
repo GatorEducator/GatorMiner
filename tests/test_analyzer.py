@@ -161,7 +161,6 @@ def test_tfidf():
     assert vector is not None
 
 
-
 def test_category_frequency():
     "test that professional skills, technical skills, and ethics are properly \
     classified "
@@ -180,6 +179,7 @@ def test_category_frequency():
     output = az.category_frequency(text)
     print(output)
     assert output["Technical Skills"] == 1
+
 
 def test_top_polarized_word():
     """Tests if the positive/negative words columns are created"""
