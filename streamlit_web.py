@@ -300,18 +300,7 @@ def overall_freq(freq_range):
     responses_df = main_df[main_df.columns[1:responses_end]]
     responses_df.replace("", "NA")
 
-    # concatenate all words into normalized string and make into wordcloud
-    words = az.concatenate(responses_df)
-    cloud_stopwords = set(STOPWORDS)
-    wordcloud = (WordCloud(width = 800, height = 800,
-                    background_color = 'white',
-                    stopwords = cloud_stopwords,
-                    min_font_size = 10).generate(words))
-
-    # plot wordcloud by temporarily savings as a file and displaying
-    wordcloud.to_file("resources/images/word_cloud.png")
-    st.image("resources/images/word_cloud.png")
-    os.remove("resources/images/word_cloud.png")
+    frequency_word_cloud(responses_df)
 
     freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
@@ -362,16 +351,7 @@ def student_freq(freq_range):
         responses_df = stu_assignment[stu_assignment.columns[1:responses_end]]
         responses_df.replace("", "NA")
 
-        words = az.concatenate(responses_df)
-        cloud_stopwords = set(STOPWORDS)
-        wordcloud = (WordCloud(width = 800, height = 800,
-                        background_color = 'white',
-                        stopwords = cloud_stopwords,
-                        min_font_size = 10).generate(words))
-        # plot wordcloud by temporarily savings as a file and displaying
-        wordcloud.to_file("resources/images/word_cloud.png")
-        st.image("resources/images/word_cloud.png")
-        os.remove("resources/images/word_cloud.png")
+        frequency_word_cloud(responses_df)
 
 
 def question_freq(freq_range):
@@ -419,16 +399,22 @@ def question_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
-        words = az.concatenate(question_df)
-        cloud_stopwords = set(STOPWORDS)
-        wordcloud = (WordCloud(width = 800, height = 800,
-                        background_color = 'white',
-                        stopwords = cloud_stopwords,
-                        min_font_size = 10).generate(words))
-        # plot wordcloud by temporarily savings as a file and displaying
-        wordcloud.to_file("resources/images/word_cloud.png")
-        st.image("resources/images/word_cloud.png")
-        os.remove("resources/images/word_cloud.png")
+        frequency_word_cloud(question_df)
+
+
+def frequency_word_cloud(responses_df):
+    # concatenate all words into normalized string and make into wordcloud
+    words = az.concatenate(responses_df)
+    cloud_stopwords = set(STOPWORDS)
+    wordcloud = (WordCloud(width = 800, height = 800,
+                    background_color = 'white',
+                    stopwords = cloud_stopwords,
+                    min_font_size = 10).generate(words))
+
+    # plot wordcloud by temporarily savings as a file and displaying
+    wordcloud.to_file("resources/images/word_cloud.png")
+    st.image("resources/images/word_cloud.png")
+    os.remove("resources/images/word_cloud.png")
 
 
 def sentiment():
