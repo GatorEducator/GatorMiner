@@ -23,7 +23,7 @@ altair = "*"
 textblob = "*"
 scipy = "*"
 pylint = "*"
-importlib-metadata = "*"
+importlib_metadata = "*"
 atomicwrites = "*"
 wordcloud = "*"
 
