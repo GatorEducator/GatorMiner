@@ -319,7 +319,6 @@ def student_freq(freq_range):
         (main_df[stu_id].isin(students))
         & main_df[assign_id].isin(assignments)
     ]
-    print(stu_assignment)
     if len(students) != 0:
         for student in students:
             for item in assignments:
