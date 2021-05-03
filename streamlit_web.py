@@ -181,21 +181,12 @@ def load_model(name):
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
-
-    global sample
-    global json_lst
-    if data_retreive_method == "Local file system":
-
     json_lst = []
     global main_md_dict
     if data_retreive_method == "Path input":
-
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
-                # sample.append(md.collect_md(path))
-                # for element in sample:
-                    # print("element: " + element)
         except FileNotFoundError as err:
             st.sidebar.text(err)
             with open("README.md") as readme_file:
