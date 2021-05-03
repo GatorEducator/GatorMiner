@@ -161,6 +161,26 @@ def test_tfidf():
     assert vector is not None
 
 
+def test_category_frequency():
+    "test that professional skills, technical skills, and ethics are properly \
+    classified "
+    text = ["One professional skill that I practiced was communicating \
+     independently with a team. I did this by atttending all meetings, using \
+     Zenhub, and including everyone in the major decision making process. I \
+     also practiced the professional skill of resolving conflicts by talking \
+     through the conflict with my group members, coming to a resolution, and \
+     apologizing for the mishap that I caused."]
+    output = az.category_frequency(text)
+    print(output)
+    assert output["Professional Skills"] == 1
+
+    text = ["One technical skill that I practiced was installing Python \
+    packages and integrating these packages with my code."]
+    output = az.category_frequency(text)
+    print(output)
+    assert output["Technical Skills"] == 1
+
+
 def test_top_polarized_word():
     """Tests if the positive/negative words columns are created"""
     df = pd.DataFrame(columns=[cts.TOKEN, cts.POSITIVE, cts.NEGATIVE])

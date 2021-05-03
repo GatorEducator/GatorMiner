@@ -62,6 +62,24 @@ def facet_freq_barplot(
     return grid
 
 
+def facet_category_barplot(category_df):
+    """facet colored bar plot for category frequencies"""
+
+    base = (
+        alt.Chart(category_df)
+        .mark_bar()
+        .encode(
+            x="Student:N",
+            y="Frequency:Q",
+            color="Category:N",
+            order=alt.Order("Category", sort="descending")
+        )
+        .properties(width=570,)
+    ).interactive()
+
+    return base
+
+
 def facet_senti_barplot(senti_df, options, column_name, plots_per_row=3):
     """facet bar plot for word frequencies"""
     base = (

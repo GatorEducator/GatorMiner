@@ -90,7 +90,12 @@ def main():
                 entities()
             success_msg.empty()
 
+
+
+def readme():
+
 def landing_src():
+
     """function to load and configurate readme source"""
 
     with open("docs/LANDING_PAGE.md") as landing_file:
@@ -103,6 +108,7 @@ def landing_src():
                 landing_src = landing_src.replace(img_path, f"data:image/png;base64,{img_bin}")
 
         st.markdown(landing_src, unsafe_allow_html=True)
+
 
 def landing_pg():
     """landing page"""
@@ -174,9 +180,14 @@ def load_model(name):
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
+
+    if data_retreive_method == "Local file system":
+        json_lst = []
+
     json_lst = []
     global main_md_dict
     if data_retreive_method == "Path input":
+
         try:
             for path in paths:
                 json_lst.append(md.collect_md(path))
@@ -234,7 +245,7 @@ def df_preprocess(df):
 def frequency():
     """main function for frequency analysis"""
     freq_type = st.sidebar.selectbox(
-        "Type of frequency analysis", ["Overall", "Student", "Question"]
+        "Type of frequency analysis", ["Overall", "Student", "Question", "Category"]
     )
     if freq_type == "Overall":
         freq_range = st.sidebar.slider(
@@ -261,10 +272,15 @@ def frequency():
             f"Most frequent words in individual questions in **{assign_text}**"
         )
         question_freq(freq_range)
+    elif freq_type == "Category":
+        st.header(
+            f"Frequency of responses focused on ethics, technical skills, and professional skills in **{assign_text}**"
+        )
+        category_freq()
 
 
 def overall_freq(freq_range):
-    """page fore overall word frequency"""
+    """page for overall word frequency"""
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
@@ -287,7 +303,7 @@ def overall_freq(freq_range):
             freq_df, assignments, "assignments", plots_per_row=plots_range
         )
     )
-
+    freq_df.to_csv('frequency_archives/' + str(item) + '.csv')
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
@@ -330,7 +346,6 @@ def student_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
-
 
 def question_freq(freq_range):
     """page for individual question's word frequency"""
@@ -377,6 +392,48 @@ def question_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
+
+def category_freq():
+    """page for word category frequency"""
+
+    questions_end = len(main_df.columns) - 3
+    question_df = main_df[main_df.columns[1:questions_end]]
+    category_df = pd.DataFrame(columns=["Ethics", "Professional Skills", "Technical Skills", "Student"])
+    simple_df = pd.DataFrame(columns=["Student", "Category"])
+    user_responses = []
+    categories = {}
+    row_number = 0
+    id = 0
+    ordered_student_ids = []
+    ordered_categories = []
+    ordered_frequencies = []
+
+    for i, row in question_df.iterrows():
+        # add each user's responses to a list to pass in to dataframe
+        for col in range(len(question_df.columns)):
+            if col == 0: # append student ID
+                id = (str(main_df.iloc[row_number]["reflection by"]))
+            else: # append categories of response
+                response = row[col]
+                user_responses.append(response)
+        row_number += 1
+        categories = az.category_frequency(user_responses)
+        for element in categories:
+            ordered_student_ids.append(id)
+            ordered_categories.append(element)
+            ordered_frequencies.append(categories[element])
+        categories["Student"] = id
+        category_df = category_df.append(categories, ignore_index=True)
+        user_responses.clear()
+    simple_df["Student"] = ordered_student_ids
+    simple_df["Category"] = ordered_categories
+    simple_df["Frequency"] = ordered_frequencies
+
+    st.altair_chart(
+        vis.facet_category_barplot(
+            simple_df,
+        )
+    )
 
 
 def sentiment():

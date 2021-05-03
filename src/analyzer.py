@@ -1,14 +1,21 @@
 """Text Proprocessing"""
 from collections import Counter
+
+import pickle
+from . import markdown as md
+
 from textblob import TextBlob
 import pandas as pd
+
 import re
 import string
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+import nltk
 
-from . import markdown as md
+nltk.download("wordnet")
+nltk.download("stopwords")
 
 PARSER = spacy.load("en_core_web_sm")
 
@@ -55,7 +62,7 @@ def tokenize(normalized_text: str) -> List[str]:
 
 
 def compute_frequency(
-        token_lst: List[str], amount=50
+    token_lst: List[str], amount=50
 ) -> List[Tuple[str, int]]:  # noqa: E501
     """Compute word frequency from a list of tokens"""
     word_freq = Counter(token_lst)
@@ -66,6 +73,40 @@ def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
     """A pipeline to normalize, tokenize, and
     find word frequency of raw text"""
     return compute_frequency(tokenize(normalize(text)), amount)
+
+
+def category_frequency(responses: List[str]) -> dict:
+    """A pipeline to normalize, tokenize, and
+    find category frequency of raw text"""
+
+    for i in range(len(responses)):
+        responses[i] = normalize(responses[i])
+    if "" in responses:
+        responses.remove("")
+
+    with open("text_classifier", "rb") as training_model:
+        model = pickle.load(training_model)
+
+    with open("vectorizer", "rb") as training_vectorizer:
+        vectorizer = pickle.load(training_vectorizer)
+
+    category_dict = {
+        "Ethics": 0,
+        "Professional Skills": 0,
+        "Technical Skills": 0
+    }
+
+    for element in responses:
+        element = vectorizer.transform([element]).toarray()
+        label = model.predict(element)[0]
+        if label == 0:
+            category_dict["Ethics"] += 1
+        if label == 1:
+            category_dict["Professional Skills"] += 1
+        if label == 2:
+            category_dict["Technical Skills"] += 1
+
+    return category_dict
 
 
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:
