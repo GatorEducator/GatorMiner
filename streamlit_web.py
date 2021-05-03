@@ -21,6 +21,7 @@ import src.summarizer as sz
 import src.topic_modeling as tm
 import src.visualization as vis
 
+from wordcloud import WordCloud, STOPWORDS
 
 # resources/sample_reflections/lab1, resources/sample_reflections/lab2
 
@@ -28,12 +29,17 @@ import src.visualization as vis
 SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
 preprocessed_df = pd.DataFrame()
 main_df = pd.DataFrame()
+sample = []
 assignments = None
 assign_text = None
 stu_id = None
 success_msg = None
 debug_mode = False
+
+json_lst = []
+
 main_md_dict = None
+
 
 
 def main():
@@ -165,6 +171,7 @@ environment variables")
             return True
 
 
+
 @st.cache(allow_output_mutation=True)
 def load_model(name):
     """load spacy model"""
@@ -264,11 +271,12 @@ def frequency():
 
 
 def overall_freq(freq_range):
-    """page fore overall word frequency"""
+    """page for overall word frequency"""
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
     freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
+
     # calculate word frequency of each assignments
     for item in assignments:
         # combined text of the whole assignment
@@ -288,6 +296,13 @@ def overall_freq(freq_range):
         )
     )
 
+    responses_end = len(main_df.columns) - 3
+    responses_df = main_df[main_df.columns[1:responses_end]]
+    responses_df.replace("", "NA")
+
+    frequency_word_cloud(responses_df)
+
+    freq_df.to_csv('frequency_archives' + os.path.sep + str(item) + '.csv')
 
 def student_freq(freq_range):
     """page for individual student's word frequency"""
@@ -330,6 +345,12 @@ def student_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
+
+        responses_end = len(stu_assignment.columns) - 3
+        responses_df = stu_assignment[stu_assignment.columns[1:responses_end]]
+        responses_df.replace("", "NA")
+
+        frequency_word_cloud(responses_df)
 
 
 def question_freq(freq_range):
@@ -377,6 +398,22 @@ def question_freq(freq_range):
                 plots_per_row=plots_range,
             )
         )
+        frequency_word_cloud(question_df)
+
+
+def frequency_word_cloud(responses_df):
+    # concatenate all words into normalized string and make into wordcloud
+    words = az.concatenate(responses_df)
+    cloud_stopwords = set(STOPWORDS)
+    wordcloud = (WordCloud(width = 800, height = 800,
+                    background_color = 'white',
+                    stopwords = cloud_stopwords,
+                    min_font_size = 10).generate(words))
+
+    # plot wordcloud by temporarily savings as a file and displaying
+    wordcloud.to_file("resources/images/word_cloud.png")
+    st.image("resources/images/word_cloud.png")
+    os.remove("resources/images/word_cloud.png")
 
 
 def sentiment():

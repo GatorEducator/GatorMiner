@@ -1,4 +1,5 @@
 """Test module for analyzer.py"""
+
 import pytest
 import src.analyzer as az
 import pandas as pd
@@ -159,6 +160,22 @@ def test_tfidf():
     term_frequency, vector = az.compute_tfidf(input_tokens)
     assert term_frequency is not None
     assert vector is not None
+
+
+def test_concatenate():
+    """test for contcatenated string of all words"""
+    input_dict = {
+        "What was the most important technical skill that you practiced?":
+        ["Using pipenv and pytest", "Naming variables in Python"],
+        "What was the most important professional skill that you practiced?":
+        ["Communicating with a team remotely", "Resolving issues by talking \
+        to teammates"]
+    }
+    input_df = pd.DataFrame(input_dict)
+    output = az.concatenate(input_df)
+    expected = "using pipenv and pytest communicating with a team remotely \
+naming variables in python resolving issues by talking to teammates "
+    assert output == expected
 
 
 def test_top_polarized_word():

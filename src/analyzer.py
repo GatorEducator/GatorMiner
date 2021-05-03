@@ -1,14 +1,17 @@
 """Text Proprocessing"""
 from collections import Counter
+
+from . import markdown as md
+
 from textblob import TextBlob
 import pandas as pd
+
 import re
 import string
 from typing import List, Tuple
 import spacy
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
-from . import markdown as md
 
 PARSER = spacy.load("en_core_web_sm")
 
@@ -140,6 +143,19 @@ def noun_phrase(input_text):
     for chunk in doc.noun_chunks:
         n_phrase_lst.append(str(chunk))
     return n_phrase_lst
+
+
+def concatenate(responses_df):
+    """Remove stop words from and return contcatenated string of all words"""
+    words_str = ''
+    for i, row in responses_df.iterrows():
+        for col in range(len(responses_df.columns)):
+            val = row[col]
+            tokens = val.split()
+            for i in range(len(tokens)):
+                tokens[i] = tokens[i].lower()
+            words_str += " ".join(tokens)+" "
+    return words_str
 
 
 def top_polarized_word(tokens_column):

@@ -21,8 +21,8 @@ jobs:
       uses: dschep/install-pipenv-action@v1
     - name: Install dependencies
       run: |
-        # install dependencies according to the lock file
-        pipenv install --dev --ignore-pipfile --python ${{ steps.setup-python.outputs.python-version }}
+        # install dependencies according to the pip file
+        pipenv install --dev --skip-lock --python ${{ steps.setup-python.outputs.python-version }}
         pipenv run python -m spacy download en_core_web_sm
     - name: Run test with pytest
       run: |
