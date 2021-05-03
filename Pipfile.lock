@@ -401,7 +401,7 @@
                 "sha256:d7eb1dea6d6a6086f8be21784cc9e3bcfa55872b52309bc5fad53a8ea444465d"
             ],
             "index": "pypi",
-            "version": "==4.0.1"
+            "version": "==3.10.0"
         },
         "iniconfig": {
             "hashes": [
