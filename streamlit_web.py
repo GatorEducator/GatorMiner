@@ -151,7 +151,7 @@ environment variables")
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input")
-            readme()
+            landing_src()
         else:
             global success_msg
             success_msg = None
