@@ -3,6 +3,9 @@ from typing import List, Tuple
 
 import gensim
 import pandas as pd
+import numpy as np
+
+from sklearn.manifold import TSNE
 
 # import pickle
 
@@ -70,3 +73,46 @@ def format_topics_sentences(ldamodel, corpus, texts):
     sent_topics_df["Text"] = contents
 
     return sent_topics_df
+
+
+def tsne(lda_model, corpus, overall_topic_df, random_state, angle):
+    topic_weights = []
+    for i, row_list in enumerate(lda_model[corpus]):
+        topic_weights.append([w for i, w in row_list[0]])
+
+    # Array of topic weights
+    arr = pd.DataFrame(topic_weights).fillna(0).values
+
+    # st.write(arr)
+
+    # Keep the well separated points (optional)
+    arr = arr[np.amax(arr, axis=1) > 0.35]
+
+    # st.write(arr)
+
+    # Dominant topic number in each doc
+    topic_num = np.argmax(arr, axis=1)
+
+    # st.write(topic_num)
+
+    # tSNE Dimension Reduction
+    tsne_model = TSNE(
+        n_components=2,
+        verbose=1,
+        random_state=random_state,
+        angle=angle / 100,
+        init="pca",
+    )
+    tsne_lda = tsne_model.fit_transform(arr)
+
+    df_tsne = pd.DataFrame(
+        {
+            "x": tsne_lda[:, 0],
+            "y": tsne_lda[:, 1],
+            "topic": topic_num,
+            "topic_num": overall_topic_df["Dominant_Topic"],
+        }
+    )
+    # df_tsne["topic_num"] = overall_topic_df["Dominant_Topic"]
+    # st.write(df_tsne)
+    return df_tsne
