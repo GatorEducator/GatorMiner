@@ -545,7 +545,6 @@ def interactive():
         tokens = az.tokenize(input_text)
         st.write(tokens)
     if ner_cb:
-        doc = az.get_nlp(input_text)
         named_entities = az.named_entity_recognization(input_text)
         displacy_renderer(named_entities)
     if sentiment_cb:
