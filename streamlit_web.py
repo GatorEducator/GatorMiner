@@ -43,13 +43,13 @@ def main():
     # Title
     st.sidebar.title("Welcome to GatorMiner!")
     data_retreive_method = st.sidebar.selectbox(
-            "Choose the data retrieving method",
-            [
-                "Path input",
-                "AWS",
-                "Upload local files",
-            ],
-        )
+        "Choose the data retrieving method",
+        [
+            "Path input",
+            "AWS",
+            "Upload local files",
+        ],
+    )
     if retreive_data(data_retreive_method):
         analysis_mode = st.sidebar.selectbox(
             "Choose the analysis mode",
@@ -92,6 +92,7 @@ def main():
                 entities()
             success_msg.empty()
 
+
 def landing_src():
     """function to load and configurate readme source"""
 
@@ -102,9 +103,12 @@ def landing_src():
                 img_path = f"resources/images/{file}"
                 with open(img_path, "rb") as f:
                     img_bin = base64.b64encode(f.read()).decode()
-                landing_src = landing_src.replace(img_path, f"data:image/png;base64,{img_bin}")
+                landing_src = landing_src.replace(
+                    img_path, f"data:image/png;base64,{img_bin}"
+                )
 
         st.markdown(landing_src, unsafe_allow_html=True)
+
 
 def landing_pg():
     """landing page"""
@@ -122,20 +126,21 @@ def retreive_data(data_retreive):
     global main_df
     if data_retreive == "Path input":
         input_assignments = st.sidebar.text_input(
-                "Enter path(s) to markdown documents (seperate by comma)"
+            "Enter path(s) to markdown documents (seperate by comma)"
         )
     elif data_retreive == "AWS":
         input_assignments = st.sidebar.text_input(
-                "Enter assignment names of the markdown \
+            "Enter assignment names of the markdown \
 documents(seperate by comma)"
         )
         st.sidebar.info(
             "You will need to store keys and endpoints in the \
-environment variables")
+environment variables"
+        )
     else:
-        input_assignments = st.sidebar.file_uploader("Choose a Markdown file",
-                                             type=['md'],
-                                             accept_multiple_files=True)
+        input_assignments = st.sidebar.file_uploader(
+            "Choose a Markdown file", type=["md"], accept_multiple_files=True
+        )
     if not input_assignments:
         landing_pg()
     else:
@@ -143,10 +148,12 @@ environment variables")
             input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
             main_df, preprocessed_df = import_data(
-                data_retreive, input_assignments)
+                data_retreive, input_assignments
+            )
         except TypeError:
             st.sidebar.warning(
-                "No data imported. Please check the reflection document input")
+                "No data imported. Please check the reflection document input"
+            )
             landing_src()
         else:
             global success_msg
@@ -188,7 +195,8 @@ def import_data(data_retreive_method, paths):
                 st.markdown(readme_file.read())
     elif data_retreive_method == "AWS":
         passbuild = st.sidebar.checkbox(
-            "Only retreive build success records", value=True)
+            "Only retreive build success records", value=True
+        )
         try:
             configs = gh.auth_config()
             for path in paths:
@@ -289,9 +297,10 @@ def student_freq(freq_range):
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
-
     if len(students) != 0:
-        freq_df = ut.compute_freq_df(main_df, students, assignments, assign_id, stu_id, freq_range)
+        freq_df = ut.compute_freq_df(
+            main_df, students, assignments, assign_id, stu_id, freq_range
+        )
         st.altair_chart(
             vis.facet_freq_barplot(
                 freq_df,
@@ -306,7 +315,9 @@ def student_freq(freq_range):
 def question_freq(freq_range):
     """page for individual question's word frequency"""
     # drop columns with all na
-    select_preprocess = ut.return_assignment(preprocessed_df, assign_id, assignments)
+    select_preprocess = ut.return_assignment(
+        preprocessed_df, assign_id, assignments
+    )
     questions = st.multiselect(
         label="Select specific questions below:",
         options=select_preprocess.columns[2:],
@@ -318,7 +329,9 @@ def question_freq(freq_range):
 
     question_df = ut.make_questions_df(questions, main_df)
     if len(questions) != 0:
-        freq_question_df = ut.compute_quest_df(questions, freq_range, question_df)
+        freq_question_df = ut.compute_quest_df(
+            questions, freq_range, question_df
+        )
 
         st.altair_chart(
             vis.facet_freq_barplot(
@@ -334,7 +347,9 @@ def sentiment():
     """main function for sentiment analysis"""
     senti_df = main_df.copy(deep=True)
     # Initializing the new columns with a numpy array, so the entire series is returned
-    senti_df[cts.POSITIVE], senti_df[cts.NEGATIVE] = az.top_polarized_word(senti_df[cts.TOKEN].values)
+    senti_df[cts.POSITIVE], senti_df[cts.NEGATIVE] = az.top_polarized_word(
+        senti_df[cts.TOKEN].values
+    )
 
     # calculate overall sentiment from the combined text
     senti_df[cts.SENTI] = senti_df["combined"].apply(
@@ -353,8 +368,9 @@ def sentiment():
         st.header(f"Overall sentiment polarity in **{assign_text}**")
         overall_senti(senti_df)
     elif senti_type == "Student":
-        st.header(f"View sentiment by individual students in "
-                  f"**{assign_text}**")
+        st.header(
+            f"View sentiment by individual students in " f"**{assign_text}**"
+        )
         student_senti(senti_df)
     elif senti_type == "Question":
         st.header(
@@ -369,6 +385,7 @@ def overall_senti(senti_df):
     if len(assignments) > 1:
         st.altair_chart(vis.stu_senti_lineplot(senti_df, stu_id))
     st.altair_chart((vis.senti_combinedplot(senti_df, stu_id)))
+
 
 def student_senti(input_df):
     """page for display individual student's sentiment"""
@@ -394,13 +411,17 @@ def student_senti(input_df):
 
 def question_senti(input_df):
     """page for individual question's sentiment"""
-    select_preprocess = ut.return_assignment(preprocessed_df, assign_id, assignments)
+    select_preprocess = ut.return_assignment(
+        preprocessed_df, assign_id, assignments
+    )
 
     questions = st.multiselect(
         label="Select specific questions below:",
         options=select_preprocess.columns[2:],
     )
-    select_text, questions_senti_df = ut.question_senti_select(questions, input_df)
+    select_text, questions_senti_df = ut.question_senti_select(
+        questions, input_df
+    )
     if len(select_text) != 0:
         st.altair_chart(vis.question_senti_barplot(questions_senti_df))
 
@@ -505,7 +526,9 @@ def spacy_sim(doc_df):
     spacy_model = st.sidebar.selectbox("Model name", SPACY_MODEL_NAMES)
     nlp = load_model(spacy_model)
     for assignment in assignments:
-        df_sim = ut.sim_pair(assignment, doc_df, assign_id, stu_id, "spacy", nlp)
+        df_sim = ut.sim_pair(
+            assignment, doc_df, assign_id, stu_id, "spacy", nlp
+        )
         st.altair_chart(
             vis.doc_sim_heatmap(df_sim).properties(title=assignment)
         )
@@ -538,11 +561,13 @@ def interactive():
 
 def entities():
     """Page to display entity analysis"""
-    st.write("Entity analysis inspects the given text for known entities \
+    st.write(
+        "Entity analysis inspects the given text for known entities \
     and returns information about those entities. It is a way to extract \
     information that seeks to locate and classify named entities in text \
     into pre-defined categories such as the names of persons, organizations, \
-    locations, expressions of times, quantities, monetary values, and percentages.")
+    locations, expressions of times, quantities, monetary values, and percentages."
+    )
 
     # make a copy of the main dataframe
     input_df = main_df.copy(deep=True)
@@ -552,7 +577,9 @@ def entities():
     for assignment in input_df[assign_id].unique():
         st.write("")
         st.subheader(assignment)
-        df_selected_assign = input_df.loc[input_df[assign_id].isin([assignment])]
+        df_selected_assign = input_df.loc[
+            input_df[assign_id].isin([assignment])
+        ]
         for student in df_selected_assign[stu_id].unique():
             with st.beta_expander(student):
                 entity_analysis(assignment, student, input_df)
@@ -562,19 +589,21 @@ def entity_analysis(assignment, student, input_df):
     """function that selects, modifies and runs the entity analysis on a document"""
 
     # makes a dataframe with the selected user's information
-    df_selected_stu = input_df.loc[
-        input_df[stu_id].isin([student])
-        & input_df[assign_id].isin([assignment])
-    ]
-    st.write(df_selected_stu)
+    df_selected_stu = ut.return_matched_row(
+        input_df, stu_id, student, assign_id, assignment
+    )
 
     # selects the combined column from the dataframe and extracts it
     combine_start = df_selected_stu.columns.get_loc("combined")
     combine_end = df_selected_stu.columns.get_loc("combined") + 1
-    df_selected_stu_combined = df_selected_stu.iloc[:,combine_start:combine_end]
+    df_selected_stu_combined = df_selected_stu.iloc[
+        :, combine_start:combine_end
+    ]
     # convert the combined dataframe into a string
-    student_string = df_selected_stu_combined.to_string(header=False, index=False)
-    student_string = student_string.replace("\\n","")
+    student_string = df_selected_stu_combined.to_string(
+        header=False, index=False
+    )
+    student_string = student_string.replace("\\n", "")
 
     # run the spacy entity recogonizer on the selected user document and display it
     doc = az.get_nlp(student_string)
