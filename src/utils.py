@@ -1,5 +1,7 @@
 import pandas as pd
 
+from textblob import TextBlob
+
 from . import analyzer as az
 from . import constants as cts
 from . import doc_similarity as ds
@@ -84,7 +86,9 @@ def question_senti_select(questions, input_df):
         {"questions": questions, "text": select_text}
     )
     # calculate overall sentiment from the combined text
-    questions_senti_df[cts.SENTI] = questions_senti_df["text"].apply
+    questions_senti_df[cts.SENTI] = questions_senti_df["text"].apply(
+        lambda x: TextBlob(x).sentiment.polarity
+    )
     return select_text, questions_senti_df
 
 
