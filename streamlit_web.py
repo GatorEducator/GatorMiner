@@ -145,9 +145,7 @@ environment variables"
         if data_retreive == "AWS" or data_retreive == "Path input":
             input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
-            main_df = import_data(
-                data_retreive, input_assignments
-            )
+            main_df = import_data(data_retreive, input_assignments)
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input"
@@ -247,30 +245,25 @@ def frequency():
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
-    range_select_string = "Select a range of Most frequent words"
+    range_select_msg = "Select a range of most frequent words"
+    freq_msg = "Most frequent words"
     if freq_type == "Overall":
-        freq_range = st.sidebar.slider(
-            range_select_string, 1, 50, value=25
-        )
+        freq_range = st.sidebar.slider(range_select_msg, 1, 50, value=25)
         st.sidebar.success(
             'To continue see individual frequency analysis select "Student"'
         )
-        st.header(f"Overall most frequent words in **{assignment_string}**")
+        st.header(f"{freq_msg} in **{assignment_string}**")
         overall_freq(freq_range)
     elif freq_type == "Student":
-        freq_range = st.sidebar.slider(
-            range_select_string, 1, 20, value=10
-        )
+        freq_range = st.sidebar.slider(range_select_msg, 1, 20, value=10)
         st.header(
-            f"Most frequent words by individual students in **{assignment_string}**"
+            f"{freq_msg} by individual students in **{assignment_string}**"
         )
         student_freq(freq_range)
     elif freq_type == "Question":
-        freq_range = st.sidebar.slider(
-            range_select_string, 1, 20, value=10
-        )
+        freq_range = st.sidebar.slider(range_select_msg, 1, 20, value=10)
         st.header(
-            f"Most frequent words in individual questions in **{assignment_string}**"
+            f"{freq_msg} in individual questions in **{assignment_string}**"
         )
         question_freq(freq_range)
 
@@ -317,9 +310,7 @@ def student_freq(freq_range):
 def question_freq(freq_range):
     """page for individual question's word frequency"""
     # drop columns with all na
-    select_preprocess = ut.return_assignment(
-        main_df, assign_id, assignments
-    )
+    select_preprocess = ut.return_assignment(main_df, assign_id, assignments)
     questions = st.multiselect(
         label="Select specific questions below:",
         options=select_preprocess.columns[2:],
@@ -408,9 +399,7 @@ def student_senti(input_df):
 
 def question_senti(input_df):
     """page for individual question's sentiment"""
-    select_preprocess = ut.return_assignment(
-        main_df, assign_id, assignments
-    )
+    select_preprocess = ut.return_assignment(main_df, assign_id, assignments)
 
     questions = st.multiselect(
         label="Select specific questions below:",
@@ -427,9 +416,7 @@ def summary():
     """Display summarization"""
     sum_df = ut.return_assignment(main_df, assign_id, assignments)
     for column in main_df.columns[2:]:
-        sum_df[column] = main_df[column].apply(
-            lambda x: sz.summarize_text(x)
-        )
+        sum_df[column] = main_df[column].apply(lambda x: sz.summarize_text(x))
     st.write(sum_df)
 
 
@@ -545,8 +532,7 @@ def interactive():
         tokens = az.tokenize(input_text)
         st.write(tokens)
     if ner_cb:
-        named_entities = az.named_entity_recognization(input_text)
-        displacy_renderer(named_entities)
+        displacy_renderer(az.get_nlp(input_text))
     if sentiment_cb:
         sentiments = TextBlob(az.lemmatized_text(input_text))
         st.write(sentiments.sentiment)
