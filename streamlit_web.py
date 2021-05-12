@@ -25,16 +25,15 @@ import src.utils as ut
 
 # resources/sample_reflections/lab1, resources/sample_reflections/lab2
 
-# initialize main_df and preprocessed_Df
+# initialize main_df
 SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
-preprocessed_df = pd.DataFrame()
 main_df = pd.DataFrame()
 assignments = None
-assign_text = None
+assignment_string = None
 stu_id = None
 assign_id = None
 success_msg = None
-debug_mode = False
+debug_mode = True
 main_md_dict = None
 
 
@@ -122,7 +121,6 @@ def landing_pg():
 
 def retreive_data(data_retreive):
     """pipeline to retrieve data from user input to output"""
-    global preprocessed_df
     global main_df
     if data_retreive == "Path input":
         input_assignments = st.sidebar.text_input(
@@ -147,7 +145,7 @@ environment variables"
         if data_retreive == "AWS" or data_retreive == "Path input":
             input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
-            main_df, preprocessed_df = import_data(
+            main_df = import_data(
                 data_retreive, input_assignments
             )
         except TypeError:
@@ -157,20 +155,23 @@ environment variables"
             landing_src()
         else:
             global success_msg
+            global assign_id
+            global assignments
+            global assignment_string
+            global stu_id
             success_msg = None
             if main_df.empty is not True:
                 success_msg = st.sidebar.success("Sucessfully Loaded!!")
-            global assign_id
-            assign_id = preprocessed_df.columns[0]
-            global assignments
+            # Column name of assignment and student names
+            assign_id = main_df.columns[0]
+            stu_id = main_df.columns[1]
+            # selected assignments
             assignments = st.sidebar.multiselect(
                 label="Select assignments below:",
                 options=main_df[assign_id].unique(),
             )
-            global assign_text
-            assign_text = ", ".join(assignments)
-            global stu_id
-            stu_id = preprocessed_df.columns[1]
+            # string display of the selected assignments
+            assignment_string = ", ".join(assignments)
             return True
 
 
@@ -222,13 +223,14 @@ def import_data(data_retreive_method, paths):
         for item in json_lst:
             single_df = pd.DataFrame(item)
             raw_df = pd.concat([raw_df, single_df]).fillna("")
-        tidy_df = df_preprocess(raw_df)
-        return tidy_df, raw_df
+        df_preprocess(raw_df)
+        return raw_df
 
 
 def df_preprocess(df):
     """build and preprocess (combine, normalize, tokenize) text"""
     # filter out first two columns -- non-report content
+    # (student and assignment name)
     cols = df.columns[2:]
     # combining text into combined column
     df[cts.COMBINED] = df[cols].apply(
@@ -238,7 +240,6 @@ def df_preprocess(df):
     df[cts.NORMAL] = df[cts.COMBINED].apply(lambda row: az.normalize(row))
     # tokenize
     df[cts.TOKEN] = df[cts.NORMAL].apply(lambda row: az.tokenize(row))
-    return df
 
 
 def frequency():
@@ -246,29 +247,30 @@ def frequency():
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
+    range_select_string = "Select a range of Most frequent words"
     if freq_type == "Overall":
         freq_range = st.sidebar.slider(
-            "Select a range of Most frequent words", 1, 50, value=25
+            range_select_string, 1, 50, value=25
         )
         st.sidebar.success(
             'To continue see individual frequency analysis select "Student"'
         )
-        st.header(f"Overall most frequent words in **{assign_text}**")
+        st.header(f"Overall most frequent words in **{assignment_string}**")
         overall_freq(freq_range)
     elif freq_type == "Student":
         freq_range = st.sidebar.slider(
-            "Select a range of Most frequent words", 1, 20, value=10
+            range_select_string, 1, 20, value=10
         )
         st.header(
-            f"Most frequent words by individual students in **{assign_text}**"
+            f"Most frequent words by individual students in **{assignment_string}**"
         )
         student_freq(freq_range)
     elif freq_type == "Question":
         freq_range = st.sidebar.slider(
-            "Select a range of Most frequent words", 1, 20, value=10
+            range_select_string, 1, 20, value=10
         )
         st.header(
-            f"Most frequent words in individual questions in **{assign_text}**"
+            f"Most frequent words in individual questions in **{assignment_string}**"
         )
         question_freq(freq_range)
 
@@ -316,7 +318,7 @@ def question_freq(freq_range):
     """page for individual question's word frequency"""
     # drop columns with all na
     select_preprocess = ut.return_assignment(
-        preprocessed_df, assign_id, assignments
+        main_df, assign_id, assignments
     )
     questions = st.multiselect(
         label="Select specific questions below:",
@@ -356,8 +358,6 @@ def sentiment():
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
     )
     senti_df = ut.return_assignment(senti_df, assign_id, assignments)
-    # senti_df = senti_df[senti_df[assign_id].isin(assignments)]
-    st.write(senti_df)
     senti_type = st.sidebar.selectbox(
         "Type of sentiment analysis", ["Overall", "Student", "Question"]
     )
@@ -365,26 +365,26 @@ def sentiment():
         st.sidebar.success(
             'To continue see individual sentiment analysis select "Student"'
         )
-        st.header(f"Overall sentiment polarity in **{assign_text}**")
+        st.header(f"Overall sentiment polarity in **{assignment_string}**")
         overall_senti(senti_df)
     elif senti_type == "Student":
         st.header(
-            f"View sentiment by individual students in " f"**{assign_text}**"
+            f"View sentiment by individual students in **{assignment_string}**"
         )
         student_senti(senti_df)
     elif senti_type == "Question":
         st.header(
-            f"View sentiment by individual questions in **{assign_text}**"
+            f"View sentiment by individual questions in **{assignment_string}**"
         )
         question_senti(senti_df)
 
 
-def overall_senti(senti_df):
+def overall_senti(input_df):
     """page for overall senti"""
     # display line plot when there are multiple assingments
     if len(assignments) > 1:
-        st.altair_chart(vis.stu_senti_lineplot(senti_df, stu_id))
-    st.altair_chart((vis.senti_combinedplot(senti_df, stu_id)))
+        st.altair_chart(vis.stu_senti_lineplot(input_df, stu_id))
+    st.altair_chart((vis.senti_combinedplot(input_df, stu_id)))
 
 
 def student_senti(input_df):
@@ -403,13 +403,13 @@ def student_senti(input_df):
                 df_selected_stu, students, stu_id, plots_per_row=plots_range
             )
         )
-        st.altair_chart(vis.stu_senti_barplot(senti_df, stu_id))
+        st.altair_chart(vis.stu_senti_barplot(df_selected_stu, stu_id))
 
 
 def question_senti(input_df):
     """page for individual question's sentiment"""
     select_preprocess = ut.return_assignment(
-        preprocessed_df, assign_id, assignments
+        main_df, assign_id, assignments
     )
 
     questions = st.multiselect(
@@ -425,9 +425,9 @@ def question_senti(input_df):
 
 def summary():
     """Display summarization"""
-    sum_df = ut.return_assignment(preprocessed_df, assign_id, assignments)
-    for column in preprocessed_df.columns[2:]:
-        sum_df[column] = preprocessed_df[column].apply(
+    sum_df = ut.return_assignment(main_df, assign_id, assignments)
+    for column in main_df.columns[2:]:
+        sum_df[column] = main_df[column].apply(
             lambda x: sz.summarize_text(x)
         )
     st.write(sum_df)
@@ -469,7 +469,7 @@ def tpmodel():
             "Perc_Contribution",
         ]
     ]
-    st.header(f"Overall topics in **{assign_text}**")
+    st.header(f"Overall topics in **{assignment_string}**")
     if tp_type == "Histogram":
         hist_tm(overall_topic_df)
     elif tp_type == "Scatter":
@@ -503,7 +503,7 @@ def doc_sim():
         "Type of similarity analysis", ["TF-IDF", "Spacy"]
     )
     st.header(
-        f"Similarity between each student's document in **{assign_text}**"
+        f"Similarity between each student's document in **{assignment_string}**"
     )
     if doc_sim_type == "TF-IDF":
         tf_idf_sim(doc_df)
