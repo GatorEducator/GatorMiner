@@ -45,6 +45,12 @@ def return_matched_row(input_df, stu_id, student, assign_id, assignment):
 def compute_freq_df(
     main_df, students, assignments, assign_id, stu_id, freq_range
 ):
+    """
+    return:
+    DataFrame
+    word|freq|assignments|student
+    ----|----|-----------|-------
+    """
     freq_df = pd.DataFrame()
     stu_assignment = return_student_assignment(
         main_df, students, assignments, assign_id, stu_id
@@ -52,9 +58,11 @@ def compute_freq_df(
     for student in students:
         for assignment in assignments:
             try:
+                # extract matching combined string
                 combined_string = return_matched_row(
                     stu_assignment, stu_id, student, assign_id, assignment
                 )[cts.COMBINED].item()
+                # calculate word frequency
                 single_freq = az.word_frequency(
                     combined_string,
                     freq_range,
@@ -68,6 +76,12 @@ def compute_freq_df(
 
 
 def freq_to_df(freq_lst, assignment, student):
+    """
+    return:
+    DataFrame
+    word|freq|assignments|student
+    ----|----|-----------|-------
+    """
     single_freq_df = pd.DataFrame(freq_lst, columns=["word", "freq"])
     single_freq_df["assignments"] = assignment
     single_freq_df["student"] = student
