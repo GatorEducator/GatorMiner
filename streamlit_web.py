@@ -296,6 +296,7 @@ def student_freq(freq_range):
         freq_df = ut.compute_freq_df(
             main_df, students, assignments, assign_id, stu_id, freq_range
         )
+        st.write(freq_df)
         st.altair_chart(
             vis.facet_freq_barplot(
                 freq_df,

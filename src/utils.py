@@ -45,7 +45,7 @@ def return_matched_row(input_df, stu_id, student, assign_id, assignment):
 def compute_freq_df(
     main_df, students, assignments, assign_id, stu_id, freq_range
 ):
-    freq_df = pd.DataFrame(columns=["student", "word", "freq"])
+    freq_df = pd.DataFrame()
     stu_assignment = return_student_assignment(
         main_df, students, assignments, assign_id, stu_id
     )
@@ -54,19 +54,24 @@ def compute_freq_df(
             try:
                 combined_string = return_matched_row(
                     stu_assignment, stu_id, student, assign_id, assignment
-                )["combined"].item()
-                individual_freq = az.word_frequency(
+                )[cts.COMBINED].item()
+                single_freq = az.word_frequency(
                     combined_string,
                     freq_range,
                 )
-                ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
-                ind_df["assignments"] = assignment
-                ind_df["student"] = student
-                freq_df = freq_df.append(ind_df)
+                single_df = freq_to_df(single_freq, assignment, student)
+                freq_df = freq_df.append(single_df)
             except ValueError:
                 # no matching result of student and assignment
                 continue
     return freq_df
+
+
+def freq_to_df(freq_lst, assignment, student):
+    single_freq_df = pd.DataFrame(freq_lst, columns=["word", "freq"])
+    single_freq_df["assignments"] = assignment
+    single_freq_df["student"] = student
+    return single_freq_df
 
 
 def compute_quest_df(questions, freq_range, question_df):
