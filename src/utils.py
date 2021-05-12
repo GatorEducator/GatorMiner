@@ -13,11 +13,12 @@ from . import topic_modeling as tm
 from . import visualization as vis
 
 
-def return_student_assignment(main_df, students, assignments, assign_id, stu_id):
+def return_student_assignment(
+    main_df, students, assignments, assign_id, stu_id
+):
     """return entries of selected student in selected assignment in dataframe"""
     selected_df = main_df[
-        (main_df[stu_id].isin(students))
-        & main_df[assign_id].isin(assignments)
+        (main_df[stu_id].isin(students)) & main_df[assign_id].isin(assignments)
     ]
     return selected_df
 
@@ -35,31 +36,36 @@ def return_matched_rows(input_df, column_name, selected):
 
 
 def return_matched_row(input_df, stu_id, student, assign_id, assignment):
-    df_selected_stu = input_df.loc[
-        input_df[stu_id].isin([student])
-        & input_df[assign_id].isin([assignment])
+    """return row that match student and assignment value"""
+    return input_df.loc[
+        (input_df[stu_id] == student) & (input_df[assign_id] == assignment)
     ]
-    return df_selected_stu
 
-def compute_freq_df(main_df, students, assignments, assign_id, stu_id, freq_range):
+
+def compute_freq_df(
+    main_df, students, assignments, assign_id, stu_id, freq_range
+):
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
-    stu_assignment = return_student_assignment(main_df, students, assignments, assign_id, stu_id)
+    stu_assignment = return_student_assignment(
+        main_df, students, assignments, assign_id, stu_id
+    )
     for student in students:
-        for item in assignments:
-            individual_freq = az.word_frequency(
-                stu_assignment[
-                    (stu_assignment[assign_id] == item)
-                    & (stu_assignment[stu_id] == student)
-                ]
-                .loc[:, ["combined"]]
-                .to_string(),
-                freq_range,
-            )
-            ind_df = pd.DataFrame(individual_freq,
-                                    columns=["word", "freq"])
-            ind_df["assignments"] = item
-            ind_df["student"] = student
-            freq_df = freq_df.append(ind_df)
+        for assignment in assignments:
+            try:
+                combined_string = return_matched_row(
+                    stu_assignment, stu_id, student, assign_id, assignment
+                )["combined"].item()
+                individual_freq = az.word_frequency(
+                    combined_string,
+                    freq_range,
+                )
+                ind_df = pd.DataFrame(individual_freq, columns=["word", "freq"])
+                ind_df["assignments"] = assignment
+                ind_df["student"] = student
+                freq_df = freq_df.append(ind_df)
+            except ValueError:
+                # no matching result of student and assignment
+                continue
     return freq_df
 
 
@@ -93,17 +99,13 @@ def question_senti_select(questions, input_df):
 
 
 def sim_pair(assignment, doc_df, assign_id, stu_id, model, nlp=None):
-    doc = doc_df[doc_df[assign_id] == assignment].dropna(
-        axis=1, how="all"
-    )
+    doc = doc_df[doc_df[assign_id] == assignment].dropna(axis=1, how="all")
 
     pairs = ds.create_pair(doc[stu_id])
     # calculate similarity of the docs of the selected author pairs
     if model == "tfidf":
         similarity = [
-            ds.tfidf_cosine_similarity(
-                make_tuple(doc, stu_id, pair)
-            )
+            ds.tfidf_cosine_similarity(make_tuple(doc, stu_id, pair))
             for pair in pairs
         ]
     elif model == "spacy":

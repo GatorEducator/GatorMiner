@@ -569,7 +569,6 @@ def entities():
 
 def entity_analysis(assignment, student, input_df):
     """function that selects, modifies and runs the entity analysis on a document"""
-
     # makes a dataframe with the selected user's information
     df_selected_stu = ut.return_matched_row(
         input_df, stu_id, student, assign_id, assignment
