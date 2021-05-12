@@ -396,14 +396,11 @@ def student_senti(input_df):
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
-    df_selected_stu = ut.return_matched_row(input_df, stu_id, students)
-    senti_df = pd.DataFrame(
-        df_selected_stu, columns=[assign_id, stu_id, cts.SENTI]
-    )
+    df_selected_stu = ut.return_matched_rows(input_df, stu_id, students)
     if len(students) != 0:
         st.altair_chart(
             vis.facet_senti_barplot(
-                senti_df, students, stu_id, plots_per_row=plots_range
+                df_selected_stu, students, stu_id, plots_per_row=plots_range
             )
         )
         st.altair_chart(vis.stu_senti_barplot(senti_df, stu_id))
