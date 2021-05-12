@@ -27,10 +27,17 @@ def return_assignment(preprocessed_df, assign_id, assignments):
     return select_preprocess
 
 
-def return_matched_row(input_df, column_name, selected):
+def return_matched_rows(input_df, column_name, selected):
     """return rows where value of column matched with selected"""
     return input_df.loc[input_df[column_name].isin(selected)]
 
+
+def return_matched_row(input_df, stu_id, student, assign_id, assignment):
+    df_selected_stu = input_df.loc[
+        input_df[stu_id].isin([student])
+        & input_df[assign_id].isin([assignment])
+    ]
+    return df_selected_stu
 
 def compute_freq_df(main_df, students, assignments, assign_id, stu_id, freq_range):
     freq_df = pd.DataFrame(columns=["student", "word", "freq"])
