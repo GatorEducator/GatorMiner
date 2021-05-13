@@ -1,4 +1,5 @@
 """Constants used in GatorMining"""
+import os
 
 # Gradle report
 REPORT_ID = "userID"
@@ -23,3 +24,6 @@ COMBINED = "combined"
 # Columns
 POSITIVE = "Positive words"
 NEGATIVE = "Negative words"
+
+# Path
+IMG_DIR = f"resources{os.path.sep}images"
