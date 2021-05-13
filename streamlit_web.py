@@ -28,6 +28,7 @@ import src.utils as ut
 # initialize main_df
 SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
 main_df = pd.DataFrame()
+selected_df = pd.DataFrame()
 assignments = None
 assignment_string = None
 stu_id = None
@@ -97,9 +98,9 @@ def landing_src():
 
     with open("docs/LANDING_PAGE.md") as landing_file:
         landing_src = landing_file.read()
-        for file in os.listdir("resources/images"):
+        for file in os.listdir(cts.IMG_DIR):
             if file.endswith(".png"):
-                img_path = f"resources/images/{file}"
+                img_path = f"{cts.IMG_DIR}{os.path.sep}{file}"
                 with open(img_path, "rb") as f:
                     img_bin = base64.b64encode(f.read()).decode()
                 landing_src = landing_src.replace(
@@ -157,6 +158,7 @@ environment variables"
             global assignments
             global assignment_string
             global stu_id
+            global selected_df
             success_msg = None
             if main_df.empty is not True:
                 success_msg = st.sidebar.success("Sucessfully Loaded!!")
@@ -168,6 +170,7 @@ environment variables"
                 label="Select assignments below:",
                 options=main_df[assign_id].unique(),
             )
+            selected_df = ut.return_assignment(main_df, assign_id, assignments)
             # string display of the selected assignments
             assignment_string = ", ".join(assignments)
             return True
@@ -296,7 +299,7 @@ def student_freq(freq_range):
         freq_df = ut.compute_freq_df(
             main_df, students, assignments, assign_id, stu_id, freq_range
         )
-        st.write(freq_df)
+
         st.altair_chart(
             vis.facet_freq_barplot(
                 freq_df,
@@ -311,10 +314,9 @@ def student_freq(freq_range):
 def question_freq(freq_range):
     """page for individual question's word frequency"""
     # drop columns with all na
-    select_preprocess = ut.return_assignment(main_df, assign_id, assignments)
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=select_preprocess.columns[2:],
+        options=selected_df.columns[2:],
     )
 
     plots_range = st.sidebar.slider(
@@ -400,11 +402,9 @@ def student_senti(input_df):
 
 def question_senti(input_df):
     """page for individual question's sentiment"""
-    select_preprocess = ut.return_assignment(main_df, assign_id, assignments)
-
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=select_preprocess.columns[2:],
+        options=selected_df.columns[2:],
     )
     select_text, questions_senti_df = ut.question_senti_select(
         questions, input_df
@@ -553,19 +553,17 @@ def entities():
     )
 
     # make a copy of the main dataframe
-    input_df = main_df.copy(deep=True)
-    input_df = ut.return_assignment(input_df, assign_id, assignments)
 
     # makes a drop down list to select users classified by assignments
-    for assignment in input_df[assign_id].unique():
+    for assignment in selected_df[assign_id].unique():
         st.write("")
         st.subheader(assignment)
-        df_selected_assign = input_df.loc[
-            input_df[assign_id].isin([assignment])
+        df_selected_assign = selected_df.loc[
+            selected_df[assign_id] == assignment
         ]
         for student in df_selected_assign[stu_id].unique():
             with st.beta_expander(student):
-                entity_analysis(assignment, student, input_df)
+                entity_analysis(assignment, student, selected_df)
 
 
 def entity_analysis(assignment, student, input_df):
