@@ -23,11 +23,10 @@ def return_student_assignment(
     return selected_df
 
 
-def return_assignment(preprocessed_df, assign_id, assignments):
-    select_preprocess = preprocessed_df[
-        preprocessed_df[assign_id].isin(assignments)
-    ].dropna(axis=1, how="all")
-    return select_preprocess
+def return_assignment(input_df, column_name, selected):
+    return input_df[input_df[column_name].isin(selected)].dropna(
+        axis="columns", how="all"
+    )
 
 
 def return_matched_rows(input_df, column_name, selected):
@@ -40,6 +39,20 @@ def return_matched_row(input_df, stu_id, student, assign_id, assignment):
     return input_df.loc[
         (input_df[stu_id] == student) & (input_df[assign_id] == assignment)
     ]
+
+
+def matched_row(input_df, assign_id, assignment):
+    """return row that match student and assignment value"""
+    return input_df.loc[input_df[assign_id] == assignment]
+
+
+def return_question(question_df, question):
+    quest_df = (
+        question_df[question_df["question"] == question]
+        .loc[:, ["text"]]
+        .to_string()
+    )
+    return quest_df
 
 
 def compute_freq_df(
@@ -88,13 +101,23 @@ def freq_to_df(freq_lst, assignment, student):
     return single_freq_df
 
 
+def make_questions_df(questions, main_df):
+    select_text = {}
+    for question in questions:
+        select_text[question] = main_df[question].to_string(
+            index=False, na_rep=""
+        )
+    question_df = pd.DataFrame(
+        select_text.items(), columns=["question", "text"]
+    )
+    return question_df
+
+
 def compute_quest_df(questions, freq_range, question_df):
     freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
     for question in questions:
         quest_freq = az.word_frequency(
-            question_df[question_df["question"] == question]
-            .loc[:, ["text"]]
-            .to_string(),
+            return_question(question_df, question),
             freq_range,
         )
         ind_df = pd.DataFrame(quest_freq, columns=["word", "freq"])
@@ -148,18 +171,6 @@ def make_tuple(doc, stu_id, pair):
         doc[doc[stu_id] == pair[0]][cts.NORMAL].values[0],
         doc[doc[stu_id] == pair[1]][cts.NORMAL].values[0],
     )
-
-
-def make_questions_df(questions, main_df):
-    select_text = {}
-    for question in questions:
-        select_text[question] = main_df[question].to_string(
-            index=False, na_rep=""
-        )
-    question_df = pd.DataFrame(
-        select_text.items(), columns=["question", "text"]
-    )
-    return question_df
 
 
 def make_freq_df(assignments, main_df, assign_id, freq_range):
