@@ -194,3 +194,12 @@ def make_freq_df(assignments, main_df, assign_id, freq_range):
         item_df["assignments"] = item
         freq_df = freq_df.append(item_df)
     return freq_df
+
+
+def make_summary_df(assignment, input_df, assign_id):
+    sum_assignment_df = return_assignment(input_df, assign_id, assignment)
+    for column in sum_assignment_df.columns[2:]:
+        sum_assignment_df[column] = sum_assignment_df[column].apply(
+            lambda x: sz.summarize_text(x)
+        )
+    return sum_assignment_df

@@ -172,7 +172,9 @@ environment variables"
                 label="Select assignments below:",
                 options=main_df[assign_id].unique(),
             )
-            selected_nan_df = ut.return_assignments(raw_df, assign_id, assignments)
+            selected_nan_df = ut.return_assignments(
+                raw_df, assign_id, assignments
+            )
             selected_df = ut.return_assignments(main_df, assign_id, assignments)
             # string display of the selected assignments
             assignment_string = ", ".join(assignments)
@@ -228,7 +230,7 @@ def import_data(data_retreive_method, paths):
         for item in json_lst:
             single_df = pd.DataFrame(item)
             # NA as `nan`
-            raw_df = pd.concat([raw_df, single_df])
+            raw_df = pd.concat([raw_df, single_df], ignore_index=True)
         # NA as ""
         processed_df = raw_df.fillna("")
         df_preprocess(processed_df)
@@ -355,7 +357,7 @@ def sentiment():
     )
 
     # calculate overall sentiment from the combined text
-    senti_df[cts.SENTI] = senti_df["combined"].apply(
+    senti_df[cts.SENTI] = senti_df[cts.COMBINED].apply(
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
     )
     senti_df = ut.return_assignments(senti_df, assign_id, assignments)
@@ -422,10 +424,11 @@ def question_senti(input_df):
 
 def summary():
     """Display summarization"""
-    sum_df = ut.return_assignments(main_df, assign_id, assignments)
-    for column in main_df.columns[2:]:
-        sum_df[column] = main_df[column].apply(lambda x: sz.summarize_text(x))
-    st.write(sum_df)
+    # sum_df = ut.return_assignments(main_df, assign_id, assignments)
+    # sum_df = selected_nan_df.copy(deep=True)
+    for assignment in assignments:
+        sum_df = ut.make_summary_df(assignment, selected_nan_df, assign_id)
+        st.write(sum_df)
 
 
 def tpmodel():
