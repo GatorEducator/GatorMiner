@@ -29,6 +29,7 @@ import src.utils as ut
 SPACY_MODEL_NAMES = ["en_core_web_sm", "en_core_web_md"]
 main_df = pd.DataFrame()
 selected_df = pd.DataFrame()
+selected_nan_df = pd.DataFrame()
 assignments = None
 assignment_string = None
 stu_id = None
@@ -146,7 +147,7 @@ environment variables"
         if data_retreive == "AWS" or data_retreive == "Path input":
             input_assignments = re.split(r"[;,\s]\s*", input_assignments)
         try:
-            main_df = import_data(data_retreive, input_assignments)
+            raw_df, main_df = import_data(data_retreive, input_assignments)
         except TypeError:
             st.sidebar.warning(
                 "No data imported. Please check the reflection document input"
@@ -158,6 +159,7 @@ environment variables"
             global assignments
             global assignment_string
             global stu_id
+            global selected_nan_df
             global selected_df
             success_msg = None
             if main_df.empty is not True:
@@ -170,6 +172,7 @@ environment variables"
                 label="Select assignments below:",
                 options=main_df[assign_id].unique(),
             )
+            selected_nan_df = ut.return_assignment(raw_df, assign_id, assignments)
             selected_df = ut.return_assignment(main_df, assign_id, assignments)
             # string display of the selected assignments
             assignment_string = ", ".join(assignments)
@@ -221,11 +224,15 @@ def import_data(data_retreive_method, paths):
     # when data is retreived
     if json_lst:
         raw_df = pd.DataFrame()
+        processed_df = pd.DataFrame()
         for item in json_lst:
             single_df = pd.DataFrame(item)
-            raw_df = pd.concat([raw_df, single_df]).fillna("")
-        df_preprocess(raw_df)
-        return raw_df
+            # NA as `nan`
+            raw_df = pd.concat([raw_df, single_df])
+        # NA as ""
+        processed_df = raw_df.fillna("")
+        df_preprocess(processed_df)
+        return raw_df, processed_df
 
 
 def df_preprocess(df):
@@ -289,7 +296,7 @@ def student_freq(freq_range):
     """page for individual student's word frequency"""
     students = st.multiselect(
         label="Select specific students below:",
-        options=main_df[stu_id].unique(),
+        options=selected_df[stu_id].unique(),
     )
 
     plots_range = st.sidebar.slider(
@@ -316,7 +323,7 @@ def question_freq(freq_range):
     # drop columns with all na
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=selected_df.columns[2:],
+        options=selected_nan_df.columns[2:],
     )
 
     plots_range = st.sidebar.slider(
@@ -404,7 +411,7 @@ def question_senti(input_df):
     """page for individual question's sentiment"""
     questions = st.multiselect(
         label="Select specific questions below:",
-        options=selected_df.columns[2:],
+        options=selected_nan_df.columns[2:],
     )
     select_text, questions_senti_df = ut.question_senti_select(
         questions, input_df
@@ -424,8 +431,7 @@ def summary():
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
-    topic_df = topic_df[topic_df[assign_id].isin(assignments)]
-    # st.write(topic_df)
+    topic_df = ut.return_assignment(topic_df, assign_id, assignments)
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
     )
@@ -467,7 +473,7 @@ def tpmodel():
 
 def hist_tm(topic_df):
     """Topic modeling in histogram"""
-    st.write(topic_df)
+    # st.write(topic_df)
     st.altair_chart(vis.tp_hist_plot(topic_df))
 
 
@@ -555,12 +561,10 @@ def entities():
     # make a copy of the main dataframe
 
     # makes a drop down list to select users classified by assignments
-    for assignment in selected_df[assign_id].unique():
+    for assignment in assignments:
         st.write("")
         st.subheader(assignment)
-        df_selected_assign = selected_df.loc[
-            selected_df[assign_id] == assignment
-        ]
+        df_selected_assign = ut.matched_row(selected_df, assign_id, assignment)
         for student in df_selected_assign[stu_id].unique():
             with st.beta_expander(student):
                 entity_analysis(assignment, student, selected_df)
