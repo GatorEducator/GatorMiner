@@ -23,8 +23,14 @@ def return_student_assignment(
     return selected_df
 
 
-def return_assignment(input_df, column_name, selected):
+def return_assignments(input_df, column_name, selected):
     return input_df[input_df[column_name].isin(selected)].dropna(
+        axis="columns", how="all"
+    )
+
+
+def return_assignment(input_df, column_name, selected):
+    return input_df[input_df[column_name] == selected].dropna(
         axis="columns", how="all"
     )
 
@@ -141,7 +147,7 @@ def question_senti_select(questions, input_df):
 
 
 def sim_pair(assignment, doc_df, assign_id, stu_id, model, nlp=None):
-    doc = doc_df[doc_df[assign_id] == assignment].dropna(axis=1, how="all")
+    doc = return_assignment(doc_df, assign_id, assignment)
 
     pairs = ds.create_pair(doc[stu_id])
     # calculate similarity of the docs of the selected author pairs

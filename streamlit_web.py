@@ -172,8 +172,8 @@ environment variables"
                 label="Select assignments below:",
                 options=main_df[assign_id].unique(),
             )
-            selected_nan_df = ut.return_assignment(raw_df, assign_id, assignments)
-            selected_df = ut.return_assignment(main_df, assign_id, assignments)
+            selected_nan_df = ut.return_assignments(raw_df, assign_id, assignments)
+            selected_df = ut.return_assignments(main_df, assign_id, assignments)
             # string display of the selected assignments
             assignment_string = ", ".join(assignments)
             return True
@@ -358,7 +358,7 @@ def sentiment():
     senti_df[cts.SENTI] = senti_df["combined"].apply(
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
     )
-    senti_df = ut.return_assignment(senti_df, assign_id, assignments)
+    senti_df = ut.return_assignments(senti_df, assign_id, assignments)
     senti_type = st.sidebar.selectbox(
         "Type of sentiment analysis", ["Overall", "Student", "Question"]
     )
@@ -422,7 +422,7 @@ def question_senti(input_df):
 
 def summary():
     """Display summarization"""
-    sum_df = ut.return_assignment(main_df, assign_id, assignments)
+    sum_df = ut.return_assignments(main_df, assign_id, assignments)
     for column in main_df.columns[2:]:
         sum_df[column] = main_df[column].apply(lambda x: sz.summarize_text(x))
     st.write(sum_df)
@@ -431,7 +431,7 @@ def summary():
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
-    topic_df = ut.return_assignment(topic_df, assign_id, assignments)
+    topic_df = ut.return_assignments(topic_df, assign_id, assignments)
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
     )
