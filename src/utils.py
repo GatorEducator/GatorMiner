@@ -14,13 +14,13 @@ from . import visualization as vis
 
 
 def return_student_assignment(
-    main_df, students, assignments, assign_id, stu_id
+    input_df, students, assignments, assign_id, stu_id
 ):
     """return entries of selected student in selected assignment in dataframe"""
-    selected_df = main_df[
-        (main_df[stu_id].isin(students)) & main_df[assign_id].isin(assignments)
+    return input_df[
+        (input_df[stu_id].isin(students))
+        & input_df[assign_id].isin(assignments)
     ]
-    return selected_df
 
 
 def return_assignments(input_df, column_name, selected):
@@ -53,12 +53,11 @@ def matched_row(input_df, assign_id, assignment):
 
 
 def return_question(question_df, question):
-    quest_df = (
-        question_df[question_df["question"] == question]
+    return (
+        return_assignment(question_df, "question", question)
         .loc[:, ["text"]]
         .to_string()
     )
-    return quest_df
 
 
 def compute_freq_df(
@@ -182,16 +181,16 @@ def make_tuple(doc, stu_id, pair):
 def make_freq_df(assignments, main_df, assign_id, freq_range):
     freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
     # calculate word frequency of each assignments
-    for item in assignments:
+    for assignment in assignments:
         # combined text of the whole assignment
         combined_text = " ".join(
-            main_df[main_df[assign_id] == item][cts.NORMAL]
+            return_assignment(main_df, assign_id, assignment)[cts.NORMAL]
         )
         item_df = pd.DataFrame(
             az.word_frequency(combined_text, freq_range),
             columns=["word", "freq"],
         )
-        item_df["assignments"] = item
+        item_df["assignments"] = assignment
         freq_df = freq_df.append(item_df)
     return freq_df
 
