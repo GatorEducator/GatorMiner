@@ -2,18 +2,14 @@
 
 import re
 import base64
-import numpy as np
 import os
 import pandas as pd
-from sklearn.manifold import TSNE
 import spacy
-from spacy import displacy
 import streamlit as st
 from textblob import TextBlob
 
 import src.analyzer as az
 import src.constants as cts
-import src.doc_similarity as ds
 import src.get_handler as gh
 import src.json_util as ju
 import src.markdown as md
