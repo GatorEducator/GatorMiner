@@ -31,7 +31,7 @@ assignment_string = None
 stu_id = None
 assign_id = None
 success_msg = None
-debug_mode = True
+debug_mode = False
 main_md_dict = None
 
 
@@ -255,7 +255,9 @@ def frequency():
     )
     range_select_msg = "Select a range of most frequent words"
     freq_msg = "Most frequent words"
-    if freq_type == "Overall":
+    if not assignments:
+        st.warning("Please select an assignment for the analysis")
+    elif freq_type == "Overall":
         freq_range = st.sidebar.slider(range_select_msg, 1, 50, value=25)
         st.sidebar.success(
             'To continue see individual frequency analysis select "Student"'
@@ -360,7 +362,9 @@ def sentiment():
     senti_type = st.sidebar.selectbox(
         "Type of sentiment analysis", ["Overall", "Student", "Question"]
     )
-    if senti_type == "Overall":
+    if not assignments:
+        st.warning("Please select an assignment for the analysis")
+    elif senti_type == "Overall":
         st.sidebar.success(
             'To continue see individual sentiment analysis select "Student"'
         )
@@ -422,15 +426,17 @@ def summary():
     """Display summarization"""
     # sum_df = ut.return_assignments(main_df, assign_id, assignments)
     # sum_df = selected_nan_df.copy(deep=True)
-    for assignment in assignments:
-        sum_df = ut.make_summary_df(assignment, selected_nan_df, assign_id)
-        st.write(sum_df)
+    if not assignments:
+        st.warning("Please select an assignment for the analysis")
+    else:
+        for assignment in assignments:
+            sum_df = ut.make_summary_df(assignment, selected_nan_df, assign_id)
+            st.write(sum_df)
 
 
 def tpmodel():
     """Display topic modeling"""
     topic_df = main_df.copy(deep=True)
-    topic_df = ut.return_assignments(topic_df, assign_id, assignments)
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
     )
@@ -444,30 +450,34 @@ def tpmodel():
     #     lambda x: tm.topic_model(
     #         x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
     # )
-    overall_topic_df, lda_model, corpus = tm.topic_model(
-        topic_df[cts.TOKEN].tolist(),
-        num_topics=topic_range,
-        num_words=word_range,
-    )
-    overall_topic_df["Student"] = topic_df[stu_id].tolist()
-    overall_topic_df[assign_id] = topic_df[assign_id].tolist()
-    # reorder the column
-    overall_topic_df = overall_topic_df[
-        [
-            assign_id,
-            "Student",
-            "Dominant_Topic",
-            "Topic_Keywords",
-            "Text",
-            "Perc_Contribution",
+    if not assignments:
+        st.warning("Please select an assignment for the analysis")
+    else:
+        topic_df = ut.return_assignments(topic_df, assign_id, assignments)
+        overall_topic_df, lda_model, corpus = tm.topic_model(
+            topic_df[cts.TOKEN].tolist(),
+            num_topics=topic_range,
+            num_words=word_range,
+        )
+        overall_topic_df["Student"] = topic_df[stu_id].tolist()
+        overall_topic_df[assign_id] = topic_df[assign_id].tolist()
+        # reorder the column
+        overall_topic_df = overall_topic_df[
+            [
+                assign_id,
+                "Student",
+                "Dominant_Topic",
+                "Topic_Keywords",
+                "Text",
+                "Perc_Contribution",
+            ]
         ]
-    ]
-    st.header(f"Overall topics in **{assignment_string}**")
-    if tp_type == "Histogram":
-        hist_tm(overall_topic_df)
-    elif tp_type == "Scatter":
-        # topics = lda_model.show_topics(formatted=False)
-        scatter_tm(lda_model, corpus, overall_topic_df)
+        st.header(f"Overall topics in **{assignment_string}**")
+        if tp_type == "Histogram":
+            hist_tm(overall_topic_df)
+        elif tp_type == "Scatter":
+            # topics = lda_model.show_topics(formatted=False)
+            scatter_tm(lda_model, corpus, overall_topic_df)
 
 
 def hist_tm(topic_df):
@@ -495,13 +505,16 @@ def doc_sim():
     doc_sim_type = st.sidebar.selectbox(
         "Type of similarity analysis", ["TF-IDF", "Spacy"]
     )
-    st.header(
-        f"Similarity between each student's document in **{assignment_string}**"
-    )
-    if doc_sim_type == "TF-IDF":
-        tf_idf_sim(doc_df)
-    elif doc_sim_type == "Spacy":
-        spacy_sim(doc_df)
+    if not assignments:
+        st.warning("Please select an assignment for the analysis")
+    else:
+        st.header(
+            f"Similarity between each student's document in **{assignment_string}**"
+        )
+        if doc_sim_type == "TF-IDF":
+            tf_idf_sim(doc_df)
+        elif doc_sim_type == "Spacy":
+            spacy_sim(doc_df)
 
 
 def tf_idf_sim(doc_df):
@@ -560,13 +573,16 @@ def entities():
     # make a copy of the main dataframe
 
     # makes a drop down list to select users classified by assignments
-    for assignment in assignments:
-        st.write("")
-        st.subheader(assignment)
-        df_selected_assign = ut.matched_row(selected_df, assign_id, assignment)
-        for student in df_selected_assign[stu_id].unique():
-            with st.beta_expander(student):
-                entity_analysis(assignment, student, selected_df)
+    if not assignments:
+        st.warning("Please select an assignment for the analysis")
+    else:
+        for assignment in assignments:
+            st.write("")
+            st.subheader(assignment)
+            df_selected_assign = ut.matched_row(selected_df, assign_id, assignment)
+            for student in df_selected_assign[stu_id].unique():
+                with st.beta_expander(student):
+                    entity_analysis(assignment, student, selected_df)
 
 
 def entity_analysis(assignment, student, input_df):
