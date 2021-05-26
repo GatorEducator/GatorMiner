@@ -44,7 +44,7 @@ def main():
         [
             "Path input",
             "AWS",
-            "Upload local files",
+            "File uploader",
         ],
     )
     if retreive_data(data_retreive_method):
@@ -117,9 +117,10 @@ def landing_pg():
         interactive()
 
 
-def retreive_data(data_retreive):
-    """pipeline to retrieve data from user input to output"""
-    global main_df
+def input_sidebar_display(data_retreive):
+    """
+    Display and get input through sidebar textbox
+    """
     if data_retreive == "Path input":
         input_assignments = st.sidebar.text_input(
             "Enter path(s) to markdown documents (seperate by comma)"
@@ -127,21 +128,30 @@ def retreive_data(data_retreive):
     elif data_retreive == "AWS":
         input_assignments = st.sidebar.text_input(
             "Enter assignment names of the markdown \
-documents(seperate by comma)"
+documents (seperate by comma)"
         )
         st.sidebar.info(
             "You will need to store keys and endpoints in the \
 environment variables"
         )
-    else:
+    elif data_retreive == "File uploader":
         input_assignments = st.sidebar.file_uploader(
             "Choose a Markdown file", type=["md"], accept_multiple_files=True
         )
-    if not input_assignments:
-        landing_pg()
-    else:
-        if data_retreive == "AWS" or data_retreive == "Path input":
+    if input_assignments:
+        if data_retreive != "File uploader":
             input_assignments = re.split(r"[;,\s]\s*", input_assignments)
+        return input_assignments
+    else:
+        landing_pg()
+        return False
+
+
+def retreive_data(data_retreive):
+    """pipeline to retrieve data from user input to output"""
+    global main_df
+    input_assignments = input_sidebar_display(data_retreive)
+    if input_assignments:
         try:
             raw_df, main_df = import_data(data_retreive, input_assignments)
         except TypeError:
@@ -186,43 +196,17 @@ def load_model(name):
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def import_data(data_retreive_method, paths):
     """pipeline to import data from local or aws"""
-    json_lst = []
     global main_md_dict
     if data_retreive_method == "Path input":
-        try:
-            for path in paths:
-                json_lst.append(md.collect_md(path))
-        except FileNotFoundError as err:
-            st.sidebar.text(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+        json_lst = path_import(paths)
     elif data_retreive_method == "AWS":
-        passbuild = st.sidebar.checkbox(
-            "Only retreive build success records", value=True
-        )
-        try:
-            configs = gh.auth_config()
-            for path in paths:
-                response = gh.get_request(path, passbuild, **configs)
-                json_lst.append(ju.clean_report(response))
-        except (EnvironmentError, Exception) as err:
-            st.sidebar.error(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+        json_lst = aws_import(paths)
     else:
-        try:
-            if len(paths) < 2:
-                st.sidebar.warning("Please select more than one file!")
-            else:
-                json_lst.append(md.import_uploaded_files(paths))
-        except FileNotFoundError as err:
-            st.sidebar.text(err)
-            with open("README.md") as readme_file:
-                st.markdown(readme_file.read())
+        json_lst = file_uploader_import(paths)
     # when data is retreived
     if json_lst:
         raw_df = pd.DataFrame()
-        processed_df = pd.DataFrame()
+        # processed_df = pd.DataFrame()
         for item in json_lst:
             single_df = pd.DataFrame(item)
             # NA as `nan`
@@ -231,6 +215,43 @@ def import_data(data_retreive_method, paths):
         processed_df = raw_df.fillna("")
         df_preprocess(processed_df)
         return raw_df, processed_df
+
+
+def path_import(paths):
+    json_lst = []
+    try:
+        for path in paths:
+            json_lst.append(md.collect_md(path))
+        return json_lst
+    except FileNotFoundError as err:
+        st.sidebar.error(err)
+
+
+def aws_import(paths):
+    json_lst = []
+    passbuild = st.sidebar.checkbox(
+            "Only retreive build success records", value=True
+        )
+    try:
+        configs = gh.auth_config()
+        for path in paths:
+            response = gh.get_request(path, passbuild, **configs)
+            json_lst.append(ju.clean_report(response))
+        return json_lst
+    except (EnvironmentError, Exception) as err:
+        st.sidebar.error(err)
+
+
+def file_uploader_import(paths):
+    json_lst = []
+    try:
+        if len(paths) < 2:
+            st.sidebar.warning("Please select more than one file!")
+        else:
+            json_lst.append(md.import_uploaded_files(paths))
+            return json_lst
+    except FileNotFoundError as err:
+        st.sidebar.error(err)
 
 
 def df_preprocess(df):
@@ -446,10 +467,6 @@ def tpmodel():
     word_range = st.sidebar.slider(
         "Select the amount of words per topic", 1, 10, value=5
     )
-    # topic_df["topics"] = topic_df["tokens"].apply(
-    #     lambda x: tm.topic_model(
-    #         x, NUM_TOPICS=topic_range, NUM_WORDS=word_range)
-    # )
     if not assignments:
         st.warning("Please select an assignment for the analysis")
     else:
@@ -579,7 +596,9 @@ def entities():
         for assignment in assignments:
             st.write("")
             st.subheader(assignment)
-            df_selected_assign = ut.matched_row(selected_df, assign_id, assignment)
+            df_selected_assign = ut.matched_row(
+                selected_df, assign_id, assignment
+            )
             for student in df_selected_assign[stu_id].unique():
                 with st.beta_expander(student):
                     entity_analysis(assignment, student, selected_df)
