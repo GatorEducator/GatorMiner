@@ -1,3 +1,4 @@
+"""Pandas related util functions"""
 import pandas as pd
 
 from textblob import TextBlob
@@ -10,7 +11,7 @@ from . import summarizer as sz
 
 def return_student_assignment(input_df, student, assignment, assign_id, stu_id):
     """
-    return entries of selected student in selected assignment in dataframe
+    return entries of selected student in selected assignment in dataframe.
     """
     if isinstance(student, list) & isinstance(assignment, list):
         return input_df[
@@ -27,7 +28,7 @@ def return_student_assignment(input_df, student, assignment, assign_id, stu_id):
 
 def return_assignment(input_df, column_name, selected):
     """
-    return entries where one column matches with selected in dataframe
+    return entries where one column matches with selected in dataframe.
     """
     if isinstance(selected, list):
         # a list of selected assignments
@@ -124,6 +125,7 @@ def compute_quest_df(questions, freq_range, question_df):
 
 
 def compute_question_senti(questions, input_df):
+    """compute question sentiment score."""
     select_text = []
     # list of all responses of individual questions combined
     for question in questions:
@@ -173,6 +175,7 @@ def make_tuple(doc, stu_id, pair):
 
 
 def make_freq_df(assignments, main_df, assign_id, freq_range):
+    """compute frequency and return result in dataframe."""
     freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
     # calculate word frequency of each assignments
     for assignment in assignments:
@@ -190,6 +193,7 @@ def make_freq_df(assignments, main_df, assign_id, freq_range):
 
 
 def make_summary_df(assignment, input_df, assign_id):
+    """summarize and return in dataframe."""
     sum_assignment_df = return_assignment(input_df, assign_id, assignment)
     for column in sum_assignment_df.columns[2:]:
         sum_assignment_df[column] = sum_assignment_df[column].apply(
