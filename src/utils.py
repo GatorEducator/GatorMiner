@@ -40,9 +40,7 @@ def return_assignment(input_df, column_name, selected):
         raise TypeError(f"{selected} is not list or str type")
 
 
-def compute_freq_df(
-    main_df, students, assignments, assign_id, stu_id, freq_range
-):
+def compute_freq_df(df, students, assignments, assign_id, stu_id, freq_range):
     """Compute frequency.
     Return:
     DataFrame
@@ -51,7 +49,7 @@ def compute_freq_df(
     """
     freq_df = pd.DataFrame()
     stu_assignment = return_student_assignment(
-        main_df, students, assignments, assign_id, stu_id
+        df, students, assignments, assign_id, stu_id
     )
     for student in students:
         for assignment in assignments:
