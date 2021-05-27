@@ -45,7 +45,6 @@ def compute_freq_df(
 ):
     """Compute frequency.
 
-
     Return:
     DataFrame
     word|freq|assignments|student
@@ -81,6 +80,7 @@ def compute_freq_df(
 
 def freq_to_df(freq_lst, assignment, student):
     """
+
     Make freq list into dataframe.
 
 
