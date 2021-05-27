@@ -12,9 +12,7 @@ from . import summarizer as sz
 def return_student_assignment(
     input_df, student, assignment, assign_id, stu_id
 ):
-    """
-    Return entries of selected student in selected assignment in dataframe.
-    """
+    """Return entries of selected student and assignment in dataframe."""
     if isinstance(student, list) & isinstance(assignment, list):
         return input_df[
             (input_df[stu_id].isin(student))
