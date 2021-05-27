@@ -27,9 +27,7 @@ def return_student_assignment(
 
 
 def return_assignment(input_df, column_name, selected):
-    """
-    Return entries where one column matches with selected in dataframe.
-    """
+    """Return entries where one column matches with selected in dataframe."""
     if isinstance(selected, list):
         # a list of selected assignments
         return input_df[input_df[column_name].isin(selected)].dropna(
@@ -47,7 +45,8 @@ def return_assignment(input_df, column_name, selected):
 def compute_freq_df(
     main_df, students, assignments, assign_id, stu_id, freq_range
 ):
-    """
+    """Compute freq and return in dataframe.
+
     Return:
     DataFrame
     word|freq|assignments|student
@@ -82,7 +81,8 @@ def compute_freq_df(
 
 
 def freq_to_df(freq_lst, assignment, student):
-    """
+    """ Make freq list into dataframe.
+
     Return:
     DataFrame
     word|freq|assignments|student
