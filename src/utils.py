@@ -9,9 +9,7 @@ from . import doc_similarity as ds
 from . import summarizer as sz
 
 
-def return_student_assignment(
-    input_df, student, assignment, assign_id, stu_id
-):
+def return_student_assignment(input_df, student, assignment, assign_id, stu_id):
     """Return entries of selected student and assignment in dataframe."""
     if isinstance(student, list) & isinstance(assignment, list):
         return input_df[
@@ -45,8 +43,8 @@ def return_assignment(input_df, column_name, selected):
 def compute_freq_df(
     main_df, students, assignments, assign_id, stu_id, freq_range
 ):
-    """
-    Compute frequency.
+    """Compute frequency.
+
 
     Return:
     DataFrame
@@ -84,6 +82,7 @@ def compute_freq_df(
 def freq_to_df(freq_lst, assignment, student):
     """
     Make freq list into dataframe.
+
 
     Return:
     DataFrame
