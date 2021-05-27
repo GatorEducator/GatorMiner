@@ -118,9 +118,7 @@ def landing_pg():
 
 
 def input_sidebar_display(data_retreive):
-    """
-    Display and get input through sidebar textbox
-    """
+    """Display and get input through sidebar textbox."""
     if data_retreive == "Path input":
         input_assignments = st.sidebar.text_input(
             "Enter path(s) to markdown documents (seperate by comma)"
@@ -171,17 +169,19 @@ def retreive_data(data_retreive):
             if main_df.empty is not True:
                 success_msg = st.sidebar.success("Sucessfully Loaded!!")
             # Column name of assignment and student names
-            assign_id = main_df.columns[0]
-            stu_id = main_df.columns[1]
+            # assignment default index 0
+            assign_id = st.sidebar.selectbox("Choose the assignment column", main_df.columns, index=0)
+            # student default index 1
+            stu_id = st.sidebar.selectbox("Choose the student column", main_df.columns, index=1)
             # selected assignments
             assignments = st.sidebar.multiselect(
                 label="Select assignments below:",
                 options=main_df[assign_id].unique(),
             )
-            selected_nan_df = ut.return_assignments(
+            selected_nan_df = ut.return_assignment(
                 raw_df, assign_id, assignments
             )
-            selected_df = ut.return_assignments(main_df, assign_id, assignments)
+            selected_df = ut.return_assignment(main_df, assign_id, assignments)
             # string display of the selected assignments
             assignment_string = ", ".join(assignments)
             return True
@@ -203,10 +203,11 @@ def import_data(data_retreive_method, paths):
         json_lst = aws_import(paths)
     else:
         json_lst = file_uploader_import(paths)
-    # when data is retreived
+    # when data is retreived, parse into dataframe
     if json_lst:
         raw_df = pd.DataFrame()
-        # processed_df = pd.DataFrame()
+        # construct each assignment as a dataframe
+        # concat into a main dataframe
         for item in json_lst:
             single_df = pd.DataFrame(item)
             # NA as `nan`
@@ -218,6 +219,7 @@ def import_data(data_retreive_method, paths):
 
 
 def path_import(paths):
+    """Read and compile files from given path."""
     json_lst = []
     try:
         for path in paths:
@@ -228,6 +230,7 @@ def path_import(paths):
 
 
 def aws_import(paths):
+    """Read and compile documents from aws."""
     json_lst = []
     passbuild = st.sidebar.checkbox(
             "Only retreive build success records", value=True
@@ -243,6 +246,7 @@ def aws_import(paths):
 
 
 def file_uploader_import(paths):
+    """Read and compile files from file uploader."""
     json_lst = []
     try:
         if len(paths) < 2:
@@ -379,7 +383,7 @@ def sentiment():
     senti_df[cts.SENTI] = senti_df[cts.COMBINED].apply(
         lambda x: TextBlob(az.lemmatized_text(x)).sentiment.polarity
     )
-    senti_df = ut.return_assignments(senti_df, assign_id, assignments)
+    senti_df = ut.return_assignment(senti_df, assign_id, assignments)
     senti_type = st.sidebar.selectbox(
         "Type of sentiment analysis", ["Overall", "Student", "Question"]
     )
@@ -420,7 +424,7 @@ def student_senti(input_df):
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
-    df_selected_stu = ut.return_matched_rows(input_df, stu_id, students)
+    df_selected_stu = ut.return_assignment(input_df, stu_id, students)
     if len(students) != 0:
         st.altair_chart(
             vis.facet_senti_barplot(
@@ -436,7 +440,7 @@ def question_senti(input_df):
         label="Select specific questions below:",
         options=selected_nan_df.columns[2:],
     )
-    select_text, questions_senti_df = ut.question_senti_select(
+    select_text, questions_senti_df = ut.compute_question_senti(
         questions, input_df
     )
     if len(select_text) != 0:
@@ -445,7 +449,7 @@ def question_senti(input_df):
 
 def summary():
     """Display summarization"""
-    # sum_df = ut.return_assignments(main_df, assign_id, assignments)
+    # sum_df = ut.return_assignment(main_df, assign_id, assignments)
     # sum_df = selected_nan_df.copy(deep=True)
     if not assignments:
         st.warning("Please select an assignment for the analysis")
@@ -470,7 +474,7 @@ def tpmodel():
     if not assignments:
         st.warning("Please select an assignment for the analysis")
     else:
-        topic_df = ut.return_assignments(topic_df, assign_id, assignments)
+        topic_df = ut.return_assignment(topic_df, assign_id, assignments)
         overall_topic_df, lda_model, corpus = tm.topic_model(
             topic_df[cts.TOKEN].tolist(),
             num_topics=topic_range,
@@ -596,7 +600,7 @@ def entities():
         for assignment in assignments:
             st.write("")
             st.subheader(assignment)
-            df_selected_assign = ut.matched_row(
+            df_selected_assign = ut.return_assignment(
                 selected_df, assign_id, assignment
             )
             for student in df_selected_assign[stu_id].unique():
@@ -607,8 +611,8 @@ def entities():
 def entity_analysis(assignment, student, input_df):
     """function that selects, modifies and runs the entity analysis on a document"""
     # makes a dataframe with the selected user's information
-    df_selected_stu = ut.return_matched_row(
-        input_df, stu_id, student, assign_id, assignment
+    df_selected_stu = ut.return_student_assignment(
+        input_df, student, assignment, assign_id, stu_id
     )
 
     # selects the combined column from the dataframe and extracts it
@@ -623,7 +627,7 @@ def entity_analysis(assignment, student, input_df):
     )
     student_string = student_string.replace("\\n", "")
 
-    # run the spacy entity recogonizer on the selected user document and display it
+    # run spacy entity recogonizer on selected user document and display
     doc = az.get_nlp(student_string)
     displacy_renderer(doc)
 
@@ -635,10 +639,7 @@ def displacy_renderer(doc):
         html = spacy.displacy.render(doc, style="ent")
         # Newlines seem to mess with the rendering
         html = html.replace("\n", " ")
-        HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid \
-    #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">\
-    {}</div>"""
-        st.write(HTML_WRAPPER.format(html), unsafe_allow_html=True)
+        st.write(cts.HTML_WRAPPER.format(html), unsafe_allow_html=True)
     else:
         st.info("No named entity recognized")
 
