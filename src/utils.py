@@ -5,59 +5,42 @@ from textblob import TextBlob
 from . import analyzer as az
 from . import constants as cts
 from . import doc_similarity as ds
-from . import get_handler as gh
-from . import json_util as ju
-from . import markdown as md
 from . import summarizer as sz
-from . import topic_modeling as tm
-from . import visualization as vis
 
 
-def return_student_assignment(
-    input_df, students, assignments, assign_id, stu_id
-):
-    """return entries of selected student in selected assignment in dataframe"""
-    return input_df[
-        (input_df[stu_id].isin(students))
-        & input_df[assign_id].isin(assignments)
-    ]
-
-
-def return_assignments(input_df, column_name, selected):
-    return input_df[input_df[column_name].isin(selected)].dropna(
-        axis="columns", how="all"
-    )
+def return_student_assignment(input_df, student, assignment, assign_id, stu_id):
+    """
+    return entries of selected student in selected assignment in dataframe
+    """
+    if isinstance(student, list) & isinstance(assignment, list):
+        return input_df[
+            (input_df[stu_id].isin(student))
+            & input_df[assign_id].isin(assignment)
+        ]
+    elif isinstance(student, str) & isinstance(assignment, str):
+        return input_df[
+            (input_df[stu_id] == student) & (input_df[assign_id] == assignment)
+        ]
+    else:
+        raise TypeError(f"{student} or {assignment} is not list or str type")
 
 
 def return_assignment(input_df, column_name, selected):
-    return input_df[input_df[column_name] == selected].dropna(
-        axis="columns", how="all"
-    )
-
-
-def return_matched_rows(input_df, column_name, selected):
-    """return rows where value of column matched with selected"""
-    return input_df.loc[input_df[column_name].isin(selected)]
-
-
-def return_matched_row(input_df, stu_id, student, assign_id, assignment):
-    """return row that match student and assignment value"""
-    return input_df.loc[
-        (input_df[stu_id] == student) & (input_df[assign_id] == assignment)
-    ]
-
-
-def matched_row(input_df, assign_id, assignment):
-    """return row that match student and assignment value"""
-    return input_df.loc[input_df[assign_id] == assignment]
-
-
-def return_question(question_df, question):
-    return (
-        return_assignment(question_df, "question", question)
-        .loc[:, ["text"]]
-        .to_string()
-    )
+    """
+    return entries where one column matches with selected in dataframe
+    """
+    if isinstance(selected, list):
+        # a list of selected assignments
+        return input_df[input_df[column_name].isin(selected)].dropna(
+            axis="columns", how="all"
+        )
+    elif isinstance(selected, str):
+        # one selected assignment
+        return input_df[input_df[column_name] == selected].dropna(
+            axis="columns", how="all"
+        )
+    else:
+        raise TypeError(f"{selected} is not list or str type")
 
 
 def compute_freq_df(
@@ -77,8 +60,12 @@ def compute_freq_df(
         for assignment in assignments:
             try:
                 # extract matching combined string
-                combined_string = return_matched_row(
-                    stu_assignment, stu_id, student, assign_id, assignment
+                combined_string = return_student_assignment(
+                    stu_assignment,
+                    student,
+                    assignment,
+                    assign_id,
+                    stu_id,
                 )[cts.COMBINED].item()
                 # calculate word frequency
                 single_freq = az.word_frequency(
@@ -121,8 +108,13 @@ def make_questions_df(questions, main_df):
 def compute_quest_df(questions, freq_range, question_df):
     freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
     for question in questions:
+        quest_df = (
+            return_assignment(question_df, "question", question)
+            .loc[:, ["text"]]
+            .to_string()
+        )
         quest_freq = az.word_frequency(
-            return_question(question_df, question),
+            quest_df,
             freq_range,
         )
         ind_df = pd.DataFrame(quest_freq, columns=["word", "freq"])
@@ -131,10 +123,12 @@ def compute_quest_df(questions, freq_range, question_df):
     return freq_question_df
 
 
-def question_senti_select(questions, input_df):
+def compute_question_senti(questions, input_df):
     select_text = []
-    for column in questions:
-        select_text.append(input_df[column].to_string(index=False, na_rep=""))
+    # list of all responses of individual questions combined
+    for question in questions:
+        combined = input_df[question].to_string(index=False, na_rep="")
+        select_text.append(combined)
     questions_senti_df = pd.DataFrame(
         {"questions": questions, "text": select_text}
     )
