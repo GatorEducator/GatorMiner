@@ -9,16 +9,16 @@ from . import doc_similarity as ds
 from . import summarizer as sz
 
 
-def return_student_assignment(input_df, student, assignment, assign_id, stu_id):
+def return_student_assignment(df, student, assignment, assign_id, stu_id):
     """Return entries of selected student and assignment in dataframe."""
     if isinstance(student, list) & isinstance(assignment, list):
-        return input_df[
-            (input_df[stu_id].isin(student))
-            & input_df[assign_id].isin(assignment)
+        return df[
+            (df[stu_id].isin(student))
+            & df[assign_id].isin(assignment)
         ]
     elif isinstance(student, str) & isinstance(assignment, str):
-        return input_df[
-            (input_df[stu_id] == student) & (input_df[assign_id] == assignment)
+        return df[
+            (df[stu_id] == student) & (df[assign_id] == assignment)
         ]
     else:
         raise TypeError(f"{student} or {assignment} is not list or str type")
