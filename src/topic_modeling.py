@@ -76,6 +76,7 @@ def format_topics_sentences(ldamodel, corpus, texts):
 
 
 def tsne(lda_model, corpus, overall_topic_df, random_state, angle):
+    """Compute tsne and return result in dataframe."""
     topic_weights = []
     for i, row_list in enumerate(lda_model[corpus]):
         topic_weights.append([w for i, w in row_list[0]])

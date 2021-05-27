@@ -1,4 +1,4 @@
-"""Pandas related util functions"""
+"""Pandas related util functions."""
 import pandas as pd
 
 from textblob import TextBlob
@@ -9,9 +9,11 @@ from . import doc_similarity as ds
 from . import summarizer as sz
 
 
-def return_student_assignment(input_df, student, assignment, assign_id, stu_id):
+def return_student_assignment(
+    input_df, student, assignment, assign_id, stu_id
+):
     """
-    return entries of selected student in selected assignment in dataframe.
+    Return entries of selected student in selected assignment in dataframe.
     """
     if isinstance(student, list) & isinstance(assignment, list):
         return input_df[
@@ -28,7 +30,7 @@ def return_student_assignment(input_df, student, assignment, assign_id, stu_id):
 
 def return_assignment(input_df, column_name, selected):
     """
-    return entries where one column matches with selected in dataframe.
+    Return entries where one column matches with selected in dataframe.
     """
     if isinstance(selected, list):
         # a list of selected assignments
@@ -48,7 +50,7 @@ def compute_freq_df(
     main_df, students, assignments, assign_id, stu_id, freq_range
 ):
     """
-    return:
+    Return:
     DataFrame
     word|freq|assignments|student
     ----|----|-----------|-------
@@ -83,7 +85,7 @@ def compute_freq_df(
 
 def freq_to_df(freq_lst, assignment, student):
     """
-    return:
+    Return:
     DataFrame
     word|freq|assignments|student
     ----|----|-----------|-------
@@ -95,6 +97,7 @@ def freq_to_df(freq_lst, assignment, student):
 
 
 def make_questions_df(questions, main_df):
+    """Make selected questions into a dataframe."""
     select_text = {}
     for question in questions:
         select_text[question] = main_df[question].to_string(
@@ -107,6 +110,7 @@ def make_questions_df(questions, main_df):
 
 
 def compute_quest_df(questions, freq_range, question_df):
+    """Compute freq of questions and return dataframe."""
     freq_question_df = pd.DataFrame(columns=["question", "word", "freq"])
     for question in questions:
         quest_df = (
@@ -125,7 +129,7 @@ def compute_quest_df(questions, freq_range, question_df):
 
 
 def compute_question_senti(questions, input_df):
-    """compute question sentiment score."""
+    """Compute question sentiment score."""
     select_text = []
     # list of all responses of individual questions combined
     for question in questions:
@@ -142,6 +146,7 @@ def compute_question_senti(questions, input_df):
 
 
 def sim_pair(assignment, doc_df, assign_id, stu_id, model, nlp=None):
+    """Compute similarity score between pairs and return in dataframe."""
     doc = return_assignment(doc_df, assign_id, assignment)
 
     pairs = ds.create_pair(doc[stu_id])
@@ -168,6 +173,7 @@ def sim_pair(assignment, doc_df, assign_id, stu_id, model, nlp=None):
 
 
 def make_tuple(doc, stu_id, pair):
+    """Make pair into tuples."""
     return (
         doc[doc[stu_id] == pair[0]][cts.NORMAL].values[0],
         doc[doc[stu_id] == pair[1]][cts.NORMAL].values[0],
@@ -175,7 +181,7 @@ def make_tuple(doc, stu_id, pair):
 
 
 def make_freq_df(assignments, main_df, assign_id, freq_range):
-    """compute frequency and return result in dataframe."""
+    """Compute frequency and return result in dataframe."""
     freq_df = pd.DataFrame(columns=["assignments", "word", "freq"])
     # calculate word frequency of each assignments
     for assignment in assignments:
@@ -193,7 +199,7 @@ def make_freq_df(assignments, main_df, assign_id, freq_range):
 
 
 def make_summary_df(assignment, input_df, assign_id):
-    """summarize and return in dataframe."""
+    """Summarize and return in dataframe."""
     sum_assignment_df = return_assignment(input_df, assign_id, assignment)
     for column in sum_assignment_df.columns[2:]:
         sum_assignment_df[column] = sum_assignment_df[column].apply(
