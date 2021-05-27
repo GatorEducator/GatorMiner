@@ -45,7 +45,8 @@ def return_assignment(input_df, column_name, selected):
 def compute_freq_df(
     main_df, students, assignments, assign_id, stu_id, freq_range
 ):
-    """Compute freq.
+    """
+    Compute frequency.
 
     Return:
     DataFrame
@@ -81,7 +82,8 @@ def compute_freq_df(
 
 
 def freq_to_df(freq_lst, assignment, student):
-    """Make freq list into dataframe.
+    """
+    Make freq list into dataframe.
 
     Return:
     DataFrame
