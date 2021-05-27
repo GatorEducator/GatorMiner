@@ -41,12 +41,7 @@ def return_assignment(input_df, column_name, selected):
 
 
 def compute_freq_df(df, students, assignments, assign_id, stu_id, freq_range):
-    """Compute frequency.
-    Return:
-    DataFrame
-    word|freq|assignments|student
-    ----|----|-----------|-------
-    """
+    """Compute frequency and return dataframe(df same as freq_to_df)."""
     freq_df = pd.DataFrame()
     stu_assignment = return_student_assignment(
         df, students, assignments, assign_id, stu_id
@@ -76,13 +71,7 @@ def compute_freq_df(df, students, assignments, assign_id, stu_id, freq_range):
 
 
 def freq_to_df(freq_lst, assignment, student):
-    """Make freq list into dataframe.
-
-
-    Return DataFrame
-    word|freq|assignments|student
-    ----|----|-----------|-------
-    """
+    """Make freq list into dataframe - word/freq/assignments/student."""
     single_freq_df = pd.DataFrame(freq_lst, columns=["word", "freq"])
     single_freq_df["assignments"] = assignment
     single_freq_df["student"] = student
