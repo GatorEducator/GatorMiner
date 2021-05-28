@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     name: ${{ matrix.os }} / ${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
     strategy:
       matrix:
         os: [Ubuntu, MacOS, Windows]
@@ -37,7 +37,7 @@ jobs:
         pipenv run pylint tests
 
   codecov:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
     strategy:
       matrix:
         os: [Ubuntu]
