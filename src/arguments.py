@@ -3,7 +3,7 @@ import argparse
 
 
 def parse(args):
-    """Use argparse to parse provided command-line arguments"""
+    """Use argparse to parse provided command-line arguments."""
     # create the parser with the default help formatter
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,

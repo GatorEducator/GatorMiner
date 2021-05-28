@@ -1,4 +1,4 @@
-"""Constants used in GatorMining"""
+"""Constants used in GatorMiner."""
 import os
 
 # Gradle report

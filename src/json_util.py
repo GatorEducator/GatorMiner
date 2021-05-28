@@ -1,4 +1,4 @@
-"""Json utility functions"""
+"""Json utility functions."""
 import os
 import json
 
@@ -7,7 +7,7 @@ from . import constants as cts
 
 
 def get_json_files(dir_path):
-    """Get JSON files in a directory"""
+    """Get JSON files in a directory."""
     json_files = [
         os.path.join(dir_path, js)
         for js in os.listdir(dir_path)
@@ -21,7 +21,7 @@ def get_json_files(dir_path):
 
 
 def clean_report(raw_json_lst):
-    """Filter out unwanted key items and updated with md parsing"""
+    """Filter out unwanted key items and updated with md parsing."""
     clean_json = []
     for item in raw_json_lst:
         filtered = {

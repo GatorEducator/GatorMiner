@@ -1,10 +1,10 @@
-"""Test cases for json util"""
+"""Test cases for json util."""
 
 import src.json_util as js
 
 
 def test_get_json_files(tmp_path):
-    """Test that get json files return correct json files"""
+    """Test that get json files return correct json files."""
     directory = tmp_path / "sub"
     directory.mkdir()
     para_1 = directory / "hello.json"
@@ -20,7 +20,7 @@ def test_get_json_files(tmp_path):
 
 
 def test_clean_report():
-    """Test clean report filters out unwanted keys and contain correct keys"""
+    """Test clean report filters out unwanted keys and contain correct keys."""
     raw_json_lst = [
         {
             "assignment": "java-assignment",

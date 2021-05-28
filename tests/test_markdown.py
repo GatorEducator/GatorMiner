@@ -6,7 +6,7 @@ import os
 
 
 def test_merge_dict():
-    """Test that merge_dict returns a dict of key and value lists"""
+    """Test that merge_dict returns a dict of key and value lists."""
     test_dict_1 = {"key1": "value1"}
     test_dict_2 = {"key1": "value2"}
     output_preserved = md.merge_dict(test_dict_1, test_dict_2, True)
@@ -29,7 +29,7 @@ def test_merge_dict_keys():
 
 
 def test_get_file_names(tmp_path):
-    """Test that get file names return a list of paths"""
+    """Test that get file names return a list of paths."""
     directory = tmp_path / "sub"
     directory.mkdir()
     para_1 = directory / "hello.md"
@@ -44,8 +44,7 @@ def test_get_file_names(tmp_path):
 
 
 def test_md_parser():
-    """Test that md parser produce the key value pair of heading and paragraphs
-    """
+    """Md parser produce the key value pair of heading and paragraphs."""
     text = "Some solutions that can be developed to \
 avoid harm or fix the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be done especially in \
@@ -60,7 +59,7 @@ system."
 
 
 def test_collect_md_with_two_inputs(tmp_path):
-    """Test that md pipeline works"""
+    """Test that md pipeline works."""
     directory = tmp_path / "sub"
     directory.mkdir()
     p_1 = directory / "hello.md"
@@ -83,7 +82,7 @@ system."
 
 
 def test_collect_md_with_three_inputs(tmp_path):
-    """Test that md pipeline works"""
+    """Test that md pipeline works."""
     directory = tmp_path / "sub"
     directory.mkdir()
     p_1 = directory / "hello.md"
@@ -131,13 +130,13 @@ system."
     ],
 )
 def test_md_parser_clean(input_text, expected):
-    """Test if md parser cleans the markdown documents"""
+    """Test if md parser cleans the markdown documents."""
     output = md.md_parser(input_text)
     assert output == expected
 
 
 def test_import_uploaded_files():
-    """Test if the uploaded files are actually imported"""
+    """Test if the uploaded files are actually imported."""
     uploaded_files = []
     uploaded_files.append(io.BytesIO(
         open("resources/sample_md_reflections/lab1/reflection1.md", "rb")

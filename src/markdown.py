@@ -1,4 +1,4 @@
-"""Markdown parser"""
+"""Markdown parser."""
 import os
 import logging
 from io import StringIO
@@ -18,14 +18,14 @@ logging.basicConfig(
 
 
 def read_file(path: str) -> str:
-    """ read file from path """
+    """Read file from path."""
     with open(path, encoding="utf8") as input_file:
         data = input_file.read()
         return data
 
 
 def get_file_names(directory_name: str) -> List[str]:
-    """ Uses os library to find all markdown files in given directory """
+    """Uses os library to find all markdown files in given directory."""
     file_list = []
     for file in os.listdir(directory_name):
         filename = os.fsdecode(file)
@@ -39,7 +39,7 @@ def get_file_names(directory_name: str) -> List[str]:
 
 def merge_dict(dict_1, dict_2: Dict[str, str], preserve: bool) -> \
         Dict[str, List[str]]:
-    """Merge two dictionaries and store values of common keys in list"""
+    """Merge two dictionaries and store values of common keys in list."""
     if dict_1 is None:
         dict_1 = {k: [] for k in dict_2.keys()}
     elif isinstance(list(dict_1.values())[0], list) is False:
@@ -60,7 +60,7 @@ def merge_dict(dict_1, dict_2: Dict[str, str], preserve: bool) -> \
 
 
 def collect_md(directory: str, is_clean=True) -> Dict[str, List[str]]:
-    """A pipeline to collect all the md files in a directory to a dict"""
+    """A pipeline to collect all the md files in a directory to a dict."""
     file_names = get_file_names(directory)
     main_md_dict = None
     for file in file_names:
@@ -70,7 +70,7 @@ def collect_md(directory: str, is_clean=True) -> Dict[str, List[str]]:
 
 
 def collect_md_text(directory: str, is_clean=True) -> List[str]:
-    """A pipeline to collect all md files in a directory to a list of text"""
+    """A pipeline to collect all md files in a directory to a list of text."""
     file_names = get_file_names(directory)
     main_md_list = []
     for file in file_names:
@@ -81,7 +81,7 @@ def collect_md_text(directory: str, is_clean=True) -> List[str]:
 
 
 def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
-    """Parse a markdown file and return as dict of headers and paragraphs"""
+    """Parse a markdown file and return as dict of headers and paragraphs."""
     ast = commonmark.Parser().parse(input_md)
     types = {}
     if is_clean:
@@ -106,7 +106,7 @@ def md_parser(input_md: str, is_clean=True) -> Dict[str, str]:
 
 
 def import_uploaded_files(paths: List) -> Dict[str, List[str]]:
-    """Importing the individual files"""
+    """Importing the individual files."""
     main_md_dict = None
     for path in paths:
         stringio = StringIO(path.getvalue().decode("utf-8"))
@@ -116,7 +116,7 @@ def import_uploaded_files(paths: List) -> Dict[str, List[str]]:
 
 
 def build_pd(md_dict):
-    """build dictionary into dataframe"""
+    """Build dictionary into dataframe."""
     md_df = pd.DataFrame(md_dict)
     return md_df
 

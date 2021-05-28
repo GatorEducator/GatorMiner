@@ -1,4 +1,4 @@
-"""Text summary"""
+"""Text summary."""
 import logging
 from typing import Dict, List
 from gensim.summarization.summarizer import summarize
@@ -14,7 +14,7 @@ logging.basicConfig(
 
 
 def summarize_text(text: str) -> str:
-    """Uses gensim's summarization to summarize the given text """
+    """Uses gensim's summarization to summarize the given text."""
     summarized = ""
     try:
         summarized = summarize(text, word_count=30)
@@ -26,7 +26,7 @@ def summarize_text(text: str) -> str:
 
 
 def summarizer(directory: str) -> Dict[str, List[str]]:
-    """A summarizing pipeline"""
+    """A summarizing pipeline."""
     main_md_dict = md.collect_md(directory, is_clean=False)
     del main_md_dict["reflection by"]
     # initialize summarized dict with keys in sources
