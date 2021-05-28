@@ -63,5 +63,3 @@ jobs:
         pipenv run pytest tests --cov-config pytest.cov --cov
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
-      with:
-        files: ./coverage.xml
