@@ -1,4 +1,4 @@
-"""Test module for analyzer.py"""
+"""Test module for analyzer.py."""
 import pytest
 import src.analyzer as az
 import pandas as pd
@@ -6,8 +6,7 @@ import src.constants as cts
 
 
 def test_tokenize():
-    """Test tokenize break down str into list of str correctly with the porter
-    method from nltk package"""
+    """Test tokenize break down str into list of str correctly."""
     input_text = "Test tokenize break down str into list of str correctly"
     output = az.tokenize(input_text)
     expected = ["test", "tokenize", "break", "str", "list", "str", "correctly"]
@@ -34,7 +33,7 @@ def test_tokenize():
     ],
 )
 def test_tokenize_parametrize(input_text, expected):
-    """parametrize test tokenize"""
+    """Parametrize test tokenize."""
     output = az.tokenize(input_text)
     assert output == expected
 
@@ -48,20 +47,20 @@ def test_tokenize_parametrize(input_text, expected):
 )
 # pylint: disable=W0613
 def test_normalize(input_text, expected):
-    """parametrize test normalize"""
+    """Parametrize test normalize."""
     output = az.normalize(input_text)
     assert output == expected
 
 
 def test_compute_frequency():
-    """Test if it return correct frequency result"""
+    """Test if it return correct frequency result."""
     token_lst = ["hello", "hello", "hello"]
     output = az.compute_frequency(token_lst)
     assert output == [("hello", 3)]
 
 
 def test_word_frequency():
-    """Test if it return correct frequency result from a file"""
+    """Test if it return correct frequency result from a file."""
     text = "hello world hello world hello world"
     output = az.word_frequency(text)
     expected = [("hello", 3), ("world", 3)]
@@ -69,7 +68,7 @@ def test_word_frequency():
 
 
 def test_dir_frequency(tmp_path):
-    """Test if it return correct frequency result from a directory"""
+    """Test if it return correct frequency result from a directory."""
     directory = tmp_path / "sub"
     directory.mkdir()
     para_1 = directory / "hello.md"
@@ -83,7 +82,7 @@ def test_dir_frequency(tmp_path):
 
 
 def test_part_of_speech():
-    """Test if it return correct part of speech information"""
+    """Test if it return correct part of speech information."""
     text = "The greatest technical challenge that I faced \
 was getting the program to run"
     output = az.part_of_speech(text)
@@ -105,7 +104,7 @@ was getting the program to run"
 
 
 def test_named_entity_recognization():
-    """Test if it return correct noun phrases"""
+    """Test if it return correct noun phrases."""
     text = "Apple is looking at buying U.K. startup for $1 billion"
     output = az.named_entity_recognization(text)
     assert output == [
@@ -116,14 +115,14 @@ def test_named_entity_recognization():
 
 
 def test_noun_phrase():
-    """test return correct noun phrase"""
+    """Test return correct noun phrase."""
     text = "Apple is looking at buying U.K. startup for $1 billion"
     output = az.noun_phrase(text)
     assert output == ["Apple", "U.K. startup"]
 
 
 def test_lemmatized_text():
-    """Test lemmatized text works"""
+    """Test lemmatized text works."""
     text = "She loves dogs"
     output = az.lemmatized_text(text)
     expect = "love dog"
@@ -132,7 +131,7 @@ def test_lemmatized_text():
 
 
 def test_sentence_tokenize():
-    """Test sentence tokenizer works"""
+    """Test sentence tokenizer works."""
     text = "The greatest technical challenge that I faced \
 was getting the program to run. I am looking forward to some \
 poroblem even involing some challenging math to be more interesting."
@@ -146,7 +145,7 @@ math to be more interesting.",
 
 
 def test_tfidf():
-    """test tfidf return result"""
+    """Test tfidf return result."""
     input_tokens = [
         "test",
         "tokenize",
@@ -162,7 +161,7 @@ def test_tfidf():
 
 
 def test_top_polarized_word():
-    """Tests if the positive/negative words columns are created"""
+    """Tests if the positive/negative words columns are created."""
     df = pd.DataFrame(columns=[cts.TOKEN, cts.POSITIVE, cts.NEGATIVE])
     input_tokens = [
         ["incredible", "horrible", "terrific", "terrible"],

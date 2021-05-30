@@ -1,4 +1,4 @@
-"""Web interface"""
+"""Web interface."""
 
 import re
 import base64
@@ -36,7 +36,7 @@ main_md_dict = None
 
 
 def main():
-    """main streamlit function"""
+    """Main streamlit function."""
     # Title
     st.sidebar.title("Welcome to GatorMiner!")
     data_retreive_method = st.sidebar.selectbox(
@@ -91,8 +91,7 @@ def main():
 
 
 def landing_src():
-    """function to load and configurate readme source"""
-
+    """Function to load and configurate readme source."""
     with open("docs/LANDING_PAGE.md") as landing_file:
         landing_src = landing_file.read()
         for file in os.listdir(cts.IMG_DIR):
@@ -108,7 +107,7 @@ def landing_src():
 
 
 def landing_pg():
-    """landing page"""
+    """Landing page."""
     landing = st.sidebar.selectbox("Welcome", ["Home", "Interactive"])
 
     if landing == "Home":
@@ -146,7 +145,7 @@ environment variables"
 
 
 def retreive_data(data_retreive):
-    """pipeline to retrieve data from user input to output"""
+    """Pipeline to retrieve data from user input to output."""
     global main_df
     input_assignments = input_sidebar_display(data_retreive)
     if input_assignments:
@@ -189,13 +188,13 @@ def retreive_data(data_retreive):
 
 @st.cache(allow_output_mutation=True)
 def load_model(name):
-    """load spacy model"""
+    """Load spacy model."""
     return spacy.load(name)
 
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def import_data(data_retreive_method, paths):
-    """pipeline to import data from local or aws"""
+    """Pipeline to import data from local or aws."""
     global main_md_dict
     if data_retreive_method == "Path input":
         json_lst = path_import(paths)
@@ -259,7 +258,7 @@ def file_uploader_import(paths):
 
 
 def df_preprocess(df):
-    """build and preprocess (combine, normalize, tokenize) text"""
+    """Build and preprocess (combine, normalize, tokenize) text."""
     # filter out first two columns -- non-report content
     # (student and assignment name)
     cols = df.columns[2:]
@@ -274,7 +273,7 @@ def df_preprocess(df):
 
 
 def frequency():
-    """main function for frequency analysis"""
+    """Main function for frequency analysis."""
     freq_type = st.sidebar.selectbox(
         "Type of frequency analysis", ["Overall", "Student", "Question"]
     )
@@ -304,7 +303,7 @@ def frequency():
 
 
 def overall_freq(freq_range):
-    """page fore overall word frequency"""
+    """Page fore overall word frequency."""
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
@@ -318,7 +317,7 @@ def overall_freq(freq_range):
 
 
 def student_freq(freq_range):
-    """page for individual student's word frequency"""
+    """Page for individual student's word frequency."""
     students = st.multiselect(
         label="Select specific students below:",
         options=selected_df[stu_id].unique(),
@@ -344,7 +343,7 @@ def student_freq(freq_range):
 
 
 def question_freq(freq_range):
-    """page for individual question's word frequency"""
+    """Page for individual question's word frequency."""
     # drop columns with all na
     questions = st.multiselect(
         label="Select specific questions below:",
@@ -372,7 +371,7 @@ def question_freq(freq_range):
 
 
 def sentiment():
-    """main function for sentiment analysis"""
+    """Main function for sentiment analysis."""
     senti_df = main_df.copy(deep=True)
     # Initializing the new columns with a numpy array, so the entire series is returned
     senti_df[cts.POSITIVE], senti_df[cts.NEGATIVE] = az.top_polarized_word(
@@ -408,7 +407,7 @@ def sentiment():
 
 
 def overall_senti(input_df):
-    """page for overall senti"""
+    """Page for overall senti."""
     # display line plot when there are multiple assingments
     if len(assignments) > 1:
         st.altair_chart(vis.stu_senti_lineplot(input_df, stu_id))
@@ -416,7 +415,7 @@ def overall_senti(input_df):
 
 
 def student_senti(input_df):
-    """page for display individual student's sentiment"""
+    """Page for display individual student's sentiment."""
     students = st.multiselect(
         label="Select specific students below:",
         options=input_df[stu_id].unique(),
@@ -435,7 +434,7 @@ def student_senti(input_df):
 
 
 def question_senti(input_df):
-    """page for individual question's sentiment"""
+    """Page for individual question's sentiment."""
     questions = st.multiselect(
         label="Select specific questions below:",
         options=selected_nan_df.columns[2:],
@@ -448,7 +447,7 @@ def question_senti(input_df):
 
 
 def summary():
-    """Display summarization"""
+    """Display summarization."""
     # sum_df = ut.return_assignment(main_df, assign_id, assignments)
     # sum_df = selected_nan_df.copy(deep=True)
     if not assignments:
@@ -460,7 +459,7 @@ def summary():
 
 
 def tpmodel():
-    """Display topic modeling"""
+    """Display topic modeling."""
     topic_df = main_df.copy(deep=True)
     tp_type = st.sidebar.selectbox(
         "Type of topic modeling analysis", ["Histogram", "Scatter"]
@@ -502,14 +501,13 @@ def tpmodel():
 
 
 def hist_tm(topic_df):
-    """Topic modeling in histogram"""
+    """Topic modeling in histogram."""
     # st.write(topic_df)
     st.altair_chart(vis.tp_hist_plot(topic_df))
 
 
 def scatter_tm(lda_model, corpus, overall_topic_df):
-    """Topic modeling in scatter plot"""
-
+    """Topic modeling in scatter plot."""
     random_state = st.sidebar.slider("Select random_state", 1, 1000, value=500)
 
     angle = st.sidebar.slider("Select angle", 0, 100, value=50)
@@ -521,7 +519,7 @@ def scatter_tm(lda_model, corpus, overall_topic_df):
 
 
 def doc_sim():
-    """Display document similarity"""
+    """Display document similarity."""
     doc_df = main_df.copy(deep=True)
     doc_sim_type = st.sidebar.selectbox(
         "Type of similarity analysis", ["TF-IDF", "Spacy"]
@@ -539,6 +537,7 @@ def doc_sim():
 
 
 def tf_idf_sim(doc_df):
+    """Plot similarity with tf idf model."""
     for assignment in assignments:
         df_sim = ut.sim_pair(assignment, doc_df, assign_id, stu_id, "tfidf")
         st.altair_chart(
@@ -547,6 +546,7 @@ def tf_idf_sim(doc_df):
 
 
 def spacy_sim(doc_df):
+    """Plot similarity with spacy model."""
     spacy_model = st.sidebar.selectbox("Model name", SPACY_MODEL_NAMES)
     nlp = load_model(spacy_model)
     for assignment in assignments:
@@ -559,7 +559,7 @@ def spacy_sim(doc_df):
 
 
 def interactive():
-    """Page to allow nlp analysis from user input"""
+    """Page to allow nlp analysis from user input."""
     input_text = st.text_area("Enter text", "Type here")
     token_cb = st.checkbox("Show tokens")
     ner_cb = st.checkbox("Show named entities")
@@ -582,7 +582,7 @@ def interactive():
 
 
 def entities():
-    """Page to display entity analysis"""
+    """Page to display entity analysis."""
     st.write(
         "Entity analysis inspects the given text for known entities \
     and returns information about those entities. It is a way to extract \
@@ -609,7 +609,7 @@ def entities():
 
 
 def entity_analysis(assignment, student, input_df):
-    """function that selects, modifies and runs the entity analysis on a document"""
+    """Selects, modifies and runs the entity analysis on a document."""
     # makes a dataframe with the selected user's information
     df_selected_stu = ut.return_student_assignment(
         input_df, student, assignment, assign_id, stu_id
@@ -633,8 +633,7 @@ def entity_analysis(assignment, student, input_df):
 
 
 def displacy_renderer(doc):
-    """runs the spacy displacy function on the given string and
-    renders the output"""
+    """Renders the given string."""
     if len(doc) > 0:
         html = spacy.displacy.render(doc, style="ent")
         # Newlines seem to mess with the rendering

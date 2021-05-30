@@ -1,4 +1,4 @@
-"""Text Proprocessing"""
+"""Text Proprocessing."""
 from collections import Counter
 from textblob import TextBlob
 import pandas as pd
@@ -14,7 +14,7 @@ PARSER = spacy.load("en_core_web_sm")
 
 
 def normalize(data: str) -> str:
-    """Remove numbers and to lowercase"""
+    """Remove numbers and to lowercase."""
     data = data.lower()
     # remove number
     # using a list in case more regex are needed
@@ -26,7 +26,7 @@ def normalize(data: str) -> str:
 
 
 def lemmatized_text(text):
-    """Return lemmatized text"""
+    """Return lemmatized text."""
     tokens = PARSER(text)
     tokens = [
         word.lemma_.strip()
@@ -37,7 +37,7 @@ def lemmatized_text(text):
 
 
 def tokenize(normalized_text: str) -> List[str]:
-    """break down text into a list of lemmatized tokens"""
+    """Break down text into a list of lemmatized tokens."""
     # remove punctuation
     normal_text = "".join(
         c for c in normalized_text if c not in string.punctuation
@@ -57,26 +57,24 @@ def tokenize(normalized_text: str) -> List[str]:
 def compute_frequency(
         token_lst: List[str], amount=50
 ) -> List[Tuple[str, int]]:  # noqa: E501
-    """Compute word frequency from a list of tokens"""
+    """Compute word frequency from a list of tokens."""
     word_freq = Counter(token_lst)
     return word_freq.most_common(amount)
 
 
 def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
-    """A pipeline to normalize, tokenize, and
-    find word frequency of raw text"""
+    """Pipeline to normalize, tokenize, and find word frequency of raw text."""
     return compute_frequency(tokenize(normalize(text)), amount)
 
 
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:
-    """A pipeline to normalize, tokenize, and
-    find word frequency of a directory of raw input file"""
+    """Pipeline of word_frequency from a directory of raw input file."""
     md_list = md.collect_md_text(dirname)
     return compute_frequency(tokenize(normalize(" ".join(md_list))), amount)
 
 
 def sentence_tokenize(input_text):
-    """tokenize paragraph to a list of sentences"""
+    """Tokenize paragraph to a list of sentences."""
     sent_lst = []
     sent_pipe = PARSER.create_pipe("sentencizer")
     PARSER.add_pipe(sent_pipe)
@@ -87,7 +85,7 @@ def sentence_tokenize(input_text):
 
 
 def part_of_speech(input_text):
-    """part of speech tagging of sentence"""
+    """Part of speech tagging of sentence."""
     doc = PARSER(input_text)
     pos_lst = []
     for word in doc:
@@ -96,7 +94,7 @@ def part_of_speech(input_text):
 
 
 def compute_tfidf(data: List[str]) -> None:
-    """Compute the TFIDF"""
+    """Compute the TFIDF."""
     tfidf_vectorizer = TfidfVectorizer()
     # make data iterable for TFIDF
     tfs = tfidf_vectorizer.fit_transform([" ".join(data)])
@@ -107,15 +105,14 @@ def compute_tfidf(data: List[str]) -> None:
 
 
 def compute_count_vectorize(data):
-    """Compute the count vectorize matrix"""
+    """Compute the count vectorize matrix."""
     count_vectorizer = CountVectorizer()
     count = count_vectorizer.fit_transform(data)
     return count, count_vectorizer
 
 
 def named_entity_recognization(input_text):
-    """identifies important elements like places, people, organizations, and
-    languages within an input string of text"""
+    """Named entity within an input string of text."""
     doc = PARSER(input_text)
     ent_lst = []
     for entity in doc.ents:
@@ -128,13 +125,13 @@ def named_entity_recognization(input_text):
 
 
 def get_nlp(input_text):
-    """return the spacy nlp object"""
+    """Return the spacy nlp object."""
     doc = PARSER(input_text)
     return doc
 
 
 def noun_phrase(input_text):
-    """Extract noun phrases of the document in a list"""
+    """Extract noun phrases of the document in a list."""
     doc = PARSER(input_text)
     n_phrase_lst = []
     for chunk in doc.noun_chunks:
@@ -143,7 +140,7 @@ def noun_phrase(input_text):
 
 
 def top_polarized_word(tokens_column):
-    """Create columns for positive and negative words"""
+    """Create columns for positive and negative words."""
     # Start off with empty lists
     pos_series = []
     neg_series = []
@@ -159,7 +156,7 @@ def top_polarized_word(tokens_column):
 
 
 def sorted_sentiment_word_list(token_element):
-    """Creates and sorts a word list from a list of tokens"""
+    """Creates and sorts a word list from a list of tokens."""
     # Convert the token list into a set so that it only has the unique words
     words = set(token_element)
     # Convert back into list to iterate through

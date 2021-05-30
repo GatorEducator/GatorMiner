@@ -1,4 +1,4 @@
-"""CLI Entry point"""
+"""CLI Entry point."""
 import sys
 
 from src import analyzer as az

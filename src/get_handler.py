@@ -1,4 +1,4 @@
-"""Send GET request to AWS to retrieve data"""
+"""Send GET request to AWS to retrieve data."""
 import sys
 import os
 import datetime
@@ -17,7 +17,7 @@ REGION = "us-east-2"
 
 
 def auth_config():
-    """Authorization configuration"""
+    """Authorization configuration."""
     api_key = os.environ.get("GATOR_API_KEY")
     endpoint = os.environ.get("GATOR_ENDPOINT")
     # Read AWS access key from env. variables or configuration file
@@ -42,12 +42,12 @@ def auth_config():
 
 
 def sign(key, msg):
-    """Key derivation functions from AWS"""
+    """Key derivation functions from AWS."""
     return hmac.new(key, msg.encode("utf-8"), hashlib.sha256).digest()
 
 
 def get_signature_key(key, date_stamp, region_name, service_name):
-    """Key derivation functions from AWS"""
+    """Key derivation functions from AWS."""
     k_date = sign(("AWS4" + key).encode("utf-8"), date_stamp)
     k_region = sign(k_date, region_name)
     k_service = sign(k_region, service_name)
@@ -59,7 +59,7 @@ def get_signature_key(key, date_stamp, region_name, service_name):
 # pylint: disable=too-many-locals
 def get_request(
         assignment, passbuild, api_key, endpoint, access_key, secret_key):
-    """Create and sign request"""
+    """Create and sign request."""
     # Create a date for headers and the credential string
     time = datetime.datetime.utcnow()
     amzdate = time.strftime("%Y%m%dT%H%M%SZ")

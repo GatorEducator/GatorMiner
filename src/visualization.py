@@ -1,4 +1,4 @@
-"""Visualization used in main streamlit interface"""
+"""Visualization used in main streamlit interface."""
 import altair as alt
 from altair.expr import datum
 
@@ -6,7 +6,7 @@ import src.constants as cts
 
 
 def freq_barplot(freq_df):
-    """barplot for word frequency"""
+    """Barplot for word frequency."""
     freq_plot = (
         alt.Chart(freq_df)
         .mark_bar()
@@ -26,7 +26,7 @@ def freq_barplot(freq_df):
 
 def facet_freq_barplot(
         freq_df, options, subplot_column, color_column=None, plots_per_row=3):
-    """facet bar plot for word frequencies"""
+    """Facet bar plot for word frequencies."""
     # Don't display legend if color for subplots
     if color_column is None:
         color_column = subplot_column
@@ -63,7 +63,7 @@ def facet_freq_barplot(
 
 
 def facet_senti_barplot(senti_df, options, column_name, plots_per_row=3):
-    """facet bar plot for word frequencies"""
+    """Facet bar plot for word frequencies."""
     base = (
         alt.Chart(senti_df)
         .mark_bar()
@@ -93,7 +93,7 @@ def facet_senti_barplot(senti_df, options, column_name, plots_per_row=3):
 
 
 def facet_wrap(subplts, plots_per_row=3):
-    """make subplots into facet based on the plot number per row"""
+    """Make subplots into facet based on the plot number per row."""
     row_stu = [
         subplts[i: i + plots_per_row] for i in range(
             0, len(subplts), plots_per_row
@@ -110,7 +110,7 @@ def facet_wrap(subplts, plots_per_row=3):
 
 
 def senti_combinedplot(senti_df, student_id):
-    """combined circle and histogram plot for sentiment"""
+    """Combined circle and histogram plot for sentiment."""
     combine = alt.hconcat(
         senti_circleplot(senti_df, student_id), senti_histplot(senti_df)
     )
@@ -118,7 +118,7 @@ def senti_combinedplot(senti_df, student_id):
 
 
 def senti_histplot(senti_df):
-    """histogram plot for sentiment"""
+    """Histogram plot for sentiment."""
     senti_hist = (
         alt.Chart(senti_df)
         .mark_bar()
@@ -129,7 +129,7 @@ def senti_histplot(senti_df):
 
 
 def senti_circleplot(senti_df, student_id):
-    """circle plot for sentiment"""
+    """Circle plot for sentiment."""
     senti_circle = (
         alt.Chart(senti_df)
         .mark_point(size=100, fillOpacity=0.7)
@@ -150,7 +150,7 @@ def senti_circleplot(senti_df, student_id):
 
 
 def stu_senti_barplot(senti_df, student_id):
-    """barplot for individual student' sentiment"""
+    """Barplot for individual student' sentiment."""
     senti_plot = (
         alt.Chart(senti_df)
         .mark_bar()
@@ -168,7 +168,7 @@ def stu_senti_barplot(senti_df, student_id):
 
 
 def stu_senti_lineplot(senti_df, student_id):
-    """barplot for individual student' sentiment"""
+    """Barplot for individual student' sentiment."""
     senti_lineplot = (
         alt.Chart(senti_df)
         .mark_line()
@@ -179,7 +179,7 @@ def stu_senti_lineplot(senti_df, student_id):
 
 
 def question_senti_barplot(senti_df):
-    """barplot for individual question's sentiment"""
+    """Barplot for individual question's sentiment."""
     senti_plot = (
         alt.Chart(senti_df)
         .mark_bar()
@@ -201,7 +201,7 @@ def question_senti_barplot(senti_df):
 
 
 def doc_sim_heatmap(df_sim):
-    """heatmap for document similarity between each student"""
+    """Heatmap for document similarity between each student."""
     heatmap = (
         alt.Chart(df_sim)
         .mark_rect()
@@ -217,7 +217,7 @@ def doc_sim_heatmap(df_sim):
 
 
 def tp_hist_plot(df_tp):
-    """histogram plot for topics"""
+    """Histogram plot for topics."""
     tp_hist = (
         alt.Chart(df_tp).mark_bar().encode(
             alt.X("Dominant_Topic:N"),
@@ -233,7 +233,7 @@ def tp_hist_plot(df_tp):
 
 
 def tp_scatter_plot(df_lda):
-    """scatter plot for lda"""
+    """Scatter plot for lda."""
     lda = alt.Chart(df_lda).mark_point(size=100, filled=True).encode(
         x='x',
         y='y',

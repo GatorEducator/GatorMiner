@@ -1,9 +1,9 @@
-"""Test module for summarizer.py"""
+"""Test module for summarizer.py."""
 import src.summarizer as summarizer
 
 
 def test_summarize_text():
-    """Test that summarize text works"""
+    """Test that summarize text works."""
     input_text = "Some solutions that can be developed to avoid harm or fix \
 the harm are conducting more research and not offering it \
 to a selective group of people. More research needs to be \
@@ -18,7 +18,7 @@ it to a selective group of people."
 
 
 def test_summarizer_with_two_inputs(tmp_path):
-    """Test that summarizer pipeline works"""
+    """Test that summarizer pipeline works."""
     directory = tmp_path / "sub"
     directory.mkdir()
     p_1 = directory / "hello.md"
@@ -43,7 +43,7 @@ it to a selective group of people."
 
 
 def test_summarizer_with_three_inputs(tmp_path):
-    """Test that summarizer pipeline works"""
+    """Test that summarizer pipeline works."""
     directory = tmp_path / "sub"
     directory.mkdir()
     p_1 = directory / "hello.md"
