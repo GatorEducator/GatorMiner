@@ -38,6 +38,12 @@ def parse(args):
         help="Whether to get only passed build reports",
     )
 
+    parser.add_argument(
+        "--record",
+        required=False,
+        type=str,
+        help="Record the analysis to a separate file",
+    )
     # parse the arguments and return the finished result
     arguments_finished = parser.parse_args(args)
     return arguments_finished
