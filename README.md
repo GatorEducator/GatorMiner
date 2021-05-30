@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/Allegheny-Ethical-CS/GatorMiner.svg?branch=master)](https://travis-ci.com/Allegheny-Ethical-CS/GatorMiner)
 [![codecov](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner/branch/master/graph/badge.svg)](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2d1e8446a4244536b65f5f984d0bf412)](https://www.codacy.com/gh/Allegheny-Ethical-CS/GatorMiner/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Allegheny-Ethical-CS/GatorMiner&amp;utm_campaign=Badge_Grade)
 [![Built with spaCy](https://img.shields.io/badge/built%20with-spaCy-09a3d5.svg)](https://spacy.io)
 [![Built with Streamlit](https://img.shields.io/badge/built%20with-Streamlit-09a3d5.svg)](https://www.streamlit.io/)
 
