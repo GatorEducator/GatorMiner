@@ -1,4 +1,4 @@
-"""Topic modeling"""
+"""Topic modeling."""
 from typing import List, Tuple
 
 import gensim

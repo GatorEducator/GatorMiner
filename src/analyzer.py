@@ -112,8 +112,7 @@ def compute_count_vectorize(data):
 
 
 def named_entity_recognization(input_text):
-    """identifies important elements like places, people, organizations, and
-    languages within an input string of text"""
+    """Named entity within an input string of text."""
     doc = PARSER(input_text)
     ent_lst = []
     for entity in doc.ents:
