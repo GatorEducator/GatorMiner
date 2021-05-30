@@ -415,7 +415,7 @@ def overall_senti(input_df):
 
 
 def student_senti(input_df):
-    """page for display individual student's sentiment"""
+    """Page for display individual student's sentiment."""
     students = st.multiselect(
         label="Select specific students below:",
         options=input_df[stu_id].unique(),

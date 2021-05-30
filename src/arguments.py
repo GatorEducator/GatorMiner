@@ -1,4 +1,4 @@
-"""Handle the arguments"""
+"""Handle the arguments."""
 import argparse
 
 

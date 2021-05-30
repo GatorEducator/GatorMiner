@@ -1,4 +1,4 @@
-"""Compute document similarity"""
+"""Compute document similarity."""
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 

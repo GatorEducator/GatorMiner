@@ -1,4 +1,4 @@
-"""Test module for markdown.py"""
+"""Test module for markdown.py."""
 import pytest
 import src.markdown as md
 import io

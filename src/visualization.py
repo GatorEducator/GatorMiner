@@ -1,4 +1,4 @@
-"""Visualization used in main streamlit interface"""
+"""Visualization used in main streamlit interface."""
 import altair as alt
 from altair.expr import datum
 

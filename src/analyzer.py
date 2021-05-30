@@ -1,4 +1,4 @@
-"""Text Proprocessing"""
+"""Text Proprocessing."""
 from collections import Counter
 from textblob import TextBlob
 import pandas as pd
@@ -63,14 +63,12 @@ def compute_frequency(
 
 
 def word_frequency(text: str, amount=50) -> List[Tuple[str, int]]:
-    """A pipeline to normalize, tokenize, and
-    find word frequency of raw text"""
+    """Pipeline to normalize, tokenize, and find word frequency of raw text."""
     return compute_frequency(tokenize(normalize(text)), amount)
 
 
 def dir_frequency(dirname: str, amount=50) -> List[Tuple[str, int]]:
-    """A pipeline to normalize, tokenize, and
-    find word frequency of a directory of raw input file"""
+    """Pipeline of word_frequency from a directory of raw input file."""
     md_list = md.collect_md_text(dirname)
     return compute_frequency(tokenize(normalize(" ".join(md_list))), amount)
 

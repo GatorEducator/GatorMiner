@@ -12,7 +12,7 @@ from sklearn.manifold import TSNE
 
 # pylint: disable=unused-argument
 def topic_model(tokens, num_topics=5, num_words=4) -> List[Tuple[int, str]]:
-    """Find topics from inout text"""
+    """Find topics from inout text."""
     # Create Dictionary by giving id to each word
     id2word = gensim.corpora.Dictionary(tokens)
 
@@ -44,7 +44,7 @@ def topic_model(tokens, num_topics=5, num_words=4) -> List[Tuple[int, str]]:
 
 
 def format_topics_sentences(ldamodel, corpus, texts):
-    """format topic sentences from model to dataframe"""
+    """Format topic sentences from model to dataframe."""
     # Init output
     sent_topics_df = pd.DataFrame()
 
