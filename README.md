@@ -4,6 +4,8 @@
 [![codecov](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner/branch/master/graph/badge.svg)](https://codecov.io/gh/Allegheny-Ethical-CS/GatorMiner)
 [![Built with spaCy](https://img.shields.io/badge/built%20with-spaCy-09a3d5.svg)](https://spacy.io)
 [![Built with Streamlit](https://img.shields.io/badge/built%20with-Streamlit-09a3d5.svg)](https://www.streamlit.io/)
+[![Docker Build](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/dockerbuild.yml/badge.svg)](https://github.com/BennyWestsyde/GatorMiner/actions/workflows/dockerbuild.yml)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/bennywestsyde/gatorminer?label=Last%20Built%20and%20Pushed)
 
 An automated text-mining tool written in Python to measure the technical
 responsibility of students in computer science courses, being used to analyze
@@ -48,6 +50,20 @@ To install the pre-trained model, you can run (one of) the following commands:
 ```bash
 pipenv run python -m spacy download en_core_web_sm
 pipenv run python -m spacy download en_core_web_md
+```
+
+Alternatively, run a Docker container with all necessary dependencies and Spacy models installed.
+
+Run the Docker container for Mac:
+
+```bash
+sh scripts/docker_run.sh
+```
+
+Run the Docker container for Windows:
+
+```bash
+sh scripts/docker_run.bat
 ```
 
 ## Web Interface
