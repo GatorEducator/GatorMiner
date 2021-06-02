@@ -27,6 +27,8 @@ cd GatorMiner
 
 This program uses [Pipenv](https://github.com/pypa/pipenv) for dependency management.
 
+**In order to install all of the needed dependencies you must have 64-bit Python installed on your device**
+
 - If needed, install and upgrade the `pipenv` with `pip`:
 
   ```bash
