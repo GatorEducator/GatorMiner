@@ -402,6 +402,7 @@ def question_freq(freq_range):
 
 
 def frequency_word_cloud(responses_df):
+    """Build wordcloud out of page's responses."""
     # concatenate all words into normalized string and make into wordcloud
     words = az.concatenate(responses_df)
     cloud_stopwords = set(STOPWORDS)
