@@ -147,7 +147,7 @@ math to be more interesting.",
 
 
 def test_tfidf():
-    """test tfidf return result"""
+    """Test tfidf return result."""
     input_tokens = [
         "test",
         "tokenize",
@@ -163,7 +163,7 @@ def test_tfidf():
 
 
 def test_concatenate():
-    """test for contcatenated string of all words"""
+    """Test for contcatenated string of all words."""
     input_dict = {
         "What was the most important technical skill that you practiced?":
         ["Using pipenv and pytest", "Naming variables in Python"],

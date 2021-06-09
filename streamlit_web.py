@@ -271,7 +271,7 @@ def frequency():
 
 
 def overall_freq(freq_range):
-    """page for overall word frequency"""
+    """page for overall word frequency."""
     plots_range = st.sidebar.slider(
         "Select the number of plots per row", 1, 5, value=3
     )
